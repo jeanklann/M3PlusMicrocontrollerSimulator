@@ -1,0 +1,5 @@
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.dll
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.pdb
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csprojResolveAssemblyReference.cache
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.dll
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.pdb

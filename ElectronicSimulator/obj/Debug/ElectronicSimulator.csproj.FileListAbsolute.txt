@@ -1,0 +1,5 @@
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\ElectronicSimulator\bin\Debug\ElectronicSimulator.dll
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\ElectronicSimulator\bin\Debug\ElectronicSimulator.pdb
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\ElectronicSimulator\obj\Debug\ElectronicSimulator.csprojResolveAssemblyReference.cache
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\ElectronicSimulator\obj\Debug\ElectronicSimulator.dll
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\ElectronicSimulator\obj\Debug\ElectronicSimulator.pdb

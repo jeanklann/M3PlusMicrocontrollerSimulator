@@ -1,0 +1,8 @@
+c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\SimuladorM3Mais\ConsoleTestSimulation\bin\Debug\ConsoleTestSimulation.exe.config
+c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\SimuladorM3Mais\ConsoleTestSimulation\bin\Debug\ConsoleTestSimulation.exe
+c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\SimuladorM3Mais\ConsoleTestSimulation\bin\Debug\ConsoleTestSimulation.pdb
+c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\SimuladorM3Mais\ConsoleTestSimulation\obj\Debug\ConsoleTestSimulation.csprojResolveAssemblyReference.cache
+c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\SimuladorM3Mais\ConsoleTestSimulation\obj\Debug\ConsoleTestSimulation.exe
+c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\SimuladorM3Mais\ConsoleTestSimulation\obj\Debug\ConsoleTestSimulation.pdb
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\ConsoleTestSimulation\bin\Debug\M3PlusMicrocontroller.dll
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\ConsoleTestSimulation\bin\Debug\M3PlusMicrocontroller.pdb
