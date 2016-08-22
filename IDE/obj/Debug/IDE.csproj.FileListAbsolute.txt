@@ -1,0 +1,12 @@
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\IDE.exe.config
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\IDE.exe
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\IDE.pdb
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.dll
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.pdb
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.xml
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Form1.resources
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Properties.Resources.resources
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.exe
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.pdb

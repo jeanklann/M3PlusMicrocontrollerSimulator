@@ -23,24 +23,35 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.scintilla = new ScintillaNET.Scintilla();
             this.SuspendLayout();
             // 
-            // richTextBox1
+            // scintilla
             // 
-            this.richTextBox1.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(12, 12);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(552, 403);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "asdasd\nasd\nasd<b>asd</b>asd\n";
+            this.scintilla.AdditionalSelectionTyping = true;
+            this.scintilla.AllowDrop = true;
+            this.scintilla.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.scintilla.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.scintilla.Lexer = ScintillaNET.Lexer.Asm;
+            this.scintilla.Location = new System.Drawing.Point(12, 32);
+            this.scintilla.MultiPaste = ScintillaNET.MultiPaste.Each;
+            this.scintilla.MultipleSelection = true;
+            this.scintilla.Name = "scintilla";
+            this.scintilla.ScrollWidth = 100;
+            this.scintilla.Size = new System.Drawing.Size(552, 383);
+            this.scintilla.TabIndex = 0;
+            this.scintilla.UseTabs = true;
+            this.scintilla.TextChanged += new System.EventHandler(this.scintilla_TextChanged);
+            this.scintilla.Click += new System.EventHandler(this.scintilla_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(576, 427);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.scintilla);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -49,7 +60,7 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private ScintillaNET.Scintilla scintilla;
     }
 }
 

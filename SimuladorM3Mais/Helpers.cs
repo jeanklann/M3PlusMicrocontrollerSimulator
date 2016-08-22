@@ -7,7 +7,7 @@ namespace M3PlusSimulator {
         public delegate void CommandFunction(Simulator simulator);
 
         public static Command[] GenerateFunctions(int[] program) {
-            Command[] functions = new Command[program.Length];
+            Command[] commands = new Command[program.Length];
             int ULAOperation;
             int Registrer;
             int Controller;
@@ -44,7 +44,7 @@ namespace M3PlusSimulator {
 
             
 
-            return functions;
+            return commands;
         }
         private static string PrintOperation(int ULAOperation) {
             switch(ULAOperation) {

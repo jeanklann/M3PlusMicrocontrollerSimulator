@@ -14,13 +14,14 @@ namespace ConsoleTestSimulation {
             Stopwatch timer = new Stopwatch();
             Console.WriteLine("Iniciar");
             Console.ReadLine();
-            /*
+            
             int[] programa = {
-                0x07, 0xc0, 0x00, 0xdb, 0xe0, 0x07, 0x03, 0x00, 0x03, 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+                0x07, 0xc0, 0x00, 0xdb, 0xe0, 0x07, 0x03, 0x00, 0x03,
             };
             
-            Helpers.GenerateFunctions(programa);
-            */
+            Command[] Commands = Helpers.GenerateFunctions(programa);
+
+            
 
             Command c1 = new Command();
             
