@@ -14,16 +14,24 @@ namespace ConsoleTestSimulation {
             Stopwatch timer = new Stopwatch();
             Console.WriteLine("Iniciar");
             Console.ReadLine();
-            
+            /*
             int[] programa = {
                 0x07, 0xc0, 0x00, 0xdb, 0xe0, 0x07, 0x03, 0x00, 0x03,
             };
             
             Command[] Commands = Helpers.GenerateFunctions(programa);
-
+            */
             
 
             Command c1 = new Command();
+            Simulator s = new Simulator();
+            s.NextInstruction = 3;
+            
+            c1.Execute = delegate (Simulator ss) {
+                
+            };
+
+            
             
             Console.ReadLine();
         }

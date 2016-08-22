@@ -8,12 +8,10 @@ namespace M3PlusSimulator {
 
         public static Command[] GenerateFunctions(int[] program) {
             Command[] commands = new Command[program.Length];
-            int ULAOperation;
-            int Registrer;
-            int Controller;
-            bool IsHighDecoder = false;
+            
             int i = 0;
             while(i < program.Length) {
+                /*
                 ULAOperation = program[i];
                 Registrer = program[i];
                 Controller = program[i];
@@ -25,6 +23,7 @@ namespace M3PlusSimulator {
                 Registrer = Registrer >> 3;
 
                 Controller = 0x07 & Controller;
+                
                 if(!IsHighDecoder) {
                     IsHighDecoder = Controller == 7;
                     if(IsHighDecoder) {
@@ -32,19 +31,85 @@ namespace M3PlusSimulator {
                         continue;
                     }
                 }
-
-
-
-                Console.Write(PrintController(Controller, IsHighDecoder, program, ref i, Registrer, ULAOperation));
-
-                Console.WriteLine();
-                IsHighDecoder = false;
+                */
+                CreateCommand(program, i, commands);
+                //IsHighDecoder = false;
                 ++i;
             }
 
             
 
             return commands;
+        }
+        private static int CreateCommand(int[] Program, int PosRead, Command[] Commands) {
+            int NextPos = PosRead;
+
+            int ULAOperation = Program[NextPos];
+            int Registrer = Program[NextPos];
+            int Controller = Program[NextPos];
+            Controller = 0x07 & Controller;
+            
+            bool IsHighDecoder = false;
+            if(Controller == 7) {
+                NextPos++;
+                IsHighDecoder = true;
+                Controller = Program[NextPos];
+                Controller = 0x07 & Controller;
+
+                ULAOperation = Program[NextPos];
+                Registrer = Program[NextPos];
+            }
+
+            ULAOperation = 0xE0 & ULAOperation;
+            ULAOperation = ULAOperation >> 5;
+            Registrer = 0x18 & Registrer;
+            Registrer = Registrer >> 3;
+
+            if(IsHighDecoder) {
+                switch(Controller) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                    default:
+                        throw new Exception("Impossível");
+                }
+            } else {
+                switch(Controller) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
+                    default:
+                        throw new Exception("Impossível");
+                }
+            }
+
+            return NextPos;
         }
         private static string PrintOperation(int ULAOperation) {
             switch(ULAOperation) {
@@ -93,7 +158,7 @@ namespace M3PlusSimulator {
                 case 3:
                     return "IN4";
                 default:
-                    throw new Exception("Erro interno no ipput");
+                    throw new Exception("Erro interno no input");
             }
         }
         private static string PrintOutput(int Registrer) {
@@ -107,7 +172,7 @@ namespace M3PlusSimulator {
                 case 3:
                     return "OUT4";
                 default:
-                    throw new Exception("Erro interno no ipput");
+                    throw new Exception("Erro interno no input");
             }
         }
         private static string PrintController(int Controller, bool IsHighDecoder, int[] program, ref int i, int Registrer, int ULAOperation) {

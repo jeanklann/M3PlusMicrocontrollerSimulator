@@ -12,6 +12,8 @@ namespace M3PlusSimulator {
         public Controller Controller;
         public delegate void Function(Simulator simulator);
         public Function Execute;
+        public Command Next;
+        public byte Bytes;
         
 
         public void CreateFunction() {
@@ -112,7 +114,59 @@ namespace M3PlusSimulator {
                 return null;
             }
         }
-        
+        public static Command Decode(int[] Program, int Begin) {
+            int Current = Begin;
+            Command Command = new Command();
+            Command.Bytes++;
+            if(Program[Current] == 0x07) {
+                Current++;
+                Command.Bytes++;
+                Command.IsHighDecoder = true;
+            }
+            if(Command.IsHighDecoder) {
+                switch(Program[Current]) {
+                    case 0x00:  //ADD DADO,A
+                        break;
+                    case 0x01:  //ADD DADO,B
+                        break;
+                    case 0x02:  //ADD DADO,#RAM
+                        Command.Bytes++;
+                        break;
+                    case 0x03:  //JMP
+                        Command.Bytes++;
+                        break;
+                    case 0x04:  //JMPC
+                        Command.Bytes++;
+                        break;
+                    case 0x05:  //JMPZ
+                        Command.Bytes++;
+                        break;
+                    case 0x06:  //CALL
+                        Command.Bytes++;
+                        break;
+                    case 0x07:  //RET
+                        break;
+                    case 0x09:  //ADD DADO,C
+                        break;
+                    case 0x11:  //ADD DADO,D
+                        break;
+                    case 0x19:  //ADD DADO,E
+                        break;
+
+
+                    default:
+                        throw new Exception("Programa mal formulado.");
+                }
+            } else {
+                switch(Program[Current]) {
+
+                }
+            }
+
+
+
+            return Command;
+        }
     }
     
     public enum Operation {
@@ -126,4 +180,5 @@ namespace M3PlusSimulator {
         ACC_ACC_ACC, ACC_ACC_REG, ACC_ACC_RAM, ACC_ACC_OUT, ACC_REG_ACC, ACC_RAM_ACC, ACC_IN_ACC,
         ACC_DATA_ACC, ACC_DATA_REG, ACC_DATA_RAM, JMP, JMPC, JMPZ, CALL, RET
     }
+    
 }
