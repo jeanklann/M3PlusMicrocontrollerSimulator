@@ -50,16 +50,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Codigo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Codigo.Designer.cs">
+      <DependentUpon>Codigo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\DataField.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\DataField.Designer.cs">
+      <DependentUpon>DataField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Depurador.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Depurador.Designer.cs">
+      <DependentUpon>Depurador.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormularioPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FormularioPrincipal.Designer.cs">
+      <DependentUpon>FormularioPrincipal.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="PropriedadesDoProjeto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PropriedadesDoProjeto.Designer.cs">
+      <DependentUpon>PropriedadesDoProjeto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UIStatics.cs" />
+    <EmbeddedResource Include="Codigo.resx">
+      <DependentUpon>Codigo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\DataField.resx">
+      <DependentUpon>DataField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Depurador.resx">
+      <DependentUpon>Depurador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormularioPrincipal.resx">
+      <DependentUpon>FormularioPrincipal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -69,7 +104,11 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="PropriedadesDoProjeto.resx">
+      <DependentUpon>PropriedadesDoProjeto.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="APIs\SCINTILLANet\LICENSE" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -89,6 +128,32 @@
     <Content Include="APIs\SCINTILLANet\ScintillaNET.dll" />
     <Content Include="APIs\SCINTILLANet\ScintillaNET.pdb" />
     <Content Include="APIs\SCINTILLANet\ScintillaNET.xml" />
+    <None Include="images\png\clipboard-paste-button.png" />
+    <None Include="images\png\upward.png" />
+    <None Include="images\png\undo-arrow.png" />
+    <None Include="images\png\technology.png" />
+    <None Include="images\png\square.png" />
+    <None Include="images\png\signs.png" />
+    <None Include="images\png\settings.png" />
+    <None Include="images\png\search-1.png" />
+    <None Include="images\png\search.png" />
+    <None Include="images\png\play-button.png" />
+    <None Include="images\png\multimedia.png" />
+    <None Include="images\png\interface-2.png" />
+    <None Include="images\png\interface-1.png" />
+    <None Include="images\png\interface.png" />
+    <None Include="images\png\info.png" />
+    <None Include="images\png\forward.png" />
+    <None Include="images\png\folder.png" />
+    <None Include="images\png\error.png" />
+    <None Include="images\png\download.png" />
+    <None Include="images\png\cut.png" />
+    <None Include="images\png\copy-file.png" />
+    <None Include="images\png\computer-processor.png" />
+    <None Include="images\png\cogwheel.png" />
+    <None Include="images\png\code.png" />
+    <None Include="images\png\back.png" />
+    <None Include="images\png\animal.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

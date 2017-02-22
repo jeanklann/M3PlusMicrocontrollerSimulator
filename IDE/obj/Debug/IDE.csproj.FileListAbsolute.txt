@@ -4,9 +4,41 @@ C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\Simulador
 C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.dll
 C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.pdb
 C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.xml
-C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Codigo.resources
 C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Form1.resources
 C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Properties.Resources.resources
 C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
 C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.exe
 C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.pdb
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Depurador.resources
+C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\IDE.exe.config
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.exe
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.pdb
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\IDE.exe
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\IDE.pdb
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.dll
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.pdb
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.xml
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Codigo.resources
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Depurador.resources
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Form1.resources
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Properties.Resources.resources
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
+C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Components.DataField.resources
+D:\SimuladorM3Mais\IDE\bin\Debug\IDE.exe.config
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.exe
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.pdb
+D:\SimuladorM3Mais\IDE\bin\Debug\IDE.exe
+D:\SimuladorM3Mais\IDE\bin\Debug\IDE.pdb
+D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.dll
+D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.pdb
+D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.xml
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Codigo.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Components.DataField.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Depurador.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Properties.Resources.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.FormularioPrincipal.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.PropriedadesDoProjeto.resources

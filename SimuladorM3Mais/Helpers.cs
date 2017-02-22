@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace M3PlusSimulator {
+namespace M3PlusMicrocontroller {
     public static class Helpers {
         public delegate void CommandFunction(Simulator simulator);
 
-        public static Command[] GenerateFunctions(int[] program) {
-            Command[] commands = new Command[program.Length];
+        public static Instruction[] GenerateFunctions(int[] program) {
+            Instruction[] commands = new Instruction[program.Length];
             
             int i = 0;
             while(i < program.Length) {
@@ -41,7 +41,7 @@ namespace M3PlusSimulator {
 
             return commands;
         }
-        private static int CreateCommand(int[] Program, int PosRead, Command[] Commands) {
+        private static int CreateCommand(int[] Program, int PosRead, Instruction[] Commands) {
             int NextPos = PosRead;
 
             int ULAOperation = Program[NextPos];
@@ -269,6 +269,15 @@ namespace M3PlusSimulator {
                 }
             }
             return res;
+        }
+
+        public static int CountLines(string program, int index) {
+            int line = 1;
+            for (int i = 0; i < program.Length; i++) {
+                if (program[i] == '\n') line++;
+                if (i >= index) break;
+            }
+            return line;
         }
     }
 }
