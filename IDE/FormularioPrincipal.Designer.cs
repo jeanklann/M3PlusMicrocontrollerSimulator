@@ -78,6 +78,7 @@
             this.piscaLedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.sobreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.circuito1 = new IDE.Circuito();
             this.depurador1 = new IDE.Depurador();
             this.codigo1 = new IDE.Codigo();
             this.statusStrip1.SuspendLayout();
@@ -536,6 +537,17 @@
             this.sobreToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sobreToolStripMenuItem.Text = "Sobre";
             // 
+            // circuito1
+            // 
+            this.circuito1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.circuito1.Location = new System.Drawing.Point(12, 27);
+            this.circuito1.Name = "circuito1";
+            this.circuito1.Size = new System.Drawing.Size(552, 418);
+            this.circuito1.TabIndex = 5;
+            this.circuito1.Visible = false;
+            // 
             // depurador1
             // 
             this.depurador1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -563,6 +575,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(576, 470);
+            this.Controls.Add(this.circuito1);
             this.Controls.Add(this.depurador1);
             this.Controls.Add(this.codigo1);
             this.Controls.Add(this.statusStrip1);
@@ -638,6 +651,7 @@
         private System.Windows.Forms.ToolStripMenuItem zoomToolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
         private System.Windows.Forms.ToolStripMenuItem zoomOriginalToolStripMenuItem;
+        private Circuito circuito1;
     }
 }
 

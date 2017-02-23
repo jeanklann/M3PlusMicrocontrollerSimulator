@@ -62,37 +62,37 @@ namespace IDE {
         private void códigoToolStripMenuItem_Click(object sender, EventArgs e) {
             codigo1.Visible = true;
             depurador1.Visible = false;
-            //circuito1.Visible = false;
+            circuito1.Visible = false;
         }
 
         private void depuraçãoToolStripMenuItem_Click(object sender, EventArgs e) {
             codigo1.Visible = false;
             depurador1.Visible = true;
-            //circuito1.Visible = false;
+            circuito1.Visible = false;
         }
 
         private void circuitoToolStripMenuItem_Click(object sender, EventArgs e) {
             codigo1.Visible = false;
             depurador1.Visible = false;
-            //circuito1.Visible = true;
+            circuito1.Visible = true;
         }
 
         private void zoomToolStripMenuItem_Click(object sender, EventArgs e) {
             codigo1.ZoomMore();
             depurador1.ZoomMore();
-            //circuito1.ZoomMore();
+            circuito1.ZoomMore();
         }
 
         private void zoomToolStripMenuItem1_Click(object sender, EventArgs e) {
             codigo1.ZoomLess();
             depurador1.ZoomLess();
-            //circuito1.ZoomLess();
+            circuito1.ZoomLess();
         }
 
         private void zoomOriginalToolStripMenuItem_Click(object sender, EventArgs e) {
             codigo1.ZoomReset();
             depurador1.ZoomReset();
-            //circuito1.ZoomReset();
+            circuito1.ZoomReset();
         }
     }
 }

@@ -42,3 +42,4 @@ D:\SimuladorM3Mais\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
 D:\SimuladorM3Mais\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache
 D:\SimuladorM3Mais\IDE\obj\Debug\IDE.FormularioPrincipal.resources
 D:\SimuladorM3Mais\IDE\obj\Debug\IDE.PropriedadesDoProjeto.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Circuito.resources

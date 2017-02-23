@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Circuito.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Circuito.Designer.cs">
+      <DependentUpon>Circuito.cs</DependentUpon>
+    </Compile>
     <Compile Include="Codigo.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -84,6 +90,9 @@
       <DependentUpon>PropriedadesDoProjeto.cs</DependentUpon>
     </Compile>
     <Compile Include="UIStatics.cs" />
+    <EmbeddedResource Include="Circuito.resx">
+      <DependentUpon>Circuito.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Codigo.resx">
       <DependentUpon>Codigo.cs</DependentUpon>
     </EmbeddedResource>
