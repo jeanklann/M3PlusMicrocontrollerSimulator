@@ -36,7 +36,7 @@ namespace IDE {
         }
 
         private void scintilla_MarginClick(object sender, MarginClickEventArgs e) {
-            if(e.Margin == UIStatics.BREAKPOINT_MARGIN) {
+            if(e.Margin == UIStatics.BREAKPOINT_INDEX_MARGIN) {
                 // Do we have a marker for this line?
                 const uint mask = (1 << UIStatics.BREAKPOINT_MARKER);
                 Line line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];

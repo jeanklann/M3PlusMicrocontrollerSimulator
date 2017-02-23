@@ -8,3 +8,5 @@ D:\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csprojResolve
 D:\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.pdb
 D:\SimuladorM3Mais\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.exe
 D:\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.exe
+D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.exe
+D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.pdb

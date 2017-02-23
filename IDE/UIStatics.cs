@@ -11,11 +11,17 @@ namespace IDE {
         public static Codigo Codigo;
         public static Depurador Depurador;
 
-        public const int BREAKPOINT_MARGIN = 1;
-        public const int INDEX_MARKER = 2;
-        public const int BREAKPOINT_MARKER = 3;
+        public const int BREAKPOINT_INDEX_MARGIN = 1;
+        public const int LABEL_MARGIN = 2;
 
-        public static void ScintillaSetStyle(Scintilla scintilla) {
+        public const int BREAKPOINT_MARKER = 1;
+        public const int INDEX_MARKER = 2;
+        public const int LABEL_MARKER = 3;
+        
+        
+        
+
+        public static void ScintillaSetStyle(Scintilla scintilla, bool hasLabel = false) {
             scintilla.Styles[Style.Asm.CpuInstruction].ForeColor = System.Drawing.Color.Blue;
             scintilla.Styles[Style.Asm.CpuInstruction].Bold = true;
 
@@ -38,23 +44,39 @@ namespace IDE {
             scintilla.SetKeywords(0, "mov add sub inc jmp jmpc jmpz call ret and or xor not");
             scintilla.SetKeywords(1, "");
             scintilla.SetKeywords(2, "a b c d e out0 out1 out2 out3 in0 in1 in2 in3");
-
-            Margin margin = scintilla.Margins[BREAKPOINT_MARGIN];
+            
+            Margin margin = scintilla.Margins[BREAKPOINT_INDEX_MARGIN];
             margin.Width = 16;
             margin.Sensitive = true;
             margin.Type = MarginType.Symbol;
-            margin.Mask = Marker.MaskAll;
+            margin.Mask = (1<<BREAKPOINT_MARKER) | (1<<INDEX_MARKER);
             margin.Cursor = MarginCursor.Arrow;
-
+            
             Marker marker = scintilla.Markers[BREAKPOINT_MARKER];
             marker.Symbol = MarkerSymbol.Circle;
             marker.SetBackColor(Color.Red);
             marker.SetForeColor(Color.Red);
-
+            
             Marker marker2 = scintilla.Markers[INDEX_MARKER];
-            marker2.Symbol = MarkerSymbol.Arrow;
+            marker2.Symbol = MarkerSymbol.ShortArrow;
             marker2.SetBackColor(Color.Yellow);
             marker2.SetForeColor(Color.Black);
+            
+
+            if (hasLabel) {
+                
+                Margin margin2 = scintilla.Margins[LABEL_MARGIN];
+                margin2.Width = 16;
+                margin2.Sensitive = true;
+                margin2.Type = MarginType.Symbol;
+                margin2.Mask = 1<<LABEL_MARKER;
+                margin2.Cursor = MarginCursor.Arrow;
+
+                Marker marker3 = scintilla.Markers[LABEL_MARKER];
+                marker3.Symbol = MarkerSymbol.Bookmark;
+                marker3.SetBackColor(Color.Gray);
+                marker3.SetForeColor(Color.Black);
+            }
         }
     }
 }

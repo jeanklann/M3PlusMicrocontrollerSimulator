@@ -14,14 +14,16 @@ namespace IDE {
         
         public Depurador() {
             InitializeComponent();
-            UIStatics.ScintillaSetStyle(scintilla);
+            UIStatics.ScintillaSetStyle(scintilla, true);
 
             scintilla.ReadOnly = false;
             scintilla.Text = "asfasfafa\ngsdngjsdgnsd\nofjdsgnsdgn\ngdsngdnsj\nsdgj";
             scintilla.ReadOnly = true;
 
             Line l = scintilla.Lines[2];
-            l.MarkerAdd(2);
+            l.MarkerAdd(UIStatics.INDEX_MARKER);
+            l = scintilla.Lines[3];
+            l.MarkerAdd(UIStatics.LABEL_MARKER);
             
         }
 
@@ -44,18 +46,31 @@ namespace IDE {
         }
 
         private void scintilla_MarginClick(object sender, MarginClickEventArgs e) {
-            if(e.Margin == UIStatics.BREAKPOINT_MARGIN) {
-                // Do we have a marker for this line?
+            
+            if(e.Margin == UIStatics.BREAKPOINT_INDEX_MARGIN) {
+
                 const uint mask = (1 << UIStatics.BREAKPOINT_MARKER);
+
                 Line line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];
 
                 if((line.MarkerGet() & mask) > 0) {
-                    // Remove existing bookmark
                     RemoveBreakpoint(line);
                 } else {
-                    // Add bookmark
                     AddBreakpoint(line);
                 }
+                
+            } else if(e.Margin == UIStatics.LABEL_MARGIN) {
+                const uint mask = (1 << UIStatics.LABEL_MARKER);
+                Line line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];
+                if ((line.MarkerGet() & mask) > 0) {
+                    //toolTip1.Show("Label ", this);
+                    contextMenuStrip1.SetBounds(0, 0, 100, 100);
+                    
+                    contextMenuStrip1.Text = "asd";
+                    contextMenuStrip1.Show(MousePosition);
+                    contextMenuStrip1.Visible = true;
+                }
+
             }
         }
         private void scintilla_TextChanged(object sender, EventArgs e) {
@@ -89,6 +104,12 @@ namespace IDE {
         public void ZoomReset() {
             scintilla.Zoom = 0;
             updateLineNumber();
+        }
+
+        private void Depurador_Load(object sender, EventArgs e) {
+            
+            
+            
         }
     }
 }

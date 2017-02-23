@@ -29,8 +29,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.Name = "Circuito";
-            this.Size = new System.Drawing.Size(336, 307);
+            this.Size = new System.Drawing.Size(547, 395);
             this.Load += new System.EventHandler(this.Circuito_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Circuito_Paint);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Circuito_MouseClick);
@@ -38,6 +39,7 @@
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Circuito_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Circuito_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Circuito_MouseUp);
+            this.Resize += new System.EventHandler(this.Circuito_Resize);
             this.ResumeLayout(false);
 
         }
