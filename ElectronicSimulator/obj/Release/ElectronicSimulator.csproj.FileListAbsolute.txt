@@ -1,0 +1,5 @@
+D:\SimuladorM3Mais\ElectronicSimulator\bin\Release\ElectronicSimulator.dll
+D:\SimuladorM3Mais\ElectronicSimulator\bin\Release\ElectronicSimulator.pdb
+D:\SimuladorM3Mais\ElectronicSimulator\obj\Release\ElectronicSimulator.csprojResolveAssemblyReference.cache
+D:\SimuladorM3Mais\ElectronicSimulator\obj\Release\ElectronicSimulator.dll
+D:\SimuladorM3Mais\ElectronicSimulator\obj\Release\ElectronicSimulator.pdb

@@ -1,0 +1,4 @@
+D:\SimuladorM3Mais\SimuladorM3Mais\bin\Release\M3PlusMicrocontroller.exe
+D:\SimuladorM3Mais\SimuladorM3Mais\bin\Release\M3PlusMicrocontroller.pdb
+D:\SimuladorM3Mais\SimuladorM3Mais\obj\Release\M3PlusMicrocontroller.exe
+D:\SimuladorM3Mais\SimuladorM3Mais\obj\Release\M3PlusMicrocontroller.pdb

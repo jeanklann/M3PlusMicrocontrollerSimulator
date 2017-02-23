@@ -1,0 +1,16 @@
+D:\SimuladorM3Mais\IDE\bin\Release\IDE.exe.config
+D:\SimuladorM3Mais\IDE\bin\Release\IDE.exe
+D:\SimuladorM3Mais\IDE\bin\Release\IDE.pdb
+D:\SimuladorM3Mais\IDE\bin\Release\ScintillaNET.dll
+D:\SimuladorM3Mais\IDE\bin\Release\ScintillaNET.pdb
+D:\SimuladorM3Mais\IDE\bin\Release\ScintillaNET.xml
+D:\SimuladorM3Mais\IDE\obj\Release\IDE.csprojResolveAssemblyReference.cache
+D:\SimuladorM3Mais\IDE\obj\Release\IDE.Codigo.resources
+D:\SimuladorM3Mais\IDE\obj\Release\IDE.Components.DataField.resources
+D:\SimuladorM3Mais\IDE\obj\Release\IDE.Depurador.resources
+D:\SimuladorM3Mais\IDE\obj\Release\IDE.FormularioPrincipal.resources
+D:\SimuladorM3Mais\IDE\obj\Release\IDE.Properties.Resources.resources
+D:\SimuladorM3Mais\IDE\obj\Release\IDE.PropriedadesDoProjeto.resources
+D:\SimuladorM3Mais\IDE\obj\Release\IDE.csproj.GenerateResource.Cache
+D:\SimuladorM3Mais\IDE\obj\Release\IDE.exe
+D:\SimuladorM3Mais\IDE\obj\Release\IDE.pdb

@@ -27,10 +27,21 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.arquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.novoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.salvarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.salvarComoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.fecharToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.desfazerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refazerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.cortarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.copierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.excluirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.selecionarTudoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
@@ -46,6 +57,10 @@
             this.códigoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.depuraçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.circuitoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
+            this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoomOriginalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.construirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.analisarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.construirToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,23 +78,8 @@
             this.piscaLedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.sobreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.zoomToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.zoomOriginalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator10 = new System.Windows.Forms.ToolStripSeparator();
             this.depurador1 = new IDE.Depurador();
             this.codigo1 = new IDE.Codigo();
-            this.novoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.abrirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.salvarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.salvarComoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fecharToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.desfazerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.refazerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cortarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.copierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.colarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.excluirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -128,15 +128,55 @@
             this.arquivoToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.arquivoToolStripMenuItem.Text = "Arquivo";
             // 
+            // novoToolStripMenuItem
+            // 
+            this.novoToolStripMenuItem.Image = global::IDE.Properties.Resources.interface_2;
+            this.novoToolStripMenuItem.Name = "novoToolStripMenuItem";
+            this.novoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.novoToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.novoToolStripMenuItem.Text = "Novo";
+            // 
+            // abrirToolStripMenuItem
+            // 
+            this.abrirToolStripMenuItem.Image = global::IDE.Properties.Resources.folder;
+            this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
+            this.abrirToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.abrirToolStripMenuItem.Text = "Abrir";
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(217, 6);
             // 
+            // salvarToolStripMenuItem
+            // 
+            this.salvarToolStripMenuItem.Image = global::IDE.Properties.Resources.technology;
+            this.salvarToolStripMenuItem.Name = "salvarToolStripMenuItem";
+            this.salvarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.salvarToolStripMenuItem.Text = "Salvar";
+            // 
+            // salvarComoToolStripMenuItem
+            // 
+            this.salvarComoToolStripMenuItem.Image = global::IDE.Properties.Resources.technology;
+            this.salvarComoToolStripMenuItem.Name = "salvarComoToolStripMenuItem";
+            this.salvarComoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.salvarComoToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.salvarComoToolStripMenuItem.Text = "Salvar como...";
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(217, 6);
+            // 
+            // fecharToolStripMenuItem
+            // 
+            this.fecharToolStripMenuItem.Image = global::IDE.Properties.Resources.error;
+            this.fecharToolStripMenuItem.Name = "fecharToolStripMenuItem";
+            this.fecharToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.fecharToolStripMenuItem.Text = "Fechar";
             // 
             // editarToolStripMenuItem
             // 
@@ -158,10 +198,59 @@
             this.editarToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.editarToolStripMenuItem.Text = "Editar";
             // 
+            // desfazerToolStripMenuItem
+            // 
+            this.desfazerToolStripMenuItem.Image = global::IDE.Properties.Resources.back;
+            this.desfazerToolStripMenuItem.Name = "desfazerToolStripMenuItem";
+            this.desfazerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.desfazerToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.desfazerToolStripMenuItem.Text = "Desfazer";
+            // 
+            // refazerToolStripMenuItem
+            // 
+            this.refazerToolStripMenuItem.Image = global::IDE.Properties.Resources.forward;
+            this.refazerToolStripMenuItem.Name = "refazerToolStripMenuItem";
+            this.refazerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.refazerToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.refazerToolStripMenuItem.Text = "Refazer";
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(198, 6);
+            // 
+            // cortarToolStripMenuItem
+            // 
+            this.cortarToolStripMenuItem.Image = global::IDE.Properties.Resources.cut;
+            this.cortarToolStripMenuItem.Name = "cortarToolStripMenuItem";
+            this.cortarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.cortarToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.cortarToolStripMenuItem.Text = "Recortar";
+            // 
+            // copierToolStripMenuItem
+            // 
+            this.copierToolStripMenuItem.Image = global::IDE.Properties.Resources.copy_file;
+            this.copierToolStripMenuItem.Name = "copierToolStripMenuItem";
+            this.copierToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.copierToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.copierToolStripMenuItem.Text = "Copiar";
+            this.copierToolStripMenuItem.Click += new System.EventHandler(this.copierToolStripMenuItem_Click);
+            // 
+            // colarToolStripMenuItem
+            // 
+            this.colarToolStripMenuItem.Image = global::IDE.Properties.Resources.clipboard_paste_button;
+            this.colarToolStripMenuItem.Name = "colarToolStripMenuItem";
+            this.colarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.colarToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.colarToolStripMenuItem.Text = "Colar";
+            // 
+            // excluirToolStripMenuItem
+            // 
+            this.excluirToolStripMenuItem.Image = global::IDE.Properties.Resources.error;
+            this.excluirToolStripMenuItem.Name = "excluirToolStripMenuItem";
+            this.excluirToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
+            this.excluirToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.excluirToolStripMenuItem.Text = "Excluir";
             // 
             // toolStripSeparator4
             // 
@@ -280,6 +369,40 @@
             this.circuitoToolStripMenuItem.Text = "Circuito";
             this.circuitoToolStripMenuItem.Click += new System.EventHandler(this.circuitoToolStripMenuItem_Click);
             // 
+            // toolStripSeparator10
+            // 
+            this.toolStripSeparator10.Name = "toolStripSeparator10";
+            this.toolStripSeparator10.Size = new System.Drawing.Size(186, 6);
+            // 
+            // zoomToolStripMenuItem
+            // 
+            this.zoomToolStripMenuItem.Image = global::IDE.Properties.Resources.multimedia;
+            this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
+            this.zoomToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl++";
+            this.zoomToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Oemplus)));
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.zoomToolStripMenuItem.Text = "+ zoom";
+            this.zoomToolStripMenuItem.Click += new System.EventHandler(this.zoomToolStripMenuItem_Click);
+            // 
+            // zoomToolStripMenuItem1
+            // 
+            this.zoomToolStripMenuItem1.Image = global::IDE.Properties.Resources.search;
+            this.zoomToolStripMenuItem1.Name = "zoomToolStripMenuItem1";
+            this.zoomToolStripMenuItem1.ShortcutKeyDisplayString = "Ctrl+-";
+            this.zoomToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.OemMinus)));
+            this.zoomToolStripMenuItem1.Size = new System.Drawing.Size(189, 22);
+            this.zoomToolStripMenuItem1.Text = "- zoom";
+            this.zoomToolStripMenuItem1.Click += new System.EventHandler(this.zoomToolStripMenuItem1_Click);
+            // 
+            // zoomOriginalToolStripMenuItem
+            // 
+            this.zoomOriginalToolStripMenuItem.Image = global::IDE.Properties.Resources.search_1;
+            this.zoomOriginalToolStripMenuItem.Name = "zoomOriginalToolStripMenuItem";
+            this.zoomOriginalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
+            this.zoomOriginalToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.zoomOriginalToolStripMenuItem.Text = "Zoom original";
+            this.zoomOriginalToolStripMenuItem.Click += new System.EventHandler(this.zoomOriginalToolStripMenuItem_Click);
+            // 
             // construirToolStripMenuItem
             // 
             this.construirToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -293,14 +416,14 @@
             this.pularParaForaToolStripMenuItem,
             this.pararToolStripMenuItem});
             this.construirToolStripMenuItem.Name = "construirToolStripMenuItem";
-            this.construirToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
-            this.construirToolStripMenuItem.Text = "Construir";
+            this.construirToolStripMenuItem.Size = new System.Drawing.Size(58, 20);
+            this.construirToolStripMenuItem.Text = "Montar";
             // 
             // analisarToolStripMenuItem
             // 
             this.analisarToolStripMenuItem.Image = global::IDE.Properties.Resources._interface;
             this.analisarToolStripMenuItem.Name = "analisarToolStripMenuItem";
-            this.analisarToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.analisarToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.analisarToolStripMenuItem.Text = "Analisar";
             // 
             // construirToolStripMenuItem1
@@ -308,27 +431,27 @@
             this.construirToolStripMenuItem1.Name = "construirToolStripMenuItem1";
             this.construirToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.B)));
-            this.construirToolStripMenuItem1.Size = new System.Drawing.Size(216, 22);
-            this.construirToolStripMenuItem1.Text = "Construir";
+            this.construirToolStripMenuItem1.Size = new System.Drawing.Size(208, 22);
+            this.construirToolStripMenuItem1.Text = "Montar";
             // 
             // analisarEConstruirToolStripMenuItem
             // 
             this.analisarEConstruirToolStripMenuItem.Name = "analisarEConstruirToolStripMenuItem";
             this.analisarEConstruirToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
-            this.analisarEConstruirToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
-            this.analisarEConstruirToolStripMenuItem.Text = "Analisar e construir";
+            this.analisarEConstruirToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+            this.analisarEConstruirToolStripMenuItem.Text = "Analisar e montar";
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(213, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(205, 6);
             // 
             // rodarToolStripMenuItem
             // 
             this.rodarToolStripMenuItem.Image = global::IDE.Properties.Resources.play_button;
             this.rodarToolStripMenuItem.Name = "rodarToolStripMenuItem";
             this.rodarToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.rodarToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.rodarToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.rodarToolStripMenuItem.Text = "Rodar/Continuar";
             // 
             // pausarToolStripMenuItem
@@ -336,7 +459,7 @@
             this.pausarToolStripMenuItem.Image = global::IDE.Properties.Resources.signs;
             this.pausarToolStripMenuItem.Name = "pausarToolStripMenuItem";
             this.pausarToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
-            this.pausarToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.pausarToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.pausarToolStripMenuItem.Text = "Pausar";
             // 
             // pularParaDentroToolStripMenuItem
@@ -344,7 +467,7 @@
             this.pularParaDentroToolStripMenuItem.Image = global::IDE.Properties.Resources.download;
             this.pularParaDentroToolStripMenuItem.Name = "pularParaDentroToolStripMenuItem";
             this.pularParaDentroToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11;
-            this.pularParaDentroToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.pularParaDentroToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.pularParaDentroToolStripMenuItem.Text = "Passo dentro";
             // 
             // pularParaForaToolStripMenuItem
@@ -352,7 +475,7 @@
             this.pularParaForaToolStripMenuItem.Image = global::IDE.Properties.Resources.upward;
             this.pularParaForaToolStripMenuItem.Name = "pularParaForaToolStripMenuItem";
             this.pularParaForaToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F10;
-            this.pularParaForaToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.pularParaForaToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.pularParaForaToolStripMenuItem.Text = "Passo fora";
             // 
             // pararToolStripMenuItem
@@ -360,7 +483,7 @@
             this.pararToolStripMenuItem.Image = global::IDE.Properties.Resources.square;
             this.pararToolStripMenuItem.Name = "pararToolStripMenuItem";
             this.pararToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12;
-            this.pararToolStripMenuItem.Size = new System.Drawing.Size(216, 22);
+            this.pararToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
             this.pararToolStripMenuItem.Text = "Parar programa";
             // 
             // ajudaToolStripMenuItem
@@ -413,42 +536,11 @@
             this.sobreToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.sobreToolStripMenuItem.Text = "Sobre";
             // 
-            // zoomToolStripMenuItem
-            // 
-            this.zoomToolStripMenuItem.Image = global::IDE.Properties.Resources.multimedia;
-            this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl++";
-            this.zoomToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Oemplus)));
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.zoomToolStripMenuItem.Text = "+ zoom";
-            this.zoomToolStripMenuItem.Click += new System.EventHandler(this.zoomToolStripMenuItem_Click);
-            // 
-            // zoomToolStripMenuItem1
-            // 
-            this.zoomToolStripMenuItem1.Image = global::IDE.Properties.Resources.search;
-            this.zoomToolStripMenuItem1.Name = "zoomToolStripMenuItem1";
-            this.zoomToolStripMenuItem1.ShortcutKeyDisplayString = "Ctrl+-";
-            this.zoomToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.OemMinus)));
-            this.zoomToolStripMenuItem1.Size = new System.Drawing.Size(189, 22);
-            this.zoomToolStripMenuItem1.Text = "- zoom";
-            this.zoomToolStripMenuItem1.Click += new System.EventHandler(this.zoomToolStripMenuItem1_Click);
-            // 
-            // zoomOriginalToolStripMenuItem
-            // 
-            this.zoomOriginalToolStripMenuItem.Image = global::IDE.Properties.Resources.search_1;
-            this.zoomOriginalToolStripMenuItem.Name = "zoomOriginalToolStripMenuItem";
-            this.zoomOriginalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
-            this.zoomOriginalToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
-            this.zoomOriginalToolStripMenuItem.Text = "Zoom original";
-            this.zoomOriginalToolStripMenuItem.Click += new System.EventHandler(this.zoomOriginalToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator10
-            // 
-            this.toolStripSeparator10.Name = "toolStripSeparator10";
-            this.toolStripSeparator10.Size = new System.Drawing.Size(186, 6);
-            // 
             // depurador1
             // 
+            this.depurador1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.depurador1.Location = new System.Drawing.Point(12, 27);
             this.depurador1.Name = "depurador1";
             this.depurador1.Size = new System.Drawing.Size(552, 418);
@@ -457,102 +549,16 @@
             // 
             // codigo1
             // 
+            this.codigo1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.codigo1.Location = new System.Drawing.Point(12, 27);
             this.codigo1.Name = "codigo1";
             this.codigo1.Size = new System.Drawing.Size(552, 418);
             this.codigo1.TabIndex = 3;
             this.codigo1.Load += new System.EventHandler(this.codigo1_Load);
             // 
-            // novoToolStripMenuItem
-            // 
-            this.novoToolStripMenuItem.Image = global::IDE.Properties.Resources.interface_2;
-            this.novoToolStripMenuItem.Name = "novoToolStripMenuItem";
-            this.novoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.novoToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.novoToolStripMenuItem.Text = "Novo";
-            // 
-            // abrirToolStripMenuItem
-            // 
-            this.abrirToolStripMenuItem.Image = global::IDE.Properties.Resources.folder;
-            this.abrirToolStripMenuItem.Name = "abrirToolStripMenuItem";
-            this.abrirToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.abrirToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.abrirToolStripMenuItem.Text = "Abrir";
-            // 
-            // salvarToolStripMenuItem
-            // 
-            this.salvarToolStripMenuItem.Image = global::IDE.Properties.Resources.technology;
-            this.salvarToolStripMenuItem.Name = "salvarToolStripMenuItem";
-            this.salvarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.salvarToolStripMenuItem.Text = "Salvar";
-            // 
-            // salvarComoToolStripMenuItem
-            // 
-            this.salvarComoToolStripMenuItem.Image = global::IDE.Properties.Resources.technology;
-            this.salvarComoToolStripMenuItem.Name = "salvarComoToolStripMenuItem";
-            this.salvarComoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.S)));
-            this.salvarComoToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.salvarComoToolStripMenuItem.Text = "Salvar como...";
-            // 
-            // fecharToolStripMenuItem
-            // 
-            this.fecharToolStripMenuItem.Image = global::IDE.Properties.Resources.error;
-            this.fecharToolStripMenuItem.Name = "fecharToolStripMenuItem";
-            this.fecharToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
-            this.fecharToolStripMenuItem.Text = "Fechar";
-            // 
-            // desfazerToolStripMenuItem
-            // 
-            this.desfazerToolStripMenuItem.Image = global::IDE.Properties.Resources.back;
-            this.desfazerToolStripMenuItem.Name = "desfazerToolStripMenuItem";
-            this.desfazerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.desfazerToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.desfazerToolStripMenuItem.Text = "Desfazer";
-            // 
-            // refazerToolStripMenuItem
-            // 
-            this.refazerToolStripMenuItem.Image = global::IDE.Properties.Resources.forward;
-            this.refazerToolStripMenuItem.Name = "refazerToolStripMenuItem";
-            this.refazerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.refazerToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.refazerToolStripMenuItem.Text = "Refazer";
-            // 
-            // cortarToolStripMenuItem
-            // 
-            this.cortarToolStripMenuItem.Image = global::IDE.Properties.Resources.cut;
-            this.cortarToolStripMenuItem.Name = "cortarToolStripMenuItem";
-            this.cortarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cortarToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.cortarToolStripMenuItem.Text = "Recortar";
-            // 
-            // copierToolStripMenuItem
-            // 
-            this.copierToolStripMenuItem.Image = global::IDE.Properties.Resources.copy_file;
-            this.copierToolStripMenuItem.Name = "copierToolStripMenuItem";
-            this.copierToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.copierToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.copierToolStripMenuItem.Text = "Copiar";
-            this.copierToolStripMenuItem.Click += new System.EventHandler(this.copierToolStripMenuItem_Click);
-            // 
-            // colarToolStripMenuItem
-            // 
-            this.colarToolStripMenuItem.Image = global::IDE.Properties.Resources.clipboard_paste_button;
-            this.colarToolStripMenuItem.Name = "colarToolStripMenuItem";
-            this.colarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.colarToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.colarToolStripMenuItem.Text = "Colar";
-            // 
-            // excluirToolStripMenuItem
-            // 
-            this.excluirToolStripMenuItem.Image = global::IDE.Properties.Resources.error;
-            this.excluirToolStripMenuItem.Name = "excluirToolStripMenuItem";
-            this.excluirToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.excluirToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.excluirToolStripMenuItem.Text = "Excluir";
-            // 
-            // Form1
+            // FormularioPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -562,7 +568,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "FormularioPrincipal";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
