@@ -5,26 +5,23 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using ScintillaNET;
 
 namespace IDE {
     public partial class Depurador : UserControl {
-        
+        public int[] AddressToLine;
+
         public Depurador() {
             InitializeComponent();
             UIStatics.ScintillaSetStyle(scintilla, true);
+        }
 
+        public void SetText(string text) {
             scintilla.ReadOnly = false;
-            scintilla.Text = "asfasfafa\ngsdngjsdgnsd\nofjdsgnsdgn\ngdsngdnsj\nsdgj";
+            scintilla.Text = text;
             scintilla.ReadOnly = true;
-
-            Line l = scintilla.Lines[2];
-            l.MarkerAdd(UIStatics.INDEX_MARKER);
-            l = scintilla.Lines[3];
-            l.MarkerAdd(UIStatics.LABEL_MARKER);
-            
         }
 
         public void AddBreakpoint(Line line = null) {
@@ -45,6 +42,13 @@ namespace IDE {
             }
         }
 
+        public void AddLabel(Line line = null) {
+            if (line == null) {
+                line = scintilla.Lines[scintilla.CurrentLine];
+            }
+            line.MarkerAdd(UIStatics.LABEL_MARKER);
+        }
+
         private void scintilla_MarginClick(object sender, MarginClickEventArgs e) {
             
             if(e.Margin == UIStatics.BREAKPOINT_INDEX_MARGIN) {
@@ -60,15 +64,15 @@ namespace IDE {
                 }
                 
             } else if(e.Margin == UIStatics.LABEL_MARGIN) {
+                
+
                 const uint mask = (1 << UIStatics.LABEL_MARKER);
+                
                 Line line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];
                 if ((line.MarkerGet() & mask) > 0) {
+
+                    //scintilla.CallTipShow(scintilla.LineFromPosition(e.Position), "teste");
                     //toolTip1.Show("Label ", this);
-                    contextMenuStrip1.SetBounds(0, 0, 100, 100);
-                    
-                    contextMenuStrip1.Text = "asd";
-                    contextMenuStrip1.Show(MousePosition);
-                    contextMenuStrip1.Visible = true;
                 }
 
             }
@@ -108,8 +112,102 @@ namespace IDE {
 
         private void Depurador_Load(object sender, EventArgs e) {
             
-            
-            
+        }
+
+        public void UpdateAll() {
+            CheckForIllegalCrossThreadCalls = false;
+            while (!UIStatics.WantExit) {
+                if (UIStatics.Simulador != null) {
+
+                    aField.Value = UIStatics.Simulador.Reg[0];
+                    bField.Value = UIStatics.Simulador.Reg[1];
+                    cField.Value = UIStatics.Simulador.Reg[2];
+                    dField.Value = UIStatics.Simulador.Reg[3];
+                    eField.Value = UIStatics.Simulador.Reg[4];
+
+                    in0Field.Value = UIStatics.Simulador.In[0];
+                    in1Field.Value = UIStatics.Simulador.In[1];
+                    in2Field.Value = UIStatics.Simulador.In[2];
+                    in3Field.Value = UIStatics.Simulador.In[3];
+
+                    out0Field.Value = UIStatics.Simulador.Out[0];
+                    out1Field.Value = UIStatics.Simulador.Out[1];
+                    out2Field.Value = UIStatics.Simulador.Out[2];
+                    out3Field.Value = UIStatics.Simulador.Out[3];
+
+                    cCheck.Value = UIStatics.Simulador.Flag_C;
+                    zCheck.Value = UIStatics.Simulador.Flag_Z;
+
+                    aField.Refresh();
+                    bField.Refresh();
+                    cField.Refresh();
+                    dField.Refresh();
+                    eField.Refresh();
+                    in0Field.Refresh();
+                    in1Field.Refresh();
+                    in2Field.Refresh();
+                    in3Field.Refresh();
+                    out0Field.Refresh();
+                    out1Field.Refresh();
+                    out2Field.Refresh();
+                    out3Field.Refresh();
+                    cCheck.Refresh();
+                    zCheck.Refresh();
+
+                    int nextLine = scintilla.Lines[0].MarkerNext(1 << UIStatics.INDEX_MARKER);
+                    int markerLine = AddressToLine[UIStatics.Simulador.NextInstruction];
+                    if (nextLine != markerLine) {
+                        if (nextLine != -1)
+                            scintilla.Lines[nextLine].MarkerDelete(UIStatics.INDEX_MARKER);
+                        scintilla.Lines[markerLine].MarkerAdd(UIStatics.INDEX_MARKER);
+                    }
+                    
+                    Thread.Sleep(30); //30ms to reaload to refresh the screen.
+
+                    if (aField.UserInput) UIStatics.Simulador.Reg[0] = (byte)aField.Value;
+                    if (bField.UserInput) UIStatics.Simulador.Reg[1] = (byte)bField.Value;
+                    if (cField.UserInput) UIStatics.Simulador.Reg[2] = (byte)cField.Value;
+                    if (dField.UserInput) UIStatics.Simulador.Reg[3] = (byte)dField.Value;
+                    if (eField.UserInput) UIStatics.Simulador.Reg[4] = (byte)eField.Value;
+
+                    if (in0Field.UserInput) UIStatics.Simulador.In[0] = (byte)in0Field.Value;
+                    if (in1Field.UserInput) UIStatics.Simulador.In[1] = (byte)in1Field.Value;
+                    if (in2Field.UserInput) UIStatics.Simulador.In[2] = (byte)in2Field.Value;
+                    if (in3Field.UserInput) UIStatics.Simulador.In[3] = (byte)in3Field.Value;
+
+                    if (out0Field.UserInput) UIStatics.Simulador.Out[0] = (byte)out0Field.Value;
+                    if (out1Field.UserInput) UIStatics.Simulador.Out[1] = (byte)out1Field.Value;
+                    if (out2Field.UserInput) UIStatics.Simulador.Out[2] = (byte)out2Field.Value;
+                    if (out3Field.UserInput) UIStatics.Simulador.Out[3] = (byte)out3Field.Value;
+
+                    if (cCheck.UserInput) UIStatics.Simulador.Flag_C = cCheck.Value;
+                    if (zCheck.UserInput) UIStatics.Simulador.Flag_Z = zCheck.Value;
+
+                    
+                } else {
+                    Thread.Sleep(100);
+                }
+            }
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e) {
+            UIStatics.Run();
+        }
+
+        private void btnPause_Click(object sender, EventArgs e) {
+            UIStatics.Pause();
+        }
+
+        private void btnStop_Click(object sender, EventArgs e) {
+            UIStatics.Stop();
+        }
+
+        private void btnIn_Click(object sender, EventArgs e) {
+            UIStatics.StepIn();
+        }
+
+        private void btnOut_Click(object sender, EventArgs e) {
+            UIStatics.StepOut();
         }
     }
 }

@@ -6,8 +6,7 @@ using System.Diagnostics;
 
 namespace M3PlusMicrocontroller {
     public class Simulator {
-        
-        public int Frequency = 1;
+        public int Frequency = 200000;
         public int NextInstruction;
         public Instruction[] Program;
         public bool Flag_C = false;
@@ -17,17 +16,14 @@ namespace M3PlusMicrocontroller {
         public byte[] Out; //0: OUT0, 1: OUT1, 2: OUT2, 3: OUT3
         public byte[] RAM;
         private int count = 0;
+        public int Count { get { return count; } }
 
+        private Thread thread;
         public bool Running = false;
-        
+        public bool Stopped = true;
+
         public Simulator() {
-            Flag_C = false;
-            Flag_Z = false;
-            Reg = new byte[5];
-            In = new byte[4];
-            Out = new byte[4];
-            RAM = new byte[255];
-            count = 0;
+            Reset();
         }
 
         public void Reset() {
@@ -38,6 +34,7 @@ namespace M3PlusMicrocontroller {
             In = new byte[4];
             Out = new byte[4];
             RAM = new byte[255];
+            Stopped = true;
             count = 0;
         }
 
@@ -72,35 +69,53 @@ namespace M3PlusMicrocontroller {
         }
 
         public void Run() {
-            throw new System.NotImplementedException();
+            if (!Running) {
+                if (Stopped) {
+                    Reset();
+                }
+                thread = new Thread(Run_thread);
+                Running = true;
+                Stopped = false;
+                thread.Start();
+            }
+        }
+        private void Run_thread() {
+            while (Running) {
+                Instruction instruction = Program[NextInstruction];
+                NextInstruction += instruction.Bytes;
+                instruction.Function(this);
+                ++count;
+                
+                if (1000 / Frequency != 0) {
+                    Thread.Sleep(1000 / Frequency);
+                }
+            }
+            if (Stopped) {
+                Reset();
+            }
         }
 
         public void Pause() {
-            throw new System.NotImplementedException();
+            Running = false;
         }
 
         public void Debug_StepInto() {
-            throw new System.NotImplementedException();
+            Instruction instruction = Program[NextInstruction];
+            NextInstruction += instruction.Bytes;
+            instruction.Function(this);
         }
 
         public void Debug_StepOut() {
             throw new System.NotImplementedException();
         }
-
-        public void Debug_Continue() {
-            throw new System.NotImplementedException();
-        }
-
-        public void Debug_Pause() {
-            throw new System.NotImplementedException();
-        }
-
+        
         public void AddBreakpoint(uint line) {
             throw new System.NotImplementedException();
         }
 
         public void Stop() {
-            throw new System.NotImplementedException();
+            Running = false;
+            Stopped = true;
         }
     }
 }

@@ -2,14 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Drawing;
 using ScintillaNET;
+using M3PlusMicrocontroller;
+using System.Windows.Forms;
+
 
 namespace IDE {
     public static class UIStatics {
         public static Codigo Codigo;
         public static Depurador Depurador;
+        public static Circuito Circuito;
+
+        public static Compiler Compilador;
+        public static Simulator Simulador;
+
+        public static List<InstructionCompiler> Instructions;
+        public static List<M3PlusMicrocontroller.Label> Labels;
 
         public const int BREAKPOINT_INDEX_MARGIN = 1;
         public const int LABEL_MARGIN = 2;
@@ -17,9 +27,77 @@ namespace IDE {
         public const int BREAKPOINT_MARKER = 1;
         public const int INDEX_MARKER = 2;
         public const int LABEL_MARKER = 3;
-        
-        
-        
+
+        public static bool WantExit = false; //To tell all threads to terminate
+
+        public static Thread threadDepurador;
+
+        public static void Compile() {
+            try {
+                Instruction[] instructions = Compilador.Compile(Codigo.scintilla.Text);
+                Simulador = new Simulator();
+                Simulador.Program = instructions;
+
+                Instructions = Compilador.Instructions;
+                Labels = Compilador.Labels;
+
+                StringBuilder text = new StringBuilder();
+
+                Depurador.AddressToLine = new int[Compiler.MEMORY_MAX_SIZE];
+                for (int i = 0; i < Instructions.Count; i++) {
+                    text.AppendLine(Instructions[i].Instruction.Text);
+                    Depurador.AddressToLine[Instructions[i].Address] = i;
+                }
+                Depurador.SetText(text.ToString());
+
+                MessageBox.Show("Programa montado com sucesso.");
+            } catch (CompilerError e1) {
+                MessageBox.Show(e1.Message);
+            } catch (Exception e2) {
+                MessageBox.Show("Erro interno: " + e2.Message);
+            }
+        }
+
+        public static void Run() {
+            if (Simulador != null) {
+                if (!Simulador.Running) {
+                    Codigo.Visible = false;
+                    Circuito.Visible = false;
+                    Depurador.Visible = true;
+                    Simulador.Run();
+                }
+            }
+            if (threadDepurador == null) {
+                threadDepurador = new Thread(Depurador.UpdateAll);
+                threadDepurador.Start();
+            }
+        }
+        public static void Pause() {
+            if (Simulador != null) {
+                if (Simulador.Running) {
+                    Simulador.Pause();
+                } else {
+                    Simulador.Run();
+                    Simulador.Pause();
+                }
+            }
+        }
+        public static void Stop() {
+            if(Simulador != null) {
+                Simulador.Stop();
+            }
+        }
+        public static void StepIn() {
+            if (Simulador != null) {
+                Simulador.Debug_StepInto();
+            }
+        }
+        public static void StepOut() {
+            if (Simulador != null) {
+                Simulador.Debug_StepOut();
+            }
+        }
+
 
         public static void ScintillaSetStyle(Scintilla scintilla, bool hasLabel = false) {
             scintilla.Styles[Style.Asm.CpuInstruction].ForeColor = System.Drawing.Color.Blue;

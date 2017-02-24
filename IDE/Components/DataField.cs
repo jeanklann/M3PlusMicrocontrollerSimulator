@@ -11,6 +11,10 @@ using System.Text.RegularExpressions;
 
 namespace IDE.Components {
     public partial class DataField : UserControl {
+        private bool needRefresh = true;
+        private bool userInput = false;
+        public bool UserInput { get { return userInput; } }
+
         public DataField() {
             InitializeComponent();
             comboBox1.SelectedIndex = 0;
@@ -25,16 +29,26 @@ namespace IDE.Components {
             }
             set
             {
-                if (InputDec(value.ToString())) {
-                    this.value = value;
-                    if(selected == DataFieldType.DEC) {
-                        maskedTextBox1.Text = this.value.ToString();
-                    } else if(selected == DataFieldType.BIN) {
-                        maskedTextBox1.Text = ToBIN();
-                    } else if (selected == DataFieldType.HEX) {
-                        maskedTextBox1.Text = ToHEX();
-                    }
+                if(value != this.value) {
+                    if(InputDec(value.ToString())) //if the new value is a valid value
+                        this.value = value;
+                    needRefresh = true;
                 }
+                
+            }
+        }
+        public override void Refresh() {
+            if (needRefresh) {
+                if (selected == DataFieldType.DEC) {
+                    maskedTextBox1.Text = value.ToString();
+                } else if (selected == DataFieldType.BIN) {
+                    maskedTextBox1.Text = ToBIN();
+                } else if (selected == DataFieldType.HEX) {
+                    maskedTextBox1.Text = ToHEX();
+                }
+                base.Refresh();
+                userInput = false;
+                needRefresh = false;
             }
         }
         private DataFieldType selected = DataFieldType.DEC;
@@ -53,8 +67,7 @@ namespace IDE.Components {
                             maskedTextBox1.Mask = "99999990";
                         else if (byteQuantity == 4)
                             maskedTextBox1.Mask = "9999999990";
-
-                        maskedTextBox1.Text = Value.ToString();
+                        needRefresh = true;
                         break;
                     case DataFieldType.BIN: //BIN
                         if (byteQuantity == 1)
@@ -65,7 +78,7 @@ namespace IDE.Components {
                             maskedTextBox1.Mask = "000000000000000000000000";
                         else if (byteQuantity == 4)
                             maskedTextBox1.Mask = "00000000000000000000000000000000";
-                        maskedTextBox1.Text = ToBIN();
+                        needRefresh = true;
                         break;
                     case DataFieldType.HEX: //HEX
                         if (byteQuantity == 1)
@@ -76,7 +89,7 @@ namespace IDE.Components {
                             maskedTextBox1.Mask = "AAAAAA";
                         else if (byteQuantity == 4)
                             maskedTextBox1.Mask = "AAAAAAAA";
-                        maskedTextBox1.Text = ToHEX();
+                        needRefresh = true;
                         break;
                 }
                 selected = value;
@@ -159,21 +172,24 @@ namespace IDE.Components {
         private void maskedTextBox1_Validated(object sender, EventArgs e) {
             if(selected == DataFieldType.DEC) {
                 if (InputDec(maskedTextBox1.Text)) {
-                    value = int.Parse(maskedTextBox1.Text);
+                    Value = int.Parse(maskedTextBox1.Text);
+                    userInput = true;
                 } else {
-                    maskedTextBox1.Text = value.ToString();
+                    needRefresh = true;
                 }
             } else if(selected == DataFieldType.BIN) {
                 if (InputBin(maskedTextBox1.Text)) {
-                    value = Convert.ToInt32(maskedTextBox1.Text, 2);
+                    Value = Convert.ToInt32(maskedTextBox1.Text, 2);
+                    userInput = true;
                 } else {
-                    maskedTextBox1.Text = ToBIN();
+                    needRefresh = true;
                 }
             } else if(selected == DataFieldType.HEX) {
                 if (InputHex(maskedTextBox1.Text)) {
-                    value = Convert.ToInt32(maskedTextBox1.Text, 16);
+                    Value = Convert.ToInt32(maskedTextBox1.Text, 16);
+                    userInput = true;
                 } else {
-                    maskedTextBox1.Text = ToHEX();
+                    needRefresh = true;
                 }
             }
             

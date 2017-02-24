@@ -26,23 +26,6 @@ C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Deb
 C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Properties.Resources.resources
 C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
 C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Components.DataField.resources
-D:\SimuladorM3Mais\IDE\bin\Debug\IDE.exe.config
-D:\SimuladorM3Mais\IDE\obj\Debug\IDE.exe
-D:\SimuladorM3Mais\IDE\obj\Debug\IDE.pdb
-D:\SimuladorM3Mais\IDE\bin\Debug\IDE.exe
-D:\SimuladorM3Mais\IDE\bin\Debug\IDE.pdb
-D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.dll
-D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.pdb
-D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.xml
-D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Codigo.resources
-D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Components.DataField.resources
-D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Depurador.resources
-D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Properties.Resources.resources
-D:\SimuladorM3Mais\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
-D:\SimuladorM3Mais\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache
-D:\SimuladorM3Mais\IDE\obj\Debug\IDE.FormularioPrincipal.resources
-D:\SimuladorM3Mais\IDE\obj\Debug\IDE.PropriedadesDoProjeto.resources
-D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Circuito.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\IDE.exe.config
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.exe
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.pdb
@@ -65,3 +48,27 @@ D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\OpenTK.GLControl.dll
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\OpenTK.pdb
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\OpenTK.xml
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\OpenTK.GLControl.xml
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Circuito.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Codigo.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Components.DataField.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Depurador.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.FormularioPrincipal.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.Properties.Resources.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.PropriedadesDoProjeto.resources
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
+D:\SimuladorM3Mais\IDE\bin\Debug\IDE.exe.config
+D:\SimuladorM3Mais\IDE\bin\Debug\IDE.exe
+D:\SimuladorM3Mais\IDE\bin\Debug\IDE.pdb
+D:\SimuladorM3Mais\IDE\bin\Debug\M3PlusMicrocontroller.exe
+D:\SimuladorM3Mais\IDE\bin\Debug\OpenTK.dll
+D:\SimuladorM3Mais\IDE\bin\Debug\OpenTK.GLControl.dll
+D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.dll
+D:\SimuladorM3Mais\IDE\bin\Debug\M3PlusMicrocontroller.pdb
+D:\SimuladorM3Mais\IDE\bin\Debug\OpenTK.pdb
+D:\SimuladorM3Mais\IDE\bin\Debug\OpenTK.xml
+D:\SimuladorM3Mais\IDE\bin\Debug\OpenTK.GLControl.xml
+D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.pdb
+D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.xml
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.exe
+D:\SimuladorM3Mais\IDE\obj\Debug\IDE.pdb

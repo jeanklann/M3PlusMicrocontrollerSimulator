@@ -8,14 +8,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ScintillaNET;
+using M3PlusMicrocontroller;
+using System.Threading;
 
 namespace IDE {
     public partial class FormularioPrincipal : Form {
-        private const int BOOKMARK_MARGIN = 1; // Conventionally the symbol margin
-        private const int BOOKMARK_MARKER = 3; // Arbitrary. Any valid index would work.
 
         public FormularioPrincipal() {
             InitializeComponent();
+            UIStatics.Codigo = codigo1;
+            UIStatics.Depurador = depurador1;
+            UIStatics.Circuito = circuito1;
+
+            UIStatics.Compilador = new Compiler();
+
         }
 
         private void richTextBox1_KeyDown(object sender, KeyEventArgs e) {
@@ -69,6 +75,10 @@ namespace IDE {
             codigo1.Visible = false;
             depurador1.Visible = true;
             circuito1.Visible = false;
+            if (UIStatics.threadDepurador == null) {
+                UIStatics.threadDepurador = new Thread(UIStatics.Depurador.UpdateAll);
+                UIStatics.threadDepurador.Start();
+            }
         }
 
         private void circuitoToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -93,6 +103,38 @@ namespace IDE {
             codigo1.ZoomReset();
             depurador1.ZoomReset();
             circuito1.ZoomReset();
+        }
+
+        private void analisarEConstruirToolStripMenuItem_Click(object sender, EventArgs e) {
+            UIStatics.Compile();
+        }
+
+        private void rodarToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void pausarToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void pularParaDentroToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void pularParaForaToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void pararToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void FormularioPrincipal_Leave(object sender, EventArgs e) {
+            UIStatics.WantExit = true;
+        }
+
+        private void piscaLedToolStripMenuItem_Click(object sender, EventArgs e) {
+            UIStatics.Codigo.scintilla.Text = "apagado:\nmov in0,a\nand 32,a\njmpz apagado\npisca:\nmov 01,a\nmov a,out1\nmov 00,a\nmov a,out1\njmp pisca";
         }
     }
 }

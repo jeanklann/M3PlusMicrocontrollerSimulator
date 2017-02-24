@@ -4,12 +4,16 @@ using System.Text;
 
 namespace M3PlusMicrocontroller {
     public class Compiler {
-        private const int MEMORY_MAX_SIZE = 65536;
+        public const int MEMORY_MAX_SIZE = 65536;
+
+        public List<InstructionCompiler> Instructions;
+        public List<Label> Labels;
+        
 
         private TokenAnalyzer tokenAnalyzer;
-        private List<InstructionCompiler> instructions;
-        private List<Label> labels;
         private int NextAddress = 0;
+
+        
 
         private Token NeedSeparator(TokenAnalyzer analyzer, string Program) {
             Token token = tokenAnalyzer.NextToken();
@@ -29,9 +33,9 @@ namespace M3PlusMicrocontroller {
         }
 
         private void NewInstruction(Instruction instruction) {
-            instructions.Add(new InstructionCompiler(instruction, NextAddress));
+            Instructions.Add(new InstructionCompiler(instruction, NextAddress));
             if(instruction.Label != null) {
-                foreach (Label item in labels) {
+                foreach (Label item in Labels) {
                     if(instruction.Label == item.Name) {
                         instruction.Address = item.Address;
                         instruction.Label = null;
@@ -41,7 +45,7 @@ namespace M3PlusMicrocontroller {
             NextAddress += instruction.Bytes;
         }
         private void NewLabel(string name) {
-            foreach (InstructionCompiler item in instructions) {
+            foreach (InstructionCompiler item in Instructions) {
                 if (item.Instruction.Label != null) {
                     if (item.Instruction.Label == name) {
                         item.Instruction.Address = NextAddress;
@@ -51,12 +55,12 @@ namespace M3PlusMicrocontroller {
             }
 
             Label label = new Label(name, NextAddress);
-            labels.Add(label);
+            Labels.Add(label);
         }
 
         public Instruction[] Compile(string Program) {
-            instructions = new List<InstructionCompiler>();
-            labels = new List<Label>();
+            Instructions = new List<InstructionCompiler>();
+            Labels = new List<Label>();
             tokenAnalyzer = new TokenAnalyzer();
 
             tokenAnalyzer.Analyze(Program);
@@ -1228,14 +1232,14 @@ namespace M3PlusMicrocontroller {
                 }
             } while (token.Type != TokenType.EoF);
             Instruction[] instructionCompiled = new Instruction[MEMORY_MAX_SIZE];
-            foreach (InstructionCompiler item in instructions) {
+            foreach (InstructionCompiler item in Instructions) {
                 instructionCompiled[item.Address] = item.Instruction;
             }
             return instructionCompiled;
         }
     }
 
-    class Label {
+    public class Label {
         public string Name = "";
         public int Address = 0;
 
@@ -1245,7 +1249,7 @@ namespace M3PlusMicrocontroller {
         }
     }
 
-    class InstructionCompiler {
+    public class InstructionCompiler {
         public Instruction Instruction;
         public int Address = 0;
         public InstructionCompiler(Instruction instruction, int address = 0) {

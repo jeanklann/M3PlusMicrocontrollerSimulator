@@ -70,6 +70,9 @@
     <Compile Include="Codigo.Designer.cs">
       <DependentUpon>Codigo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Components\CheckboxField.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Components\DataField.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -141,7 +144,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SimuladorM3Mais\M3PlusMicrocontroller.csproj">
+      <Project>{517f196c-bb20-4543-9e52-63ee9a307938}</Project>
+      <Name>M3PlusMicrocontroller</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="APIs\OpenTK\OpenTK.dll" />
     <Content Include="APIs\OpenTK\OpenTK.GLControl.dll" />

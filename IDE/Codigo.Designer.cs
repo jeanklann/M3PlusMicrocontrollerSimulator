@@ -60,6 +60,6 @@
 
         #endregion
 
-        private ScintillaNET.Scintilla scintilla;
+        public ScintillaNET.Scintilla scintilla;
     }
 }
