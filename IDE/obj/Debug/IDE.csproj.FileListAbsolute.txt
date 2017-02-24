@@ -34,7 +34,6 @@ D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\IDE.pdb
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\ScintillaNET.dll
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\ScintillaNET.pdb
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\ScintillaNET.xml
-D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.Circuito.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.Codigo.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.Components.DataField.resources
@@ -72,3 +71,7 @@ D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.pdb
 D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.xml
 D:\SimuladorM3Mais\IDE\obj\Debug\IDE.exe
 D:\SimuladorM3Mais\IDE\obj\Debug\IDE.pdb
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\M3PlusMicrocontroller.exe
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\M3PlusMicrocontroller.pdb
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.FormRamMemory.resources
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache

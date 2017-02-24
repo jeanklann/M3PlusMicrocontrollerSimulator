@@ -32,6 +32,9 @@
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Name = "Circuito";
             this.Size = new System.Drawing.Size(547, 395);
+            this.Load += new System.EventHandler(this.Circuito_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Circuito_Paint);
+            this.Resize += new System.EventHandler(this.Circuito_Resize);
             this.ResumeLayout(false);
 
         }

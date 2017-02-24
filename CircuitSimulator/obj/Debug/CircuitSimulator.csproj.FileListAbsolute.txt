@@ -1,0 +1,5 @@
+c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\CircuitSimulatorSolution\CircuitSimulator\bin\Debug\CircuitSimulator.dll
+c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\CircuitSimulatorSolution\CircuitSimulator\bin\Debug\CircuitSimulator.pdb
+c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\CircuitSimulatorSolution\CircuitSimulator\obj\Debug\CircuitSimulator.csprojResolveAssemblyReference.cache
+c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\CircuitSimulatorSolution\CircuitSimulator\obj\Debug\CircuitSimulator.dll
+c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\CircuitSimulatorSolution\CircuitSimulator\obj\Debug\CircuitSimulator.pdb

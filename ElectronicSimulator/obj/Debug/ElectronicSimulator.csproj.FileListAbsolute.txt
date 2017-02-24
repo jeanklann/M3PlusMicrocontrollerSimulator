@@ -7,3 +7,8 @@ D:\SimuladorM3Mais\ElectronicSimulator\bin\Debug\ElectronicSimulator.dll
 D:\SimuladorM3Mais\ElectronicSimulator\bin\Debug\ElectronicSimulator.pdb
 D:\SimuladorM3Mais\ElectronicSimulator\obj\Debug\ElectronicSimulator.dll
 D:\SimuladorM3Mais\ElectronicSimulator\obj\Debug\ElectronicSimulator.pdb
+D:\Desenvolvimento\M3PlusMicrocontroller\ElectronicSimulator\bin\Debug\ElectronicSimulator.dll
+D:\Desenvolvimento\M3PlusMicrocontroller\ElectronicSimulator\bin\Debug\ElectronicSimulator.pdb
+D:\Desenvolvimento\M3PlusMicrocontroller\ElectronicSimulator\obj\Debug\ElectronicSimulator.csprojResolveAssemblyReference.cache
+D:\Desenvolvimento\M3PlusMicrocontroller\ElectronicSimulator\obj\Debug\ElectronicSimulator.dll
+D:\Desenvolvimento\M3PlusMicrocontroller\ElectronicSimulator\obj\Debug\ElectronicSimulator.pdb

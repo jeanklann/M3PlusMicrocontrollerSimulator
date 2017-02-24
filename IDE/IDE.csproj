@@ -33,11 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>APIs\OpenTK\OpenTK.dll</HintPath>
+      <HintPath>..\..\..\OpenTK\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK.GLControl, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+    <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>APIs\OpenTK\OpenTK.GLControl.dll</HintPath>
     </Reference>
@@ -85,6 +85,12 @@
     <Compile Include="Depurador.Designer.cs">
       <DependentUpon>Depurador.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormRamMemory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRamMemory.Designer.cs">
+      <DependentUpon>FormRamMemory.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormularioPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Depurador.resx">
       <DependentUpon>Depurador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRamMemory.resx">
+      <DependentUpon>FormRamMemory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormularioPrincipal.resx">
       <DependentUpon>FormularioPrincipal.cs</DependentUpon>
