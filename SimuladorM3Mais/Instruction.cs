@@ -1280,119 +1280,179 @@ namespace M3PlusMicrocontroller {
             throw new NotImplementedException();
         }
         public static Instruction MOV_A_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV A, B", "Copia o conteúdo do acumulador para o acumulador.", 1, new int[] { 1 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[1] = simulator.Reg[0];
+            };
+            return instruction;
         }
         public static Instruction MOV_A_B() {
-            Instruction instruction = new Instruction("MOV A, B", "Move o conteúdo do acumulador para o registrador B", 1, new int[]{ 1 });
+            Instruction instruction = new Instruction("MOV A, B", "Copia o conteúdo do acumulador para o registrador B.", 1, new int[]{ 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[1] = simulator.Reg[0];
             };
             return instruction;
         }
         public static Instruction MOV_A_C() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV A, C", "Copia o conteúdo do acumulador para o registrador C.", 1, new int[] { 1 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[2] = simulator.Reg[0];
+            };
+            return instruction;
         }
         public static Instruction MOV_A_D() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV A, D", "Copia o conteúdo do acumulador para o registrador D.", 1, new int[] { 1 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[3] = simulator.Reg[0];
+            };
+            return instruction;
         }
         public static Instruction MOV_A_E() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV A, E", "Copia o conteúdo do acumulador para o registrador E.", 1, new int[] { 1 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[4] = simulator.Reg[0];
+            };
+            return instruction;
         }
         public static Instruction MOV_A_RAM(byte address) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV A, #"+address, "Copia o conteúdo do acumulador para a memória no endereço " + address+".", 2, new int[] { 1, 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.RAM[address] = simulator.Reg[0];
+            };
+            return instruction;
         }
         public static Instruction MOV_A_OUT4() {
-            Instruction instruction = new Instruction("MOV A, OUT4", "Move o conteúdo do acumulador para a saída OUT4", 1, new int[] { 1 });
+            Instruction instruction = new Instruction("MOV A, OUT4", "Copia o conteúdo do acumulador para a saída OUT4.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[0] = simulator.Reg[0];
             };
             return instruction;
         }
         public static Instruction MOV_A_OUT1() {
-            Instruction instruction = new Instruction("MOV A, OUT1", "Move o conteúdo do acumulador para a saída OUT1", 1, new int[] { 1 });
+            Instruction instruction = new Instruction("MOV A, OUT1", "Copia o conteúdo do acumulador para a saída OUT1.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[1] = simulator.Reg[0];
             };
             return instruction;
         }
         public static Instruction MOV_A_OUT2() {
-            Instruction instruction = new Instruction("MOV A, OUT2", "Move o conteúdo do acumulador para a saída OUT2", 1, new int[] { 1 });
+            Instruction instruction = new Instruction("MOV A, OUT2", "Copia o conteúdo do acumulador para a saída OUT2.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[2] = simulator.Reg[0];
             };
             return instruction;
         }
         public static Instruction MOV_A_OUT3() {
-            Instruction instruction = new Instruction("MOV A, OUT3", "Move o conteúdo do acumulador para a saída OUT3", 1, new int[] { 1 });
+            Instruction instruction = new Instruction("MOV A, OUT3", "Copia o conteúdo do acumulador para a saída OUT3.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[3] = simulator.Reg[0];
             };
             return instruction;
         }
         public static Instruction MOV_B_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV B, A", "Copia o conteúdo do registrador B para o acumulador.", 1, new int[] { 1 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[0] = simulator.Reg[1];
+            };
+            return instruction;
         }
         public static Instruction MOV_C_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV C, A", "Copia o conteúdo do registrador C para o acumulador.", 1, new int[] { 1 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[0] = simulator.Reg[2];
+            };
+            return instruction;
         }
         public static Instruction MOV_D_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV D, A", "Copia o conteúdo do registrador D para o acumulador.", 1, new int[] { 1 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[0] = simulator.Reg[3];
+            };
+            return instruction;
         }
         public static Instruction MOV_E_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV E, A", "Copia o conteúdo do registrador E para o acumulador.", 1, new int[] { 1 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[0] = simulator.Reg[4];
+            };
+            return instruction;
         }
         public static Instruction MOV_RAM_A(byte address) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV #"+address+", A", "Copia o conteúdo do valor da memória no endereço "+address+" para o acumulador.", 2, new int[] { 1, 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[0] = simulator.RAM[address];
+            };
+            return instruction;
         }
         public static Instruction MOV_IN4_A() {
-            Instruction instruction = new Instruction("MOV IN4, A", "Move o valor da entrada IN4 para o acumulador", 1, new int[] { 1 });
+            Instruction instruction = new Instruction("MOV IN4, A", "Copia o valor da entrada IN4 para o acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.In[0];
             };
             return instruction;
         }
         public static Instruction MOV_IN1_A() {
-            Instruction instruction = new Instruction("MOV IN1, A", "Move o valor da entrada IN1 para o acumulador", 1, new int[] { 1 });
+            Instruction instruction = new Instruction("MOV IN1, A", "Copia o valor da entrada IN1 para o acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.In[1];
             };
             return instruction;
         }
         public static Instruction MOV_IN2_A() {
-            Instruction instruction = new Instruction("MOV IN2, A", "Move o valor da entrada IN2 para o acumulador", 1, new int[] { 1 });
+            Instruction instruction = new Instruction("MOV IN2, A", "Copia o valor da entrada IN2 para o acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.In[2];
             };
             return instruction;
         }
         public static Instruction MOV_IN3_A() {
-            Instruction instruction = new Instruction("MOV IN3, A", "Move o valor da entrada IN3 para o acumulador", 1, new int[] { 1 });
+            Instruction instruction = new Instruction("MOV IN3, A", "Copia o valor da entrada IN3 para o acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.In[3];
             };
             return instruction;
         }
         public static Instruction MOV_ROM_A(byte data) {
-            Instruction instruction = new Instruction("MOV "+data+", A", "Move o valor "+ data +" para o acumulador", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("MOV "+data+", A", "Copia o valor " + data +" para o acumulador.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = data;
             };
             return instruction;
         }
         public static Instruction MOV_ROM_B(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV " + data + ", B", "Copia o valor " + data + " para o registrador B.", 3, new int[] { 1, 1, 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[1] = data;
+            };
+            return instruction;
         }
         public static Instruction MOV_ROM_C(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV " + data + ", C", "Copia o valor " + data + " para o registrador C.", 3, new int[] { 1, 1, 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[2] = data;
+            };
+            return instruction;
         }
         public static Instruction MOV_ROM_D(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV " + data + ", D", "Copia o valor " + data + " para o registrador D.", 3, new int[] { 1, 1, 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[3] = data;
+            };
+            return instruction;
         }
         public static Instruction MOV_ROM_E(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV " + data + ", E", "Copia o valor " + data + " para o registrador E.", 3, new int[] { 1, 1, 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[4] = data;
+            };
+            return instruction;
         }
         public static Instruction MOV_ROM_RAM(byte data, byte address) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("MOV " + data + ", #"+address, "Copia o valor " + data + " para a memória no endereço "+address+".", 3, new int[] { 1, 1, 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.RAM[address] = data;
+            };
+            return instruction;
         }
         public static Instruction INC_A_A() {
             throw new NotImplementedException();
