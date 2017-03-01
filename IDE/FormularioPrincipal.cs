@@ -16,6 +16,7 @@ namespace IDE {
 
         public FormularioPrincipal() {
             InitializeComponent();
+
             UIStatics.Codigo = codigo1;
             UIStatics.Depurador = depurador1;
             UIStatics.Circuito = circuito1;
@@ -25,16 +26,16 @@ namespace IDE {
         }
 
         private void richTextBox1_KeyDown(object sender, KeyEventArgs e) {
-            
+
         }
-        
+
 
         private void scintilla_Click(object sender, EventArgs e) {
 
         }
 
         private void copierToolStripMenuItem_Click(object sender, EventArgs e) {
-            
+
         }
 
         private void verPróximoToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -135,6 +136,10 @@ namespace IDE {
 
         private void piscaLedToolStripMenuItem_Click(object sender, EventArgs e) {
             UIStatics.Codigo.scintilla.Text = "apagado:\nmov in0,a\nand 32,a\njmpz apagado\npisca:\nmov 01,a\nmov a,out1\nmov 00,a\nmov a,out1\njmp pisca";
+        }
+
+        private void FormularioPrincipal_FormClosed(object sender, FormClosedEventArgs e) {
+            UIStatics.WantExit = true;
         }
     }
 }

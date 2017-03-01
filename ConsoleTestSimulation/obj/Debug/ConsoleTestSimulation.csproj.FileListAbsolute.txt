@@ -22,3 +22,11 @@ D:\Desenvolvimento\M3PlusMicrocontroller\ConsoleTestSimulation\bin\Debug\M3PlusM
 D:\Desenvolvimento\M3PlusMicrocontroller\ConsoleTestSimulation\obj\Debug\ConsoleTestSimulation.csprojResolveAssemblyReference.cache
 D:\Desenvolvimento\M3PlusMicrocontroller\ConsoleTestSimulation\obj\Debug\ConsoleTestSimulation.exe
 D:\Desenvolvimento\M3PlusMicrocontroller\ConsoleTestSimulation\obj\Debug\ConsoleTestSimulation.pdb
+D:\M3PlusMicrocontrollerSimulator\ConsoleTestSimulation\bin\Debug\ConsoleTestSimulation.exe.config
+D:\M3PlusMicrocontrollerSimulator\ConsoleTestSimulation\bin\Debug\ConsoleTestSimulation.exe
+D:\M3PlusMicrocontrollerSimulator\ConsoleTestSimulation\bin\Debug\ConsoleTestSimulation.pdb
+D:\M3PlusMicrocontrollerSimulator\ConsoleTestSimulation\bin\Debug\M3PlusMicrocontroller.exe
+D:\M3PlusMicrocontrollerSimulator\ConsoleTestSimulation\bin\Debug\M3PlusMicrocontroller.pdb
+D:\M3PlusMicrocontrollerSimulator\ConsoleTestSimulation\obj\Debug\ConsoleTestSimulation.csprojResolveAssemblyReference.cache
+D:\M3PlusMicrocontrollerSimulator\ConsoleTestSimulation\obj\Debug\ConsoleTestSimulation.exe
+D:\M3PlusMicrocontrollerSimulator\ConsoleTestSimulation\obj\Debug\ConsoleTestSimulation.pdb

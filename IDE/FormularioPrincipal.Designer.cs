@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing) {
-            if(disposing && (components != null)) {
+            if (disposing && (components != null)) {
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -511,7 +511,7 @@
             // piscaLedToolStripMenuItem
             // 
             this.piscaLedToolStripMenuItem.Name = "piscaLedToolStripMenuItem";
-            this.piscaLedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.piscaLedToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.piscaLedToolStripMenuItem.Text = "Pisca led";
             this.piscaLedToolStripMenuItem.Click += new System.EventHandler(this.piscaLedToolStripMenuItem_Click);
             // 
@@ -548,6 +548,7 @@
             this.circuito1.Size = new System.Drawing.Size(552, 418);
             this.circuito1.TabIndex = 4;
             this.circuito1.Visible = false;
+            this.circuito1.VSync = false;
             // 
             // codigo1
             // 
@@ -572,8 +573,8 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormularioPrincipal";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormularioPrincipal_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.Leave += new System.EventHandler(this.FormularioPrincipal_Leave);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
