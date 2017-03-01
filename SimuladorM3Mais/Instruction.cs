@@ -30,154 +30,504 @@ namespace M3PlusMicrocontroller {
         }
 
         public static Instruction ADD_A_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD A, A", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[0];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_A_B() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD A, B", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado no registrador B.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[0];
+                simulator.Reg[1] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[1] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_A_C() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD A, C", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado no registrador C.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[0];
+                simulator.Reg[2] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[2] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_A_D() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD A, D", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado no registrador D.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[0];
+                simulator.Reg[3] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[3] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_A_E() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD A, E", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado no registrador E.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[0];
+                simulator.Reg[4] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[4] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_A_RAM(byte address) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD A, #"+address, "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na memória no endereço "+address+".", 2, new int[] { 1, 2});
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[0];
+                simulator.RAM[address] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[4] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_A_OUT1() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD A, OUT1", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na saída OUT1.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[0];
+                simulator.Out[0] = (byte)val;
+                simulator.Flag_Z = simulator.Out[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_A_OUT2() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD A, OUT2", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na saída OUT2.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[0];
+                simulator.Out[1] = (byte)val;
+                simulator.Flag_Z = simulator.Out[1] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_A_OUT3() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD A, OUT3", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na saída OUT3.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[0];
+                simulator.Out[2] = (byte)val;
+                simulator.Flag_Z = simulator.Out[2] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
-        public static Instruction ADD_A_OUT0() {
-            throw new NotImplementedException();
+        public static Instruction ADD_A_OUT4() {
+            Instruction instruction = new Instruction("ADD A, OUT4", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na saída OUT4.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[0];
+                simulator.Out[3] = (byte)val;
+                simulator.Flag_Z = simulator.Out[3] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_B_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD B, A", "Adiciona o valor do acumulador com o registrador B e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[1];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_C_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD C, A", "Adiciona o valor do acumulador com o registrador C e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[2];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_D_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD D, A", "Adiciona o valor do acumulador com o registrador D e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[3];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_E_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD E, A", "Adiciona o valor do acumulador com o registrador E e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.Reg[4];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_RAM_A(byte address) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD #"+address+", A", "Adiciona o valor do acumulador com o valor da memória no endreço "+address+"e o resultado é colocado na memória no acumulador.", 2, new int[] { 1, 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.RAM[address];
+                simulator.RAM[address] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_IN1_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD IN1, A", "Adiciona o valor do acumulador com o valor da entrada IN1 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.In[0];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_IN2_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD IN2, A", "Adiciona o valor do acumulador com o valor da entrada IN2 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.In[1];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_IN3_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD IN3, A", "Adiciona o valor do acumulador com o valor da entrada IN3 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.In[2];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
-        public static Instruction ADD_IN0_A() {
-            throw new NotImplementedException();
+        public static Instruction ADD_IN4_A() {
+            Instruction instruction = new Instruction("ADD IN4, A", "Adiciona o valor do acumulador com o valor da entrada IN4 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + simulator.In[3];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_ROM_A(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD "+ data + ", A", "Adiciona o valor do acumulador com o valor "+data+" e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + data;
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_ROM_B(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD " + data + ", B", "Adiciona o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador B.", 1, new int[] { 3 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + data;
+                simulator.Reg[1] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[1] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_ROM_C(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD " + data + ", C", "Adiciona o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador C.", 1, new int[] { 3 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + data;
+                simulator.Reg[2] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[2] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_ROM_D(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD " + data + ", D", "Adiciona o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador D.", 1, new int[] { 3 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + data;
+                simulator.Reg[3] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[3] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_ROM_E(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD " + data + ", E", "Adiciona o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador E.", 1, new int[] { 3 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + data;
+                simulator.Reg[4] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[4] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction ADD_ROM_RAM(byte data, byte address) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("ADD " + data + ", #"+address, "Adiciona o valor do acumulador com o valor " + data + " e o resultado é colocado na memória no endereço "+address+".", 3, new int[] { 1, 2, 3 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] + data;
+                simulator.RAM[address] = (byte)val;
+                simulator.Flag_Z = simulator.RAM[address] == 0;
+                simulator.Flag_C = val > 255;
+            };
+            return instruction;
         }
         public static Instruction SUB_A_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB A, A", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[0];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_A_B() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB A, B", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado no registrador B.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[0];
+                simulator.Reg[1] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[1] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_A_C() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB A, C", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado no registrador C.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[0];
+                simulator.Reg[2] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[2] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_A_D() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB A, D", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado no registrador D.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[0];
+                simulator.Reg[3] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[3] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_A_E() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB A, E", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado no registrador E.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[0];
+                simulator.Reg[4] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[4] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_A_RAM(byte address) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB A, #" + address, "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na memória no endereço " + address + ".", 2, new int[] { 1, 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[0];
+                simulator.RAM[address] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[4] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_A_OUT1() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB A, OUT1", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na saída OUT1.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[0];
+                simulator.Out[0] = (byte)val;
+                simulator.Flag_Z = simulator.Out[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_A_OUT2() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB A, OUT2", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na saída OUT2.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[0];
+                simulator.Out[1] = (byte)val;
+                simulator.Flag_Z = simulator.Out[1] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_A_OUT3() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB A, OUT3", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na saída OUT3.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[0];
+                simulator.Out[2] = (byte)val;
+                simulator.Flag_Z = simulator.Out[2] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
-        public static Instruction SUB_A_OUT0() {
-            throw new NotImplementedException();
+        public static Instruction SUB_A_OUT4() {
+            Instruction instruction = new Instruction("SUB A, OUT4", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na saída OUT4.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[0];
+                simulator.Out[3] = (byte)val;
+                simulator.Flag_Z = simulator.Out[3] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_B_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB B, A", "Subtrai o valor do acumulador com o registrador B e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[1];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_C_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB C, A", "Subtrai o valor do acumulador com o registrador C e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[2];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_D_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB D, A", "Subtrai o valor do acumulador com o registrador D e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[3];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_E_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB E, A", "Subtrai o valor do acumulador com o registrador E e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.Reg[4];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_RAM_A(byte address) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB #" + address + ", A", "Subtrai o valor do acumulador com o valor da memória no endreço " + address + "e o resultado é colocado na memória no acumulador.", 2, new int[] { 1, 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.RAM[address];
+                simulator.RAM[address] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_IN1_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB IN1, A", "Subtrai o valor do acumulador com o valor da entrada IN1 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.In[0];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_IN2_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB IN2, A", "Subtrai o valor do acumulador com o valor da entrada IN2 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.In[1];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_IN3_A() {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB IN3, A", "Subtrai o valor do acumulador com o valor da entrada IN3 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.In[2];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
-        public static Instruction SUB_IN0_A() {
-            throw new NotImplementedException();
+        public static Instruction SUB_IN4_A() {
+            Instruction instruction = new Instruction("SUB IN4, A", "Subtrai o valor do acumulador com o valor da entrada IN4 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - simulator.In[3];
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_ROM_A(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB " + data + ", A", "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - data;
+                simulator.Reg[0] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_ROM_B(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB " + data + ", B", "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador B.", 1, new int[] { 3 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - data;
+                simulator.Reg[1] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[1] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_ROM_C(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB " + data + ", C", "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador C.", 1, new int[] { 3 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - data;
+                simulator.Reg[2] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[2] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_ROM_D(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB " + data + ", D", "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador D.", 1, new int[] { 3 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - data;
+                simulator.Reg[3] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[3] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_ROM_E(byte data) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB " + data + ", E", "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador E.", 1, new int[] { 3 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - data;
+                simulator.Reg[4] = (byte)val;
+                simulator.Flag_Z = simulator.Reg[4] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction SUB_ROM_RAM(byte data, byte address) {
-            throw new NotImplementedException();
+            Instruction instruction = new Instruction("SUB " + data + ", #" + address, "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado na memória no endereço " + address + ".", 3, new int[] { 1, 2, 3 });
+            instruction.Function = delegate (Simulator simulator) {
+                int val = simulator.Reg[0] - data;
+                simulator.RAM[address] = (byte)val;
+                simulator.Flag_Z = simulator.RAM[address] == 0;
+                simulator.Flag_C = val < 0;
+            };
+            return instruction;
         }
         public static Instruction AND_A_A() {
             Instruction instruction = new Instruction("AND A, A", "Faz a operação AND do acumulador com o acumulador e o resultado é colocado no acumulador.", 1, new int[] { 1 });
@@ -233,8 +583,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction AND_A_OUT0() {
-            Instruction instruction = new Instruction("AND A, OUT0", "Faz a operação AND do acumulador com o acumulador e o resultado é colocado na saída OUT0.", 1, new int[] { 1 });
+        public static Instruction AND_A_OUT4() {
+            Instruction instruction = new Instruction("AND A, OUT4", "Faz a operação AND do acumulador com o acumulador e o resultado é colocado na saída OUT4.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[0] = (byte)(simulator.Reg[0] & simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Out[0] == 0;
@@ -314,8 +664,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction AND_IN0_A() {
-            Instruction instruction = new Instruction("AND IN0, A", "Faz a operação AND da entrada IN0 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
+        public static Instruction AND_IN4_A() {
+            Instruction instruction = new Instruction("AND IN4, A", "Faz a operação AND da entrada IN4 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(simulator.In[0] & simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -458,8 +808,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction OR_A_OUT0() {
-            Instruction instruction = new Instruction("OR A, OUT0", "Faz a operação OR do acumulador com o acumulador e o resultado é colocado na saída OUT0.", 1, new int[] { 1 });
+        public static Instruction OR_A_OUT4() {
+            Instruction instruction = new Instruction("OR A, OUT4", "Faz a operação OR do acumulador com o acumulador e o resultado é colocado na saída OUT4.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[0] = (byte)(simulator.Reg[0] | simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Out[0] == 0;
@@ -539,8 +889,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction OR_IN0_A() {
-            Instruction instruction = new Instruction("OR IN0, A", "Faz a operação OR da entrada IN0 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
+        public static Instruction OR_IN4_A() {
+            Instruction instruction = new Instruction("OR IN4, A", "Faz a operação OR da entrada IN4 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(simulator.In[0] | simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -683,8 +1033,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction XOR_A_OUT0() {
-            Instruction instruction = new Instruction("XOR A, OUT0", "Faz a operação XOR do acumulador com o acumulador e o resultado é colocado na saída OUT0.", 1, new int[] { 1 });
+        public static Instruction XOR_A_OUT4() {
+            Instruction instruction = new Instruction("XOR A, OUT4", "Faz a operação XOR do acumulador com o acumulador e o resultado é colocado na saída OUT4.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[0] = (byte)(simulator.Reg[0] ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Out[0] == 0;
@@ -764,8 +1114,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction XOR_IN0_A() {
-            Instruction instruction = new Instruction("XOR IN0, A", "Faz a operação XOR da entrada IN0 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
+        public static Instruction XOR_IN4_A() {
+            Instruction instruction = new Instruction("XOR IN4, A", "Faz a operação XOR da entrada IN4 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(simulator.In[0] ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -881,7 +1231,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction NOT_A_OUT3() {
             throw new NotImplementedException();
         }
-        public static Instruction NOT_A_OUT0() {
+        public static Instruction NOT_A_OUT4() {
             throw new NotImplementedException();
         }
         public static Instruction NOT_B_A() {
@@ -908,7 +1258,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction NOT_IN3_A() {
             throw new NotImplementedException();
         }
-        public static Instruction NOT_IN0_A() {
+        public static Instruction NOT_IN4_A() {
             throw new NotImplementedException();
         }
         public static Instruction NOT_ROM_A(byte data) {
@@ -951,8 +1301,8 @@ namespace M3PlusMicrocontroller {
         public static Instruction MOV_A_RAM(byte address) {
             throw new NotImplementedException();
         }
-        public static Instruction MOV_A_OUT0() {
-            Instruction instruction = new Instruction("MOV A, OUT0", "Move o conteúdo do acumulador para a saída OUT0", 1, new int[] { 1 });
+        public static Instruction MOV_A_OUT4() {
+            Instruction instruction = new Instruction("MOV A, OUT4", "Move o conteúdo do acumulador para a saída OUT4", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[0] = simulator.Reg[0];
             };
@@ -994,8 +1344,8 @@ namespace M3PlusMicrocontroller {
         public static Instruction MOV_RAM_A(byte address) {
             throw new NotImplementedException();
         }
-        public static Instruction MOV_IN0_A() {
-            Instruction instruction = new Instruction("MOV IN0, A", "Move o valor da entrada IN0 para o acumulador", 1, new int[] { 1 });
+        public static Instruction MOV_IN4_A() {
+            Instruction instruction = new Instruction("MOV IN4, A", "Move o valor da entrada IN4 para o acumulador", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.In[0];
             };
@@ -1071,7 +1421,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction INC_A_OUT3() {
             throw new NotImplementedException();
         }
-        public static Instruction INC_A_OUT0() {
+        public static Instruction INC_A_OUT4() {
             throw new NotImplementedException();
         }
         public static Instruction INC_B_A() {
@@ -1098,7 +1448,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction INC_IN3_A() {
             throw new NotImplementedException();
         }
-        public static Instruction INC_IN0_A() {
+        public static Instruction INC_IN4_A() {
             throw new NotImplementedException();
         }
         public static Instruction INC_ROM_A(byte data) {

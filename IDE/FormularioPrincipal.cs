@@ -135,7 +135,7 @@ namespace IDE {
         }
 
         private void piscaLedToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Text = "apagado:\nmov in0,a\nand 32,a\njmpz apagado\npisca:\nmov 01,a\nmov a,out1\nmov 00,a\nmov a,out1\njmp pisca";
+            UIStatics.Codigo.scintilla.Text = "apagado:\nmov IN4,a\nand 32,a\njmpz apagado\npisca:\nmov 01,a\nmov a,out1\nmov 00,a\nmov a,out1\njmp pisca";
         }
 
         private void FormularioPrincipal_FormClosed(object sender, FormClosedEventArgs e) {

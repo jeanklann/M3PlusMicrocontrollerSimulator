@@ -125,12 +125,12 @@ namespace IDE {
                     dField.Value = UIStatics.Simulador.Reg[3];
                     eField.Value = UIStatics.Simulador.Reg[4];
 
-                    in0Field.Value = UIStatics.Simulador.In[0];
+                    IN4Field.Value = UIStatics.Simulador.In[0];
                     in1Field.Value = UIStatics.Simulador.In[1];
                     in2Field.Value = UIStatics.Simulador.In[2];
                     in3Field.Value = UIStatics.Simulador.In[3];
 
-                    out0Field.Value = UIStatics.Simulador.Out[0];
+                    OUT4Field.Value = UIStatics.Simulador.Out[0];
                     out1Field.Value = UIStatics.Simulador.Out[1];
                     out2Field.Value = UIStatics.Simulador.Out[2];
                     out3Field.Value = UIStatics.Simulador.Out[3];
@@ -143,11 +143,11 @@ namespace IDE {
                     cField.Refresh();
                     dField.Refresh();
                     eField.Refresh();
-                    in0Field.Refresh();
+                    IN4Field.Refresh();
                     in1Field.Refresh();
                     in2Field.Refresh();
                     in3Field.Refresh();
-                    out0Field.Refresh();
+                    OUT4Field.Refresh();
                     out1Field.Refresh();
                     out2Field.Refresh();
                     out3Field.Refresh();
@@ -170,12 +170,12 @@ namespace IDE {
                     if (dField.UserInput) UIStatics.Simulador.Reg[3] = (byte)dField.Value;
                     if (eField.UserInput) UIStatics.Simulador.Reg[4] = (byte)eField.Value;
 
-                    if (in0Field.UserInput) UIStatics.Simulador.In[0] = (byte)in0Field.Value;
+                    if (IN4Field.UserInput) UIStatics.Simulador.In[0] = (byte)IN4Field.Value;
                     if (in1Field.UserInput) UIStatics.Simulador.In[1] = (byte)in1Field.Value;
                     if (in2Field.UserInput) UIStatics.Simulador.In[2] = (byte)in2Field.Value;
                     if (in3Field.UserInput) UIStatics.Simulador.In[3] = (byte)in3Field.Value;
 
-                    if (out0Field.UserInput) UIStatics.Simulador.Out[0] = (byte)out0Field.Value;
+                    if (OUT4Field.UserInput) UIStatics.Simulador.Out[0] = (byte)OUT4Field.Value;
                     if (out1Field.UserInput) UIStatics.Simulador.Out[1] = (byte)out1Field.Value;
                     if (out2Field.UserInput) UIStatics.Simulador.Out[2] = (byte)out2Field.Value;
                     if (out3Field.UserInput) UIStatics.Simulador.Out[3] = (byte)out3Field.Value;

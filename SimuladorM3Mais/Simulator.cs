@@ -12,8 +12,8 @@ namespace M3PlusMicrocontroller {
         public bool Flag_C = false;
         public bool Flag_Z = false;
         public byte[] Reg; //0:A, 1:B, 2:C, 3:D, 4:E
-        public byte[] In; //0: IN0, 1: IN1, 2: IN2, 3: IN3
-        public byte[] Out; //0: OUT0, 1: OUT1, 2: OUT2, 3: OUT3
+        public byte[] In; //0: IN4, 1: IN1, 2: IN2, 3: IN3
+        public byte[] Out; //0: OUT4, 1: OUT1, 2: OUT2, 3: OUT3
         public byte[] RAM;
         private int count = 0;
         public int Count { get { return count; } }

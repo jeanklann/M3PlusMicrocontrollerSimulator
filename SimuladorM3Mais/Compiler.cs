@@ -89,8 +89,8 @@ namespace M3PlusMicrocontroller {
                                     } else if (token.Type == TokenType.RamAddress) {
                                         NewInstruction(Instruction.ADD_A_RAM(byte.Parse(token.Value)));
                                     } else if (token.Type == TokenType.Output) {
-                                        if (token.Value == "OUT0") {
-                                            NewInstruction(Instruction.ADD_A_OUT0());
+                                        if (token.Value == "OUT4") {
+                                            NewInstruction(Instruction.ADD_A_OUT4());
                                         } else if (token.Value == "OUT1") {
                                             NewInstruction(Instruction.ADD_A_OUT1());
                                         } else if (token.Value == "OUT2") {
@@ -186,8 +186,8 @@ namespace M3PlusMicrocontroller {
                                 token = NeedSeparator(tokenAnalyzer, Program);
                                 if(token.Type == TokenType.Registrer) {
                                     if(token.Value == "A") {
-                                        if(value == "IN0") {
-                                            NewInstruction(Instruction.ADD_IN0_A());
+                                        if(value == "IN4") {
+                                            NewInstruction(Instruction.ADD_IN4_A());
                                         } else if(value == "IN1") {
                                             NewInstruction(Instruction.ADD_IN1_A());
                                         } else if (value == "IN2") {
@@ -227,8 +227,8 @@ namespace M3PlusMicrocontroller {
                                     } else if (token.Type == TokenType.RamAddress) {
                                         NewInstruction(Instruction.SUB_A_RAM(byte.Parse(token.Value)));
                                     } else if (token.Type == TokenType.Output) {
-                                        if (token.Value == "OUT0") {
-                                            NewInstruction(Instruction.SUB_A_OUT0());
+                                        if (token.Value == "OUT4") {
+                                            NewInstruction(Instruction.SUB_A_OUT4());
                                         } else if (token.Value == "OUT1") {
                                             NewInstruction(Instruction.SUB_A_OUT1());
                                         } else if (token.Value == "OUT2") {
@@ -324,8 +324,8 @@ namespace M3PlusMicrocontroller {
                                 token = NeedSeparator(tokenAnalyzer, Program);
                                 if (token.Type == TokenType.Registrer) {
                                     if (token.Value == "A") {
-                                        if (value == "IN0") {
-                                            NewInstruction(Instruction.SUB_IN0_A());
+                                        if (value == "IN4") {
+                                            NewInstruction(Instruction.SUB_IN4_A());
                                         } else if (value == "IN1") {
                                             NewInstruction(Instruction.SUB_IN1_A());
                                         } else if (value == "IN2") {
@@ -365,8 +365,8 @@ namespace M3PlusMicrocontroller {
                                     } else if (token.Type == TokenType.RamAddress) {
                                         NewInstruction(Instruction.AND_A_RAM(byte.Parse(token.Value)));
                                     } else if (token.Type == TokenType.Output) {
-                                        if (token.Value == "OUT0") {
-                                            NewInstruction(Instruction.AND_A_OUT0());
+                                        if (token.Value == "OUT4") {
+                                            NewInstruction(Instruction.AND_A_OUT4());
                                         } else if (token.Value == "OUT1") {
                                             NewInstruction(Instruction.AND_A_OUT1());
                                         } else if (token.Value == "OUT2") {
@@ -462,8 +462,8 @@ namespace M3PlusMicrocontroller {
                                 token = NeedSeparator(tokenAnalyzer, Program);
                                 if (token.Type == TokenType.Registrer) {
                                     if (token.Value == "A") {
-                                        if (value == "IN0") {
-                                            NewInstruction(Instruction.AND_IN0_A());
+                                        if (value == "IN4") {
+                                            NewInstruction(Instruction.AND_IN4_A());
                                         } else if (value == "IN1") {
                                             NewInstruction(Instruction.AND_IN1_A());
                                         } else if (value == "IN2") {
@@ -503,8 +503,8 @@ namespace M3PlusMicrocontroller {
                                     } else if (token.Type == TokenType.RamAddress) {
                                         NewInstruction(Instruction.OR_A_RAM(byte.Parse(token.Value)));
                                     } else if (token.Type == TokenType.Output) {
-                                        if (token.Value == "OUT0") {
-                                            NewInstruction(Instruction.OR_A_OUT0());
+                                        if (token.Value == "OUT4") {
+                                            NewInstruction(Instruction.OR_A_OUT4());
                                         } else if (token.Value == "OUT1") {
                                             NewInstruction(Instruction.OR_A_OUT1());
                                         } else if (token.Value == "OUT2") {
@@ -600,8 +600,8 @@ namespace M3PlusMicrocontroller {
                                 token = NeedSeparator(tokenAnalyzer, Program);
                                 if (token.Type == TokenType.Registrer) {
                                     if (token.Value == "A") {
-                                        if (value == "IN0") {
-                                            NewInstruction(Instruction.OR_IN0_A());
+                                        if (value == "IN4") {
+                                            NewInstruction(Instruction.OR_IN4_A());
                                         } else if (value == "IN1") {
                                             NewInstruction(Instruction.OR_IN1_A());
                                         } else if (value == "IN2") {
@@ -641,8 +641,8 @@ namespace M3PlusMicrocontroller {
                                     } else if (token.Type == TokenType.RamAddress) {
                                         NewInstruction(Instruction.XOR_A_RAM(byte.Parse(token.Value)));
                                     } else if (token.Type == TokenType.Output) {
-                                        if (token.Value == "OUT0") {
-                                            NewInstruction(Instruction.XOR_A_OUT0());
+                                        if (token.Value == "OUT4") {
+                                            NewInstruction(Instruction.XOR_A_OUT4());
                                         } else if (token.Value == "OUT1") {
                                             NewInstruction(Instruction.XOR_A_OUT1());
                                         } else if (token.Value == "OUT2") {
@@ -738,8 +738,8 @@ namespace M3PlusMicrocontroller {
                                 token = NeedSeparator(tokenAnalyzer, Program);
                                 if (token.Type == TokenType.Registrer) {
                                     if (token.Value == "A") {
-                                        if (value == "IN0") {
-                                            NewInstruction(Instruction.XOR_IN0_A());
+                                        if (value == "IN4") {
+                                            NewInstruction(Instruction.XOR_IN4_A());
                                         } else if (value == "IN1") {
                                             NewInstruction(Instruction.XOR_IN1_A());
                                         } else if (value == "IN2") {
@@ -779,8 +779,8 @@ namespace M3PlusMicrocontroller {
                                     } else if (token.Type == TokenType.RamAddress) {
                                         NewInstruction(Instruction.NOT_A_RAM(byte.Parse(token.Value)));
                                     } else if (token.Type == TokenType.Output) {
-                                        if (token.Value == "OUT0") {
-                                            NewInstruction(Instruction.NOT_A_OUT0());
+                                        if (token.Value == "OUT4") {
+                                            NewInstruction(Instruction.NOT_A_OUT4());
                                         } else if (token.Value == "OUT1") {
                                             NewInstruction(Instruction.NOT_A_OUT1());
                                         } else if (token.Value == "OUT2") {
@@ -876,8 +876,8 @@ namespace M3PlusMicrocontroller {
                                 token = NeedSeparator(tokenAnalyzer, Program);
                                 if (token.Type == TokenType.Registrer) {
                                     if (token.Value == "A") {
-                                        if (value == "IN0") {
-                                            NewInstruction(Instruction.NOT_IN0_A());
+                                        if (value == "IN4") {
+                                            NewInstruction(Instruction.NOT_IN4_A());
                                         } else if (value == "IN1") {
                                             NewInstruction(Instruction.NOT_IN1_A());
                                         } else if (value == "IN2") {
@@ -917,8 +917,8 @@ namespace M3PlusMicrocontroller {
                                     } else if (token.Type == TokenType.RamAddress) {
                                         NewInstruction(Instruction.MOV_A_RAM(byte.Parse(token.Value)));
                                     } else if (token.Type == TokenType.Output) {
-                                        if (token.Value == "OUT0") {
-                                            NewInstruction(Instruction.MOV_A_OUT0());
+                                        if (token.Value == "OUT4") {
+                                            NewInstruction(Instruction.MOV_A_OUT4());
                                         } else if (token.Value == "OUT1") {
                                             NewInstruction(Instruction.MOV_A_OUT1());
                                         } else if (token.Value == "OUT2") {
@@ -1014,8 +1014,8 @@ namespace M3PlusMicrocontroller {
                                 token = NeedSeparator(tokenAnalyzer, Program);
                                 if (token.Type == TokenType.Registrer) {
                                     if (token.Value == "A") {
-                                        if (value == "IN0") {
-                                            NewInstruction(Instruction.MOV_IN0_A());
+                                        if (value == "IN4") {
+                                            NewInstruction(Instruction.MOV_IN4_A());
                                         } else if (value == "IN1") {
                                             NewInstruction(Instruction.MOV_IN1_A());
                                         } else if (value == "IN2") {
@@ -1055,8 +1055,8 @@ namespace M3PlusMicrocontroller {
                                     } else if (token.Type == TokenType.RamAddress) {
                                         NewInstruction(Instruction.INC_A_RAM(byte.Parse(token.Value)));
                                     } else if (token.Type == TokenType.Output) {
-                                        if (token.Value == "OUT0") {
-                                            NewInstruction(Instruction.INC_A_OUT0());
+                                        if (token.Value == "OUT4") {
+                                            NewInstruction(Instruction.INC_A_OUT4());
                                         } else if (token.Value == "OUT1") {
                                             NewInstruction(Instruction.INC_A_OUT1());
                                         } else if (token.Value == "OUT2") {
@@ -1152,8 +1152,8 @@ namespace M3PlusMicrocontroller {
                                 token = NeedSeparator(tokenAnalyzer, Program);
                                 if (token.Type == TokenType.Registrer) {
                                     if (token.Value == "A") {
-                                        if (value == "IN0") {
-                                            NewInstruction(Instruction.INC_IN0_A());
+                                        if (value == "IN4") {
+                                            NewInstruction(Instruction.INC_IN4_A());
                                         } else if (value == "IN1") {
                                             NewInstruction(Instruction.INC_IN1_A());
                                         } else if (value == "IN2") {
@@ -1260,8 +1260,8 @@ namespace M3PlusMicrocontroller {
 
     public class Token {
 
-        public static readonly string[] INPUTS = { "IN0", "IN1", "IN2", "IN3" };
-        public static readonly string[] OUTPUTS = { "OUT0", "OUT1", "OUT2", "OUT3" };
+        public static readonly string[] INPUTS = { "IN4", "IN1", "IN2", "IN3" };
+        public static readonly string[] OUTPUTS = { "OUT4", "OUT1", "OUT2", "OUT3" };
         public static readonly string[] REGISTRERS = { "A", "B", "C", "D", "E" };
         public static readonly string[] CPUINSTRUCTIONS = { "ADD", "SUB", "AND", "OR", "XOR", "NOT", "MOV", "INC", "JMP", "JMPC", "JMPZ", "CALL", "RET" };
         public static readonly char[] LINESEPARATOR = { '\n', '\r' };

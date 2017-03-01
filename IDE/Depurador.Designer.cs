@@ -52,11 +52,11 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.out1Field = new IDE.Components.DataField();
-            this.out0Field = new IDE.Components.DataField();
+            this.OUT4Field = new IDE.Components.DataField();
             this.out2Field = new IDE.Components.DataField();
             this.out3Field = new IDE.Components.DataField();
             this.in1Field = new IDE.Components.DataField();
-            this.in0Field = new IDE.Components.DataField();
+            this.IN4Field = new IDE.Components.DataField();
             this.in2Field = new IDE.Components.DataField();
             this.in3Field = new IDE.Components.DataField();
             this.bField = new IDE.Components.DataField();
@@ -164,7 +164,7 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.in1Field);
-            this.groupBox2.Controls.Add(this.in0Field);
+            this.groupBox2.Controls.Add(this.IN4Field);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label9);
@@ -195,7 +195,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(24, 13);
             this.label8.TabIndex = 4;
-            this.label8.Text = "IN0";
+            this.label8.Text = "IN4";
             // 
             // label9
             // 
@@ -221,7 +221,7 @@
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.out1Field);
-            this.groupBox3.Controls.Add(this.out0Field);
+            this.groupBox3.Controls.Add(this.OUT4Field);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.label12);
@@ -252,7 +252,7 @@
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(36, 13);
             this.label11.TabIndex = 4;
-            this.label11.Text = "OUT0";
+            this.label11.Text = "OUT4";
             // 
             // label12
             // 
@@ -377,16 +377,16 @@
             this.out1Field.TabIndex = 6;
             this.out1Field.Value = 0;
             // 
-            // out0Field
+            // OUT4Field
             // 
-            this.out0Field.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.out0Field.ByteQuantity = ((byte)(1));
-            this.out0Field.Location = new System.Drawing.Point(49, 19);
-            this.out0Field.Name = "out0Field";
-            this.out0Field.Selected = IDE.Components.DataFieldType.DEC;
-            this.out0Field.Size = new System.Drawing.Size(119, 28);
-            this.out0Field.TabIndex = 3;
-            this.out0Field.Value = 0;
+            this.OUT4Field.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.OUT4Field.ByteQuantity = ((byte)(1));
+            this.OUT4Field.Location = new System.Drawing.Point(49, 19);
+            this.OUT4Field.Name = "OUT4Field";
+            this.OUT4Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.OUT4Field.Size = new System.Drawing.Size(119, 28);
+            this.OUT4Field.TabIndex = 3;
+            this.OUT4Field.Value = 0;
             // 
             // out2Field
             // 
@@ -422,17 +422,17 @@
             this.in1Field.TabIndex = 6;
             this.in1Field.Value = 0;
             // 
-            // in0Field
+            // IN4Field
             // 
-            this.in0Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.IN4Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.in0Field.ByteQuantity = ((byte)(1));
-            this.in0Field.Location = new System.Drawing.Point(40, 19);
-            this.in0Field.Name = "in0Field";
-            this.in0Field.Selected = IDE.Components.DataFieldType.DEC;
-            this.in0Field.Size = new System.Drawing.Size(128, 28);
-            this.in0Field.TabIndex = 3;
-            this.in0Field.Value = 0;
+            this.IN4Field.ByteQuantity = ((byte)(1));
+            this.IN4Field.Location = new System.Drawing.Point(40, 19);
+            this.IN4Field.Name = "IN4Field";
+            this.IN4Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.IN4Field.Size = new System.Drawing.Size(128, 28);
+            this.IN4Field.TabIndex = 3;
+            this.IN4Field.Value = 0;
             // 
             // in2Field
             // 
@@ -569,13 +569,13 @@
         public Components.DataField dField;
         public Components.DataField eField;
         public Components.CheckboxField cCheck;
-        public Components.DataField in0Field;
+        public Components.DataField IN4Field;
         public Components.CheckboxField zCheck;
         public Components.DataField in1Field;
         public Components.DataField in2Field;
         public Components.DataField in3Field;
         public Components.DataField out1Field;
-        public Components.DataField out0Field;
+        public Components.DataField OUT4Field;
         public Components.DataField out2Field;
         public Components.DataField out3Field;
     }
