@@ -14,6 +14,7 @@ namespace M3PlusMicrocontroller {
         public Function Function = delegate(Simulator sim) { };
         public int Bytes = 1;
         public int[] Frames = null;
+        public bool HasBreakpoint = false;
 
         public int Address = 0; //JMP somewhere -> JMP #42
         public string Label;

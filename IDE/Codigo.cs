@@ -9,7 +9,8 @@ using ScintillaNET;
 
 namespace IDE {
     public partial class Codigo : UserControl {
-        
+        public bool Changed = false;
+
         public Codigo() {
             InitializeComponent();
             UIStatics.ScintillaSetStyle(scintilla);
@@ -50,6 +51,7 @@ namespace IDE {
         }
         private void scintilla_TextChanged(object sender, EventArgs e) {
             updateLineNumber();
+            Changed = true;
         }
         public void GotoNextBreakpoint() {
             var line = scintilla.LineFromPosition(scintilla.CurrentPosition);

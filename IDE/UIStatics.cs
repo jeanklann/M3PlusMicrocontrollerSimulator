@@ -6,6 +6,7 @@ using System.Drawing;
 using ScintillaNET;
 using M3PlusMicrocontroller;
 using System.Windows.Forms;
+using System.IO;
 
 
 namespace IDE {
@@ -31,6 +32,8 @@ namespace IDE {
 
         public static Thread threadDepurador;
 
+        public static string FilePath;
+
         public static void Compile() {
             try {
                 Compilador = new Compiler();
@@ -38,7 +41,8 @@ namespace IDE {
                 Simulador = new Simulator();
                 Depurador.SetText("");
                 Depurador.RemoveAllLabels();
-                bool[] breakpoints = new bool[Codigo.scintilla.Lines.Count];
+                Depurador.RemoveAllBreakpoint();
+                bool[] breakpoints = new bool[Compiler.MEMORY_MAX_SIZE];
                 const uint maskBreakpoint = (1 << BREAKPOINT_MARKER);
                 for (int i = 0; i < Codigo.scintilla.Lines.Count; i++) {
                     if ((Codigo.scintilla.Lines[i].MarkerGet() & maskBreakpoint) > 0) {
@@ -50,7 +54,7 @@ namespace IDE {
                 Simulador.Program = instructions;
                 StringBuilder text = new StringBuilder();
                 Depurador.AddressToLine = new int[Compiler.MEMORY_MAX_SIZE];
-                
+                /*
                 for (int i = 0; i < Codigo.scintilla.Lines.Count; i++) {
                     if ((Codigo.scintilla.Lines[i].MarkerGet() & maskBreakpoint) > 0) {
 
@@ -61,12 +65,17 @@ namespace IDE {
                     if((item.MarkerGet() & maskBreakpoint) > 0) {
                         
                     }
-                }
+                }*/
                 for (int i = 0; i < Compilador.Instructions.Count; i++) {
                     text.AppendLine(Compilador.Instructions[i].Instruction.Text);
                     Depurador.AddressToLine[Compilador.Instructions[i].Address] = i;
                 }
                 Depurador.SetText(text.ToString());
+                for (int i = 0; i < Compilador.Instructions.Count; i++) {
+                    if (Compilador.Instructions[i].Instruction.HasBreakpoint) {
+                        Depurador.AddBreakpoint(Depurador.scintilla.Lines[i]);
+                    }
+                }
                 foreach (M3PlusMicrocontroller.Label item in Compilador.Labels) {
                     Depurador.AddLabel(Depurador.AddressToLine[item.Address]);
                 }
@@ -76,6 +85,25 @@ namespace IDE {
                 MessageBox.Show(MainForm, e1.Message, "Erro de compilação", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } catch (Exception e2) {
                 MessageBox.Show(MainForm, "Erro interno: \n" + e2.Message, "Erro interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public static bool Save() {
+            if(FilePath != null) {
+                //TODO
+
+                return true;
+            } else {
+                return false;
+            }
+        }
+        public static bool Open() {
+            if (FilePath != null) {
+                //TODO
+
+                return true;
+            } else {
+                return false;
             }
         }
 

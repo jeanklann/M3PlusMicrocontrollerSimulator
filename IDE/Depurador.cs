@@ -28,11 +28,29 @@ namespace IDE {
             if(line == null) {
                 line = scintilla.Lines[scintilla.CurrentLine];
             }
+            if (UIStatics.Simulador != null) {
+                if (UIStatics.Simulador.Program != null) {
+                    for (int i = 0; i < AddressToLine.Length; i++) {
+                        if(AddressToLine[i] == line.Index) {
+                            UIStatics.Simulador.Program[i].HasBreakpoint = true;
+                        }
+                    }
+                }
+            }
             line.MarkerAdd(UIStatics.BREAKPOINT_MARKER);
         }
         public void RemoveBreakpoint(Line line = null) {
             if(line == null) {
                 line = scintilla.Lines[scintilla.CurrentLine];
+            }
+            if (UIStatics.Simulador != null) {
+                if (UIStatics.Simulador.Program != null) {
+                    for (int i = 0; i < AddressToLine.Length; i++) {
+                        if (AddressToLine[i] == line.Index) {
+                            UIStatics.Simulador.Program[i].HasBreakpoint = false;
+                        }
+                    }
+                }
             }
             line.MarkerDelete(UIStatics.BREAKPOINT_MARKER);
         }
@@ -87,8 +105,6 @@ namespace IDE {
                             break;
                         }
                     }
-                    
-                    //toolTip1.Show("Label ", this);
                 }
 
             }

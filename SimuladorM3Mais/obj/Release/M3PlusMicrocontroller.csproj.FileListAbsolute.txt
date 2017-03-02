@@ -6,3 +6,8 @@ D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\bin\Release\M3PlusMicrocontrol
 D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Release\M3PlusMicrocontroller.pdb
 D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\bin\Release\M3PlusMicrocontroller.dll
 D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Release\M3PlusMicrocontroller.dll
+D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\bin\Release\M3PlusMicrocontroller.dll
+D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\bin\Release\M3PlusMicrocontroller.pdb
+D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Release\M3PlusMicrocontroller.csprojResolveAssemblyReference.cache
+D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Release\M3PlusMicrocontroller.dll
+D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Release\M3PlusMicrocontroller.pdb

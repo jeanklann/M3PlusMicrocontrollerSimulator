@@ -3,16 +3,16 @@ C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\Simulador
 C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csprojResolveAssemblyReference.cache
 C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.dll
 C:\Users\jean.klann.SISTEMAFIESC\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.pdb
-D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.exe
 D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.pdb
 D:\SimuladorM3Mais\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.exe
 D:\SimuladorM3Mais\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.pdb
 D:\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.exe
 D:\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.pdb
-D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.exe
 D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.pdb
-D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csprojResolveAssemblyReference.cache
 D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.pdb
 D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.pdb
 D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.dll
 D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.dll
+D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.dll
+D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.dll
+D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csprojResolveAssemblyReference.cache

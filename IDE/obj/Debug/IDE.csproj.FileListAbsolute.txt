@@ -26,11 +26,6 @@ C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Deb
 C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Properties.Resources.resources
 C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
 C:\Users\Klann\Documents\Visual Studio 2015\Projects\SimuladorM3Mais\IDE\obj\Debug\IDE.Components.DataField.resources
-D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\IDE.exe.config
-D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.exe
-D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.pdb
-D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\IDE.exe
-D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\IDE.pdb
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\ScintillaNET.dll
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\ScintillaNET.pdb
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\ScintillaNET.xml
@@ -71,7 +66,6 @@ D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.pdb
 D:\SimuladorM3Mais\IDE\bin\Debug\ScintillaNET.xml
 D:\SimuladorM3Mais\IDE\obj\Debug\IDE.exe
 D:\SimuladorM3Mais\IDE\obj\Debug\IDE.pdb
-D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\M3PlusMicrocontroller.exe
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\M3PlusMicrocontroller.pdb
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.FormRamMemory.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache
@@ -100,3 +94,9 @@ D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\SimuladorM+++.pdb
 D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\SimuladorM+++.exe
 D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\SimuladorM+++.pdb
 D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\M3PlusMicrocontroller.dll
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\SimuladorM+++.exe.config
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\SimuladorM+++.exe
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\SimuladorM+++.pdb
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\SimuladorM+++.exe
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\SimuladorM+++.pdb
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\M3PlusMicrocontroller.dll

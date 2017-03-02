@@ -8,11 +8,10 @@ namespace M3PlusMicrocontroller {
 
         public List<InstructionCompiler> Instructions;
         public List<Label> Labels;
-        private bool[] breakpoints;
 
         private TokenAnalyzer tokenAnalyzer;
         private int NextAddress = 0;
-
+        private bool nextTokenHasBreakpoint = false;
         
 
         private Token NeedSeparator(TokenAnalyzer analyzer, string Program) {
@@ -33,6 +32,8 @@ namespace M3PlusMicrocontroller {
         }
 
         private void NewInstruction(Instruction instruction) {
+            instruction.HasBreakpoint = nextTokenHasBreakpoint;
+            nextTokenHasBreakpoint = false;
             Instructions.Add(new InstructionCompiler(instruction, NextAddress));
             if(instruction.Label != null) {
                 foreach (Label item in Labels) {
@@ -64,7 +65,6 @@ namespace M3PlusMicrocontroller {
         }
 
         public Instruction[] Compile(string Program, bool[] Breakpoints = null) {
-            breakpoints = Breakpoints;
             Instructions = new List<InstructionCompiler>();
             Labels = new List<Label>();
             tokenAnalyzer = new TokenAnalyzer();
@@ -73,7 +73,11 @@ namespace M3PlusMicrocontroller {
             Token token = null;
             do {
                 token = tokenAnalyzer.NextToken();
-                if(token.Type == TokenType.CPUInstruction) {
+                int lineToken = Helpers.CountLines(Program, token.Index)-1;
+                if (Breakpoints[lineToken]) {
+                    nextTokenHasBreakpoint = true;
+                }
+                if (token.Type == TokenType.CPUInstruction) {
                     switch (token.Value) {
                         case "ADD": //////////////////////////////////////// ADD
                             token = tokenAnalyzer.NextToken();

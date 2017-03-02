@@ -63,7 +63,10 @@ namespace M3PlusMicrocontroller {
                 NextInstruction += instruction.Bytes;
                 instruction.Function(this);
                 ++count;
-                
+                if (instruction.HasBreakpoint) {
+                    Running = false;
+                    return;
+                }
                 if (1000 / Frequency != 0) {
                     Thread.Sleep(1000 / Frequency);
                 }

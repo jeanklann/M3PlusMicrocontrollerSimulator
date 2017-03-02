@@ -142,8 +142,55 @@ namespace IDE {
         }
 
         private void FormularioPrincipal_FormClosing(object sender, FormClosingEventArgs e) {
-
+            if (codigo1.Changed) {
+                DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                if(dialogResult == DialogResult.Cancel) {
+                    e.Cancel = true;
+                    return;
+                } else if(dialogResult == DialogResult.Yes) {
+                    if(UIStatics.FilePath != null) {
+                        if(UIStatics.Save() == false) {
+                            if (!TrySave()) {
+                                e.Cancel = true;
+                                return;
+                            }
+                        } else {
+                            return;
+                        }
+                    } else {
+                        if(!TrySave()) {
+                            e.Cancel = true;
+                            return;
+                        } else {
+                            return;
+                        }
+                    }
+                } else if(dialogResult == DialogResult.No) {
+                    return;
+                }
+            } else {
+                return;
+            }
         }
+        private bool TrySave() {
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            DialogResult fileDialogResult = fileDialog.ShowDialog(this);
+            if (fileDialogResult == DialogResult.Cancel ||
+                fileDialogResult == DialogResult.Abort ||
+                fileDialogResult == DialogResult.None) {
+                return false;
+            } else {
+                UIStatics.FilePath = fileDialog.FileName;
+                if (UIStatics.Save() == false) {
+                    MessageBox.Show(this, "Ocorreu um erro ao salvar o projeto.", "Erro ao salvar o projeto", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                } else {
+                    codigo1.Changed = false;
+                }
+            }
+            return true;
+        }
+        
 
         private void desfazerToolStripMenuItem_Click(object sender, EventArgs e) {
             codigo1.scintilla.Undo();
@@ -170,19 +217,90 @@ namespace IDE {
         }
 
         private void novoToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            if (codigo1.Changed) {
+                DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                if (dialogResult == DialogResult.Yes) {
+                    if (UIStatics.FilePath != null) {
+                        if (UIStatics.Save() == false) {
+                            if (TrySave()) {
+                                codigo1.scintilla.Text = "";
+                                codigo1.Changed = false;
+                                UIStatics.FilePath = null;
+                            }
+                        }
+                    } else {
+                        if (TrySave()) {
+                            codigo1.scintilla.Text = "";
+                            codigo1.Changed = false;
+                            UIStatics.FilePath = null;
+                        }
+                    }
+                } else if (dialogResult == DialogResult.No) {
+                    codigo1.scintilla.Text = "";
+                    codigo1.Changed = false;
+                    UIStatics.FilePath = null;
+                }
+            } else {
+                codigo1.scintilla.Text = "";
+                codigo1.Changed = false;
+                UIStatics.FilePath = null;
+            }
         }
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (codigo1.Changed) {
+                DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                if (dialogResult == DialogResult.Yes) {
+                    if (UIStatics.FilePath != null) {
+                        if (UIStatics.Save() == false) {
+                            if (TrySave()) {
+                                TryOpen();
+                            }
+                        }
+                    } else {
+                        if (TrySave()) {
+                            TryOpen();
+                        }
+                    }
+                } else if (dialogResult == DialogResult.No) {
+                    TryOpen();
+                }
+            } else {
+                TryOpen();
+            }
+        }
 
+        private bool TryOpen() {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            DialogResult fileDialogResult = fileDialog.ShowDialog(this);
+            if (fileDialogResult == DialogResult.Cancel ||
+                fileDialogResult == DialogResult.Abort ||
+                fileDialogResult == DialogResult.None) {
+                return false;
+            } else {
+                UIStatics.FilePath = fileDialog.FileName;
+                if (UIStatics.Open() == false) {
+                    MessageBox.Show(this, "Ocorreu um erro ao carregar o projeto.", "Erro ao carregar o projeto", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                } else {
+                    codigo1.Changed = false;
+                }
+            }
+            return true;
         }
 
         private void salvarToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            if (UIStatics.FilePath != null) {
+                if (UIStatics.Save() == false) {
+                    TrySave();
+                }
+            } else {
+                TrySave();
+            }
         }
 
         private void salvarComoToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            TrySave();
         }
 
         private void fecharToolStripMenuItem_Click(object sender, EventArgs e) {
