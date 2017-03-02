@@ -1,0 +1,4 @@
+D:\M3PlusMicrocontrollerSimulator\CircuitSimulator\bin\Release\CircuitSimulator.dll
+D:\M3PlusMicrocontrollerSimulator\CircuitSimulator\bin\Release\CircuitSimulator.pdb
+D:\M3PlusMicrocontrollerSimulator\CircuitSimulator\obj\Release\CircuitSimulator.dll
+D:\M3PlusMicrocontrollerSimulator\CircuitSimulator\obj\Release\CircuitSimulator.pdb

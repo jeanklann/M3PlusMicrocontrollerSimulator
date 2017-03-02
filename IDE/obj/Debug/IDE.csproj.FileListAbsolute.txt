@@ -75,10 +75,6 @@ D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\M3PlusMicrocontroller.exe
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\M3PlusMicrocontroller.pdb
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.FormRamMemory.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.csprojResolveAssemblyReference.cache
-D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\IDE.exe.config
-D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\IDE.exe
-D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\IDE.pdb
-D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\M3PlusMicrocontroller.exe
 D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\OpenTK.dll
 D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\OpenTK.GLControl.dll
 D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\ScintillaNET.dll
@@ -98,5 +94,9 @@ D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\IDE.FormularioPrincipal.resource
 D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\IDE.Properties.Resources.resources
 D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\IDE.PropriedadesDoProjeto.resources
 D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\IDE.csproj.GenerateResource.Cache
-D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\IDE.exe
-D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\IDE.pdb
+D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\SimuladorM+++.exe.config
+D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\SimuladorM+++.exe
+D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\SimuladorM+++.pdb
+D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\SimuladorM+++.exe
+D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\SimuladorM+++.pdb
+D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\M3PlusMicrocontroller.dll

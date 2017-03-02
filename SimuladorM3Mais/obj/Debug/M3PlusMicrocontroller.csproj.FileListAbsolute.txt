@@ -12,7 +12,7 @@ D:\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.pdb
 D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.exe
 D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.pdb
 D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csprojResolveAssemblyReference.cache
-D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.exe
 D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.pdb
-D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.exe
 D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.pdb
+D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.dll
+D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.dll

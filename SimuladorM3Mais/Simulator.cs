@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
+using System.Windows.Forms;
+
 
 namespace M3PlusMicrocontroller {
     public class Simulator {
@@ -37,37 +39,7 @@ namespace M3PlusMicrocontroller {
             Stopped = true;
             count = 0;
         }
-
-        public void Run_v1() {
-            Running = true;
-            Thread thread = new Thread(Run_v1_thread);
-            Console.ReadLine();
-            thread.Start();
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            do {
-                Instruction instruction = Program[NextInstruction];
-                ++count;
-                
-                Console.Write("PC: ");
-                Console.Write(NextInstruction);
-                Console.Write("\tInstrução: ");
-                Console.WriteLine(instruction);
-                
-
-                NextInstruction += instruction.Bytes;
-                instruction.Function(this);
-                Thread.Sleep(16);
-            } while (Running);
-        }
-        private void Run_v1_thread() {
-            Console.ReadLine();
-            In[0] = 255;
-            Console.WriteLine("Alterado");
-            Console.ReadLine();
-            Running = false;
-        }
-
+        
         public void Run() {
             if (!Running) {
                 if (Stopped) {
@@ -82,6 +54,12 @@ namespace M3PlusMicrocontroller {
         private void Run_thread() {
             while (Running) {
                 Instruction instruction = Program[NextInstruction];
+                if(instruction == null) {
+                    Running = false;
+                    MessageBox.Show("O simulador tentou executar uma instrução no endereço " + NextInstruction + ", porém neste endereço não há nenhuma instrução. " +
+                        "Verifique o seu código, e, caso o programa se comportou corretamente, coloque o seguinte código ao final do programa: \"FIM_DO_PROGRAMA: JMP FIM_DO_PROGRAMA\".", "Erro na simulação", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                }
                 NextInstruction += instruction.Bytes;
                 instruction.Function(this);
                 ++count;
@@ -117,5 +95,9 @@ namespace M3PlusMicrocontroller {
             Running = false;
             Stopped = true;
         }
+    }
+    public class SimulationException:Exception {
+        public SimulationException() : base() { }
+        public SimulationException(string message) : base(message) { }
     }
 }

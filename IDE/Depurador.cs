@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -16,6 +15,7 @@ namespace IDE {
         public Depurador() {
             InitializeComponent();
             UIStatics.ScintillaSetStyle(scintilla, true);
+            scintilla.CallTipSetPosition(true);
         }
 
         public void SetText(string text) {
@@ -42,11 +42,14 @@ namespace IDE {
             }
         }
 
-        public void AddLabel(Line line = null) {
-            if (line == null) {
-                line = scintilla.Lines[scintilla.CurrentLine];
-            }
+        public void AddLabel(int lineNumber) {
+            Line line = scintilla.Lines[lineNumber];
             line.MarkerAdd(UIStatics.LABEL_MARKER);
+        }
+        public void RemoveAllLabels() {
+            foreach (Line line in scintilla.Lines) {
+                line.MarkerDelete(UIStatics.LABEL_MARKER);
+            }
         }
 
         private void scintilla_MarginClick(object sender, MarginClickEventArgs e) {
@@ -65,13 +68,26 @@ namespace IDE {
                 
             } else if(e.Margin == UIStatics.LABEL_MARGIN) {
                 
-
                 const uint mask = (1 << UIStatics.LABEL_MARKER);
                 
                 Line line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];
                 if ((line.MarkerGet() & mask) > 0) {
-
-                    //scintilla.CallTipShow(scintilla.LineFromPosition(e.Position), "teste");
+                    int linePos = scintilla.LineFromPosition(e.Position);
+                    for (int i = 0; i < AddressToLine.Length; i++) {
+                        if(AddressToLine[i] == linePos) {
+                            string text = null;
+                            foreach (M3PlusMicrocontroller.Label item in UIStatics.Compilador.Labels) {
+                                if(item.Address == i) {
+                                    if (text != null)
+                                        text = text += "\n";
+                                    text += item.Name + ":";
+                                }
+                            }
+                            scintilla.CallTipShow(e.Position, text);
+                            break;
+                        }
+                    }
+                    
                     //toolTip1.Show("Label ", this);
                 }
 

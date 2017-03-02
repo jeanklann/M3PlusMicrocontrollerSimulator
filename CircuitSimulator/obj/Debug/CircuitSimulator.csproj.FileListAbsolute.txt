@@ -3,3 +3,8 @@ c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\CircuitSi
 c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\CircuitSimulatorSolution\CircuitSimulator\obj\Debug\CircuitSimulator.csprojResolveAssemblyReference.cache
 c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\CircuitSimulatorSolution\CircuitSimulator\obj\Debug\CircuitSimulator.dll
 c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\CircuitSimulatorSolution\CircuitSimulator\obj\Debug\CircuitSimulator.pdb
+D:\M3PlusMicrocontrollerSimulator\CircuitSimulator\bin\Debug\CircuitSimulator.dll
+D:\M3PlusMicrocontrollerSimulator\CircuitSimulator\bin\Debug\CircuitSimulator.pdb
+D:\M3PlusMicrocontrollerSimulator\CircuitSimulator\obj\Debug\CircuitSimulator.csprojResolveAssemblyReference.cache
+D:\M3PlusMicrocontrollerSimulator\CircuitSimulator\obj\Debug\CircuitSimulator.dll
+D:\M3PlusMicrocontrollerSimulator\CircuitSimulator\obj\Debug\CircuitSimulator.pdb

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Drawing;
@@ -15,11 +14,11 @@ namespace IDE {
         public static Depurador Depurador;
         public static Circuito Circuito;
 
+        public static Form MainForm;
+
         public static Compiler Compilador;
         public static Simulator Simulador;
-
-        public static List<InstructionCompiler> Instructions;
-        public static List<M3PlusMicrocontroller.Label> Labels;
+        
 
         public const int BREAKPOINT_INDEX_MARGIN = 1;
         public const int LABEL_MARGIN = 2;
@@ -34,27 +33,49 @@ namespace IDE {
 
         public static void Compile() {
             try {
-                Instruction[] instructions = Compilador.Compile(Codigo.scintilla.Text);
+                Compilador = new Compiler();
+                if (Simulador != null) Simulador.Stop();
                 Simulador = new Simulator();
+                Depurador.SetText("");
+                Depurador.RemoveAllLabels();
+                bool[] breakpoints = new bool[Codigo.scintilla.Lines.Count];
+                const uint maskBreakpoint = (1 << BREAKPOINT_MARKER);
+                for (int i = 0; i < Codigo.scintilla.Lines.Count; i++) {
+                    if ((Codigo.scintilla.Lines[i].MarkerGet() & maskBreakpoint) > 0) {
+                        breakpoints[i] = true;
+                    }
+                }
+
+                Instruction[] instructions = Compilador.Compile(Codigo.scintilla.Text, breakpoints);
                 Simulador.Program = instructions;
-
-                Instructions = Compilador.Instructions;
-                Labels = Compilador.Labels;
-
                 StringBuilder text = new StringBuilder();
-
                 Depurador.AddressToLine = new int[Compiler.MEMORY_MAX_SIZE];
-                for (int i = 0; i < Instructions.Count; i++) {
-                    text.AppendLine(Instructions[i].Instruction.Text);
-                    Depurador.AddressToLine[Instructions[i].Address] = i;
+                
+                for (int i = 0; i < Codigo.scintilla.Lines.Count; i++) {
+                    if ((Codigo.scintilla.Lines[i].MarkerGet() & maskBreakpoint) > 0) {
+
+                        Depurador.AddBreakpoint(Depurador.scintilla.Lines[i]);
+                    }
+                }
+                foreach (Line item in Codigo.scintilla.Lines) {
+                    if((item.MarkerGet() & maskBreakpoint) > 0) {
+                        
+                    }
+                }
+                for (int i = 0; i < Compilador.Instructions.Count; i++) {
+                    text.AppendLine(Compilador.Instructions[i].Instruction.Text);
+                    Depurador.AddressToLine[Compilador.Instructions[i].Address] = i;
                 }
                 Depurador.SetText(text.ToString());
-
-                MessageBox.Show("Programa montado com sucesso.");
+                foreach (M3PlusMicrocontroller.Label item in Compilador.Labels) {
+                    Depurador.AddLabel(Depurador.AddressToLine[item.Address]);
+                }
+                
+                MessageBox.Show(MainForm, "Programa montado com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             } catch (CompilerError e1) {
-                MessageBox.Show(e1.Message);
+                MessageBox.Show(MainForm, e1.Message, "Erro de compilação", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } catch (Exception e2) {
-                MessageBox.Show("Erro interno: " + e2.Message);
+                MessageBox.Show(MainForm, "Erro interno: \n" + e2.Message, "Erro interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

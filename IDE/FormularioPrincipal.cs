@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ScintillaNET;
 using M3PlusMicrocontroller;
@@ -21,7 +19,7 @@ namespace IDE {
             UIStatics.Depurador = depurador1;
             UIStatics.Circuito = circuito1;
 
-            UIStatics.Compilador = new Compiler();
+            UIStatics.MainForm = this;
 
         }
 
@@ -34,9 +32,7 @@ namespace IDE {
 
         }
 
-        private void copierToolStripMenuItem_Click(object sender, EventArgs e) {
-
-        }
+        
 
         private void verPróximoToolStripMenuItem_Click(object sender, EventArgs e) {
             codigo1.GotoNextBreakpoint();
@@ -111,23 +107,23 @@ namespace IDE {
         }
 
         private void rodarToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            UIStatics.Run();
         }
 
         private void pausarToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            UIStatics.Pause();
         }
 
         private void pularParaDentroToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            UIStatics.StepIn();
         }
 
         private void pularParaForaToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            UIStatics.StepOut();
         }
 
         private void pararToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            UIStatics.Stop();
         }
 
         private void FormularioPrincipal_Leave(object sender, EventArgs e) {
@@ -139,7 +135,74 @@ namespace IDE {
         }
 
         private void FormularioPrincipal_FormClosed(object sender, FormClosedEventArgs e) {
+            if(UIStatics.Simulador != null) {
+                UIStatics.Simulador.Stop();
+            }
             UIStatics.WantExit = true;
+        }
+
+        private void FormularioPrincipal_FormClosing(object sender, FormClosingEventArgs e) {
+
+        }
+
+        private void desfazerToolStripMenuItem_Click(object sender, EventArgs e) {
+            codigo1.scintilla.Undo();
+        }
+
+        private void refazerToolStripMenuItem_Click(object sender, EventArgs e) {
+            codigo1.scintilla.Redo();
+        }
+
+        private void cortarToolStripMenuItem_Click(object sender, EventArgs e) {
+            codigo1.scintilla.Cut();
+        }
+
+        private void copierToolStripMenuItem_Click(object sender, EventArgs e) {
+            codigo1.scintilla.Copy();
+        }
+
+        private void colarToolStripMenuItem_Click(object sender, EventArgs e) {
+            codigo1.scintilla.Paste();
+        }
+
+        private void selecionarTudoToolStripMenuItem_Click(object sender, EventArgs e) {
+            codigo1.scintilla.SelectAll();
+        }
+
+        private void novoToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void abrirToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void salvarToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void salvarComoToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void fecharToolStripMenuItem_Click(object sender, EventArgs e) {
+            Close();
+        }
+
+        private void propriedadesDoProjetoToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void ajudaToolStripMenuItem1_Click(object sender, EventArgs e) {
+
+        }
+
+        private void sobreToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void somaRegistradoresToolStripMenuItem_Click(object sender, EventArgs e) {
+            UIStatics.Codigo.scintilla.Text = "MOV 0, A\nSOMA_A:\nADD 1, A\nJMPC SOMA_B\nJMP SOMA_A\nSOMA_B:\nMOV B, A\nADD 1, B\nJMPC SOMA_C\nMOV 0, A\nJMP SOMA_A\nSOMA_C:\nMOV C, A\nADD 1, C\nJMPC SOMA_D\nMOV 0, A\nJMP SOMA_A\nSOMA_D:\nMOV D, A\nADD 1, D\nJMPC SOMA_E\nMOV 0, A\nJMP SOMA_A\nSOMA_E:\nMOV E, A\nADD 1, E\nMOV 0, A\nJMP SOMA_A";
         }
     }
 }

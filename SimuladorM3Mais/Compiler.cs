@@ -8,7 +8,7 @@ namespace M3PlusMicrocontroller {
 
         public List<InstructionCompiler> Instructions;
         public List<Label> Labels;
-        
+        private bool[] breakpoints;
 
         private TokenAnalyzer tokenAnalyzer;
         private int NextAddress = 0;
@@ -44,7 +44,12 @@ namespace M3PlusMicrocontroller {
             }
             NextAddress += instruction.Bytes;
         }
-        private void NewLabel(string name) {
+        private void NewLabel(string name, Token token, string Program) {
+            foreach (Label item in Labels) {
+                if(name == item.Name) {
+                    throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, token.Index) + ". O label já existe.");
+                }
+            }
             foreach (InstructionCompiler item in Instructions) {
                 if (item.Instruction.Label != null) {
                     if (item.Instruction.Label == name) {
@@ -58,7 +63,8 @@ namespace M3PlusMicrocontroller {
             Labels.Add(label);
         }
 
-        public Instruction[] Compile(string Program) {
+        public Instruction[] Compile(string Program, bool[] Breakpoints = null) {
+            breakpoints = Breakpoints;
             Instructions = new List<InstructionCompiler>();
             Labels = new List<Label>();
             tokenAnalyzer = new TokenAnalyzer();
@@ -966,7 +972,7 @@ namespace M3PlusMicrocontroller {
                                     token = NeedSeparator(tokenAnalyzer, Program);
                                     if (token.Type == TokenType.Registrer) {
                                         if (token.Value == "A") {
-                                            NewInstruction(Instruction.MOV_D_A());
+                                            NewInstruction(Instruction.MOV_E_A());
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
@@ -1218,10 +1224,14 @@ namespace M3PlusMicrocontroller {
 
                     }
                 } else if(token.Type == TokenType.Identificator) {
-                    string text = token.Value;
+                    Token labelToken = token;
                     token = tokenAnalyzer.NextToken();
                     if(token.Type == TokenType.IdentificatorSeparator) {
-                        NewLabel(text);
+                        if (tokenAnalyzer.PeekNextToken().Type == TokenType.EoF) {
+                            throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, token.Index) + ". Um label não pode ser o último código do programa. Caso deseje encessar o programa aqui insira isso na última linha: \"JMP "+ labelToken.Value + "\"");
+                        } else {
+                            NewLabel(labelToken.Value, labelToken, Program);
+                        }
                     } else {
                         throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, token.Index) + ". Falta o dois pontos (:) após o label.");
                     }

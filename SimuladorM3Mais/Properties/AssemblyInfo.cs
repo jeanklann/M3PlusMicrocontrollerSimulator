@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SimuladorM3Mais")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("M3PlusMicrocontroller")]
+[assembly: AssemblyDescription("Módulo principal da simulação do microcontrolador M+++")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Jean Carlos Klann")]
 [assembly: AssemblyProduct("SimuladorM3Mais")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright (c) 2017, Jean Carlos Klann")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

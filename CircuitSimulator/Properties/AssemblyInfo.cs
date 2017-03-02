@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("CircuitSimulator")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Módulo de simulação de circuitos eletrônicos")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Jean Carlos Klann")]
 [assembly: AssemblyProduct("CircuitSimulator")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright (c) 2017, Jean Carlos Klann")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
