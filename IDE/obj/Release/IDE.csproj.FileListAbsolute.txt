@@ -39,3 +39,6 @@ D:\M3PlusMicrocontrollerSimulator\IDE\obj\Release\IDE.csproj.GenerateResource.Ca
 D:\M3PlusMicrocontrollerSimulator\IDE\obj\Release\SimuladorM+++.exe
 D:\M3PlusMicrocontrollerSimulator\IDE\obj\Release\SimuladorM+++.pdb
 D:\M3PlusMicrocontrollerSimulator\IDE\bin\Release\M3PlusMicrocontroller.dll
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Release\SimuladorM+++.exe.config
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\SimuladorM+++.exe
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\SimuladorM+++.pdb
