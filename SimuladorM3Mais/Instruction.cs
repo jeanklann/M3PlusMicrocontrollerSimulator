@@ -4,25 +4,22 @@ using System.Text;
 
 namespace M3PlusMicrocontroller {
     public delegate void Function(Simulator simulator);
-
+    
     public class Instruction {
-
-
-
         public string Text = "";
         public string Description = "";
         public Function Function = delegate(Simulator sim) { };
-        public int Bytes = 1;
+        public int Size = 1;
         public int[] Frames = null;
         public bool HasBreakpoint = false;
 
         public int Address = 0; //JMP somewhere -> JMP #42
         public string Label;
 
-        public Instruction(string text, string description = "", int bytes = 1, int[] frames = null) {
+        public Instruction(string text, string description = "", int size = 1, int[] frames = null) {
             Text = text;
             Description = description;
-            Bytes = bytes;
+            Size = size;
             Frames = frames;
         }
 

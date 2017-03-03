@@ -43,7 +43,7 @@ namespace M3PlusMicrocontroller {
                     }
                 }
             }
-            NextAddress += instruction.Bytes;
+            NextAddress += instruction.Size;
         }
         private void NewLabel(string name, Token token, string Program) {
             foreach (Label item in Labels) {

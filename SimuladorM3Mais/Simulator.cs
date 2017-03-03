@@ -92,7 +92,7 @@ namespace M3PlusMicrocontroller {
                         lastBreakpointInstruction = null;
                     }
                 }
-                NextInstruction += instruction.Bytes;
+                NextInstruction += instruction.Size;
                 instruction.Function(this);
                 ++instructionsCountFrequency;
                 ++instructionsCount;
@@ -133,7 +133,7 @@ namespace M3PlusMicrocontroller {
 
         public void Debug_StepInto() {
             Instruction instruction = Program[NextInstruction];
-            NextInstruction += instruction.Bytes;
+            NextInstruction += instruction.Size;
             instruction.Function(this);
         }
 

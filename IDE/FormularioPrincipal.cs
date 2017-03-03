@@ -174,6 +174,7 @@ namespace IDE {
         }
         private bool TrySave() {
             SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.Filter = "Projeto do simulador (*.m3mprj)|*.m3mprj|Todos os arquivos (*.*)|*.*";
             DialogResult fileDialogResult = fileDialog.ShowDialog(this);
             if (fileDialogResult == DialogResult.Cancel ||
                 fileDialogResult == DialogResult.Abort ||
@@ -272,6 +273,7 @@ namespace IDE {
 
         private bool TryOpen() {
             OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "Projeto do simulador (*.m3mprj)|*.m3mprj|Todos os arquivos (*.*)|*.*";
             DialogResult fileDialogResult = fileDialog.ShowDialog(this);
             if (fileDialogResult == DialogResult.Cancel ||
                 fileDialogResult == DialogResult.Abort ||

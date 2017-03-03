@@ -39,6 +39,8 @@ namespace IDE {
                 Compilador = new Compiler();
                 if (Simulador != null) Simulador.Stop();
                 Simulador = new Simulator();
+                Simulador.Frequency = Depurador.Frequency;
+                Simulador.FrequencyLimit = Depurador.FrequencyLimiter;
                 Depurador.SetText("");
                 Depurador.RemoveAllLabels();
                 Depurador.RemoveAllBreakpoint();
