@@ -16,3 +16,4 @@ D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontrolle
 D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.dll
 D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.dll
 D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csprojResolveAssemblyReference.cache
+D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csprojResolveAssemblyReference.cache

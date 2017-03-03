@@ -8,7 +8,8 @@ using System.Windows.Forms;
 
 namespace M3PlusMicrocontroller {
     public class Simulator {
-        public int Frequency = 200000;
+        public int Frequency = 1;
+        public bool FrequencyLimit = true;
         public int NextInstruction;
         public Instruction[] Program;
         public bool Flag_C = false;
@@ -17,13 +18,19 @@ namespace M3PlusMicrocontroller {
         public byte[] In; //0: IN4, 1: IN1, 2: IN2, 3: IN3
         public byte[] Out; //0: OUT4, 1: OUT1, 2: OUT2, 3: OUT3
         public byte[] RAM;
-        private int count = 0;
-        public int Count { get { return count; } }
+
+        private int instructionsCountFrequency = 0;
+        private int instructionsCount = 0;
+        private int currentFrequency = 0;
+        private bool frequencyReaded = false;
+        public int CurrentFrequency { get { return currentFrequency; } }
 
         private Thread thread;
         public bool Running = false;
         public bool Stopped = true;
 
+
+        private Instruction lastBreakpointInstruction;
         public Simulator() {
             Reset();
         }
@@ -37,7 +44,7 @@ namespace M3PlusMicrocontroller {
             Out = new byte[4];
             RAM = new byte[255];
             Stopped = true;
-            count = 0;
+            instructionsCountFrequency = 0;
         }
         
         public void Run() {
@@ -49,9 +56,25 @@ namespace M3PlusMicrocontroller {
                 Running = true;
                 Stopped = false;
                 thread.Start();
+
+                Thread currentFrequency = new Thread(Read_frequency);
+                currentFrequency.Start();
             }
         }
+
+        private void Read_frequency() {
+            while (Running) {
+                Thread.Sleep(1000);
+                if (!Running) return;
+                currentFrequency = instructionsCount;
+                frequencyReaded = true;
+                Console.WriteLine(currentFrequency);
+                
+            }
+
+        }
         private void Run_thread() {
+            Stopwatch stopwatch = new Stopwatch();
             while (Running) {
                 Instruction instruction = Program[NextInstruction];
                 if(instruction == null) {
@@ -60,22 +83,50 @@ namespace M3PlusMicrocontroller {
                         "Verifique o seu código, e, caso o programa se comportou corretamente, coloque o seguinte código ao final do programa: \"FIM_DO_PROGRAMA: JMP FIM_DO_PROGRAMA\".", "Erro na simulação", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 }
+                if (instruction.HasBreakpoint) {
+                    if (lastBreakpointInstruction != instruction) {
+                        lastBreakpointInstruction = instruction;
+                        Running = false;
+                        return;
+                    } else {
+                        lastBreakpointInstruction = null;
+                    }
+                }
                 NextInstruction += instruction.Bytes;
                 instruction.Function(this);
-                ++count;
-                if (instruction.HasBreakpoint) {
-                    Running = false;
-                    return;
+                ++instructionsCountFrequency;
+                ++instructionsCount;
+                if (frequencyReaded) {
+                    frequencyReaded = false;
+                    instructionsCount = 0;
                 }
-                if (1000 / Frequency != 0) {
-                    Thread.Sleep(1000 / Frequency);
+                if (FrequencyLimit) {
+                    if (Frequency > 100) {
+                        if (instructionsCountFrequency > Frequency / 20) {
+                            Sleep(50, stopwatch);
+                            instructionsCountFrequency = 0;
+                        }
+                    } else {
+                        Thread.Sleep(1000 / Frequency);
+                        //Sleep(1000/Frequency, stopwatch);
+                    }
                 }
+
+                
             }
             if (Stopped) {
                 Reset();
             }
         }
-
+        private void Sleep(int miliseconds, Stopwatch stopwatch) {
+            if (!stopwatch.IsRunning) stopwatch.Start();
+            while((stopwatch.ElapsedTicks * 1000) / Stopwatch.Frequency < miliseconds) {
+                //Thread.Sleep()
+                //Thread 100%
+            }
+            stopwatch.Reset();
+            stopwatch.Start();
+        }
         public void Pause() {
             Running = false;
         }
