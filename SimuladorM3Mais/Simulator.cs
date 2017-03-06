@@ -29,7 +29,7 @@ namespace M3PlusMicrocontroller {
         public bool Running = false;
         public bool Stopped = true;
 
-
+        private Instruction stepOutInstruction;
         private Instruction lastBreakpointInstruction;
         public Simulator() {
             Reset();
@@ -45,6 +45,8 @@ namespace M3PlusMicrocontroller {
             RAM = new byte[255];
             Stopped = true;
             instructionsCountFrequency = 0;
+            stepOutInstruction = null;
+            lastBreakpointInstruction = null;
         }
         
         public void Run() {
@@ -81,6 +83,9 @@ namespace M3PlusMicrocontroller {
                     break;
                 }
                 if (instruction.HasBreakpoint) {
+                    if(instruction == stepOutInstruction) {
+                        stepOutInstruction.HasBreakpoint = false;
+                    }
                     if (lastBreakpointInstruction != instruction) {
                         lastBreakpointInstruction = instruction;
                         Running = false;
@@ -125,20 +130,40 @@ namespace M3PlusMicrocontroller {
             stopwatch.Start();
         }
         public void Pause() {
+            if (stepOutInstruction != null && stepOutInstruction.HasBreakpoint) {
+                stepOutInstruction.HasBreakpoint = false;
+                stepOutInstruction = null;
+            }
             Running = false;
         }
 
         public void Debug_StepInto() {
-            Instruction instruction = Program[NextInstruction];
-            NextInstruction += instruction.Size;
-            instruction.Function(this);
+            if (!Running) {
+                Instruction instruction = Program[NextInstruction];
+                NextInstruction += instruction.Size;
+                instruction.Function(this);
+            }
         }
 
         public void Debug_StepOut() {
-            throw new System.NotImplementedException();
+            if (!Running) {
+                Instruction instruction = Program[NextInstruction];
+                NextInstruction += instruction.Size;
+                Instruction newInstruction = Program[NextInstruction];
+                instruction.Function(this);
+                if (newInstruction != null) {
+                    newInstruction.HasBreakpoint = true;
+                    Run();
+                    stepOutInstruction = newInstruction;
+                }
+            }
         }
 
         public void Stop() {
+            if (stepOutInstruction != null && stepOutInstruction.HasBreakpoint) {
+                stepOutInstruction.HasBreakpoint = false;
+                stepOutInstruction = null;
+            }
             Running = false;
             Stopped = true;
         }
