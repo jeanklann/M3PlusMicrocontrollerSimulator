@@ -8,10 +8,10 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
 namespace IDE.Components {
-    public partial class DataField : UserControl {
+    public partial class DataField : UserControl, Component {
         private bool needRefresh = true;
         private bool userInput = false;
-        public bool UserInput { get { return userInput; } }
+        public bool UserInput { get { return userInput; } set { userInput = value; } }
 
         public DataField() {
             InitializeComponent();
@@ -45,7 +45,6 @@ namespace IDE.Components {
                     maskedTextBox1.Text = ToHEX();
                 }
                 base.Refresh();
-                userInput = false;
                 needRefresh = false;
             }
         }

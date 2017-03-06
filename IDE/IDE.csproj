@@ -117,6 +117,7 @@
     <Compile Include="Components\CheckboxField.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Components\Component.cs" />
     <Compile Include="Components\DataField.cs">
       <SubType>UserControl</SubType>
     </Compile>

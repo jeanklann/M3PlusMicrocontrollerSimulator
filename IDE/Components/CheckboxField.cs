@@ -5,12 +5,12 @@ using System.Text;
 using System.Windows.Forms;
 
 namespace IDE.Components {
-    public class CheckboxField:CheckBox {
+    public class CheckboxField:CheckBox, Component {
         private bool needRefresh = true;
         private bool userInput = false;
         private bool refreshing = false;
 
-        public bool UserInput { get { return userInput; } }
+        public bool UserInput { get { return userInput; } set { userInput = value; } }
         private bool value = false;
         public bool Value
         {
@@ -33,7 +33,6 @@ namespace IDE.Components {
 
                 Checked = value;
                 base.Refresh();
-                userInput = false;
                 needRefresh = false;
 
                 refreshing = false;
@@ -41,10 +40,11 @@ namespace IDE.Components {
         }
         protected override void OnCheckedChanged(EventArgs e) {
             base.OnCheckedChanged(e);
-            if(!refreshing)
+            if (!refreshing) {
                 value = Checked;
-            needRefresh = true;
-            userInput = true;
+                needRefresh = true;
+                userInput = true;
+            }
         }
         /*
         protected override void OnValidating(CancelEventArgs e) {

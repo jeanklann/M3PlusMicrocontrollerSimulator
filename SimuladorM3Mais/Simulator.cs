@@ -49,9 +49,6 @@ namespace M3PlusMicrocontroller {
         
         public void Run() {
             if (!Running) {
-                if (Stopped) {
-                    Reset();
-                }
                 thread = new Thread(Run_thread);
                 Running = true;
                 Stopped = false;
@@ -138,10 +135,6 @@ namespace M3PlusMicrocontroller {
         }
 
         public void Debug_StepOut() {
-            throw new System.NotImplementedException();
-        }
-        
-        public void AddBreakpoint(uint line) {
             throw new System.NotImplementedException();
         }
 

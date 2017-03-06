@@ -17,6 +17,8 @@ namespace IDE {
         private double freq = 1;
         private int power = 0;
 
+        private List<Components.Component> Components;
+
         public Depurador() {
             InitializeComponent();
             UIStatics.ScintillaSetStyle(scintilla, true);
@@ -152,6 +154,23 @@ namespace IDE {
         }
 
         public void UpdateAll() {
+            Components = new List<Components.Component>();
+            Components.Add(aField);
+            Components.Add(bField);
+            Components.Add(cField);
+            Components.Add(dField);
+            Components.Add(eField);
+            Components.Add(in0Field);
+            Components.Add(in1Field);
+            Components.Add(in2Field);
+            Components.Add(in3Field);
+            Components.Add(out0Field);
+            Components.Add(out1Field);
+            Components.Add(out2Field);
+            Components.Add(out3Field);
+            Components.Add(cCheck);
+            Components.Add(zCheck);
+
             CheckForIllegalCrossThreadCalls = false;
             while (!UIStatics.WantExit) {
                 if (UIStatics.Simulador != null) {
@@ -175,21 +194,10 @@ namespace IDE {
                     cCheck.Value = UIStatics.Simulador.Flag_C;
                     zCheck.Value = UIStatics.Simulador.Flag_Z;
 
-                    aField.Refresh();
-                    bField.Refresh();
-                    cField.Refresh();
-                    dField.Refresh();
-                    eField.Refresh();
-                    in0Field.Refresh();
-                    in1Field.Refresh();
-                    in2Field.Refresh();
-                    in3Field.Refresh();
-                    out0Field.Refresh();
-                    out1Field.Refresh();
-                    out2Field.Refresh();
-                    out3Field.Refresh();
-                    cCheck.Refresh();
-                    zCheck.Refresh();
+                    foreach (Components.Component item in Components) {
+                        item.Refresh();
+                    }
+
                     {
                         string inicio = "Frequência real: ";
                         string mod = "Hz";
@@ -236,7 +244,11 @@ namespace IDE {
                     if (cCheck.UserInput) UIStatics.Simulador.Flag_C = cCheck.Value;
                     if (zCheck.UserInput) UIStatics.Simulador.Flag_Z = zCheck.Value;
 
-                    
+
+                    foreach (Components.Component item in Components) {
+                        item.UserInput = false;
+                    }
+
                 } else {
                     Thread.Sleep(100);
                 }
