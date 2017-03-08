@@ -92,18 +92,14 @@ namespace IDE {
 
         public static bool Save() {
             if(FilePath != null) {
-                //TODO
-
-                return true;
+                return FileProject.Save(FilePath);
             } else {
                 return false;
             }
         }
         public static bool Open() {
             if (FilePath != null) {
-                //TODO
-
-                return true;
+                return FileProject.Load(FilePath);
             } else {
                 return false;
             }
