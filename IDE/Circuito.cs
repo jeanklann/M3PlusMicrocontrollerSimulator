@@ -338,44 +338,96 @@ namespace IDE {
                     Selected.Rotation += 90;
                     if (Selected.Rotation >= 360) Selected.Rotation -= 360;
                 }
+            } else if(e.KeyChar == 'd') {
+                if(Selected != null) {
+                    SelectedWire = null;
+                    HoverWire = null;
+                    int length = Wires.Count;
+                    for (int i = 0; i < length; i++) {
+                        if (Wires[i].FromComponent == Selected || Wires[i].ToComponent == Selected) {
+                            Wires.Remove(Wires[i]);
+                            --i;
+                            --length;
+                        }
+                    }
+                    Components.Remove(Selected);
+                    Selected = null;
+                    Over = null;
+                } else if(SelectedWire != null) {
+                    Wires.Remove(SelectedWire);
+                    SelectedWire = null;
+                    HoverWire = null;
+                }
             }
             Refresh();
         }
 
         private static bool OnWire(PointF point1, PointF point2, PointF point) {
-            //Calculando a equação reta
-            float coefAng = (point2.Y - point1.Y) / (point2.X - point1.X);
-            float coefLin = -point1.X * coefAng + point1.Y;
-            //calculando a reta perpendicar passando no ponto
-            float coefAngPar = -1 / coefAng * coefLin;
-            float coefLinPar = point.Y - coefAngPar * point.X;
-            //calculando o ponto de interceção das duas retas
-            float x = (coefLin - coefLinPar) / (coefAngPar - coefAng);
-            float y = x * coefAng + coefLin;
             //pegando os valores máximos
             float maxX = point1.X > point2.X ? point1.X : point2.X;
             float minX = point1.X > point2.X ? point2.X : point1.X;
             float maxY = point1.Y > point2.Y ? point1.Y : point2.Y;
             float minY = point1.Y > point2.Y ? point2.Y : point1.Y;
-            
-            
-            //verifica se o ponto Y passa dos limites da linha
-            if (y < minY) {
-                y = minY;
-                x = y / coefAng - coefLin;
-            } else if (y > maxY) {
-                y = maxY;
-                x = y / coefAng - coefLin;
-            }
-            
+            float x, y, coefAng, coefLin, coefAngPar, coefLinPar;
 
-            //verifica se o ponto X passa dos limites da linha
-            if (x < minX) {
-                x = minX;
+            //Equacao linear = ax - by + c = 0
+
+            if (maxX - minX > maxY - minY) { //funcao linear pelo eixo x
+                //Calculando a equação reta
+                coefAng = (point2.Y - point1.Y) / (point2.X - point1.X);
+                coefLin = -point1.X * coefAng + point1.Y;
+                //calculando a reta perpendicar passando no ponto
+                coefAngPar = -1 / coefAng * coefLin;
+                coefLinPar = point.Y - coefAngPar * point.X;
+                //calculando o ponto de interceção das duas retas
+                x = (coefLin - coefLinPar) / (coefAngPar - coefAng);
                 y = x * coefAng + coefLin;
-            } else if (x > maxX) {
-                x = maxX;
-                y = x * coefAng + coefLin;
+
+                //verifica se o ponto Y passa dos limites da linha
+                if (y < minY) {
+                    y = minY;
+                    x = y / coefAng - coefLin;
+                } else if (y > maxY) {
+                    y = maxY;
+                    x = y / coefAng - coefLin;
+                }
+                
+                //verifica se o ponto X passa dos limites da linha
+                if (x < minX) {
+                    x = minX;
+                    y = x * coefAng + coefLin;
+                } else if (x > maxX) {
+                    x = maxX;
+                    y = x * coefAng + coefLin;
+                }
+            } else { //funcao linear pelo eixo Y
+                //Calculando a equação reta
+                coefAng = (point2.X - point1.X) / (point2.Y - point1.Y);
+                coefLin = -point1.Y * coefAng + point1.X;
+                //calculando a reta perpendicar passando no ponto
+                coefAngPar = -1 / coefAng * coefLin;
+                coefLinPar = point.X - coefAngPar * point.Y;
+                //calculando o ponto de interceção das duas retas
+                y = (coefLin - coefLinPar) / (coefAngPar - coefAng);
+                x = y * coefAng + coefLin;
+
+                //verifica se o ponto Y passa dos limites da linha
+                if (x < minX) {
+                    x = minX;
+                    y = x / coefAng - coefLin;
+                } else if (x > maxX) {
+                    x = maxX;
+                    y = x / coefAng - coefLin;
+                }
+
+                //verifica se o ponto X passa dos limites da linha
+                if (y < minY) {
+                    y = minY;
+                    x = y * coefAng + coefLin;
+                } else if (y > maxY) {
+                    x = maxY;
+                    x = y * coefAng + coefLin;
+                }
             }
 
             //Verifica se é uma reta totalmente paralela ao eixo y
@@ -388,9 +440,7 @@ namespace IDE {
             float menorX = x > point.X ? point.X : x;
             float maiorY = y > point.Y ? y : point.Y;
             float menorY = y > point.Y ? point.Y : y;
-
-            Console.WriteLine((maiorX - menorX) * (maiorX - menorX) + (maiorY - menorY) * (maiorY - menorY));
-
+            
             //calcula a distancia
             if ((maiorX - menorX) * (maiorX - menorX) + (maiorY - menorY) * (maiorY - menorY) < 5 * 5) {
                 return true;
