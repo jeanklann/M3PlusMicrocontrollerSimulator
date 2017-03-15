@@ -191,6 +191,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CircuitSimulator\CircuitSimulator.csproj">
+      <Project>{e86833f2-06bb-4c7c-b455-b563862abbac}</Project>
+      <Name>CircuitSimulator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SimuladorM3Mais\M3PlusMicrocontroller.csproj">
       <Project>{517f196c-bb20-4543-9e52-63ee9a307938}</Project>
       <Name>M3PlusMicrocontroller</Name>
