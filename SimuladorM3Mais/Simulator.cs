@@ -67,8 +67,6 @@ namespace M3PlusMicrocontroller {
                 if (!Running) return;
                 currentFrequency = instructionsCount;
                 frequencyReaded = true;
-                Console.WriteLine(currentFrequency);
-                
             }
 
         }

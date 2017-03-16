@@ -1,4 +1,7 @@
-﻿namespace IDE {
+﻿using System;
+using System.Windows.Forms;
+
+namespace IDE {
     partial class Circuito {
         /// <summary> 
         /// Required designer variable.
@@ -34,7 +37,8 @@
             this.Size = new System.Drawing.Size(547, 395);
             this.Load += new System.EventHandler(this.Circuito_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Circuito_Paint);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Circuito_KeyPress);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Circuito_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Circuito_KeyUp);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Circuito_MouseClick);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Circuito_MouseDoubleClick);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Circuito_MouseDown);

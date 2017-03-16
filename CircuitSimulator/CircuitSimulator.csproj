@@ -52,6 +52,7 @@
     <Compile Include="Components\Digital\Gates\OrGate.cs" />
     <Compile Include="Components\Digital\Gates\XnorGate.cs" />
     <Compile Include="Components\Digital\Gates\XorGate.cs" />
+    <Compile Include="Components\Digital\Keyboard.cs" />
     <Compile Include="Components\Digital\LogicInput.cs" />
     <Compile Include="Components\Digital\LogicOutput.cs" />
     <Compile Include="Components\Digital\ShiftRegister.cs" />

@@ -108,10 +108,13 @@ namespace IDE {
         public static void Run() {
             if (Simulador != null) {
                 if (!Simulador.Running) {
-                    Codigo.Visible = false;
-                    Circuito.Visible = false;
-                    Depurador.Visible = true;
+                    if (Codigo.Visible) {
+                        Codigo.Visible = false;
+                        Circuito.Visible = false;
+                        Depurador.Visible = true;
+                    }
                     Simulador.Run();
+                    Circuito.Run();
                 }
             }
             if (threadDepurador == null) {
@@ -128,20 +131,24 @@ namespace IDE {
                     Simulador.Pause();
                 }
             }
+            
         }
         public static void Stop() {
             if(Simulador != null) {
                 Simulador.Stop();
             }
+            Circuito.Stop();
         }
         public static void StepIn() {
             if (Simulador != null) {
                 Simulador.Debug_StepInto();
+                Circuito.Tick();
             }
         }
         public static void StepOut() {
             if (Simulador != null) {
                 Simulador.Debug_StepOut();
+                Circuito.Tick();
             }
         }
 

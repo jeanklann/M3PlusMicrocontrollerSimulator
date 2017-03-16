@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
 using CircuitSimulator;
 using System.Threading;
 
@@ -17,6 +18,7 @@ namespace IDE {
         public MouseProps MouseProps = new MouseProps();
         public Terminals Terminals = new Terminals();
         public List<Wire> Wires = new List<Wire>();
+        public byte KeyDown_byte = 0;
         public Wire HoverWire;
         public Wire SelectedWire;
         public Component Over;
@@ -26,9 +28,11 @@ namespace IDE {
         private Thread thread;
         public PointF Position = new PointF();
         public List<Component> Components = new List<Component>();
-        public List<CircuitComponentToDrawComponent> CircuitComponentToDrawComponents = new List<CircuitComponentToDrawComponent>();
-        public List<CircuitWireToDrawWire> CircuitWireToDrawWire = new List<CircuitWireToDrawWire>();
-        public bool Running = false;
+        public Dictionary<Component, CircuitSimulator.Component> CircuitComponentToDrawComponents = new Dictionary<Component, CircuitSimulator.Component>();
+        public Dictionary<Wire, CircuitSimulator.Components.Wire> CircuitWireToDrawWire = new Dictionary<Wire, CircuitSimulator.Components.Wire>();
+        public Dictionary<CircuitSimulator.Component, Component> DrawComponentsToCircuitComponent = new Dictionary<CircuitSimulator.Component, Component>();
+        public Dictionary<CircuitSimulator.Components.Wire, Wire> DrawWireToCircuitWire = new Dictionary<CircuitSimulator.Components.Wire, Wire>();
+
         public Circuito() {
             InitializeComponent();
         }
@@ -36,83 +40,196 @@ namespace IDE {
         public void Run() {
             if(Circuit == null) {
                 MountCircuit();
+                thread = new Thread(ThreadRun);
+                thread.Start();
             }
-            Running = true;
-        }
-        public void Pause() {
-            Running = false;
         }
         public void Tick() {
             if (Circuit == null) {
                 MountCircuit();
+                thread = new Thread(ThreadRun);
+                thread.Start();
             }
-            Circuit.Tick();
+            Circuit.Ticks(5);
         }
         public void Stop() {
-            Running = false;
             Circuit = null;
+            ResetColors();
+        }
+
+        private void ResetColors() {
+            foreach (Wire item in Wires) {
+                item.Color = Draws.Color_off;
+            }
+            foreach (Component item in Components) {
+                if(item.Draw.DisplayListHandle == Draws.And[1].DisplayListHandle) {
+                    item.Draw = Draws.And[0];
+                } else if (item.Draw.DisplayListHandle == Draws.Nand[1].DisplayListHandle) {
+                    item.Draw = Draws.Nand[0];
+                } else if (item.Draw.DisplayListHandle == Draws.Or[1].DisplayListHandle) {
+                    item.Draw = Draws.Or[0];
+                } else if (item.Draw.DisplayListHandle == Draws.Nor[1].DisplayListHandle) {
+                    item.Draw = Draws.Nor[0];
+                } else if (item.Draw.DisplayListHandle == Draws.Xor[1].DisplayListHandle) {
+                    item.Draw = Draws.Xor[0];
+                } else if (item.Draw.DisplayListHandle == Draws.Xnor[1].DisplayListHandle) {
+                    item.Draw = Draws.Xnor[0];
+                } else if (item.Draw.DisplayListHandle == Draws.Not[1].DisplayListHandle) {
+                    item.Draw = Draws.Not[0];
+                } else if (item.Draw.DisplayListHandle == Draws.Output[1].DisplayListHandle) {
+                    item.Draw = Draws.Output[0];
+                } else if (item.Draw.DisplayListHandle == Draws.Disable[1].DisplayListHandle || item.Draw.DisplayListHandle == Draws.Disable[2].DisplayListHandle) {
+                    item.Draw = Draws.Disable[0];
+                }
+            }
+        }
+
+        private void ThreadRun() {
+            while (Circuit != null || !UIStatics.WantExit) {
+                List<CircuitSimulator.Component> copy;
+                try {
+                    copy = Circuit.Components;
+                } catch (Exception) {
+                    break;
+                }
+                float halfCut = Pin.HIGH + Pin.LOW / 2f;
+                foreach (CircuitSimulator.Component item in copy) {
+                    if(item is CircuitSimulator.Components.Wire) {
+                        Wire DrawComponent = DrawWireToCircuitWire[(CircuitSimulator.Components.Wire)item];
+                        if (item.Pins[0].IsOpen) {
+                            DrawComponent.Color = Draws.Color_3rd;
+                        } else if (item.Pins[0].Value >= halfCut) {
+                            DrawComponent.Color = Draws.Color_on;
+                        } else {
+                            DrawComponent.Color = Draws.Color_off;
+                        }
+                    } else {
+                        Component DrawComponent = DrawComponentsToCircuitComponent[item];
+                        if(item is AndGate) {
+                            if(((AndGate)item).Output.Value >= halfCut) {
+                                DrawComponent.Draw = Draws.And[1];
+                            } else {
+                                DrawComponent.Draw = Draws.And[0];
+                            }
+                        } else if (item is NandGate) {
+                            if (((NandGate)item).Output.Value >= halfCut) {
+                                DrawComponent.Draw = Draws.Nand[1];
+                            } else {
+                                DrawComponent.Draw = Draws.Nand[0];
+                            }
+                        } else if (item is OrGate) {
+                            if (((OrGate)item).Output.Value >= halfCut) {
+                                DrawComponent.Draw = Draws.Or[1];
+                            } else {
+                                DrawComponent.Draw = Draws.Or[0];
+                            }
+                        } else if (item is NorGate) {
+                            if (((NorGate)item).Output.Value >= halfCut) {
+                                DrawComponent.Draw = Draws.Nor[1];
+                            } else {
+                                DrawComponent.Draw = Draws.Nor[0];
+                            }
+                        }
+                        else if(item is XorGate) {
+                            if (((XorGate)item).Output.Value >= halfCut) {
+                                DrawComponent.Draw = Draws.Xor[1];
+                            } else {
+                                DrawComponent.Draw = Draws.Xor[0];
+                            }
+                        } else if (item is XnorGate) {
+                            if (((XnorGate)item).Output.Value >= halfCut) {
+                                DrawComponent.Draw = Draws.Xnor[1];
+                            } else {
+                                DrawComponent.Draw = Draws.Xnor[0];
+                            }
+                        } else if (item is NotGate) {
+                            if (((NotGate)item).Output.Value >= halfCut) {
+                                DrawComponent.Draw = Draws.Not[1];
+                            } else {
+                                DrawComponent.Draw = Draws.Not[0];
+                            }
+                        } else if (item is LogicInput) {
+                            if (DrawComponent.Draw.DisplayListHandle == Draws.Input[0].DisplayListHandle) {
+                                ((LogicInput)item).Value = Pin.LOW;
+                            } else if (DrawComponent.Draw.DisplayListHandle == Draws.Input[1].DisplayListHandle) {
+                                ((LogicInput)item).Value = Pin.HIGH;
+                            } else {
+                                throw new Exception("Erro.");
+                            }
+                        } else if (item is LogicOutput) {
+                            if (((LogicOutput)item).Pins[0].Value >= halfCut) {
+                                DrawComponent.Draw = Draws.Output[1];
+                            } else {
+                                DrawComponent.Draw = Draws.Output[0];
+                            }
+                        } else if (item is CircuitSimulator.Components.Digital.Keyboard) {
+                            ((CircuitSimulator.Components.Digital.Keyboard)item).Value = KeyDown_byte;
+                        } else {
+                            throw new NotImplementedException();
+                        }
+                    }
+                }
+                Circuit.Tick();
+                Thread.Sleep(16);
+            }
         }
 
         private void MountCircuit() {
             Circuit = new Circuit();
             CircuitComponentToDrawComponents.Clear();
             CircuitWireToDrawWire.Clear();
-
+            DrawComponentsToCircuitComponent.Clear();
+            DrawWireToCircuitWire.Clear();
             foreach (Component item in Components) {
                 if (item.Draw.DisplayListHandle == Draws.And[0].DisplayListHandle ||
                     item.Draw.DisplayListHandle == Draws.And[1].DisplayListHandle) {
-                    CircuitComponentToDrawComponents.Add( 
-                        new CircuitComponentToDrawComponent(
-                            Circuit.AddComponent(new AndGate()),
-                            item));
+                    CircuitSimulator.Component component = Circuit.AddComponent(new AndGate());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Nand[0].DisplayListHandle ||
                             item.Draw.DisplayListHandle == Draws.Nand[1].DisplayListHandle) {
-                    CircuitComponentToDrawComponents.Add(
-                        new CircuitComponentToDrawComponent(
-                            Circuit.AddComponent(new NandGate()),
-                            item));
+                    CircuitSimulator.Component component = Circuit.AddComponent(new NandGate());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Or[0].DisplayListHandle ||
                             item.Draw.DisplayListHandle == Draws.Or[1].DisplayListHandle) {
-                    CircuitComponentToDrawComponents.Add(
-                        new CircuitComponentToDrawComponent(
-                            Circuit.AddComponent(new OrGate()),
-                            item));
+                    CircuitSimulator.Component component = Circuit.AddComponent(new OrGate());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Nor[0].DisplayListHandle ||
                             item.Draw.DisplayListHandle == Draws.Nor[1].DisplayListHandle) {
-                    CircuitComponentToDrawComponents.Add(
-                        new CircuitComponentToDrawComponent(
-                            Circuit.AddComponent(new NorGate()),
-                            item));
+                    CircuitSimulator.Component component = Circuit.AddComponent(new NorGate());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Xor[0].DisplayListHandle ||
                             item.Draw.DisplayListHandle == Draws.Xor[1].DisplayListHandle) {
-                    CircuitComponentToDrawComponents.Add(
-                        new CircuitComponentToDrawComponent(
-                            Circuit.AddComponent(new XorGate()),
-                            item));
+                    CircuitSimulator.Component component = Circuit.AddComponent(new XorGate());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Xnor[0].DisplayListHandle ||
                             item.Draw.DisplayListHandle == Draws.Xnor[1].DisplayListHandle) {
-                    CircuitComponentToDrawComponents.Add(
-                        new CircuitComponentToDrawComponent(
-                            Circuit.AddComponent(new XnorGate()),
-                            item));
+                    CircuitSimulator.Component component = Circuit.AddComponent(new XnorGate());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Not[0].DisplayListHandle ||
                             item.Draw.DisplayListHandle == Draws.Not[1].DisplayListHandle) {
-                    CircuitComponentToDrawComponents.Add(
-                        new CircuitComponentToDrawComponent(
-                            Circuit.AddComponent(new NotGate()),
-                            item));
+                    CircuitSimulator.Component component = Circuit.AddComponent(new NotGate());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Input[0].DisplayListHandle ||
                              item.Draw.DisplayListHandle == Draws.Input[1].DisplayListHandle) {
-                    CircuitComponentToDrawComponents.Add(
-                        new CircuitComponentToDrawComponent(
-                            Circuit.AddComponent(new LogicInput()),
-                            item));
+                    CircuitSimulator.Component component = Circuit.AddComponent(new LogicInput());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Output[0].DisplayListHandle ||
                              item.Draw.DisplayListHandle == Draws.Output[1].DisplayListHandle) {
-                    CircuitComponentToDrawComponents.Add(
-                        new CircuitComponentToDrawComponent(
-                            Circuit.AddComponent(new LogicOutput()),
-                            item));
+                    CircuitSimulator.Component component = Circuit.AddComponent(new LogicOutput());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.Keyboard.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new CircuitSimulator.Components.Digital.Keyboard());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Disable[0].DisplayListHandle ||
                             item.Draw.DisplayListHandle == Draws.Disable[1].DisplayListHandle ||
                             item.Draw.DisplayListHandle == Draws.Disable[2].DisplayListHandle) {
@@ -122,21 +239,78 @@ namespace IDE {
                 }
             }
             foreach (Wire item in Wires) {
-                CircuitWireToDrawWire.Add(
-                    new CircuitWireToDrawWire(
-                        new CircuitSimulator.Components.Wire(), item));
+                CircuitSimulator.Components.Wire wire = Circuit.AddComponent(new CircuitSimulator.Components.Wire());
+                CircuitWireToDrawWire.Add(item, wire);
+                DrawWireToCircuitWire.Add(wire, item);
             }
 
 
-            foreach (CircuitWireToDrawWire item in CircuitWireToDrawWire) {
-                if(item.DrawWire.FromComponent != null && item.DrawWire.ToComponent != null) {
-
-                } else if (item.DrawWire.FromComponent != null && item.DrawWire.ToComponent == null) {
-
-                } else if (item.DrawWire.FromComponent == null && item.DrawWire.ToComponent != null) {
-
-                } else if (item.DrawWire.FromComponent == null && item.DrawWire.ToComponent == null) {
-
+            foreach (Wire item in Wires) {
+                if(item.FromComponent != null && item.ToComponent != null) {//from and to is component
+                    CircuitSimulator.Component From = CircuitComponentToDrawComponents[item.FromComponent];
+                    CircuitSimulator.Component To = CircuitComponentToDrawComponents[item.ToComponent];
+                    CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
+                    Wire.Pins[0].Connect(From.Pins[item.FromIndex]);
+                    Wire.Pins[1].Connect(To.Pins[item.ToIndex]);
+                } else if (item.FromComponent != null && item.ToComponent == null) {// from is and to is not a component
+                    CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
+                    CircuitSimulator.Component From = CircuitComponentToDrawComponents[item.FromComponent];
+                    List<Pin> TempPins = new List<Pin>();
+                    foreach (Wire item2 in Wires) {
+                        if(item.To == item2.From) {
+                            if (item != item2)
+                                TempPins.Add(CircuitWireToDrawWire[item2].Pins[0]);
+                        } else if(item.To == item2.To) {
+                            if (item != item2)
+                                TempPins.Add(CircuitWireToDrawWire[item2].Pins[1]);
+                        }
+                    }
+                    Wire.Pins[0].Connect(From.Pins[item.FromIndex]);
+                    foreach (Pin pin in TempPins) {
+                        Wire.Pins[1].Connect(pin);
+                    }
+                } else if (item.FromComponent == null && item.ToComponent != null) {//from is not and to is a component
+                    CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
+                    CircuitSimulator.Component To = CircuitComponentToDrawComponents[item.ToComponent];
+                    List<Pin> TempPins = new List<Pin>();
+                    foreach (Wire item2 in Wires) {
+                        if (item.From == item2.From) {
+                            if (item != item2)
+                                TempPins.Add(CircuitWireToDrawWire[item2].Pins[0]);
+                        } else if (item.From == item2.To) {
+                            if (item != item2)
+                                TempPins.Add(CircuitWireToDrawWire[item2].Pins[1]);
+                        }
+                    }
+                    Wire.Pins[1].Connect(To.Pins[item.FromIndex]);
+                    foreach (Pin pin in TempPins) {
+                        Wire.Pins[0].Connect(pin);
+                    }
+                } else if (item.FromComponent == null && item.ToComponent == null) {//from and to is not a component
+                    CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
+                    List<Pin> TempPinsFrom = new List<Pin>();
+                    List<Pin> TempPinsTo = new List<Pin>();
+                    foreach (Wire item2 in Wires) {
+                        if (item.From == item2.From) {
+                            if (item != item2)
+                                TempPinsFrom.Add(CircuitWireToDrawWire[item2].Pins[0]);
+                        } else if (item.From == item2.To) {
+                            if (item != item2)
+                                TempPinsFrom.Add(CircuitWireToDrawWire[item2].Pins[1]);
+                        } else if (item.To == item2.From) {
+                            if (item != item2)
+                                TempPinsTo.Add(CircuitWireToDrawWire[item2].Pins[0]);
+                        } else if (item.To == item2.To) {
+                            if (item != item2)
+                                TempPinsTo.Add(CircuitWireToDrawWire[item2].Pins[1]);
+                        }
+                    }
+                    foreach (Pin pin in TempPinsFrom) {
+                        Wire.Pins[0].Connect(pin);
+                    }
+                    foreach (Pin pin in TempPinsTo) {
+                        Wire.Pins[1].Connect(pin);
+                    }
                 }
             }
 
@@ -170,6 +344,8 @@ namespace IDE {
 
         public override void Refresh() {
             base.Refresh();
+            
+            
             if (MouseProps.Button2Pressed) {
                 Position = new PointF(Position.X+((MouseProps.LastPosition.X - MouseProps.CurrentPosition.X)/zoom), Position.Y-((MouseProps.LastPosition.Y - MouseProps.CurrentPosition.Y)/zoom));
             }
@@ -238,7 +414,7 @@ namespace IDE {
                 }
             }
 
-            if (MouseProps.Button1Pressed) {
+            if (MouseProps.Button1Pressed && Circuit == null) {
                 if (Selected != null) {
                     if (canDrag == false) {
                         //float distance = (Center.X + terminal.X - Point.X) * (Center.X + terminal.X - Point.X) + (Center.Y + terminal.Y - Point.Y) * (Center.Y + terminal.Y - Point.Y);
@@ -324,7 +500,7 @@ namespace IDE {
                 GL.Translate(-item.Center.X, -item.Center.Y, 0);
             }
 
-            if (MouseProps.Button1Pressed) {
+            if (MouseProps.Button1Pressed && Circuit == null) {
                 if(Terminals.FromComponent != null) {
                     GL.Color3(Color.Black);
                     GL.Begin(BeginMode.Lines);
@@ -349,6 +525,7 @@ namespace IDE {
         private void Circuito_Load(object sender, EventArgs e) {
             GL.ClearColor(BackColor);
             Application.Idle += Application_Idle;
+            
             Draws.Load();
             /*
             Components.Add(new Component(Draws.Input[0], new PointF(0, 0)));
@@ -360,17 +537,36 @@ namespace IDE {
             Components.Add(new Component(Draws.Output[0], new PointF(20, 20)));
             Components.Add(new Component(Draws.Output[1], new PointF(20, 50)));
             */
+            /*
+            Components.Add(new Component(Draws.Input[1], new PointF(0, 0)));
+            Components.Add(new Component(Draws.Input[1], new PointF(0, 0)));
+            Components.Add(new Component(Draws.And[0], new PointF(0, 0)));
+            Components.Add(new Component(Draws.Output[0], new PointF(0, 0)));
+            */
+            
             Components.Add(new Component(Draws.Nor[0], new PointF(-100, -100)));
             Components.Add(new Component(Draws.Or[0], new PointF(-50, -100)));
             Components.Add(new Component(Draws.Not[0], new PointF(0, -100)));
-            Components.Add(new Component(Draws.Disable[0], new PointF(50, -100)));
+            //Components.Add(new Component(Draws.Disable[0], new PointF(50, -100)));
             Components.Add(new Component(Draws.Input[0], new PointF(100, -100)));
             Components.Add(new Component(Draws.Output[0], new PointF(-100, -50)));
             Components.Add(new Component(Draws.And[0], new PointF(-50, -50)));
             Components.Add(new Component(Draws.Nand[0], new PointF(0, -50)));
             Components.Add(new Component(Draws.Xor[0], new PointF(50, -50)));
             Components.Add(new Component(Draws.Xnor[0], new PointF(100, -50)));
-            Components.Add(new Component(Draws.Circuit[8,16], new PointF(200, 0)));
+
+
+            Components.Add(new Component(Draws.Keyboard, new PointF(0, 100)));
+
+
+            Components.Add(new Component(Draws.Input[0], new PointF(-100, 0)));
+            Components.Add(new Component(Draws.Input[0], new PointF(-50, 0)));
+            //Components.Add(new Component(Draws.Circuit[8,16], new PointF(200, 0)));
+
+        }
+        public void LoadControl() {
+            Visible = true;
+            Visible = false;
         }
         void Application_Idle(object sender, EventArgs e) {
             while (IsIdle) {
@@ -394,19 +590,31 @@ namespace IDE {
             Render();
         }
 
-        private void Circuito_MouseDoubleClick(object sender, MouseEventArgs e) {
+        private void Circuito_KeyUp(object sender, KeyEventArgs e) {
+            if(KeyDown_byte == (byte)e.KeyValue)
+                KeyDown_byte = 0;
+        }
+
+        private void Circuito_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e) {
             MouseProps.LastDoubleClickPosition = e.Location;
+            if(Over != null) {
+                if(Over.Draw.DisplayListHandle == Draws.Input[0].DisplayListHandle) {
+                    Over.Draw = Draws.Input[1];
+                } else if (Over.Draw.DisplayListHandle == Draws.Input[1].DisplayListHandle) {
+                    Over.Draw = Draws.Input[0];
+                }
+            }
             Refresh();
         }
 
-        private void Circuito_MouseClick(object sender, MouseEventArgs e) {
+        private void Circuito_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 MouseProps.LastClickPosition = e.Location;
             }
             Refresh();
         }
 
-        private void Circuito_MouseDown(object sender, MouseEventArgs e) {
+        private void Circuito_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e) {
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) {
                 MouseProps.LastDownPosition = e.Location;
                 if (e.Button == MouseButtons.Left) {
@@ -438,13 +646,13 @@ namespace IDE {
             Refresh();
         }
 
-        private void Circuito_MouseMove(object sender, MouseEventArgs e) {
+        private void Circuito_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e) {
             MouseProps.LastPosition = MouseProps.CurrentPosition;
             MouseProps.CurrentPosition = e.Location;
             Refresh();
         }
 
-        private void Circuito_MouseUp(object sender, MouseEventArgs e) {
+        private void Circuito_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e) {
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) {
                 MouseProps.LastUpPosition = e.Location;
                 if (e.Button == MouseButtons.Left) {
@@ -453,26 +661,28 @@ namespace IDE {
                     MouseProps.Button2Pressed = false;
                 }
             }
-            if (Terminals.FromComponent != null) {
-                if (Terminals.HoverComponent != null) {
-                    if (Terminals.HoverComponent != Terminals.FromComponent || Terminals.HoverIndex != Terminals.FromIndex) {
-                        Wires.Add(new Wire(Terminals.FromComponent, Terminals.FromIndex, Terminals.HoverComponent, Terminals.HoverIndex));
+            if (Circuit == null) {
+                if (Terminals.FromComponent != null) {
+                    if (Terminals.HoverComponent != null) {
+                        if (Terminals.HoverComponent != Terminals.FromComponent || Terminals.HoverIndex != Terminals.FromIndex) {
+                            Wires.Add(new Wire(Terminals.FromComponent, Terminals.FromIndex, Terminals.HoverComponent, Terminals.HoverIndex));
+                        }
+                    } else {
+                        PointF point = MouseProps.ToWorld(MouseProps.LastUpPosition, ClientSize, Position, zoom);
+                        point.X = (float)Math.Round(point.X / 5) * 5;
+                        point.Y = (float)Math.Round(point.Y / 5) * 5;
+                        Wires.Add(new Wire(Terminals.FromComponent, Terminals.FromIndex, point));
                     }
-                } else {
-                    PointF point = MouseProps.ToWorld(MouseProps.LastUpPosition, ClientSize, Position, zoom);
-                    point.X = (float)Math.Round(point.X / 5) * 5;
-                    point.Y = (float)Math.Round(point.Y / 5) * 5;
-                    Wires.Add(new Wire(Terminals.FromComponent, Terminals.FromIndex, point));
-                }
-            } else if (Terminals.FromNotComponent) {
-                if (Terminals.HoverComponent != null) {
-                    Wires.Add(new Wire(Terminals.From, Terminals.HoverComponent, Terminals.HoverIndex));
-                } else {
-                    PointF point = MouseProps.ToWorld(MouseProps.LastUpPosition, ClientSize, Position, zoom);
-                    point.X = (float)Math.Round(point.X / 5) * 5;
-                    point.Y = (float)Math.Round(point.Y / 5) * 5;
-                    if ((Terminals.From.X - point.X) * (Terminals.From.X - point.X) + (Terminals.From.Y - point.Y) * (Terminals.From.Y - point.Y) >= 10 * 10) {
-                        Wires.Add(new Wire(Terminals.From, point));
+                } else if (Terminals.FromNotComponent) {
+                    if (Terminals.HoverComponent != null) {
+                        Wires.Add(new Wire(Terminals.From, Terminals.HoverComponent, Terminals.HoverIndex));
+                    } else {
+                        PointF point = MouseProps.ToWorld(MouseProps.LastUpPosition, ClientSize, Position, zoom);
+                        point.X = (float)Math.Round(point.X / 5) * 5;
+                        point.Y = (float)Math.Round(point.Y / 5) * 5;
+                        if ((Terminals.From.X - point.X) * (Terminals.From.X - point.X) + (Terminals.From.Y - point.Y) * (Terminals.From.Y - point.Y) >= 10 * 10) {
+                            Wires.Add(new Wire(Terminals.From, point));
+                        }
                     }
                 }
             }
@@ -498,7 +708,7 @@ namespace IDE {
                 } else if (item == SelectedWire) {
                     GL.Color3(Color.Orange);
                 } else {
-                    GL.Color3(Color.Black);
+                    GL.Color3(item.Color);
                 }
                 GL.Begin(BeginMode.Lines);
                 GL.Vertex2(item.From.X, item.From.Y);
@@ -556,37 +766,11 @@ namespace IDE {
             }
             
         }
-
-        private void Circuito_KeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e) {
-            if(e.KeyChar == 'r') {
-                if(Selected!= null) { 
-                    Selected.Rotation += 90;
-                    if (Selected.Rotation >= 360) Selected.Rotation -= 360;
-                }
-            } else if(e.KeyChar == 'd') {
-                if(Selected != null) {
-                    SelectedWire = null;
-                    HoverWire = null;
-                    int length = Wires.Count;
-                    for (int i = 0; i < length; i++) {
-                        if (Wires[i].FromComponent == Selected || Wires[i].ToComponent == Selected) {
-                            Wires.Remove(Wires[i]);
-                            --i;
-                            --length;
-                        }
-                    }
-                    Components.Remove(Selected);
-                    Selected = null;
-                    Over = null;
-                } else if(SelectedWire != null) {
-                    Wires.Remove(SelectedWire);
-                    SelectedWire = null;
-                    HoverWire = null;
-                }
-            }
-            Refresh();
+        /*
+        private void Circuito_KeyUp(object sender, System.Windows.Forms.KeyPressEventArgs e) {
+            
         }
-
+        */
         private static bool OnWire(PointF point1, PointF point2, PointF point) {
             //pegando os valores máximos
             float maxX = point1.X > point2.X ? point1.X : point2.X;
@@ -676,6 +860,39 @@ namespace IDE {
             }
             return false;
         }
+
+        private void Circuito_KeyDown(object sender, KeyEventArgs e) {
+            KeyDown_byte = (byte) e.KeyValue;
+            if (Circuit == null) {
+                if (e.KeyCode == Keys.R) {
+                    if (Selected != null) {
+                        Selected.Rotation += 90;
+                        if (Selected.Rotation >= 360) Selected.Rotation -= 360;
+                    }
+                } else if (e.KeyCode == Keys.Delete) {
+                    if (Selected != null) {
+                        SelectedWire = null;
+                        HoverWire = null;
+                        int length = Wires.Count;
+                        for (int i = 0; i < length; i++) {
+                            if (Wires[i].FromComponent == Selected || Wires[i].ToComponent == Selected) {
+                                Wires.Remove(Wires[i]);
+                                --i;
+                                --length;
+                            }
+                        }
+                        Components.Remove(Selected);
+                        Selected = null;
+                        Over = null;
+                    } else if (SelectedWire != null) {
+                        Wires.Remove(SelectedWire);
+                        SelectedWire = null;
+                        HoverWire = null;
+                    }
+                }
+            }
+            Refresh();
+        }
     }
 
     public class CircuitDraw {
@@ -746,6 +963,7 @@ namespace IDE {
         public static ComponentDraw[] Nor;
         public static ComponentDraw[] Xor;
         public static ComponentDraw[] Xnor;
+        public static ComponentDraw Keyboard;
         public static CircuitDraw Circuit;
 
 
@@ -770,9 +988,46 @@ namespace IDE {
             Circuit = new CircuitDraw();
         }
         private static void Gen7SegDisplay() { }
-        private static void GenKeyboard() { }
-        
+        private static void GenKeyboard() {
+            Keyboard = new ComponentDraw(GL.GenLists(1), 90, 50, 8);
+            for (int i = 0; i < Keyboard.Terminals.Length; i++) {
+                Keyboard.Terminals[i] = new Point(-Keyboard.Width / 2+i*10+10, Keyboard.Height / 2);
+            }
 
+            GL.NewList(Keyboard.DisplayListHandle, ListMode.Compile);
+            GL.Color3(Color_off);
+            GL.Begin(BeginMode.LineLoop);
+            GL.Vertex2(-Keyboard.Width / 2, -Keyboard.Height / 2);
+            GL.Vertex2(Keyboard.Width / 2, -Keyboard.Height / 2);
+            GL.Vertex2(Keyboard.Width / 2, Keyboard.Height / 2 - 10);
+            GL.Vertex2(-Keyboard.Width / 2, Keyboard.Height / 2 - 10);
+            GL.End();
+
+            GL.Begin(BeginMode.Lines);
+            for (int i = 0; i < Keyboard.Terminals.Length; i++) {
+                GL.Vertex2(-Keyboard.Width / 2 + i * 10 + 10, Keyboard.Height / 2);
+                GL.Vertex2(-Keyboard.Width / 2 + i * 10 + 10, Keyboard.Height / 2-10);
+            }
+            GL.End();
+
+            GL.Begin(BeginMode.Quads);
+            for (int y = 0; y < 3; y++) {
+                for (int x = 0; x < 8; x++) {
+                    if (y % 2 == 0) {
+                        GL.Vertex2(-40 + 10 * x, 10 - 10 * y); GL.Vertex2(-35 + 10 * x, 10 - 10 * y); GL.Vertex2(-35 + 10 * x, 5 - 10 * y); GL.Vertex2(-40 + 10 * x, 5 - 10 * y);
+                    } else {
+                        GL.Vertex2(-35 + 10 * x, 10 - 10 * y); GL.Vertex2(-30 + 10 * x, 10 - 10 * y); GL.Vertex2(-30 + 10 * x, 5 - 10 * y); GL.Vertex2(-35 + 10 * x, 5 - 10 * y);
+                    }
+                }
+                if (y == 2) {
+                    GL.Vertex2(-40 + 10 * 5, 10 - 10 * y); GL.Vertex2(-35 + 10 * 2, 10 - 10 * y); GL.Vertex2(-35 + 10 * 2, 5 - 10 * y); GL.Vertex2(-40 + 10 * 5, 5 - 10 * y);
+                }
+            }
+            
+            GL.End();
+
+            GL.EndList();
+        }
         private static void GenXnor() {
             int total = 8;
             Vector2[] halfCircle1 = new Vector2[total];
@@ -1552,22 +1807,6 @@ namespace IDE {
         }
 
     }
-    public class CircuitComponentToDrawComponent {
-        public CircuitSimulator.Component CircuitComponent;
-        public Component DrawComponent;
-        public CircuitComponentToDrawComponent(CircuitSimulator.Component CircuitComponent, Component DrawComponent) {
-            this.CircuitComponent = CircuitComponent;
-            this.DrawComponent = DrawComponent;
-        }
-    }
-    public class CircuitWireToDrawWire {
-        public CircuitSimulator.Components.Wire CircuitWire;
-        public Wire DrawWire;
-        public CircuitWireToDrawWire(CircuitSimulator.Components.Wire CircuitWire, Wire DrawWire) {
-            this.CircuitWire = CircuitWire;
-            this.DrawWire = DrawWire;
-        }
-    }
     public class ComponentDraw {
         public int DisplayListHandle;
         public int Width;
@@ -1703,3 +1942,4 @@ namespace IDE {
         }
     }
 }
+    

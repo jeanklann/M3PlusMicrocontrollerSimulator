@@ -55,7 +55,7 @@ namespace IDE {
         }
 
         private void Form1_Load(object sender, EventArgs e) {
-
+            UIStatics.Circuito.LoadControl();
         }
 
         private void codigo1_Load(object sender, EventArgs e) {
