@@ -231,10 +231,12 @@ namespace IDE {
                     if (dField.UserInput) UIStatics.Simulador.Reg[3] = (byte)dField.Value;
                     if (eField.UserInput) UIStatics.Simulador.Reg[4] = (byte)eField.Value;
 
+                    /*
                     if (in0Field.UserInput) UIStatics.Simulador.In[0] = (byte)in0Field.Value;
                     if (in1Field.UserInput) UIStatics.Simulador.In[1] = (byte)in1Field.Value;
                     if (in2Field.UserInput) UIStatics.Simulador.In[2] = (byte)in2Field.Value;
                     if (in3Field.UserInput) UIStatics.Simulador.In[3] = (byte)in3Field.Value;
+                    */
 
                     if (out0Field.UserInput) UIStatics.Simulador.Out[0] = (byte)out0Field.Value;
                     if (out1Field.UserInput) UIStatics.Simulador.Out[1] = (byte)out1Field.Value;

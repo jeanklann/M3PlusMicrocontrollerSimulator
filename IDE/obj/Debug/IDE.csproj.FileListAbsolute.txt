@@ -102,3 +102,5 @@ D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\SimuladorM+++.pdb
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\M3PlusMicrocontroller.dll
 D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\CircuitSimulator.dll
 D:\M3PlusMicrocontrollerSimulator\IDE\bin\Debug\CircuitSimulator.pdb
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\CircuitSimulator.dll
+D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Debug\CircuitSimulator.pdb

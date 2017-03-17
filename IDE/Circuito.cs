@@ -10,8 +10,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 using CircuitSimulator;
 using System.Threading;
-
-
+using CircuitSimulator.Components.Digital;
 
 namespace IDE {
     public partial class Circuito : GLControl {
@@ -164,6 +163,14 @@ namespace IDE {
                             }
                         } else if (item is CircuitSimulator.Components.Digital.Keyboard) {
                             ((CircuitSimulator.Components.Digital.Keyboard)item).Value = KeyDown_byte;
+                        } else if (item is Microcontroller) {
+                            if (UIStatics.Simulador != null) {
+                                Microcontroller microcontroller = (Microcontroller)item;
+                                for (int i = 0; i < 4; i++) {
+                                    UIStatics.Simulador.In[i] = microcontroller.PinValuesToByteValue(i);
+                                    microcontroller.SetOutput(UIStatics.Simulador.Out[i], i);
+                                }
+                            }
                         } else {
                             throw new NotImplementedException();
                         }
@@ -228,6 +235,10 @@ namespace IDE {
                     DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Keyboard.DisplayListHandle) {
                     CircuitSimulator.Component component = Circuit.AddComponent(new CircuitSimulator.Components.Digital.Keyboard());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.Microcontroller.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new Microcontroller());
                     CircuitComponentToDrawComponents.Add(item, component);
                     DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Disable[0].DisplayListHandle ||
@@ -548,7 +559,9 @@ namespace IDE {
             Components.Add(new Component(Draws.Or[0], new PointF(-50, -100)));
             Components.Add(new Component(Draws.Not[0], new PointF(0, -100)));
             //Components.Add(new Component(Draws.Disable[0], new PointF(50, -100)));
-            Components.Add(new Component(Draws.Input[0], new PointF(100, -100)));
+            for (int i = 0; i < 32; i++) {
+                Components.Add(new Component(Draws.Input[0], new PointF(100, -100-(i*10))));
+            }
             Components.Add(new Component(Draws.Output[0], new PointF(-100, -50)));
             Components.Add(new Component(Draws.And[0], new PointF(-50, -50)));
             Components.Add(new Component(Draws.Nand[0], new PointF(0, -50)));
@@ -557,10 +570,8 @@ namespace IDE {
 
 
             Components.Add(new Component(Draws.Keyboard, new PointF(0, 100)));
-
-
-            Components.Add(new Component(Draws.Input[0], new PointF(-100, 0)));
-            Components.Add(new Component(Draws.Input[0], new PointF(-50, 0)));
+            Components.Add(new Component(Draws.Microcontroller, new PointF(0, 150)));
+            
             //Components.Add(new Component(Draws.Circuit[8,16], new PointF(200, 0)));
 
         }
@@ -964,6 +975,7 @@ namespace IDE {
         public static ComponentDraw[] Xor;
         public static ComponentDraw[] Xnor;
         public static ComponentDraw Keyboard;
+        public static ComponentDraw Microcontroller;
         public static CircuitDraw Circuit;
 
 
@@ -986,8 +998,21 @@ namespace IDE {
             GenKeyboard();
             Gen7SegDisplay();
             Circuit = new CircuitDraw();
+            GenMicrocontroller();
         }
         private static void Gen7SegDisplay() { }
+        private static void GenMicrocontroller() {
+            ComponentDraw DrawCircuit = Circuit[32, 32];
+            Microcontroller = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
+            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+                Microcontroller.Terminals[i] = DrawCircuit.Terminals[i];
+            }
+            GL.NewList(Microcontroller.DisplayListHandle, ListMode.Compile);
+
+            GL.CallList(DrawCircuit.DisplayListHandle);
+
+            GL.EndList();
+        }
         private static void GenKeyboard() {
             Keyboard = new ComponentDraw(GL.GenLists(1), 90, 50, 8);
             for (int i = 0; i < Keyboard.Terminals.Length; i++) {

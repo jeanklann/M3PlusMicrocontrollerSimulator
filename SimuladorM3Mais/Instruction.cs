@@ -1469,29 +1469,29 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction MOV_A_OUT4() {
-            Instruction instruction = new Instruction("MOV A, OUT4", "Copia o conteúdo do acumulador para a saída OUT4.", 1, new int[] { 1 });
-            instruction.Function = delegate (Simulator simulator) {
-                simulator.Out[0] = simulator.Reg[0];
-            };
-            return instruction;
-        }
         public static Instruction MOV_A_OUT1() {
             Instruction instruction = new Instruction("MOV A, OUT1", "Copia o conteúdo do acumulador para a saída OUT1.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Out[1] = simulator.Reg[0];
+                simulator.Out[0] = simulator.Reg[0];
             };
             return instruction;
         }
         public static Instruction MOV_A_OUT2() {
             Instruction instruction = new Instruction("MOV A, OUT2", "Copia o conteúdo do acumulador para a saída OUT2.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Out[2] = simulator.Reg[0];
+                simulator.Out[1] = simulator.Reg[0];
             };
             return instruction;
         }
         public static Instruction MOV_A_OUT3() {
             Instruction instruction = new Instruction("MOV A, OUT3", "Copia o conteúdo do acumulador para a saída OUT3.", 1, new int[] { 1 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Out[2] = simulator.Reg[0];
+            };
+            return instruction;
+        }
+        public static Instruction MOV_A_OUT4() {
+            Instruction instruction = new Instruction("MOV A, OUT4", "Copia o conteúdo do acumulador para a saída OUT4.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[3] = simulator.Reg[0];
             };
@@ -1532,29 +1532,29 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction MOV_IN4_A() {
-            Instruction instruction = new Instruction("MOV IN4, A", "Copia o valor da entrada IN4 para o acumulador.", 1, new int[] { 1 });
-            instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[0] = simulator.In[0];
-            };
-            return instruction;
-        }
         public static Instruction MOV_IN1_A() {
             Instruction instruction = new Instruction("MOV IN1, A", "Copia o valor da entrada IN1 para o acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[0] = simulator.In[1];
+                simulator.Reg[0] = simulator.In[0];
             };
             return instruction;
         }
         public static Instruction MOV_IN2_A() {
             Instruction instruction = new Instruction("MOV IN2, A", "Copia o valor da entrada IN2 para o acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[0] = simulator.In[2];
+                simulator.Reg[0] = simulator.In[1];
             };
             return instruction;
         }
         public static Instruction MOV_IN3_A() {
             Instruction instruction = new Instruction("MOV IN3, A", "Copia o valor da entrada IN3 para o acumulador.", 1, new int[] { 1 });
+            instruction.Function = delegate (Simulator simulator) {
+                simulator.Reg[0] = simulator.In[2];
+            };
+            return instruction;
+        }
+        public static Instruction MOV_IN4_A() {
+            Instruction instruction = new Instruction("MOV IN4, A", "Copia o valor da entrada IN4 para o acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.In[3];
             };
@@ -1657,7 +1657,7 @@ namespace M3PlusMicrocontroller {
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0]+1;
                 simulator.RAM[address] = (byte)val;
-                simulator.Flag_Z = simulator.Reg[4] == 0;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val > 255;
             };
             return instruction;

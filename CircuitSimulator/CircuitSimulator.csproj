@@ -55,6 +55,7 @@
     <Compile Include="Components\Digital\Keyboard.cs" />
     <Compile Include="Components\Digital\LogicInput.cs" />
     <Compile Include="Components\Digital\LogicOutput.cs" />
+    <Compile Include="Components\Digital\Microcontroller.cs" />
     <Compile Include="Components\Digital\ShiftRegister.cs" />
     <Compile Include="Components\Macro.cs" />
     <Compile Include="Components\Wire.cs" />

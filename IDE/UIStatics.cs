@@ -175,7 +175,7 @@ namespace IDE {
 
             scintilla.SetKeywords(0, "mov add sub inc jmp jmpc jmpz call ret and or xor not");
             scintilla.SetKeywords(1, "");
-            scintilla.SetKeywords(2, "a b c d e OUT4 out1 out2 out3 IN4 in1 in2 in3");
+            scintilla.SetKeywords(2, "a b c d e out1 out2 out3 out4 in1 in2 in3 in4");
             
             Margin margin = scintilla.Margins[BREAKPOINT_INDEX_MARGIN];
             margin.Width = 16;

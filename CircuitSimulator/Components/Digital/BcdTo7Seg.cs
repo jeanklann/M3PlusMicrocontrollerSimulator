@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace CircuitSimulator.Components.Digital {
-    public class BcdTo7Seg:Chip {
+    public class BinTo7Seg:Chip {
         /// <summary>
         /// Most dignificant bit
         /// </summary>
@@ -49,7 +49,7 @@ namespace CircuitSimulator.Components.Digital {
 
 
 
-        public BcdTo7Seg(string name = "BcdTo7Seg") : base(name, 12) {
+        public BinTo7Seg(string name = "BinTo7Seg") : base(name, 12) {
 
         }
         protected override void AllocatePins() {
