@@ -91,8 +91,8 @@ namespace M3PlusMicrocontroller {
             Instruction instruction = new Instruction("ADD A, OUT1", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na saída OUT1.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + simulator.Reg[0];
-                simulator.Out[0] = (byte)val;
-                simulator.Flag_Z = simulator.Out[0] == 0;
+                simulator.Out[1] = (byte)val;
+                simulator.Flag_Z = simulator.Out[1] == 0;
                 simulator.Flag_C = val > 255;
             };
             return instruction;
@@ -101,8 +101,8 @@ namespace M3PlusMicrocontroller {
             Instruction instruction = new Instruction("ADD A, OUT2", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na saída OUT2.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + simulator.Reg[0];
-                simulator.Out[1] = (byte)val;
-                simulator.Flag_Z = simulator.Out[1] == 0;
+                simulator.Out[2] = (byte)val;
+                simulator.Flag_Z = simulator.Out[2] == 0;
                 simulator.Flag_C = val > 255;
             };
             return instruction;
@@ -111,18 +111,18 @@ namespace M3PlusMicrocontroller {
             Instruction instruction = new Instruction("ADD A, OUT3", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na saída OUT3.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + simulator.Reg[0];
-                simulator.Out[2] = (byte)val;
-                simulator.Flag_Z = simulator.Out[2] == 0;
+                simulator.Out[3] = (byte)val;
+                simulator.Flag_Z = simulator.Out[3] == 0;
                 simulator.Flag_C = val > 255;
             };
             return instruction;
         }
-        public static Instruction ADD_A_OUT4() {
-            Instruction instruction = new Instruction("ADD A, OUT4", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na saída OUT4.", 1, new int[] { 2 });
+        public static Instruction ADD_A_OUT0() {
+            Instruction instruction = new Instruction("ADD A, OUT0", "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na saída OUT0.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + simulator.Reg[0];
-                simulator.Out[3] = (byte)val;
-                simulator.Flag_Z = simulator.Out[3] == 0;
+                simulator.Out[0] = (byte)val;
+                simulator.Flag_Z = simulator.Out[0] == 0;
                 simulator.Flag_C = val > 255;
             };
             return instruction;
@@ -180,7 +180,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction ADD_IN1_A() {
             Instruction instruction = new Instruction("ADD IN1, A", "Adiciona o valor do acumulador com o valor da entrada IN1 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.Reg[0] + simulator.In[0];
+                int val = simulator.Reg[0] + simulator.In[1];
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val > 255;
@@ -190,7 +190,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction ADD_IN2_A() {
             Instruction instruction = new Instruction("ADD IN2, A", "Adiciona o valor do acumulador com o valor da entrada IN2 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.Reg[0] + simulator.In[1];
+                int val = simulator.Reg[0] + simulator.In[2];
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val > 255;
@@ -200,17 +200,17 @@ namespace M3PlusMicrocontroller {
         public static Instruction ADD_IN3_A() {
             Instruction instruction = new Instruction("ADD IN3, A", "Adiciona o valor do acumulador com o valor da entrada IN3 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.Reg[0] + simulator.In[2];
+                int val = simulator.Reg[0] + simulator.In[3];
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val > 255;
             };
             return instruction;
         }
-        public static Instruction ADD_IN4_A() {
-            Instruction instruction = new Instruction("ADD IN4, A", "Adiciona o valor do acumulador com o valor da entrada IN4 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+        public static Instruction ADD_IN0_A() {
+            Instruction instruction = new Instruction("ADD IN0, A", "Adiciona o valor do acumulador com o valor da entrada IN0 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.Reg[0] + simulator.In[3];
+                int val = simulator.Reg[0] + simulator.In[0];
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val > 255;
@@ -341,8 +341,8 @@ namespace M3PlusMicrocontroller {
             Instruction instruction = new Instruction("SUB A, OUT1", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na saída OUT1.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - simulator.Reg[0];
-                simulator.Out[0] = (byte)val;
-                simulator.Flag_Z = simulator.Out[0] == 0;
+                simulator.Out[1] = (byte)val;
+                simulator.Flag_Z = simulator.Out[1] == 0;
                 simulator.Flag_C = val < 0;
             };
             return instruction;
@@ -351,8 +351,8 @@ namespace M3PlusMicrocontroller {
             Instruction instruction = new Instruction("SUB A, OUT2", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na saída OUT2.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - simulator.Reg[0];
-                simulator.Out[1] = (byte)val;
-                simulator.Flag_Z = simulator.Out[1] == 0;
+                simulator.Out[2] = (byte)val;
+                simulator.Flag_Z = simulator.Out[2] == 0;
                 simulator.Flag_C = val < 0;
             };
             return instruction;
@@ -361,18 +361,18 @@ namespace M3PlusMicrocontroller {
             Instruction instruction = new Instruction("SUB A, OUT3", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na saída OUT3.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - simulator.Reg[0];
-                simulator.Out[2] = (byte)val;
-                simulator.Flag_Z = simulator.Out[2] == 0;
+                simulator.Out[3] = (byte)val;
+                simulator.Flag_Z = simulator.Out[3] == 0;
                 simulator.Flag_C = val < 0;
             };
             return instruction;
         }
-        public static Instruction SUB_A_OUT4() {
-            Instruction instruction = new Instruction("SUB A, OUT4", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na saída OUT4.", 1, new int[] { 2 });
+        public static Instruction SUB_A_OUT0() {
+            Instruction instruction = new Instruction("SUB A, OUT0", "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na saída OUT0.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - simulator.Reg[0];
-                simulator.Out[3] = (byte)val;
-                simulator.Flag_Z = simulator.Out[3] == 0;
+                simulator.Out[0] = (byte)val;
+                simulator.Flag_Z = simulator.Out[0] == 0;
                 simulator.Flag_C = val < 0;
             };
             return instruction;
@@ -430,7 +430,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction SUB_IN1_A() {
             Instruction instruction = new Instruction("SUB IN1, A", "Subtrai o valor do acumulador com o valor da entrada IN1 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.Reg[0] - simulator.In[0];
+                int val = simulator.Reg[0] - simulator.In[1];
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val < 0;
@@ -440,7 +440,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction SUB_IN2_A() {
             Instruction instruction = new Instruction("SUB IN2, A", "Subtrai o valor do acumulador com o valor da entrada IN2 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.Reg[0] - simulator.In[1];
+                int val = simulator.Reg[0] - simulator.In[2];
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val < 0;
@@ -450,17 +450,17 @@ namespace M3PlusMicrocontroller {
         public static Instruction SUB_IN3_A() {
             Instruction instruction = new Instruction("SUB IN3, A", "Subtrai o valor do acumulador com o valor da entrada IN3 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.Reg[0] - simulator.In[2];
+                int val = simulator.Reg[0] - simulator.In[3];
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val < 0;
             };
             return instruction;
         }
-        public static Instruction SUB_IN4_A() {
-            Instruction instruction = new Instruction("SUB IN4, A", "Subtrai o valor do acumulador com o valor da entrada IN4 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+        public static Instruction SUB_IN0_A() {
+            Instruction instruction = new Instruction("SUB IN0, A", "Subtrai o valor do acumulador com o valor da entrada IN0 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.Reg[0] - simulator.In[3];
+                int val = simulator.Reg[0] - simulator.In[0];
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val < 0;
@@ -581,8 +581,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction AND_A_OUT4() {
-            Instruction instruction = new Instruction("AND A, OUT4", "Faz a operação AND do acumulador com o acumulador e o resultado é colocado na saída OUT4.", 1, new int[] { 1 });
+        public static Instruction AND_A_OUT0() {
+            Instruction instruction = new Instruction("AND A, OUT0", "Faz a operação AND do acumulador com o acumulador e o resultado é colocado na saída OUT0.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[0] = (byte)(simulator.Reg[0] & simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Out[0] == 0;
@@ -662,8 +662,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction AND_IN4_A() {
-            Instruction instruction = new Instruction("AND IN4, A", "Faz a operação AND da entrada IN4 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
+        public static Instruction AND_IN0_A() {
+            Instruction instruction = new Instruction("AND IN0, A", "Faz a operação AND da entrada IN0 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(simulator.In[0] & simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -806,8 +806,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction OR_A_OUT4() {
-            Instruction instruction = new Instruction("OR A, OUT4", "Faz a operação OR do acumulador com o acumulador e o resultado é colocado na saída OUT4.", 1, new int[] { 1 });
+        public static Instruction OR_A_OUT0() {
+            Instruction instruction = new Instruction("OR A, OUT0", "Faz a operação OR do acumulador com o acumulador e o resultado é colocado na saída OUT0.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[0] = (byte)(simulator.Reg[0] | simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Out[0] == 0;
@@ -887,8 +887,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction OR_IN4_A() {
-            Instruction instruction = new Instruction("OR IN4, A", "Faz a operação OR da entrada IN4 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
+        public static Instruction OR_IN0_A() {
+            Instruction instruction = new Instruction("OR IN0, A", "Faz a operação OR da entrada IN0 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(simulator.In[0] | simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -1031,8 +1031,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction XOR_A_OUT4() {
-            Instruction instruction = new Instruction("XOR A, OUT4", "Faz a operação XOR do acumulador com o acumulador e o resultado é colocado na saída OUT4.", 1, new int[] { 1 });
+        public static Instruction XOR_A_OUT0() {
+            Instruction instruction = new Instruction("XOR A, OUT0", "Faz a operação XOR do acumulador com o acumulador e o resultado é colocado na saída OUT0.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[0] = (byte)(simulator.Reg[0] ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Out[0] == 0;
@@ -1112,8 +1112,8 @@ namespace M3PlusMicrocontroller {
             };
             return instruction;
         }
-        public static Instruction XOR_IN4_A() {
-            Instruction instruction = new Instruction("XOR IN4, A", "Faz a operação XOR da entrada IN4 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
+        public static Instruction XOR_IN0_A() {
+            Instruction instruction = new Instruction("XOR IN0, A", "Faz a operação XOR da entrada IN0 com o acumulador e o resultado se mantém no acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(simulator.In[0] ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -1259,8 +1259,8 @@ namespace M3PlusMicrocontroller {
         public static Instruction NOT_A_OUT1() {
             Instruction instruction = new Instruction("NOT A, OUT1", "Faz a operação NOT no acumulador e o resultado é colocado na saída OUT1.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Out[0] = (byte)(255 ^ simulator.Reg[0]);
-                simulator.Flag_Z = simulator.Out[0] == 0;
+                simulator.Out[1] = (byte)(255 ^ simulator.Reg[0]);
+                simulator.Flag_Z = simulator.Out[1] == 0;
                 simulator.Flag_C = false;
             };
             return instruction;
@@ -1268,8 +1268,8 @@ namespace M3PlusMicrocontroller {
         public static Instruction NOT_A_OUT2() {
             Instruction instruction = new Instruction("NOT A, OUT2", "Faz a operação NOT no acumulador e o resultado é colocado na saída OUT2.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Out[1] = (byte)(255 ^ simulator.Reg[0]);
-                simulator.Flag_Z = simulator.Out[1] == 0;
+                simulator.Out[2] = (byte)(255 ^ simulator.Reg[0]);
+                simulator.Flag_Z = simulator.Out[2] == 0;
                 simulator.Flag_C = false;
             };
             return instruction;
@@ -1277,17 +1277,17 @@ namespace M3PlusMicrocontroller {
         public static Instruction NOT_A_OUT3() {
             Instruction instruction = new Instruction("NOT A, OUT3", "Faz a operação NOT no acumulador e o resultado é colocado na saída OUT3.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Out[2] = (byte)(255 ^ simulator.Reg[0]);
-                simulator.Flag_Z = simulator.Out[2] == 0;
+                simulator.Out[3] = (byte)(255 ^ simulator.Reg[0]);
+                simulator.Flag_Z = simulator.Out[3] == 0;
                 simulator.Flag_C = false;
             };
             return instruction;
         }
-        public static Instruction NOT_A_OUT4() {
-            Instruction instruction = new Instruction("NOT A, OUT4", "Faz a operação NOT no acumulador e o resultado é colocado na saída OUT4.", 1, new int[] { 1 });
+        public static Instruction NOT_A_OUT0() {
+            Instruction instruction = new Instruction("NOT A, OUT0", "Faz a operação NOT no acumulador e o resultado é colocado na saída OUT0.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Out[3] = (byte)(255 ^ simulator.Reg[0]);
-                simulator.Flag_Z = simulator.Out[3] == 0;
+                simulator.Out[0] = (byte)(255 ^ simulator.Reg[0]);
+                simulator.Flag_Z = simulator.Out[0] == 0;
                 simulator.Flag_C = false;
             };
             return instruction;
@@ -1340,7 +1340,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction NOT_IN1_A() {
             Instruction instruction = new Instruction("NOT IN1, A", "Faz a operação NOT na entrada IN1 e o resultado é colocado no acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[0] = (byte)(255 ^ simulator.In[0]);
+                simulator.Reg[0] = (byte)(255 ^ simulator.In[1]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = false;
             };
@@ -1349,7 +1349,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction NOT_IN2_A() {
             Instruction instruction = new Instruction("NOT IN2, A", "Faz a operação NOT na entrada IN2 e o resultado é colocado no acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[0] = (byte)(255 ^ simulator.In[1]);
+                simulator.Reg[0] = (byte)(255 ^ simulator.In[2]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = false;
             };
@@ -1358,16 +1358,16 @@ namespace M3PlusMicrocontroller {
         public static Instruction NOT_IN3_A() {
             Instruction instruction = new Instruction("NOT IN3, A", "Faz a operação NOT na entrada IN3 e o resultado é colocado no acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[0] = (byte)(255 ^ simulator.In[2]);
+                simulator.Reg[0] = (byte)(255 ^ simulator.In[3]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = false;
             };
             return instruction;
         }
-        public static Instruction NOT_IN4_A() {
-            Instruction instruction = new Instruction("NOT IN4, A", "Faz a operação NOT na entrada IN4 e o resultado é colocado no acumulador.", 1, new int[] { 1 });
+        public static Instruction NOT_IN0_A() {
+            Instruction instruction = new Instruction("NOT IN0, A", "Faz a operação NOT na entrada IN0 e o resultado é colocado no acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[0] = (byte)(255 ^ simulator.In[3]);
+                simulator.Reg[0] = (byte)(255 ^ simulator.In[0]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = false;
             };
@@ -1472,28 +1472,28 @@ namespace M3PlusMicrocontroller {
         public static Instruction MOV_A_OUT1() {
             Instruction instruction = new Instruction("MOV A, OUT1", "Copia o conteúdo do acumulador para a saída OUT1.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Out[0] = simulator.Reg[0];
+                simulator.Out[1] = simulator.Reg[0];
             };
             return instruction;
         }
         public static Instruction MOV_A_OUT2() {
             Instruction instruction = new Instruction("MOV A, OUT2", "Copia o conteúdo do acumulador para a saída OUT2.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Out[1] = simulator.Reg[0];
+                simulator.Out[2] = simulator.Reg[0];
             };
             return instruction;
         }
         public static Instruction MOV_A_OUT3() {
             Instruction instruction = new Instruction("MOV A, OUT3", "Copia o conteúdo do acumulador para a saída OUT3.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Out[2] = simulator.Reg[0];
+                simulator.Out[3] = simulator.Reg[0];
             };
             return instruction;
         }
-        public static Instruction MOV_A_OUT4() {
-            Instruction instruction = new Instruction("MOV A, OUT4", "Copia o conteúdo do acumulador para a saída OUT4.", 1, new int[] { 1 });
+        public static Instruction MOV_A_OUT0() {
+            Instruction instruction = new Instruction("MOV A, OUT0", "Copia o conteúdo do acumulador para a saída OUT0.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Out[3] = simulator.Reg[0];
+                simulator.Out[0] = simulator.Reg[0];
             };
             return instruction;
         }
@@ -1535,28 +1535,28 @@ namespace M3PlusMicrocontroller {
         public static Instruction MOV_IN1_A() {
             Instruction instruction = new Instruction("MOV IN1, A", "Copia o valor da entrada IN1 para o acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[0] = simulator.In[0];
+                simulator.Reg[0] = simulator.In[1];
             };
             return instruction;
         }
         public static Instruction MOV_IN2_A() {
             Instruction instruction = new Instruction("MOV IN2, A", "Copia o valor da entrada IN2 para o acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[0] = simulator.In[1];
+                simulator.Reg[0] = simulator.In[2];
             };
             return instruction;
         }
         public static Instruction MOV_IN3_A() {
             Instruction instruction = new Instruction("MOV IN3, A", "Copia o valor da entrada IN3 para o acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[0] = simulator.In[2];
+                simulator.Reg[0] = simulator.In[3];
             };
             return instruction;
         }
-        public static Instruction MOV_IN4_A() {
-            Instruction instruction = new Instruction("MOV IN4, A", "Copia o valor da entrada IN4 para o acumulador.", 1, new int[] { 1 });
+        public static Instruction MOV_IN0_A() {
+            Instruction instruction = new Instruction("MOV IN0, A", "Copia o valor da entrada IN0 para o acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[0] = simulator.In[3];
+                simulator.Reg[0] = simulator.In[0];
             };
             return instruction;
         }
@@ -1666,8 +1666,8 @@ namespace M3PlusMicrocontroller {
             Instruction instruction = new Instruction("INC A, OUT1", "Incrementa o valor do acumulador em 1 e o resultado é colocado na saída OUT1.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0]+1;
-                simulator.Out[0] = (byte)val;
-                simulator.Flag_Z = simulator.Out[0] == 0;
+                simulator.Out[1] = (byte)val;
+                simulator.Flag_Z = simulator.Out[1] == 0;
                 simulator.Flag_C = val > 255;
             };
             return instruction;
@@ -1676,8 +1676,8 @@ namespace M3PlusMicrocontroller {
             Instruction instruction = new Instruction("INC A, OUT2", "Incrementa o valor do acumulador em 1 e o resultado é colocado na saída OUT2.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0]+1;
-                simulator.Out[1] = (byte)val;
-                simulator.Flag_Z = simulator.Out[1] == 0;
+                simulator.Out[2] = (byte)val;
+                simulator.Flag_Z = simulator.Out[2] == 0;
                 simulator.Flag_C = val > 255;
             };
             return instruction;
@@ -1686,18 +1686,18 @@ namespace M3PlusMicrocontroller {
             Instruction instruction = new Instruction("INC A, OUT3", "Incrementa o valor do acumulador em 1 e o resultado é colocado na saída OUT3.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0]+1;
-                simulator.Out[2] = (byte)val;
-                simulator.Flag_Z = simulator.Out[2] == 0;
+                simulator.Out[3] = (byte)val;
+                simulator.Flag_Z = simulator.Out[3] == 0;
                 simulator.Flag_C = val > 255;
             };
             return instruction;
         }
-        public static Instruction INC_A_OUT4() {
-            Instruction instruction = new Instruction("INC A, OUT4", "Incrementa o valor do acumulador em 1 e o resultado é colocado na saída OUT4.", 1, new int[] { 2 });
+        public static Instruction INC_A_OUT0() {
+            Instruction instruction = new Instruction("INC A, OUT0", "Incrementa o valor do acumulador em 1 e o resultado é colocado na saída OUT0.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0]+1;
-                simulator.Out[3] = (byte)val;
-                simulator.Flag_Z = simulator.Out[3] == 0;
+                simulator.Out[0] = (byte)val;
+                simulator.Flag_Z = simulator.Out[0] == 0;
                 simulator.Flag_C = val > 255;
             };
             return instruction;
@@ -1755,7 +1755,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction INC_IN1_A() {
             Instruction instruction = new Instruction("INC IN1, A", "Incrementa da entrada IN1 em 1 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.In[0] + 1;
+                int val = simulator.In[1] + 1;
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val > 255;
@@ -1765,7 +1765,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction INC_IN2_A() {
             Instruction instruction = new Instruction("INC IN2, A", "Incrementa da entrada IN2 em 1 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.In[1] + 1;
+                int val = simulator.In[2] + 1;
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val > 255;
@@ -1775,17 +1775,17 @@ namespace M3PlusMicrocontroller {
         public static Instruction INC_IN3_A() {
             Instruction instruction = new Instruction("INC IN3, A", "Incrementa da entrada IN3 em 1 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.In[2] + 1;
+                int val = simulator.In[3] + 1;
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val > 255;
             };
             return instruction;
         }
-        public static Instruction INC_IN4_A() {
-            Instruction instruction = new Instruction("INC IN4, A", "Incrementa da entrada IN3 em 1 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+        public static Instruction INC_IN0_A() {
+            Instruction instruction = new Instruction("INC IN0, A", "Incrementa da entrada IN3 em 1 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
-                int val = simulator.In[3] + 1;
+                int val = simulator.In[0] + 1;
                 simulator.Reg[0] = (byte)val;
                 simulator.Flag_Z = simulator.Reg[0] == 0;
                 simulator.Flag_C = val > 255;

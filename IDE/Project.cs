@@ -12,11 +12,20 @@ namespace IDE {
         public int AutosaveInterval = 1000*60*2; //2 minutes
     }
     [Serializable]
+    public class WireProject {
+
+    }
+    [Serializable]
+    public class ComponentProject {
+
+    }
+    [Serializable]
     public class FileProject {
         public Project Project;
         public int Frequency = 1;
         public string Code;
         public byte[] Instructions;
+        public WireProject[] Wires;
 
         public static bool Save(string dir) {
             FileProject project = new FileProject();

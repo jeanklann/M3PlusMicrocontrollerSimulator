@@ -26,6 +26,7 @@ namespace IDE {
         private Circuit Circuit;
         private Thread thread;
         public PointF Position = new PointF();
+        public PointF PositionCreatingComponent = new PointF();
         public List<Component> Components = new List<Component>();
         public Dictionary<Component, CircuitSimulator.Component> CircuitComponentToDrawComponents = new Dictionary<Component, CircuitSimulator.Component>();
         public Dictionary<Wire, CircuitSimulator.Components.Wire> CircuitWireToDrawWire = new Dictionary<Wire, CircuitSimulator.Components.Wire>();
@@ -538,40 +539,8 @@ namespace IDE {
             Application.Idle += Application_Idle;
             
             Draws.Load();
-            /*
-            Components.Add(new Component(Draws.Input[0], new PointF(0, 0)));
-            Components.Add(new Component(Draws.Input[0], new PointF(40, 20)));
-            Components.Add(new Component(Draws.Input[0], new PointF(200, 0)));
-            Components.Add(new Component(Draws.Input[0], new PointF(0, -100)));
-            Components.Add(new Component(Draws.Input[1], new PointF(100, 100)));
-            Components.Add(new Component(Draws.Input[1], new PointF(100, 800)));
-            Components.Add(new Component(Draws.Output[0], new PointF(20, 20)));
-            Components.Add(new Component(Draws.Output[1], new PointF(20, 50)));
-            */
-            /*
-            Components.Add(new Component(Draws.Input[1], new PointF(0, 0)));
-            Components.Add(new Component(Draws.Input[1], new PointF(0, 0)));
-            Components.Add(new Component(Draws.And[0], new PointF(0, 0)));
-            Components.Add(new Component(Draws.Output[0], new PointF(0, 0)));
-            */
-            
-            Components.Add(new Component(Draws.Nor[0], new PointF(-100, -100)));
-            Components.Add(new Component(Draws.Or[0], new PointF(-50, -100)));
-            Components.Add(new Component(Draws.Not[0], new PointF(0, -100)));
-            //Components.Add(new Component(Draws.Disable[0], new PointF(50, -100)));
-            for (int i = 0; i < 32; i++) {
-                Components.Add(new Component(Draws.Input[0], new PointF(100, -100-(i*10))));
-            }
-            Components.Add(new Component(Draws.Output[0], new PointF(-100, -50)));
-            Components.Add(new Component(Draws.And[0], new PointF(-50, -50)));
-            Components.Add(new Component(Draws.Nand[0], new PointF(0, -50)));
-            Components.Add(new Component(Draws.Xor[0], new PointF(50, -50)));
-            Components.Add(new Component(Draws.Xnor[0], new PointF(100, -50)));
+            Components.Add(new Component(Draws.Microcontroller, new PointF(0, 0)));
 
-
-            Components.Add(new Component(Draws.Keyboard, new PointF(0, 100)));
-            Components.Add(new Component(Draws.Microcontroller, new PointF(0, 150)));
-            
             //Components.Add(new Component(Draws.Circuit[8,16], new PointF(200, 0)));
 
         }
@@ -621,6 +590,13 @@ namespace IDE {
         private void Circuito_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) {
             if (e.Button == MouseButtons.Left) {
                 MouseProps.LastClickPosition = e.Location;
+            } else if(e.Button == MouseButtons.Right) {
+                if(((MouseProps.LastDownPosition.X-e.X)* (MouseProps.LastDownPosition.X - e.X))+((MouseProps.LastDownPosition.Y - e.Y) * (MouseProps.LastDownPosition.Y - e.Y)) < 10 * 10) {
+                    PositionCreatingComponent = MouseProps.ToWorld(e.Location, ClientSize, Position, zoom);
+                    contextMenuStrip1.Show(this, e.Location);
+                } else {
+                    contextMenuStrip1.Hide();
+                }
             }
             Refresh();
         }
@@ -882,6 +858,7 @@ namespace IDE {
                     }
                 } else if (e.KeyCode == Keys.Delete) {
                     if (Selected != null) {
+                        if (Selected.Draw.DisplayListHandle == Draws.Microcontroller.DisplayListHandle) return;
                         SelectedWire = null;
                         HoverWire = null;
                         int length = Wires.Count;
@@ -903,6 +880,54 @@ namespace IDE {
                 }
             }
             Refresh();
+        }
+
+        private void aNDToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.And[0], PositionCreatingComponent));
+        }
+
+        private void nANDToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.Nand[0], PositionCreatingComponent));
+        }
+
+        private void oRToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.Or[0], PositionCreatingComponent));
+        }
+
+        private void nORToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.Nor[0], PositionCreatingComponent));
+        }
+
+        private void xORToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.Xor[0], PositionCreatingComponent));
+        }
+
+        private void xNORToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.Xnor[0], PositionCreatingComponent));
+        }
+
+        private void nOTToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.Not[0], PositionCreatingComponent));
+        }
+
+        private void decodificador7SegmentosToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void entradaLógicaToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.Input[0], PositionCreatingComponent));
+        }
+
+        private void saídaLógicaToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.Output[0], PositionCreatingComponent));
+        }
+
+        private void tecladoToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.Keyboard, PositionCreatingComponent));
+        }
+
+        private void displayDe7SegmentosToolStripMenuItem_Click(object sender, EventArgs e) {
+
         }
     }
 
@@ -935,6 +960,7 @@ namespace IDE {
                 componentDraw.Terminals[i] = new Point(width / 2, height / 2 - (5 + (i - inputs) * 10));
             }
             GL.NewList(componentDraw.DisplayListHandle, ListMode.Compile);
+            GL.Color3(Draws.Color_off);
             GL.Begin(BeginMode.LineLoop);
             GL.Vertex2(-width / 2f + 10, -height / 2f);
             GL.Vertex2(width / 2f - 10, -height / 2f);
@@ -999,7 +1025,19 @@ namespace IDE {
             Gen7SegDisplay();
             Circuit = new CircuitDraw();
             GenMicrocontroller();
+            GenOsciloscope();
+            GenBlackTerminal();
+            GenJKFlipFlop();
+            GenRSFlipFlop();
+            GenDFlipFlop();
+            GenTFlipFlop();
         }
+        private static void GenJKFlipFlop() { }
+        private static void GenDFlipFlop() { }
+        private static void GenTFlipFlop() { }
+        private static void GenRSFlipFlop() { }
+        private static void GenBlackTerminal() { }
+        private static void GenOsciloscope() { }
         private static void Gen7SegDisplay() { }
         private static void GenMicrocontroller() {
             ComponentDraw DrawCircuit = Circuit[32, 32];
@@ -1845,7 +1883,7 @@ namespace IDE {
             Terminals = new Point[terminals];
         }
     }
-
+    [Serializable]
     public class Component {
         public ComponentDraw Draw;
         public PointF Center;
@@ -1884,6 +1922,11 @@ namespace IDE {
         }
 
     }
+    [Serializable]
+    public enum ComponentType {
+        Input, Output, Disable, Not, And, Nand, Or, Nor, Xor, Xnor, Keyboard, Display7Seg, Circuit, Microcontroller, 
+    }
+    [Serializable]
     public class Wire {
         public PointF From;
         public Component FromComponent;
