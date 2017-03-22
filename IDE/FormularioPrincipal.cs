@@ -131,7 +131,7 @@ namespace IDE {
         }
 
         private void piscaLedToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Text = "apagado:\nmov IN4,a\nand 32,a\njmpz apagado\npisca:\nmov 01,a\nmov a,out1\nmov 00,a\nmov a,out1\njmp pisca";
+            UIStatics.Codigo.scintilla.Text = "apagado:\nmov IN3,a\nand 32,a\njmpz apagado\npisca:\nmov 01,a\nmov a,out0\nmov 00,a\nmov a,out0\njmp pisca";
         }
 
         private void FormularioPrincipal_FormClosed(object sender, FormClosedEventArgs e) {
@@ -322,7 +322,7 @@ namespace IDE {
         }
 
         private void somaRegistradoresToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Text = "MOV 0, A\nSOMA_A:\nADD 1, A\nJMPC SOMA_B\nJMP SOMA_A\nSOMA_B:\nMOV B, A\nADD 1, B\nJMPC SOMA_C\nMOV 0, A\nJMP SOMA_A\nSOMA_C:\nMOV C, A\nADD 1, C\nJMPC SOMA_D\nMOV 0, A\nJMP SOMA_A\nSOMA_D:\nMOV D, A\nADD 1, D\nJMPC SOMA_E\nMOV 0, A\nJMP SOMA_A\nSOMA_E:\nMOV E, A\nADD 1, E\nMOV 0, A\nJMP SOMA_A";
+            UIStatics.Codigo.scintilla.Text = "MOV 00, A\nSOMA_A:\nADD 01, A\nJMPC SOMA_B\nJMP SOMA_A\nSOMA_B:\nMOV B, A\nADD 01, B\nJMPC SOMA_C\nMOV 00, A\nJMP SOMA_A\nSOMA_C:\nMOV C, A\nADD 01, C\nJMPC SOMA_D\nMOV 00, A\nJMP SOMA_A\nSOMA_D:\nMOV D, A\nADD 01, D\nJMPC SOMA_E\nMOV 00, A\nJMP SOMA_A\nSOMA_E:\nMOV E, A\nADD 01, E\nMOV 00, A\nJMP SOMA_A";
         }
     }
 }

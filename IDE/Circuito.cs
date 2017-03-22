@@ -1870,6 +1870,7 @@ namespace IDE {
         }
 
     }
+
     public class ComponentDraw {
         public int DisplayListHandle;
         public int Width;
@@ -1885,9 +1886,11 @@ namespace IDE {
     }
     [Serializable]
     public class Component {
+        [NonSerialized]
         public ComponentDraw Draw;
         public PointF Center;
         public float Rotation = 0;
+        public ComponentType Type = ComponentType.None;
 
         public Component(ComponentDraw draw, PointF center) {
             Draw = draw;
@@ -1924,9 +1927,10 @@ namespace IDE {
     }
     [Serializable]
     public enum ComponentType {
-        Input, Output, Disable, Not, And, Nand, Or, Nor, Xor, Xnor, Keyboard, Display7Seg, Circuit, Microcontroller, 
+        None, Input, Output, Disable, Not, And, Nand, Or, Nor, Xor, Xnor, Keyboard, Display7Seg, Circuit,
+        Microcontroller, Osciloscope, BlackTerminal, JKFlipFlop, RSFlipFlop, DFlipFlop, TFlipFlop,
     }
-    [Serializable]
+
     public class Wire {
         public PointF From;
         public Component FromComponent;

@@ -1457,22 +1457,26 @@ namespace M3PlusMicrocontroller {
 
             
             int number = -1;
-            
+
             if (Value[0] == Token.RAM) {
-                if (TryParseHex(Value.Substring(1,Value.Length-1), out number)) {
+                if (TryParseHex(Value.Substring(1, Value.Length - 1), out number)) {
                     if (number < 0 || number > 255) {
-                        throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números para este processador devem estar entre 0 e 255.");
+                        throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números para este processador devem estar entre 00 e FF.");
                     }
+                    if(Value.Length != 3)
+                        throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números em hexadecimais devem ter 2 dígitos.");
                     return new Token(TokenType.RamAddress, number.ToString(), BeginIndex);
                 } else {
                     throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor de endereçamento inválido.");
                 }
             } else if (TryParseHex(Value, out number)) {
                 if (number < 0 || number > 255) {
-                    throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números para este processador devem estar entre 0 e 255.");
+                    throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números para este processador devem estar entre 00 e FF.");
                 }
+                if (Value.Length != 2)
+                    throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números em hexadecimais devem ter 2 dígitos.");
                 return new Token(TokenType.Number, number.ToString(), BeginIndex);
-        }
+            }
 
             for (int i = 0; i < Value.Length; i++) {
                 if(i == 0) {

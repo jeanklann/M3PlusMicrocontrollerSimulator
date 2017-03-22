@@ -78,7 +78,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction ADD_A_RAM(byte address) {
-            Instruction instruction = new Instruction("ADD A, #"+address, "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na memória no endereço "+address+".", 2, new int[] { 1, 2});
+            Instruction instruction = new Instruction("ADD A, #"+Helpers.ToHex(address), "Adiciona o valor do acumulador com o acumulador e o resultado é colocado na memória no endereço "+Helpers.ToHex(address)+".", 2, new int[] { 1, 2});
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + simulator.Reg[0];
                 simulator.RAM[address] = (byte)val;
@@ -168,7 +168,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction ADD_RAM_A(byte address) {
-            Instruction instruction = new Instruction("ADD #"+address+", A", "Adiciona o valor do acumulador com o valor da memória no endreço "+address+"e o resultado é colocado na memória no acumulador.", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("ADD #" + Helpers.ToHex(address) + ", A", "Adiciona o valor do acumulador com o valor da memória no endreço "+Helpers.ToHex(address)+"e o resultado é colocado na memória no acumulador.", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + simulator.RAM[address];
                 simulator.RAM[address] = (byte)val;
@@ -218,7 +218,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction ADD_ROM_A(byte data) {
-            Instruction instruction = new Instruction("ADD "+ data + ", A", "Adiciona o valor do acumulador com o valor "+data+" e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            Instruction instruction = new Instruction("ADD "+ Helpers.ToHex(data) + ", A", "Adiciona o valor do acumulador com o valor "+Helpers.ToHex(data)+" e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + data;
                 simulator.Reg[0] = (byte)val;
@@ -228,7 +228,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction ADD_ROM_B(byte data) {
-            Instruction instruction = new Instruction("ADD " + data + ", B", "Adiciona o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador B.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("ADD " + Helpers.ToHex(data) + ", B", "Adiciona o valor do acumulador com o valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador B.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + data;
                 simulator.Reg[1] = (byte)val;
@@ -238,7 +238,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction ADD_ROM_C(byte data) {
-            Instruction instruction = new Instruction("ADD " + data + ", C", "Adiciona o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador C.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("ADD " + Helpers.ToHex(data) + ", C", "Adiciona o valor do acumulador com o valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador C.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + data;
                 simulator.Reg[2] = (byte)val;
@@ -248,7 +248,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction ADD_ROM_D(byte data) {
-            Instruction instruction = new Instruction("ADD " + data + ", D", "Adiciona o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador D.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("ADD " + Helpers.ToHex(data) + ", D", "Adiciona o valor do acumulador com o valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador D.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + data;
                 simulator.Reg[3] = (byte)val;
@@ -258,7 +258,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction ADD_ROM_E(byte data) {
-            Instruction instruction = new Instruction("ADD " + data + ", E", "Adiciona o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador E.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("ADD " + Helpers.ToHex(data) + ", E", "Adiciona o valor do acumulador com o valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador E.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + data;
                 simulator.Reg[4] = (byte)val;
@@ -268,7 +268,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction ADD_ROM_RAM(byte data, byte address) {
-            Instruction instruction = new Instruction("ADD " + data + ", #"+address, "Adiciona o valor do acumulador com o valor " + data + " e o resultado é colocado na memória no endereço "+address+".", 3, new int[] { 1, 2, 3 });
+            Instruction instruction = new Instruction("ADD " + Helpers.ToHex(data) + ", #"+Helpers.ToHex(address), "Adiciona o valor do acumulador com o valor " + Helpers.ToHex(data)+" e o resultado é colocado na memória no endereço "+Helpers.ToHex(address)+".", 3, new int[] { 1, 2, 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] + data;
                 simulator.RAM[address] = (byte)val;
@@ -328,7 +328,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction SUB_A_RAM(byte address) {
-            Instruction instruction = new Instruction("SUB A, #" + address, "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na memória no endereço " + address + ".", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("SUB A, #" + Helpers.ToHex(address), "Subtrai o valor do acumulador com o acumulador e o resultado é colocado na memória no endereço " + Helpers.ToHex(address)+".", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - simulator.Reg[0];
                 simulator.RAM[address] = (byte)val;
@@ -418,7 +418,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction SUB_RAM_A(byte address) {
-            Instruction instruction = new Instruction("SUB #" + address + ", A", "Subtrai o valor do acumulador com o valor da memória no endreço " + address + "e o resultado é colocado na memória no acumulador.", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("SUB #" + Helpers.ToHex(address) + ", A", "Subtrai o valor do acumulador com o valor da memória no endreço " + Helpers.ToHex(address)+"e o resultado é colocado na memória no acumulador.", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - simulator.RAM[address];
                 simulator.RAM[address] = (byte)val;
@@ -468,7 +468,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction SUB_ROM_A(byte data) {
-            Instruction instruction = new Instruction("SUB " + data + ", A", "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            Instruction instruction = new Instruction("SUB " + Helpers.ToHex(data) + ", A", "Subtrai o valor do acumulador com o valor " + Helpers.ToHex(data)+" e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - data;
                 simulator.Reg[0] = (byte)val;
@@ -478,7 +478,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction SUB_ROM_B(byte data) {
-            Instruction instruction = new Instruction("SUB " + data + ", B", "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador B.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("SUB " + Helpers.ToHex(data) + ", B", "Subtrai o valor do acumulador com o valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador B.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - data;
                 simulator.Reg[1] = (byte)val;
@@ -488,7 +488,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction SUB_ROM_C(byte data) {
-            Instruction instruction = new Instruction("SUB " + data + ", C", "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador C.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("SUB " + Helpers.ToHex(data) + ", C", "Subtrai o valor do acumulador com o valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador C.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - data;
                 simulator.Reg[2] = (byte)val;
@@ -498,7 +498,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction SUB_ROM_D(byte data) {
-            Instruction instruction = new Instruction("SUB " + data + ", D", "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador D.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("SUB " + Helpers.ToHex(data) + ", D", "Subtrai o valor do acumulador com o valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador D.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - data;
                 simulator.Reg[3] = (byte)val;
@@ -508,7 +508,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction SUB_ROM_E(byte data) {
-            Instruction instruction = new Instruction("SUB " + data + ", E", "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado no registrador E.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("SUB " + Helpers.ToHex(data) + ", E", "Subtrai o valor do acumulador com o valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador E.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - data;
                 simulator.Reg[4] = (byte)val;
@@ -518,7 +518,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction SUB_ROM_RAM(byte data, byte address) {
-            Instruction instruction = new Instruction("SUB " + data + ", #" + address, "Subtrai o valor do acumulador com o valor " + data + " e o resultado é colocado na memória no endereço " + address + ".", 3, new int[] { 1, 2, 3 });
+            Instruction instruction = new Instruction("SUB " + Helpers.ToHex(data) + ", #" + Helpers.ToHex(address), "Subtrai o valor do acumulador com o valor " + Helpers.ToHex(data)+" e o resultado é colocado na memória no endereço " + Helpers.ToHex(address)+".", 3, new int[] { 1, 2, 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0] - data;
                 simulator.RAM[address] = (byte)val;
@@ -573,7 +573,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction AND_A_RAM(byte address) {
-            Instruction instruction = new Instruction("AND A, #" + address, "Faz a operação AND do acumulador com o acumulador e o resultado é colocado na memória RAM no endereço "+address+".", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("AND A, #" + Helpers.ToHex(address), "Faz a operação AND do acumulador com o acumulador e o resultado é colocado na memória RAM no endereço "+Helpers.ToHex(address)+".", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = (byte)(simulator.Reg[0] & simulator.Reg[0]);
                 simulator.Flag_Z = simulator.RAM[address] == 0;
@@ -654,7 +654,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction AND_RAM_A(byte address) {
-            Instruction instruction = new Instruction("AND #" + address + ", A", "Faz a operação AND do valor na memória RAM no endereço " + address + " com o acumulador e o resultado se mantém no acumulador.", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("AND #" + Helpers.ToHex(address) + ", A", "Faz a operação AND do valor na memória RAM no endereço " + Helpers.ToHex(address)+" com o acumulador e o resultado se mantém no acumulador.", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(simulator.Reg[0] & simulator.RAM[address]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -699,7 +699,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction AND_ROM_A(byte data) {
-            Instruction instruction = new Instruction("AND " + data + ", A", "Faz a operação AND do valor " + data + " com o acumulador e o resultado se mantém no acumulador.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("AND " + Helpers.ToHex(data) + ", A", "Faz a operação AND do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado se mantém no acumulador.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(data & simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -708,7 +708,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction AND_ROM_B(byte data) {
-            Instruction instruction = new Instruction("AND " + data + ", B", "Faz a operação AND do valor " + data + " com o acumulador e o resultado é colocado no registrador B.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("AND " + Helpers.ToHex(data) + ", B", "Faz a operação AND do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador B.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[1] = (byte)(data & simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[1] == 0;
@@ -717,7 +717,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction AND_ROM_C(byte data) {
-            Instruction instruction = new Instruction("AND " + data + ", C", "Faz a operação AND do valor " + data + " com o acumulador e o resultado é colocado no registrador C.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("AND " + Helpers.ToHex(data) + ", C", "Faz a operação AND do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador C.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[2] = (byte)(data & simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[2] == 0;
@@ -726,7 +726,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction AND_ROM_D(byte data) {
-            Instruction instruction = new Instruction("AND " + data + ", D", "Faz a operação AND do valor " + data + " com o acumulador e o resultado é colocado no registrador D.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("AND " + Helpers.ToHex(data) + ", D", "Faz a operação AND do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador D.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[3] = (byte)(data & simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[3] == 0;
@@ -735,7 +735,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction AND_ROM_E(byte data) {
-            Instruction instruction = new Instruction("AND " + data + ", E", "Faz a operação AND do valor " + data + " com o acumulador e o resultado é colocado no registrador E.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("AND " + Helpers.ToHex(data) + ", E", "Faz a operação AND do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador E.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[4] = (byte)(data & simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[4] == 0;
@@ -744,7 +744,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction AND_ROM_RAM(byte data, byte address) {
-            Instruction instruction = new Instruction("AND " + data + ", #"+address, "Faz a operação AND do valor " + data + " com o acumulador e o resultado é colocado na memória ram no endereço "+address+".", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("AND " + Helpers.ToHex(data) + ", #"+Helpers.ToHex(address), "Faz a operação AND do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado na memória ram no endereço "+Helpers.ToHex(address)+".", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = (byte)(data & simulator.Reg[0]);
                 simulator.Flag_Z = simulator.RAM[address] == 0;
@@ -798,7 +798,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction OR_A_RAM(byte address) {
-            Instruction instruction = new Instruction("OR A, #" + address, "Faz a operação OR do acumulador com o acumulador e o resultado é colocado na memória RAM no endereço " + address + ".", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("OR A, #" + Helpers.ToHex(address), "Faz a operação OR do acumulador com o acumulador e o resultado é colocado na memória RAM no endereço " + Helpers.ToHex(address)+".", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = (byte)(simulator.Reg[0] | simulator.Reg[0]);
                 simulator.Flag_Z = simulator.RAM[address] == 0;
@@ -879,7 +879,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction OR_RAM_A(byte address) {
-            Instruction instruction = new Instruction("OR #" + address + ", A", "Faz a operação OR do valor na memória RAM no endereço " + address + " com o acumulador e o resultado se mantém no acumulador.", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("OR #" + Helpers.ToHex(address) + ", A", "Faz a operação OR do valor na memória RAM no endereço " + Helpers.ToHex(address)+" com o acumulador e o resultado se mantém no acumulador.", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(simulator.Reg[0] | simulator.RAM[address]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -924,7 +924,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction OR_ROM_A(byte data) {
-            Instruction instruction = new Instruction("OR " + data + ", A", "Faz a operação OR do valor " + data + " com o acumulador e o resultado se mantém no acumulador.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("OR " + Helpers.ToHex(data) + ", A", "Faz a operação OR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado se mantém no acumulador.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(data | simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -933,7 +933,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction OR_ROM_B(byte data) {
-            Instruction instruction = new Instruction("OR " + data + ", B", "Faz a operação OR do valor " + data + " com o acumulador e o resultado é colocado no registrador B.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("OR " + Helpers.ToHex(data) + ", B", "Faz a operação OR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador B.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[1] = (byte)(data | simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[1] == 0;
@@ -942,7 +942,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction OR_ROM_C(byte data) {
-            Instruction instruction = new Instruction("OR " + data + ", C", "Faz a operação OR do valor " + data + " com o acumulador e o resultado é colocado no registrador C.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("OR " + Helpers.ToHex(data) + ", C", "Faz a operação OR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador C.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[2] = (byte)(data | simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[2] == 0;
@@ -951,7 +951,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction OR_ROM_D(byte data) {
-            Instruction instruction = new Instruction("OR " + data + ", D", "Faz a operação OR do valor " + data + " com o acumulador e o resultado é colocado no registrador D.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("OR " + Helpers.ToHex(data) + ", D", "Faz a operação OR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador D.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[3] = (byte)(data | simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[3] == 0;
@@ -960,7 +960,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction OR_ROM_E(byte data) {
-            Instruction instruction = new Instruction("OR " + data + ", E", "Faz a operação OR do valor " + data + " com o acumulador e o resultado é colocado no registrador E.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("OR " + Helpers.ToHex(data) + ", E", "Faz a operação OR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador E.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[4] = (byte)(data | simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[4] == 0;
@@ -969,7 +969,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction OR_ROM_RAM(byte data, byte address) {
-            Instruction instruction = new Instruction("OR " + data + ", #" + address, "Faz a operação OR do valor " + data + " com o acumulador e o resultado é colocado na memória ram no endereço " + address + ".", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("OR " + Helpers.ToHex(data) + ", #" + Helpers.ToHex(address), "Faz a operação OR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado na memória ram no endereço " + Helpers.ToHex(address)+".", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = (byte)(data | simulator.Reg[0]);
                 simulator.Flag_Z = simulator.RAM[address] == 0;
@@ -1023,7 +1023,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction XOR_A_RAM(byte address) {
-            Instruction instruction = new Instruction("XOR A, #" + address, "Faz a operação XOR do acumulador com o acumulador e o resultado é colocado na memória RAM no endereço " + address + ".", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("XOR A, #" + Helpers.ToHex(address), "Faz a operação XOR do acumulador com o acumulador e o resultado é colocado na memória RAM no endereço " + Helpers.ToHex(address)+".", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = (byte)(simulator.Reg[0] ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.RAM[address] == 0;
@@ -1104,7 +1104,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction XOR_RAM_A(byte address) {
-            Instruction instruction = new Instruction("XOR #" + address + ", A", "Faz a operação XOR do valor na memória RAM no endereço " + address + " com o acumulador e o resultado se mantém no acumulador.", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("XOR #" + Helpers.ToHex(address)+", A", "Faz a operação XOR do valor na memória RAM no endereço " + Helpers.ToHex(address)+" com o acumulador e o resultado se mantém no acumulador.", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(simulator.Reg[0] ^ simulator.RAM[address]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -1149,7 +1149,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction XOR_ROM_A(byte data) {
-            Instruction instruction = new Instruction("XOR " + data + ", A", "Faz a operação XOR do valor " + data + " com o acumulador e o resultado se mantém no acumulador.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("XOR " + Helpers.ToHex(data)+", A", "Faz a operação XOR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado se mantém no acumulador.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(data ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -1158,7 +1158,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction XOR_ROM_B(byte data) {
-            Instruction instruction = new Instruction("XOR " + data + ", B", "Faz a operação XOR do valor " + data + " com o acumulador e o resultado é colocado no registrador B.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("XOR " + Helpers.ToHex(data)+", B", "Faz a operação XOR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador B.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[1] = (byte)(data ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[1] == 0;
@@ -1167,7 +1167,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction XOR_ROM_C(byte data) {
-            Instruction instruction = new Instruction("XOR " + data + ", C", "Faz a operação XOR do valor " + data + " com o acumulador e o resultado é colocado no registrador C.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("XOR " + Helpers.ToHex(data)+", C", "Faz a operação XOR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador C.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[2] = (byte)(data ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[2] == 0;
@@ -1176,7 +1176,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction XOR_ROM_D(byte data) {
-            Instruction instruction = new Instruction("XOR " + data + ", D", "Faz a operação XOR do valor " + data + " com o acumulador e o resultado é colocado no registrador D.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("XOR " + Helpers.ToHex(data)+", D", "Faz a operação XOR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador D.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[3] = (byte)(data ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[3] == 0;
@@ -1185,7 +1185,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction XOR_ROM_E(byte data) {
-            Instruction instruction = new Instruction("XOR " + data + ", E", "Faz a operação XOR do valor " + data + " com o acumulador e o resultado é colocado no registrador E.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("XOR " + Helpers.ToHex(data)+", E", "Faz a operação XOR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado no registrador E.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[4] = (byte)(data ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.Reg[4] == 0;
@@ -1194,7 +1194,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction XOR_ROM_RAM(byte data, byte address) {
-            Instruction instruction = new Instruction("XOR " + data + ", #" + address, "Faz a operação XOR do valor " + data + " com o acumulador e o resultado é colocado na memória ram no endereço " + address + ".", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("XOR " + Helpers.ToHex(data)+", #" + Helpers.ToHex(address), "Faz a operação XOR do valor " + Helpers.ToHex(data)+" com o acumulador e o resultado é colocado na memória ram no endereço " + Helpers.ToHex(address)+".", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = (byte)(data ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.RAM[address] == 0;
@@ -1248,7 +1248,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction NOT_A_RAM(byte address) {
-            Instruction instruction = new Instruction("NOT A, #"+address, "Faz a operação NOT no acumulador e o resultado é colocado na memória RAM no endereço " + address + ".", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("NOT A, #"+Helpers.ToHex(address), "Faz a operação NOT no acumulador e o resultado é colocado na memória RAM no endereço " + Helpers.ToHex(address)+".", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = (byte)(255 ^ simulator.Reg[0]);
                 simulator.Flag_Z = simulator.RAM[address] == 0;
@@ -1329,7 +1329,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction NOT_RAM_A(byte address) {
-            Instruction instruction = new Instruction("NOT #"+address+", A", "Faz a operação NOT na memória no endereço "+address+" e o resultado é colocado no acumulador.", 1, new int[] { 1 });
+            Instruction instruction = new Instruction("NOT #"+Helpers.ToHex(address)+", A", "Faz a operação NOT na memória no endereço "+Helpers.ToHex(address)+" e o resultado é colocado no acumulador.", 1, new int[] { 1 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(255 ^ simulator.RAM[address]);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -1374,7 +1374,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction NOT_ROM_A(byte data) {
-            Instruction instruction = new Instruction("NOT "+data+", A", "Faz a operação NOT do valor "+data+" e o resultado é colocado no acumulador.", 3, new int[] { 1, 2, 3 });
+            Instruction instruction = new Instruction("NOT "+Helpers.ToHex(data)+", A", "Faz a operação NOT do valor "+Helpers.ToHex(data)+" e o resultado é colocado no acumulador.", 3, new int[] { 1, 2, 3 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = (byte)(255 ^ data);
                 simulator.Flag_Z = simulator.Reg[0] == 0;
@@ -1383,7 +1383,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction NOT_ROM_B(byte data) {
-            Instruction instruction = new Instruction("NOT " + data + ", B", "Faz a operação NOT do valor " + data + " e o resultado é colocado no registrador B.", 3, new int[] { 1, 2, 3 });
+            Instruction instruction = new Instruction("NOT " + Helpers.ToHex(data)+", B", "Faz a operação NOT do valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador B.", 3, new int[] { 1, 2, 3 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[1] = (byte)(255 ^ data);
                 simulator.Flag_Z = simulator.Reg[1] == 0;
@@ -1392,7 +1392,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction NOT_ROM_C(byte data) {
-            Instruction instruction = new Instruction("NOT " + data + ", C", "Faz a operação NOT do valor " + data + " e o resultado é colocado no registrador C.", 3, new int[] { 1, 2, 3 });
+            Instruction instruction = new Instruction("NOT " + Helpers.ToHex(data)+", C", "Faz a operação NOT do valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador C.", 3, new int[] { 1, 2, 3 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[2] = (byte)(255 ^ data);
                 simulator.Flag_Z = simulator.Reg[2] == 0;
@@ -1401,7 +1401,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction NOT_ROM_D(byte data) {
-            Instruction instruction = new Instruction("NOT " + data + ", D", "Faz a operação NOT do valor " + data + " e o resultado é colocado no registrador D.", 3, new int[] { 1, 2, 3 });
+            Instruction instruction = new Instruction("NOT " + Helpers.ToHex(data)+", D", "Faz a operação NOT do valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador D.", 3, new int[] { 1, 2, 3 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[3] = (byte)(255 ^ data);
                 simulator.Flag_Z = simulator.Reg[3] == 0;
@@ -1410,7 +1410,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction NOT_ROM_E(byte data) {
-            Instruction instruction = new Instruction("NOT " + data + ", E", "Faz a operação NOT do valor " + data + " e o resultado é colocado no registrador E.", 3, new int[] { 1, 2, 3 });
+            Instruction instruction = new Instruction("NOT " + Helpers.ToHex(data)+", E", "Faz a operação NOT do valor " + Helpers.ToHex(data)+" e o resultado é colocado no registrador E.", 3, new int[] { 1, 2, 3 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[4] = (byte)(255 ^ data);
                 simulator.Flag_Z = simulator.Reg[4] == 0;
@@ -1419,7 +1419,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction NOT_ROM_RAM(byte data, byte address) {
-            Instruction instruction = new Instruction("NOT " + data + ", #"+address, "Faz a operação NOT do valor " + data + " e o resultado é colocado na memória no endereço "+address+".", 3, new int[] { 1, 2, 3 });
+            Instruction instruction = new Instruction("NOT " + Helpers.ToHex(data)+", #"+ Helpers.ToHex(address), "Faz a operação NOT do valor " + Helpers.ToHex(data)+" e o resultado é colocado na memória no endereço "+Helpers.ToHex(address)+".", 3, new int[] { 1, 2, 3 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = (byte)(255 ^ data);
                 simulator.Flag_Z = simulator.RAM[address] == 0;
@@ -1463,7 +1463,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction MOV_A_RAM(byte address) {
-            Instruction instruction = new Instruction("MOV A, #"+address, "Copia o conteúdo do acumulador para a memória no endereço " + address+".", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("MOV A, #"+Helpers.ToHex(address), "Copia o conteúdo do acumulador para a memória no endereço " + Helpers.ToHex(address)+".", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = simulator.Reg[0];
             };
@@ -1526,7 +1526,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction MOV_RAM_A(byte address) {
-            Instruction instruction = new Instruction("MOV #"+address+", A", "Copia o conteúdo do valor da memória no endereço "+address+" para o acumulador.", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("MOV #"+Helpers.ToHex(address)+", A", "Copia o conteúdo do valor da memória no endereço "+Helpers.ToHex(address)+" para o acumulador.", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.RAM[address];
             };
@@ -1561,42 +1561,42 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction MOV_ROM_A(byte data) {
-            Instruction instruction = new Instruction("MOV "+data+", A", "Copia o valor " + data +" para o acumulador.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("MOV "+Helpers.ToHex(data)+", A", "Copia o valor " + data +" para o acumulador.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = data;
             };
             return instruction;
         }
         public static Instruction MOV_ROM_B(byte data) {
-            Instruction instruction = new Instruction("MOV " + data + ", B", "Copia o valor " + data + " para o registrador B.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("MOV " + Helpers.ToHex(data)+", B", "Copia o valor " + Helpers.ToHex(data)+" para o registrador B.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[1] = data;
             };
             return instruction;
         }
         public static Instruction MOV_ROM_C(byte data) {
-            Instruction instruction = new Instruction("MOV " + data + ", C", "Copia o valor " + data + " para o registrador C.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("MOV " + Helpers.ToHex(data)+", C", "Copia o valor " + Helpers.ToHex(data)+" para o registrador C.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[2] = data;
             };
             return instruction;
         }
         public static Instruction MOV_ROM_D(byte data) {
-            Instruction instruction = new Instruction("MOV " + data + ", D", "Copia o valor " + data + " para o registrador D.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("MOV " + Helpers.ToHex(data)+", D", "Copia o valor " + Helpers.ToHex(data)+" para o registrador D.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[3] = data;
             };
             return instruction;
         }
         public static Instruction MOV_ROM_E(byte data) {
-            Instruction instruction = new Instruction("MOV " + data + ", E", "Copia o valor " + data + " para o registrador E.", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("MOV " + Helpers.ToHex(data)+", E", "Copia o valor " + Helpers.ToHex(data)+" para o registrador E.", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[4] = data;
             };
             return instruction;
         }
         public static Instruction MOV_ROM_RAM(byte data, byte address) {
-            Instruction instruction = new Instruction("MOV " + data + ", #"+address, "Copia o valor " + data + " para a memória no endereço "+address+".", 3, new int[] { 1, 1, 2 });
+            Instruction instruction = new Instruction("MOV " + Helpers.ToHex(data)+", #"+Helpers.ToHex(address), "Copia o valor " + Helpers.ToHex(data)+" para a memória no endereço "+Helpers.ToHex(address)+".", 3, new int[] { 1, 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = data;
             };
@@ -1653,7 +1653,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction INC_A_RAM(byte address) {
-            Instruction instruction = new Instruction("INC A, #" + address, "Incrementa o valor do acumulador em 1 e o resultado é colocado na memória no endereço " + address + ".", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("INC A, #" + Helpers.ToHex(address), "Incrementa o valor do acumulador em 1 e o resultado é colocado na memória no endereço " + Helpers.ToHex(address)+".", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.Reg[0]+1;
                 simulator.RAM[address] = (byte)val;
@@ -1743,7 +1743,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction INC_RAM_A(byte address) {
-            Instruction instruction = new Instruction("INC #" + address + ", A", "Incrementa o valor da memória no endreço " + address + " em 1 e o resultado é colocado na memória no acumulador.", 2, new int[] { 1, 2 });
+            Instruction instruction = new Instruction("INC #" + Helpers.ToHex(address)+", A", "Incrementa o valor da memória no endreço " + Helpers.ToHex(address)+" em 1 e o resultado é colocado na memória no acumulador.", 2, new int[] { 1, 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = simulator.RAM[address]+1;
                 simulator.RAM[address] = (byte)val;
@@ -1793,7 +1793,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction INC_ROM_A(byte data) {
-            Instruction instruction = new Instruction("INC " + data + ", A", "Incrementa o valor " + data + " em 1 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
+            Instruction instruction = new Instruction("INC " + Helpers.ToHex(data)+", A", "Incrementa o valor " + Helpers.ToHex(data)+" em 1 e o resultado é colocado no acumulador.", 1, new int[] { 2 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = data + 1;
                 simulator.Reg[0] = (byte)val;
@@ -1803,7 +1803,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction INC_ROM_B(byte data) {
-            Instruction instruction = new Instruction("INC " + data + ", B", "Incrementa o valor " + data + " em 1 e o resultado é colocado no registrador B.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("INC " + Helpers.ToHex(data)+", B", "Incrementa o valor " + Helpers.ToHex(data)+" em 1 e o resultado é colocado no registrador B.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = data + 1;
                 simulator.Reg[1] = (byte)val;
@@ -1813,7 +1813,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction INC_ROM_C(byte data) {
-            Instruction instruction = new Instruction("INC " + data + ", C", "Incrementa o valor " + data + " em 1 e o resultado é colocado no registrador C.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("INC " + Helpers.ToHex(data)+", C", "Incrementa o valor " + Helpers.ToHex(data)+" em 1 e o resultado é colocado no registrador C.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = data + 1;
                 simulator.Reg[2] = (byte)val;
@@ -1823,7 +1823,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction INC_ROM_D(byte data) {
-            Instruction instruction = new Instruction("INC " + data + ", D", "Incrementa o valor " + data + " em 1 e o resultado é colocado no registrador D.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("INC " + Helpers.ToHex(data)+", D", "Incrementa o valor " + Helpers.ToHex(data)+" em 1 e o resultado é colocado no registrador D.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = data + 1;
                 simulator.Reg[3] = (byte)val;
@@ -1833,7 +1833,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction INC_ROM_E(byte data) {
-            Instruction instruction = new Instruction("INC " + data + ", E", "Incrementa o valor " + data + " em 1 e o resultado é colocado no registrador E.", 1, new int[] { 3 });
+            Instruction instruction = new Instruction("INC " + Helpers.ToHex(data)+", E", "Incrementa o valor " + Helpers.ToHex(data)+" em 1 e o resultado é colocado no registrador E.", 1, new int[] { 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = data + 1;
                 simulator.Reg[4] = (byte)val;
@@ -1843,7 +1843,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction INC_ROM_RAM(byte data, byte address) {
-            Instruction instruction = new Instruction("INC " + data + ", #" + address, "Incrementa o valor " + data + " em 1 e o resultado é colocado na memória no endereço " + address + ".", 3, new int[] { 1, 2, 3 });
+            Instruction instruction = new Instruction("INC " + Helpers.ToHex(data)+", #" + Helpers.ToHex(address), "Incrementa o valor " + Helpers.ToHex(data)+" em 1 e o resultado é colocado na memória no endereço " + Helpers.ToHex(address)+".", 3, new int[] { 1, 2, 3 });
             instruction.Function = delegate (Simulator simulator) {
                 int val = data + 1;
                 simulator.RAM[address] = (byte)val;
@@ -1886,6 +1886,7 @@ namespace M3PlusMicrocontroller {
         public static Instruction RET() {
             throw new NotImplementedException();
         }
+        
 
 
     }

@@ -13,7 +13,7 @@ namespace CircuitSimulator.Components.Digital {
                 Pins[i].isOutput = true;
                 Pins[i].isOpen = false;
             }
-            //canStart = true;
+            canStart = true;
         }
 
         internal override bool CanExecute() {

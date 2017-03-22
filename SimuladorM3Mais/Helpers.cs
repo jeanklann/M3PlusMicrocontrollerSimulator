@@ -279,5 +279,12 @@ namespace M3PlusMicrocontroller {
             }
             return line;
         }
+
+        public static string ToHex(byte value) {
+            string res = value.ToString("X");
+            if (res.Length == 1)
+                return "0" + res;
+            return res;
+        }
     }
 }
