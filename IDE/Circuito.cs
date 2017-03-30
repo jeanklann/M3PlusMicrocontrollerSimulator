@@ -1884,9 +1884,7 @@ namespace IDE {
             Terminals = new Point[terminals];
         }
     }
-    [Serializable]
     public class Component {
-        [NonSerialized]
         public ComponentDraw Draw;
         public PointF Center;
         public float Rotation = 0;
@@ -1895,6 +1893,46 @@ namespace IDE {
         public Component(ComponentDraw draw, PointF center) {
             Draw = draw;
             Center = center;
+
+            if (draw.DisplayListHandle == Draws.And[0].DisplayListHandle ||
+                    draw.DisplayListHandle == Draws.And[1].DisplayListHandle) {
+                Type = ComponentType.And;
+            } else if (draw.DisplayListHandle == Draws.Nand[0].DisplayListHandle ||
+                        draw.DisplayListHandle == Draws.Nand[1].DisplayListHandle) {
+                Type = ComponentType.Nand;
+            } else if (draw.DisplayListHandle == Draws.Or[0].DisplayListHandle ||
+                        draw.DisplayListHandle == Draws.Or[1].DisplayListHandle) {
+                Type = ComponentType.Or;
+            } else if (draw.DisplayListHandle == Draws.Nor[0].DisplayListHandle ||
+                        draw.DisplayListHandle == Draws.Nor[1].DisplayListHandle) {
+                Type = ComponentType.Nor;
+            } else if (draw.DisplayListHandle == Draws.Xor[0].DisplayListHandle ||
+                        draw.DisplayListHandle == Draws.Xor[1].DisplayListHandle) {
+                Type = ComponentType.Xor;
+            } else if (draw.DisplayListHandle == Draws.Xnor[0].DisplayListHandle ||
+                        draw.DisplayListHandle == Draws.Xnor[1].DisplayListHandle) {
+                Type = ComponentType.Xnor;
+            } else if (draw.DisplayListHandle == Draws.Not[0].DisplayListHandle ||
+                        draw.DisplayListHandle == Draws.Not[1].DisplayListHandle) {
+                Type = ComponentType.Not;
+            } else if (draw.DisplayListHandle == Draws.Input[0].DisplayListHandle ||
+                         draw.DisplayListHandle == Draws.Input[1].DisplayListHandle) {
+                Type = ComponentType.Input;
+            } else if (draw.DisplayListHandle == Draws.Output[0].DisplayListHandle ||
+                         draw.DisplayListHandle == Draws.Output[1].DisplayListHandle) {
+                Type = ComponentType.Output;
+            } else if (draw.DisplayListHandle == Draws.Keyboard.DisplayListHandle) {
+                Type = ComponentType.Circuit;
+            } else if (draw.DisplayListHandle == Draws.Microcontroller.DisplayListHandle) {
+                Type = ComponentType.Microcontroller;
+            } else if (draw.DisplayListHandle == Draws.Disable[0].DisplayListHandle ||
+                        draw.DisplayListHandle == Draws.Disable[1].DisplayListHandle ||
+                        draw.DisplayListHandle == Draws.Disable[2].DisplayListHandle) {
+                throw new NotImplementedException();
+            } else {
+                throw new NotImplementedException();
+            }
+
         }
 
         public bool IsInside(PointF Point) {
