@@ -288,58 +288,42 @@ namespace IDE {
     [Serializable]
     public class Wire_Project {
         public Point_Project From;
-        public Component_Project FromComponent;
+        public int FromComponent;
         public int FromIndex;
         public Color_Project Color;
         public Point_Project To;
-        public Component_Project ToComponent;
+        public int ToComponent;
         public int ToIndex;
         
         public Wire_Project(Wire wire, FileProject project) {
             From = wire.From;
             if (wire.FromComponent != null) {
-                int i = UIStatics.Circuito.Components.IndexOf(wire.FromComponent);
-                FromComponent = project.Components[i];
+                FromComponent = UIStatics.Circuito.Components.IndexOf(wire.FromComponent);
                 FromIndex = wire.FromIndex;
             } else {
                 FromIndex = -1;
+                FromComponent = -1;
             }
             To = wire.To;
             if (wire.ToComponent != null) {
-                int i = UIStatics.Circuito.Components.IndexOf(wire.ToComponent);
-                ToComponent = project.Components[i];
+                ToComponent = UIStatics.Circuito.Components.IndexOf(wire.ToComponent);
                 ToIndex = wire.ToIndex;
             } else {
                 ToIndex = -1;
+                ToComponent = -1;
             }
             Color = Draws.Color_off;
         }
         public Wire ToWire(FileProject project) {
             Wire wire = new Wire(From, To);
-            if(FromComponent != null) {
-                int index = -1;
-                for (int i = 0; i < project.Components.Length; i++) {
-                    if(FromComponent == project.Components[i]) {
-                        index = i;
-                        break;
-                    }
-                }
-                if (index == -1) throw new Exception("Invalid component.");
-                wire.FromComponent = UIStatics.Circuito.Components[index];
+            if(FromComponent != -1) {
+                wire.FromComponent = UIStatics.Circuito.Components[FromComponent];
                 wire.FromIndex = FromIndex;
             } else {
                 FromIndex = -1;
             }
-            if (ToComponent != null) {
-                int index = -1;
-                for (int i = 0; i < project.Components.Length; i++) {
-                    if (ToComponent == project.Components[i]) {
-                        index = i;
-                        break;
-                    }
-                }
-                if (index == -1) throw new Exception("Invalid component.");
-                wire.ToComponent = UIStatics.Circuito.Components[index];
+            if (ToComponent != -1) {
+                wire.ToComponent = UIStatics.Circuito.Components[ToComponent];
                 wire.ToIndex = ToIndex;
             } else {
                 FromIndex = -1;

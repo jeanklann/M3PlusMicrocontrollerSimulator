@@ -1922,7 +1922,7 @@ namespace IDE {
                          draw.DisplayListHandle == Draws.Output[1].DisplayListHandle) {
                 Type = ComponentType.Output;
             } else if (draw.DisplayListHandle == Draws.Keyboard.DisplayListHandle) {
-                Type = ComponentType.Circuit;
+                Type = ComponentType.Keyboard;
             } else if (draw.DisplayListHandle == Draws.Microcontroller.DisplayListHandle) {
                 Type = ComponentType.Microcontroller;
             } else if (draw.DisplayListHandle == Draws.Disable[0].DisplayListHandle ||
@@ -1967,6 +1967,8 @@ namespace IDE {
     public enum ComponentType {
         None, Input, Output, Disable, Not, And, Nand, Or, Nor, Xor, Xnor, Keyboard, Display7Seg, Circuit,
         Microcontroller, Osciloscope, BlackTerminal, JKFlipFlop, RSFlipFlop, DFlipFlop, TFlipFlop,
+        HalfAdder, FullAdder, ULA, ControlModule, Registrer8Bit, Registrers, Tristate, Stack, RamMemory,
+        RomMemory, PortBank, Registrer8BitSG, LedMatrix, 
     }
 
     public class Wire {
@@ -1977,6 +1979,7 @@ namespace IDE {
         public PointF To;
         public Component ToComponent;
         public int ToIndex;
+        public Component Root;
 
         public Wire(PointF from, PointF to) {
             From = from;
