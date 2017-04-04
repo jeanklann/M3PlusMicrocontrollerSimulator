@@ -11,6 +11,7 @@ using OpenTK.Input;
 using CircuitSimulator;
 using System.Threading;
 using CircuitSimulator.Components.Digital;
+using OpenTK.Graphics;
 
 namespace IDE {
     public partial class Circuito : GLControl {
@@ -32,7 +33,7 @@ namespace IDE {
         public Dictionary<Wire, CircuitSimulator.Components.Wire> CircuitWireToDrawWire = new Dictionary<Wire, CircuitSimulator.Components.Wire>();
         public Dictionary<CircuitSimulator.Component, Component> DrawComponentsToCircuitComponent = new Dictionary<CircuitSimulator.Component, Component>();
         public Dictionary<CircuitSimulator.Components.Wire, Wire> DrawWireToCircuitWire = new Dictionary<CircuitSimulator.Components.Wire, Wire>();
-
+        public Color ClearColor;
         public Circuito() {
             InitializeComponent();
         }
@@ -492,13 +493,15 @@ namespace IDE {
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
+            GL.Enable(EnableCap.Texture2D);
             if (zoom > 1f) {
                 GL.LineWidth(zoom);
             } else {
                 GL.LineWidth(1);
             }
+            
             foreach (Component item in Components) {
+                
                 GL.Translate(item.Center.X, item.Center.Y, 0);
                 GL.Rotate(item.Rotation, 0, 0, 1);
                 GL.CallList(item.Draw.DisplayListHandle);
@@ -515,13 +518,13 @@ namespace IDE {
             if (MouseProps.Button1Pressed && Circuit == null) {
                 if(Terminals.FromComponent != null) {
                     GL.Color3(Color.Black);
-                    GL.Begin(BeginMode.Lines);
+                    GL.Begin(PrimitiveType.Lines);
                     GL.Vertex2(terminalFromVertex.X, terminalFromVertex.Y);
                     GL.Vertex2(terminalToVertex.X, terminalToVertex.Y);
                     GL.End();
                 } else if (Terminals.FromNotComponent) {
                     GL.Color3(Color.Black);
-                    GL.Begin(BeginMode.Lines);
+                    GL.Begin(PrimitiveType.Lines);
                     GL.Vertex2(terminalFromVertex.X, terminalFromVertex.Y);
                     GL.Vertex2(terminalToVertex.X, terminalToVertex.Y);
                     GL.End();
@@ -535,18 +538,23 @@ namespace IDE {
         }
 
         private void Circuito_Load(object sender, EventArgs e) {
-            GL.ClearColor(BackColor);
+            ClearColor = BackColor;
+            GL.ClearColor(ClearColor);
+            
             Application.Idle += Application_Idle;
             
             Draws.Load();
             Components.Add(new Component(Draws.Microcontroller, new PointF(0, 0)));
 
+            Components.Add(new Component(Draws.RomMemory, new PointF(-100, 40)));
             //Components.Add(new Component(Draws.Circuit[8,16], new PointF(200, 0)));
+            
 
         }
         public void LoadControl() {
             Visible = true;
             Visible = false;
+
         }
         void Application_Idle(object sender, EventArgs e) {
             while (IsIdle) {
@@ -697,7 +705,7 @@ namespace IDE {
                 } else {
                     GL.Color3(item.Color);
                 }
-                GL.Begin(BeginMode.Lines);
+                GL.Begin(PrimitiveType.Lines);
                 GL.Vertex2(item.From.X, item.From.Y);
                 GL.Vertex2(item.To.X, item.To.Y);
                 GL.End();
@@ -713,6 +721,13 @@ namespace IDE {
                 pos.Y += transform.Y;
                 GL.Translate(pos);
                 GL.CallList(Draws.TerminalHandle);
+                string tmp = Terminals.HoverComponent.Draw.TerminalsString[Terminals.HoverIndex];
+                if (tmp != null && tmp != "") {
+                    GL.Translate(0, 20, 0);
+                    TextRenderer.DrawText(tmp, Color.Red, new PointF(0, 0));
+                    GL.Translate(0, -20, 0);
+                }
+                
                 GL.Translate(-pos);
             } else if (Terminals.HoverNotComponent) {
                 GL.Color3(Color.Green);
@@ -727,7 +742,7 @@ namespace IDE {
                 GL.LineStipple(1, 0xAAAA); // dashed line
                 GL.Translate(Selected.Center.X, Selected.Center.Y, 0);
                 GL.Rotate(Selected.Rotation, 0, 0, 1);
-                GL.Begin(BeginMode.LineLoop);
+                GL.Begin(PrimitiveType.LineLoop);
                 GL.Vertex2(- Selected.Draw.Width / 2f - BoxPlusFactor, - Selected.Draw.Height / 2f - BoxPlusFactor);
                 GL.Vertex2(- Selected.Draw.Width / 2f - BoxPlusFactor, Selected.Draw.Height / 2f + BoxPlusFactor);
                 GL.Vertex2(Selected.Draw.Width / 2f + BoxPlusFactor, Selected.Draw.Height / 2f + BoxPlusFactor);
@@ -742,7 +757,7 @@ namespace IDE {
                 GL.LineStipple(1, 0xAAAA); // dashed line
                 GL.Translate(Over.Center.X, Over.Center.Y, 0);
                 GL.Rotate(Over.Rotation, 0, 0, 1);
-                GL.Begin(BeginMode.LineLoop);
+                GL.Begin(PrimitiveType.LineLoop);
                 GL.Vertex2(- Over.Draw.Width/2f - BoxPlusFactor, - Over.Draw.Height/ 2f - BoxPlusFactor);
                 GL.Vertex2(- Over.Draw.Width / 2f - BoxPlusFactor, + Over.Draw.Height / 2f + BoxPlusFactor);
                 GL.Vertex2(Over.Draw.Width / 2f + BoxPlusFactor, Over.Draw.Height / 2f + BoxPlusFactor);
@@ -961,13 +976,13 @@ namespace IDE {
             }
             GL.NewList(componentDraw.DisplayListHandle, ListMode.Compile);
             GL.Color3(Draws.Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-width / 2f + 10, -height / 2f);
             GL.Vertex2(width / 2f - 10, -height / 2f);
             GL.Vertex2(width / 2f - 10, height / 2f);
             GL.Vertex2(-width / 2f + 10, height / 2f);
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             for (int i = 0; i < inputs; i++) {
                 GL.Vertex2(-width / 2, height / 2 - (5 + i * 10));
                 GL.Vertex2(-width / 2 + 10f, height / 2 - (5 + i * 10));
@@ -977,7 +992,7 @@ namespace IDE {
                 GL.Vertex2(width / 2 - 10f, height / 2 - (5 + (i - inputs) * 10));
             }
             GL.End();
-            GL.Begin(BeginMode.LineStrip);
+            GL.Begin(PrimitiveType.LineStrip);
             GL.Vertex2(-width / 2f + 10, -5);
             GL.Vertex2(-width / 2f + 15, 0);
             GL.Vertex2(-width / 2f + 10, 5);
@@ -987,6 +1002,113 @@ namespace IDE {
             return componentDraw;
         }
     }
+
+    /// <summary>
+    /// Uses System.Drawing for 2d text rendering.
+    /// </summary>
+    public class TextRenderer:IDisposable {
+        private static Dictionary<int, TextRenderer> textRenderers = new Dictionary<int, TextRenderer>();
+        private static Font font = new Font(FontFamily.GenericMonospace, 12);
+        private Bitmap bmp;
+        private Graphics gfx;
+        private int texture;
+        private Rectangle dirty_region;
+        private bool disposed;
+        
+
+        private TextRenderer() {
+            if (GraphicsContext.CurrentContext == null)
+                throw new InvalidOperationException("No GraphicsContext is current on the calling thread.");
+        }
+        
+
+        void Dispose(bool manual) {
+            if (!disposed) {
+                if (manual) {
+                    bmp.Dispose();
+                    gfx.Dispose();
+                    if (GraphicsContext.CurrentContext != null)
+                        GL.DeleteTexture(texture);
+                }
+
+                disposed = true;
+            }
+        }
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~TextRenderer() {
+            Console.WriteLine("[Warning] Resource leaked: {0}.", typeof(TextRenderer));
+        }
+        public static void DrawText(string text, Color color, PointF point) {
+            DrawText(text, color, point, font);
+        }
+        public static void DrawText(string text, Color color, PointF point, Font font) {
+            TextRenderer renderer;
+            int width;
+            int height;
+            int hash = text.GetHashCode() + color.GetHashCode() + font.GetHashCode();
+            if (!textRenderers.ContainsKey(hash)) { 
+                renderer = new TextRenderer();
+                renderer.bmp = new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                renderer.gfx = Graphics.FromImage(renderer.bmp);
+                Brush brush = new SolidBrush(color);
+                renderer.gfx.DrawString(text, font, brush, 0, 0);
+                SizeF textSize = renderer.gfx.MeasureString(text, font);
+                renderer.gfx.Dispose();
+                renderer.bmp.Dispose();
+                width = (int)(textSize.Width + 0.5f);
+                height = (int)(textSize.Height + 0.5f);
+                if (width <= 0)
+                    throw new ArgumentOutOfRangeException("width");
+                if (height <= 0)
+                    throw new ArgumentOutOfRangeException("height ");
+                renderer.bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                renderer.gfx = Graphics.FromImage(renderer.bmp);
+                renderer.gfx.Clear(UIStatics.Circuito.ClearColor);
+                renderer.gfx.DrawString(text, font, brush, 0, 0);
+                renderer.dirty_region = new Rectangle(0, 0, renderer.bmp.Width, renderer.bmp.Height);
+                renderer.texture = GL.GenTexture();
+                textRenderers[hash] = renderer;
+                GL.BindTexture(TextureTarget.Texture2D, renderer.texture);
+                
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
+
+
+                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
+                    PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
+
+                System.Drawing.Imaging.BitmapData data = renderer.bmp.LockBits(renderer.dirty_region,
+                        System.Drawing.Imaging.ImageLockMode.ReadOnly,
+                        System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                GL.TexSubImage2D(TextureTarget.Texture2D, 0,
+                    renderer.dirty_region.X, renderer.dirty_region.Y, renderer.dirty_region.Width, renderer.dirty_region.Height,
+                    PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+
+                renderer.bmp.UnlockBits(data);
+            } else {
+                renderer = textRenderers[hash];
+                GL.BindTexture(TextureTarget.Texture2D, renderer.texture);
+                width = renderer.bmp.Width;
+                height = renderer.bmp.Height;
+            }
+
+            GL.Color3(Color.White);
+            GL.Begin(PrimitiveType.Quads);
+
+            GL.TexCoord2(0, 1); GL.Vertex2(point.X - width/2, point.Y - height/2);
+            GL.TexCoord2(1, 1); GL.Vertex2(point.X + width / 2, point.Y - height/2);
+            GL.TexCoord2(1, 0); GL.Vertex2(point.X + width / 2, point.Y + height / 2);
+            GL.TexCoord2(0, 0); GL.Vertex2(point.X - width/2, point.Y + height / 2);
+            GL.End();
+        }
+    }
+
     public static class Draws {
         public static int TerminalHandle;
 
@@ -1002,6 +1124,29 @@ namespace IDE {
         public static ComponentDraw[] Xnor;
         public static ComponentDraw Keyboard;
         public static ComponentDraw Microcontroller;
+        public static ComponentDraw JKFlipFlop;
+        public static ComponentDraw RSFlipFlop;
+        public static ComponentDraw TFlipFlop;
+        public static ComponentDraw DFlipFlop;
+        public static ComponentDraw Display7SegBase;
+        public static int[] Display7SegPart;
+        public static ComponentDraw Osciloscope;
+        public static ComponentDraw HalfAdder;
+        public static ComponentDraw FullAdder;
+        public static ComponentDraw ULA;
+        public static ComponentDraw ControlModule;
+        public static ComponentDraw Registrer8Bit;
+        public static ComponentDraw Registrers;
+        public static ComponentDraw Disable8Bit;
+        public static ComponentDraw RamMemory;
+        public static ComponentDraw RomMemory;
+        public static ComponentDraw PortBank;
+        public static ComponentDraw Registrer8BitSG;
+        public static ComponentDraw LedMatrix;
+
+
+
+
         public static CircuitDraw Circuit;
 
 
@@ -1031,22 +1176,518 @@ namespace IDE {
             GenRSFlipFlop();
             GenDFlipFlop();
             GenTFlipFlop();
+            GenDisable8Bit();
+            GenAdders();
+            GenMemories();
         }
-        private static void GenJKFlipFlop() { }
-        private static void GenDFlipFlop() { }
-        private static void GenTFlipFlop() { }
-        private static void GenRSFlipFlop() { }
+        
+        private static void GenULA() { }
+        private static void GenRegistrers() { }
+        private static void GenControlModule() { }
+        private static void GenLedMatrix() { }
         private static void GenBlackTerminal() { }
-        private static void GenOsciloscope() { }
-        private static void Gen7SegDisplay() { }
+        private static void GenMemories() {
+            TextRenderer.DrawText("Ram", Color.Black, new PointF(0, 0));
+            TextRenderer.DrawText("Rom", Color.Black, new PointF(0, 0));
+            ComponentDraw DrawCircuit = Circuit[11, 8];
+            RamMemory = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
+            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+                RamMemory.Terminals[i] = DrawCircuit.Terminals[i];
+                if (i < 8) {
+                    RamMemory.TerminalsString[i] = ("A" + (i % 8));
+                } else if (i > 10) {
+                    RamMemory.TerminalsString[i] = ("D" + ((i - 3) % 8));
+                } else {
+                    switch (i) {
+                        case 8:
+                            RamMemory.TerminalsString[i] = "sel";
+                            break;
+                        case 9:
+                            RamMemory.TerminalsString[i] = "ld";
+                            break;
+                        case 10:
+                            RamMemory.TerminalsString[i] = "clr";
+                            break;
+                    }
+                    
+                }
+            }
+            GL.NewList(RamMemory.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("Ram", Color.Black, new PointF(0, 0));
+            GL.CallList(DrawCircuit.DisplayListHandle);
+            GL.EndList();
+
+
+            DrawCircuit = Circuit[17, 8];
+            RomMemory = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
+            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+                RomMemory.Terminals[i] = DrawCircuit.Terminals[i];
+                if (i < 16) {
+                    RomMemory.TerminalsString[i] = ("A" + (i % 16));
+                } else if (i > 16) {
+                    RomMemory.TerminalsString[i] = ("D" + ((i - 1) % 8));
+                } else {
+                    RomMemory.TerminalsString[i] = "sel";
+
+                }
+            }
+            GL.NewList(RomMemory.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("Rom", Color.Black, new PointF(0, 0));
+            GL.CallList(DrawCircuit.DisplayListHandle);
+            GL.EndList();
+        }
+        private static void GenAdders() {
+            TextRenderer.DrawText("Full", Color.Black, new PointF(0, 0));
+            TextRenderer.DrawText("Half", Color.Black, new PointF(0, 0));
+            HalfAdder = new ComponentDraw(GL.GenLists(1), 60, 40, 4);
+            HalfAdder.TerminalsString[0] = "A";
+            HalfAdder.TerminalsString[1] = "B";
+            HalfAdder.TerminalsString[2] = "S";
+            HalfAdder.TerminalsString[3] = "C";
+            HalfAdder.Terminals[0] = new Point(-30, 10);
+            HalfAdder.Terminals[1] = new Point(-30, -10);
+
+            HalfAdder.Terminals[2] = new Point(30, 10);
+            HalfAdder.Terminals[3] = new Point(30, -10);
+
+            GL.NewList(HalfAdder.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("Half", Color.Black, new PointF(0, 0));
+            GL.Begin(PrimitiveType.Lines);
+
+            GL.Vertex2(-30, -10);
+            GL.Vertex2(-20, -10);
+
+            GL.Vertex2(-30, 10);
+            GL.Vertex2(-20, 10);
+
+            GL.Vertex2(30, 10);
+            GL.Vertex2(20, 10);
+
+            GL.Vertex2(30, -10);
+            GL.Vertex2(20, -10);
+
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex2(-20, -20);
+            GL.Vertex2(-20, 20);
+            GL.Vertex2(20, 20);
+            GL.Vertex2(20, -20);
+            GL.End();
+
+            GL.EndList();
+
+
+            FullAdder = new ComponentDraw(GL.GenLists(1), 60, 40, 5);
+            FullAdder.TerminalsString[0] = "A";
+            FullAdder.TerminalsString[1] = "B";
+            FullAdder.TerminalsString[2] = "Cin";
+            FullAdder.TerminalsString[3] = "S";
+            FullAdder.TerminalsString[4] = "Cout";
+            FullAdder.Terminals[0] = new Point(-30, 10);
+            FullAdder.Terminals[1] = new Point(-30, 0);
+            FullAdder.Terminals[2] = new Point(-30, -10);
+
+            FullAdder.Terminals[3] = new Point(30, 10);
+            FullAdder.Terminals[4] = new Point(30, -10);
+
+            GL.NewList(FullAdder.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("Full", Color.Black, new PointF(0, 0));
+            GL.Begin(PrimitiveType.Lines);
+
+            GL.Vertex2(-30, -10);
+            GL.Vertex2(-20, -10);
+
+            GL.Vertex2(-30, 0);
+            GL.Vertex2(-20, 0);
+
+            GL.Vertex2(-30, 10);
+            GL.Vertex2(-20, 10);
+
+            GL.Vertex2(30, 10);
+            GL.Vertex2(20, 10);
+
+            GL.Vertex2(30, -10);
+            GL.Vertex2(20, -10);
+
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex2(-20, -20);
+            GL.Vertex2(-20, 20);
+            GL.Vertex2(20, 20);
+            GL.Vertex2(20, -20);
+            GL.End();
+
+            GL.EndList();
+        }
+        private static void GenDisable8Bit() {
+            TextRenderer.DrawText("Buf", Color.Black, new PointF(0, 0));
+            ComponentDraw DrawCircuit = Circuit[9, 8];
+            Disable8Bit = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
+            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+                Disable8Bit.Terminals[i] = DrawCircuit.Terminals[i];
+                if (i < 8) {
+                    Disable8Bit.TerminalsString[i] = ("in" + (i % 8));
+                } else if (i > 8) {
+                    Disable8Bit.TerminalsString[i] = ("out"+((i-1) % 8));
+                } else {
+                    Disable8Bit.TerminalsString[i] = "Enable";
+                }
+            }
+            GL.NewList(Disable8Bit.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("Buf", Color.Black, new PointF(0, 0));
+            GL.CallList(DrawCircuit.DisplayListHandle);
+
+            GL.EndList();
+        }
+        private static void GenDFlipFlop() {
+            TextRenderer.DrawText("D", Color.Black, new PointF(0, 0));
+            DFlipFlop = new ComponentDraw(GL.GenLists(1), 60, 40, 4);
+            DFlipFlop.TerminalsString[0] = "D";
+            DFlipFlop.TerminalsString[1] = "CLK";
+            DFlipFlop.TerminalsString[2] = "Q";
+            DFlipFlop.TerminalsString[3] = "Q'";
+            DFlipFlop.Terminals[0] = new Point(-30, 10);
+            DFlipFlop.Terminals[1] = new Point(-30, -10);
+
+            DFlipFlop.Terminals[2] = new Point(30, 10);
+            DFlipFlop.Terminals[3] = new Point(30, -10);
+
+            GL.NewList(DFlipFlop.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("D", Color.Black, new PointF(0, 0));
+            GL.Begin(PrimitiveType.Lines);
+
+            GL.Vertex2(-30, -10);
+            GL.Vertex2(-20, -10);
+
+            GL.Vertex2(-30, 10);
+            GL.Vertex2(-20, 10);
+
+            GL.Vertex2(30, 10);
+            GL.Vertex2(20, 10);
+
+            GL.Vertex2(30, -10);
+            GL.Vertex2(20, -10);
+
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex2(-20, -20);
+            GL.Vertex2(-20, 20);
+            GL.Vertex2(20, 20);
+            GL.Vertex2(20, -20);
+            GL.End();
+
+            GL.EndList();
+        }
+        private static void GenTFlipFlop() {
+            TextRenderer.DrawText("T", Color.Black, new PointF(0, 0));
+            TFlipFlop = new ComponentDraw(GL.GenLists(1), 60, 40, 4);
+            TFlipFlop.TerminalsString[0] = "T";
+            TFlipFlop.TerminalsString[1] = "CLK";
+            TFlipFlop.TerminalsString[2] = "Q";
+            TFlipFlop.TerminalsString[3] = "Q'";
+            TFlipFlop.Terminals[0] = new Point(-30, 10);
+            TFlipFlop.Terminals[1] = new Point(-30, -10);
+
+            TFlipFlop.Terminals[2] = new Point(30, 10);
+            TFlipFlop.Terminals[3] = new Point(30, -10);
+
+            GL.NewList(TFlipFlop.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("T", Color.Black, new PointF(0, 0));
+            GL.Begin(PrimitiveType.Lines);
+
+            GL.Vertex2(-30, -10);
+            GL.Vertex2(-20, -10);
+
+            GL.Vertex2(-30, 10);
+            GL.Vertex2(-20, 10);
+
+            GL.Vertex2(30, 10);
+            GL.Vertex2(20, 10);
+
+            GL.Vertex2(30, -10);
+            GL.Vertex2(20, -10);
+
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex2(-20, -20);
+            GL.Vertex2(-20, 20);
+            GL.Vertex2(20, 20);
+            GL.Vertex2(20, -20);
+            GL.End();
+
+            GL.EndList();
+        }
+        private static void GenRSFlipFlop() {
+            TextRenderer.DrawText("SR", Color.Black, new PointF(0, 0));
+            RSFlipFlop = new ComponentDraw(GL.GenLists(1), 60, 40, 5);
+            RSFlipFlop.TerminalsString[0] = "S";
+            RSFlipFlop.TerminalsString[1] = "R";
+            RSFlipFlop.TerminalsString[2] = "CLK";
+            RSFlipFlop.TerminalsString[3] = "Q";
+            RSFlipFlop.TerminalsString[4] = "Q'";
+            RSFlipFlop.Terminals[0] = new Point(-30, 10);
+            RSFlipFlop.Terminals[1] = new Point(-30, -10);
+            RSFlipFlop.Terminals[2] = new Point(-30, 0);
+
+            RSFlipFlop.Terminals[3] = new Point(30, 10);
+            RSFlipFlop.Terminals[4] = new Point(30, -10);
+
+            GL.NewList(RSFlipFlop.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("SR", Color.Black, new PointF(0, 0));
+            GL.Begin(PrimitiveType.Lines);
+
+            GL.Vertex2(-30, -10);
+            GL.Vertex2(-20, -10);
+
+            GL.Vertex2(-30, 0);
+            GL.Vertex2(-20, 0);
+
+            GL.Vertex2(-30, 10);
+            GL.Vertex2(-20, 10);
+
+            GL.Vertex2(30, 10);
+            GL.Vertex2(20, 10);
+
+            GL.Vertex2(30, -10);
+            GL.Vertex2(20, -10);
+
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex2(-20, -20);
+            GL.Vertex2(-20, 20);
+            GL.Vertex2(20, 20);
+            GL.Vertex2(20, -20);
+            GL.End();
+
+            GL.EndList();
+        }
+        private static void GenJKFlipFlop() {
+            TextRenderer.DrawText("JK", Color.Black, new PointF(0, 0));
+            JKFlipFlop = new ComponentDraw(GL.GenLists(1), 60, 40, 5);
+            JKFlipFlop.TerminalsString[0] = "J";
+            JKFlipFlop.TerminalsString[1] = "K";
+            JKFlipFlop.TerminalsString[2] = "CLK";
+            JKFlipFlop.TerminalsString[3] = "Q";
+            JKFlipFlop.TerminalsString[4] = "Q'";
+            JKFlipFlop.Terminals[0] = new Point(-30, 10);
+            JKFlipFlop.Terminals[1] = new Point(-30, -10);
+            JKFlipFlop.Terminals[2] = new Point(-30, 0);
+
+            JKFlipFlop.Terminals[3] = new Point(30, 10);
+            JKFlipFlop.Terminals[4] = new Point(30, -10);
+
+            GL.NewList(JKFlipFlop.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("JK", Color.Black, new PointF(0, 0));
+            GL.Begin(PrimitiveType.Lines);
+
+            GL.Vertex2(-30, -10);
+            GL.Vertex2(-20, -10);
+
+            GL.Vertex2(-30, 0);
+            GL.Vertex2(-20, 0);
+
+            GL.Vertex2(-30, 10);
+            GL.Vertex2(-20, 10);
+
+            GL.Vertex2(30, 10);
+            GL.Vertex2(20, 10);
+
+            GL.Vertex2(30, -10);
+            GL.Vertex2(20, -10);
+
+            GL.End();
+
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex2(-20, -20);
+            GL.Vertex2(-20, 20);
+            GL.Vertex2(20, 20);
+            GL.Vertex2(20, -20);
+            GL.End();
+
+            GL.EndList();
+        }
+        private static void GenOsciloscope() {
+            TextRenderer.DrawText("Osc", Color.Black, new PointF(0, 0));
+            Osciloscope = new ComponentDraw(GL.GenLists(1), 30, 20);
+            Osciloscope.Terminals[0] = new Point(-15, 0);
+            GL.NewList(Osciloscope.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("Osc", Color.Black, new PointF(0, 0));
+            GL.Color3(Color_off);
+            GL.Begin(PrimitiveType.Lines);
+            GL.Vertex2(-15, 0);
+            GL.Vertex2(-10, 0);
+            GL.End();
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex2(-10, -10);
+            GL.Vertex2(-10, 10);
+            GL.Vertex2(15, 10);
+            GL.Vertex2(15, -10);
+            GL.End();
+            GL.Begin(PrimitiveType.LineStrip);
+            GL.Vertex2(-6, -6);
+            GL.Vertex2(2, -6);
+            GL.Vertex2(2, 6);
+            GL.Vertex2(10, 6);
+            GL.End();
+
+            GL.EndList();
+        }
+        private static void Gen7SegDisplay() {
+            Display7SegPart = new int[8];
+            Display7SegPart[0] = GL.GenLists(1);
+            GL.NewList(Display7SegPart[0], ListMode.Compile); //a
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Color3(Color_on);
+            GL.Vertex2(-16, 35);
+            GL.Vertex2(-14, 37);
+            GL.Vertex2(20, 37);
+            GL.Vertex2(22, 35);
+            GL.Vertex2(20, 33);
+            GL.Vertex2(-14, 33);
+            GL.Vertex2(-16, 35);
+            GL.End();
+            GL.EndList();
+
+            Display7SegPart[1] = GL.GenLists(1);
+            GL.NewList(Display7SegPart[1], ListMode.Compile); //b
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Color3(Color_on);
+            GL.Vertex2(22, 35);
+            GL.Vertex2(24, 33);
+            GL.Vertex2(24, 2);
+            GL.Vertex2(22, 0);
+            GL.Vertex2(20, 2);
+            GL.Vertex2(20, 33);
+            GL.Vertex2(22, 35);
+            GL.End();
+            GL.EndList();
+
+            Display7SegPart[2] = GL.GenLists(1);
+            GL.NewList(Display7SegPart[2], ListMode.Compile); //c
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Color3(Color_on);
+            GL.Vertex2(22, -35);
+            GL.Vertex2(24, -33);
+            GL.Vertex2(24, -2);
+            GL.Vertex2(22, 0);
+            GL.Vertex2(20, -2);
+            GL.Vertex2(20, -33);
+            GL.Vertex2(22, -35);
+            GL.End();
+            GL.EndList();
+
+            Display7SegPart[3] = GL.GenLists(1);
+            GL.NewList(Display7SegPart[3], ListMode.Compile); //d
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Color3(Color_on);
+            GL.Vertex2(-16, -35);
+            GL.Vertex2(-14, -37);
+            GL.Vertex2(20, -37);
+            GL.Vertex2(22, -35);
+            GL.Vertex2(20, -33);
+            GL.Vertex2(-14, -33);
+            GL.Vertex2(-16, -35);
+            GL.End();
+            GL.EndList();
+
+            Display7SegPart[4] = GL.GenLists(1);
+            GL.NewList(Display7SegPart[4], ListMode.Compile); //e
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Color3(Color_on);
+            GL.Vertex2(-15, -35);
+            GL.Vertex2(-17, -33);
+            GL.Vertex2(-17, -2);
+            GL.Vertex2(-15, 0);
+            GL.Vertex2(-13, -2);
+            GL.Vertex2(-13, -33);
+            GL.Vertex2(-15, -35);
+            GL.End();
+            GL.EndList();
+
+            Display7SegPart[5] = GL.GenLists(1);
+            GL.NewList(Display7SegPart[5], ListMode.Compile); //f
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Color3(Color_on);
+            GL.Vertex2(-15, 35);
+            GL.Vertex2(-17, 33);
+            GL.Vertex2(-17, 2);
+            GL.Vertex2(-15, 0);
+            GL.Vertex2(-13, 2);
+            GL.Vertex2(-13, 33);
+            GL.Vertex2(-15, 35);
+            GL.End();
+            GL.EndList();
+            Display7SegPart[6] = GL.GenLists(1);
+            GL.NewList(Display7SegPart[6], ListMode.Compile); //g
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Color3(Color_on);
+            GL.Vertex2(-16, 0);
+            GL.Vertex2(-14, 2);
+            GL.Vertex2(20, 2);
+            GL.Vertex2(22, 0);
+            GL.Vertex2(20, -2);
+            GL.Vertex2(-14, -2);
+            GL.Vertex2(-16, 0);
+            GL.End();
+            GL.EndList();
+
+            Display7SegPart[7] = GL.GenLists(1);
+            GL.NewList(Display7SegPart[7], ListMode.Compile); //dot
+            GL.Begin(PrimitiveType.TriangleFan);
+            GL.Color3(Color_on);
+            GL.Vertex2(24, -33);
+            GL.Vertex2(24, -38);
+            GL.Vertex2(29, -38);
+            GL.Vertex2(29, -33);
+            GL.Vertex2(24, -33);
+            GL.End();
+            GL.EndList();
+            
+            Display7SegBase = new ComponentDraw(GL.GenLists(1), 60, 80, 8);
+            for (int i = 0; i < 8; i++) {
+                Display7SegBase.Terminals[i] = new Point(-30, -i * 10 + 35);
+                if(i < 7)
+                    Display7SegBase.TerminalsString[i] = ((char)('a' + i)).ToString();
+                else
+                    Display7SegBase.TerminalsString[i] = "dot";
+            }
+            GL.NewList(Display7SegBase.DisplayListHandle, ListMode.Compile);
+            GL.Color3(Color_off);
+            GL.Begin(PrimitiveType.Lines);
+            for (int i = 0; i < 8; i++) {
+                GL.Vertex2(-30, -i * 10 + 35);
+                GL.Vertex2(-20, -i * 10 + 35);
+            }
+            GL.End();
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex2(-20, -40);
+            GL.Vertex2(30, -40);
+            GL.Vertex2(30, 40);
+            GL.Vertex2(-20, 40);
+            GL.End();
+            GL.EndList();
+
+           
+        }
         private static void GenMicrocontroller() {
+            TextRenderer.DrawText("M+++", Color.Black, new PointF(0, 0));
             ComponentDraw DrawCircuit = Circuit[32, 32];
             Microcontroller = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
             for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 Microcontroller.Terminals[i] = DrawCircuit.Terminals[i];
+                if(i < 8 * 4) {
+                    Microcontroller.TerminalsString[i] = ("in" + (i / 8) + "[" + (i % 8) + "]");
+                } else {
+                    Microcontroller.TerminalsString[i] = ("out" + ((i / 8)-4) + "[" + (i % 8) + "]");
+                }
             }
             GL.NewList(Microcontroller.DisplayListHandle, ListMode.Compile);
-
+            TextRenderer.DrawText("M+++", Color.Black, new PointF(0, 0));
             GL.CallList(DrawCircuit.DisplayListHandle);
 
             GL.EndList();
@@ -1059,21 +1700,21 @@ namespace IDE {
 
             GL.NewList(Keyboard.DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-Keyboard.Width / 2, -Keyboard.Height / 2);
             GL.Vertex2(Keyboard.Width / 2, -Keyboard.Height / 2);
             GL.Vertex2(Keyboard.Width / 2, Keyboard.Height / 2 - 10);
             GL.Vertex2(-Keyboard.Width / 2, Keyboard.Height / 2 - 10);
             GL.End();
 
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             for (int i = 0; i < Keyboard.Terminals.Length; i++) {
                 GL.Vertex2(-Keyboard.Width / 2 + i * 10 + 10, Keyboard.Height / 2);
                 GL.Vertex2(-Keyboard.Width / 2 + i * 10 + 10, Keyboard.Height / 2-10);
             }
             GL.End();
 
-            GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
             for (int y = 0; y < 3; y++) {
                 for (int x = 0; x < 8; x++) {
                     if (y % 2 == 0) {
@@ -1127,7 +1768,7 @@ namespace IDE {
             Xnor[0].Terminals[2] = new Point(20, 0);
             GL.NewList(Xnor[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
@@ -1139,17 +1780,17 @@ namespace IDE {
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.LineStrip);
+            GL.Begin(PrimitiveType.LineStrip);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle3[i]);
             }
             GL.End();
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-13, 5);
             GL.Vertex2(-20, -5);
@@ -1165,7 +1806,7 @@ namespace IDE {
             Xnor[1].Terminals[2] = new Point(20, 0);
             GL.NewList(Xnor[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_on);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
@@ -1177,17 +1818,17 @@ namespace IDE {
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.LineStrip);
+            GL.Begin(PrimitiveType.LineStrip);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle3[i]);
             }
             GL.End();
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-13, 5);
             GL.Vertex2(-20, -5);
@@ -1227,7 +1868,7 @@ namespace IDE {
             Xor[0].Terminals[2] = new Point(20, 0);
             GL.NewList(Xor[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
@@ -1239,12 +1880,12 @@ namespace IDE {
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.LineStrip);
+            GL.Begin(PrimitiveType.LineStrip);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle3[i]);
             }
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-13, 5);
             GL.Vertex2(-20, -5);
@@ -1260,7 +1901,7 @@ namespace IDE {
             Xor[1].Terminals[2] = new Point(20, 0);
             GL.NewList(Xor[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_on);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
@@ -1272,12 +1913,12 @@ namespace IDE {
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.LineStrip);
+            GL.Begin(PrimitiveType.LineStrip);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle3[i]);
             }
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-13, 5);
             GL.Vertex2(-20, -5);
@@ -1312,7 +1953,7 @@ namespace IDE {
             Nand[0].Terminals[2] = new Point(20, 0);
             GL.NewList(Nand[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(0, 10);
             for (int i = total - 1; i >= 0; i--) {
@@ -1321,12 +1962,12 @@ namespace IDE {
             GL.Vertex2(0, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-15, 5);
             GL.Vertex2(-20, -5);
@@ -1342,7 +1983,7 @@ namespace IDE {
             Nand[1].Terminals[2] = new Point(20, 0);
             GL.NewList(Nand[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_on);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
             for (int i = total - 1; i >= 0; i--) {
@@ -1351,12 +1992,12 @@ namespace IDE {
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-15, 5);
             GL.Vertex2(-20, -5);
@@ -1384,7 +2025,7 @@ namespace IDE {
             And[0].Terminals[2] = new Point(20, 0);
             GL.NewList(And[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(0, 10);
             for (int i = total - 1; i >= 0; i--) {
@@ -1393,7 +2034,7 @@ namespace IDE {
             GL.Vertex2(0, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-15, 5);
             GL.Vertex2(-20, -5);
@@ -1409,7 +2050,7 @@ namespace IDE {
             And[1].Terminals[2] = new Point(20, 0);
             GL.NewList(And[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_on);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
             for (int i = total - 1; i >= 0; i--) {
@@ -1418,7 +2059,7 @@ namespace IDE {
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-15, 5);
             GL.Vertex2(-20, -5);
@@ -1459,7 +2100,7 @@ namespace IDE {
             Nor[0].Terminals[2] = new Point(20, 0);
             GL.NewList(Nor[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
@@ -1471,12 +2112,12 @@ namespace IDE {
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-11, 5);
             GL.Vertex2(-20, -5);
@@ -1492,7 +2133,7 @@ namespace IDE {
             Nor[1].Terminals[2] = new Point(20, 0);
             GL.NewList(Nor[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_on);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
@@ -1504,12 +2145,12 @@ namespace IDE {
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-11, 5);
             GL.Vertex2(-20, -5);
@@ -1543,7 +2184,7 @@ namespace IDE {
             Or[0].Terminals[2] = new Point(20, 0);
             GL.NewList(Or[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
@@ -1555,7 +2196,7 @@ namespace IDE {
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-11, 5);
             GL.Vertex2(-20, -5);
@@ -1571,7 +2212,7 @@ namespace IDE {
             Or[1].Terminals[2] = new Point(20, 0);
             GL.NewList(Or[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_on);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
@@ -1583,7 +2224,7 @@ namespace IDE {
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
             GL.Vertex2(-11, 5);
             GL.Vertex2(-20, -5);
@@ -1612,19 +2253,19 @@ namespace IDE {
             GL.NewList(Not[0].DisplayListHandle, ListMode.Compile);
 
             GL.Color3(Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(10, 0);
             GL.Vertex2(-10, 10);
             GL.Vertex2(-10, -10);
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-10, 0);
             GL.Vertex2(-20, 0);
             GL.Color3(Color_on);
             GL.Vertex2(16, 0);
             GL.Vertex2(20, 0);
             GL.End();
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
@@ -1638,19 +2279,19 @@ namespace IDE {
             GL.NewList(Not[1].DisplayListHandle, ListMode.Compile);
 
             GL.Color3(Color_on);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(10, 0);
             GL.Vertex2(-10, 10);
             GL.Vertex2(-10, -10);
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-10, 0);
             GL.Vertex2(-20, 0);
             GL.Color3(Color_off);
             GL.Vertex2(16, 0);
             GL.Vertex2(20, 0);
             GL.End();
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
@@ -1668,12 +2309,12 @@ namespace IDE {
             GL.NewList(Disable[0].DisplayListHandle, ListMode.Compile);
 
             GL.Color3(Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(10, 0);
             GL.Vertex2(-10, 10);
             GL.Vertex2(-10, -10);
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(10, 0);
             GL.Vertex2(20, 0);
             GL.Vertex2(-10, 0);
@@ -1693,12 +2334,12 @@ namespace IDE {
             GL.NewList(Disable[1].DisplayListHandle, ListMode.Compile);
 
             GL.Color3(Color_on);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(10, 0);
             GL.Vertex2(-10, 10);
             GL.Vertex2(-10, -10);
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(10, 0);
             GL.Vertex2(20, 0);
             GL.Vertex2(-10, 0);
@@ -1716,12 +2357,12 @@ namespace IDE {
             GL.NewList(Disable[2].DisplayListHandle, ListMode.Compile);
 
             GL.Color3(Color_3rd);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(10, 0);
             GL.Vertex2(-10, 10);
             GL.Vertex2(-10, -10);
             GL.End();
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(10, 0);
             GL.Vertex2(20, 0);
             GL.Vertex2(-10, 0);
@@ -1737,7 +2378,7 @@ namespace IDE {
             TerminalHandle = GL.GenLists(1);
             GL.NewList(TerminalHandle, ListMode.Compile);
 
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-2, -2);
             GL.Vertex2(-2, 2);
             GL.Vertex2(2, 2);
@@ -1768,20 +2409,20 @@ namespace IDE {
             Output[0].Terminals[0] = new Point(-10, 0);
             GL.NewList(Output[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(outerVertexes[i]);
             }
             GL.End();
 
-            GL.Begin(BeginMode.TriangleFan);
+            GL.Begin(PrimitiveType.TriangleFan);
             GL.Color3(Color_off);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(innerVertexes[i]);
             }
             GL.End();
 
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(new Vector2(-5, 0));
             GL.Vertex2(new Vector2(-10, 0));
             GL.End();
@@ -1791,19 +2432,19 @@ namespace IDE {
             Output[1].Terminals[0] = new Point(-10, 0);
             GL.NewList(Output[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(outerVertexes[i]);
             }
             GL.End();
             GL.Color3(Color_on);
-            GL.Begin(BeginMode.TriangleFan);
+            GL.Begin(PrimitiveType.TriangleFan);
             for (int i = 0; i < total; i++) {
                 GL.Vertex2(innerVertexes[i]);
             }
             GL.End();
 
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(new Vector2(-5, 0));
             GL.Vertex2(new Vector2(-10, 0));
             GL.End();
@@ -1816,7 +2457,7 @@ namespace IDE {
             Input[0].Terminals[0] = new Point(10, 0);
             GL.NewList(Input[0].DisplayListHandle, ListMode.Compile);
 
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Color3(Color_off);
             GL.Vertex2(-5, -5);
             GL.Vertex2(-5, 5);
@@ -1824,7 +2465,7 @@ namespace IDE {
             GL.Vertex2(5, -5);
             GL.End();
             
-            GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
             GL.Color3(Color_off);
             GL.Vertex2(-3, -3);
             GL.Vertex2(-3, 3);
@@ -1832,7 +2473,7 @@ namespace IDE {
             GL.Vertex2(3, -3);
             GL.End();
 
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Color3(Color_off);
             GL.Vertex2(5, 0);
             GL.Vertex2(10, 0);
@@ -1844,7 +2485,7 @@ namespace IDE {
             Input[1].Terminals[0] = new Point(10, 0);
             GL.NewList(Input[1].DisplayListHandle, ListMode.Compile);
 
-            GL.Begin(BeginMode.LineLoop);
+            GL.Begin(PrimitiveType.LineLoop);
             GL.Color3(Color_off);
             GL.Vertex2(-5, -5);
             GL.Vertex2(-5, 5);
@@ -1852,7 +2493,7 @@ namespace IDE {
             GL.Vertex2(5, -5);
             GL.End();
 
-            GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
             GL.Color3(Color_on);
             GL.Vertex2(-3, -3);
             GL.Vertex2(-3, 3);
@@ -1860,7 +2501,7 @@ namespace IDE {
             GL.Vertex2(3, -3);
             GL.End();
 
-            GL.Begin(BeginMode.Lines);
+            GL.Begin(PrimitiveType.Lines);
             GL.Color3(Color_on);
             GL.Vertex2(5, 0);
             GL.Vertex2(10, 0);
@@ -1876,12 +2517,14 @@ namespace IDE {
         public int Width;
         public int Height;
         public Point[] Terminals;
+        public string[] TerminalsString;
 
         public ComponentDraw(int displayListHandle, int width, int height, int terminals = 1) {
             DisplayListHandle = displayListHandle;
             Width = width;
             Height = height;
             Terminals = new Point[terminals];
+            TerminalsString = new string[terminals];
         }
     }
     public class Component {
@@ -1928,7 +2571,29 @@ namespace IDE {
             } else if (draw.DisplayListHandle == Draws.Disable[0].DisplayListHandle ||
                         draw.DisplayListHandle == Draws.Disable[1].DisplayListHandle ||
                         draw.DisplayListHandle == Draws.Disable[2].DisplayListHandle) {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
+            } else if(draw.DisplayListHandle == Draws.Display7SegBase.DisplayListHandle) {
+                Type = ComponentType.Display7Seg;
+            } else if (draw.DisplayListHandle == Draws.Osciloscope.DisplayListHandle) {
+                Type = ComponentType.Osciloscope;
+            } else if (draw.DisplayListHandle == Draws.JKFlipFlop.DisplayListHandle) {
+                Type = ComponentType.JKFlipFlop;
+            } else if (draw.DisplayListHandle == Draws.RSFlipFlop.DisplayListHandle) {
+                Type = ComponentType.RSFlipFlop;
+            } else if (draw.DisplayListHandle == Draws.TFlipFlop.DisplayListHandle) {
+                Type = ComponentType.TFlipFlop;
+            } else if (draw.DisplayListHandle == Draws.DFlipFlop.DisplayListHandle) {
+                Type = ComponentType.DFlipFlop;
+            } else if (draw.DisplayListHandle == Draws.Disable8Bit.DisplayListHandle) {
+                Type = ComponentType.Disable8Bit;
+            } else if (draw.DisplayListHandle == Draws.FullAdder.DisplayListHandle) {
+                Type = ComponentType.FullAdder;
+            } else if (draw.DisplayListHandle == Draws.HalfAdder.DisplayListHandle) {
+                Type = ComponentType.HalfAdder;
+            } else if (draw.DisplayListHandle == Draws.RamMemory.DisplayListHandle) {
+                Type = ComponentType.RamMemory;
+            } else if (draw.DisplayListHandle == Draws.RomMemory.DisplayListHandle) {
+                Type = ComponentType.RomMemory;
             } else {
                 throw new NotImplementedException();
             }
@@ -1968,7 +2633,7 @@ namespace IDE {
         None, Input, Output, Disable, Not, And, Nand, Or, Nor, Xor, Xnor, Keyboard, Display7Seg, Circuit,
         Microcontroller, Osciloscope, BlackTerminal, JKFlipFlop, RSFlipFlop, DFlipFlop, TFlipFlop,
         HalfAdder, FullAdder, ULA, ControlModule, Registrer8Bit, Registrers, Tristate, Stack, RamMemory,
-        RomMemory, PortBank, Registrer8BitSG, LedMatrix, 
+        RomMemory, PortBank, Registrer8BitSG, LedMatrix, Disable8Bit
     }
 
     public class Wire {

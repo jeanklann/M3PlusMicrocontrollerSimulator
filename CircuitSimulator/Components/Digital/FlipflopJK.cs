@@ -18,20 +18,21 @@ namespace CircuitSimulator {
         public Pin J { get { return Pins[0]; } }
         public Pin K { get { return Pins[1]; } }
         public Pin CLK { get { return Pins[2]; } }
+        /*
         public Pin S { get { return Pins[3]; } }
-        public Pin R { get { return Pins[4]; } }
-        public Pin Q { get { return Pins[5]; } }
-        public Pin Qnot { get { return Pins[6]; } }
+        public Pin R { get { return Pins[4]; } }*/
+        public Pin Q { get { return Pins[3]; } }
+        public Pin Qnot { get { return Pins[4]; } }
 
-        public FlipflopJK(string name = "Flipflop component") : base(name, 7) {
+        public FlipflopJK(string name = "Flipflop component") : base(name, 5) {
 
         }
 
         protected override void AllocatePins() {
-            for(int i = 0; i < 5; i++) {
+            for(int i = 0; i < 3; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for(int i = 5; i < 7; i++) {
+            for(int i = 3; i < 5; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
         }
@@ -61,13 +62,7 @@ namespace CircuitSimulator {
         /// </example>
         protected internal override void Execute() {
             base.Execute();
-            if(S.GetDigital() == Pin.HIGH) { //Set = 1
-                Q.value = Pin.HIGH;
-                Qnot.value = Pin.LOW;
-            } else if(R.GetDigital() == Pin.HIGH) { //Reset = 1
-                Q.value = Pin.LOW;
-                Qnot.value = Pin.HIGH;
-            } else if(CLK.value == Pin.LOW && lastClk == Pin.HIGH) { //Clock desc
+            if(CLK.value == Pin.LOW && lastClk == Pin.HIGH) { //Clock desc
                 if(J.GetDigital() == Pin.HIGH) {
                     if(K.GetDigital() == Pin.HIGH) { // J = 1, K = 1
                         Q.Neg();
