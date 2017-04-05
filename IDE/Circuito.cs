@@ -546,7 +546,7 @@ namespace IDE {
             Draws.Load();
             Components.Add(new Component(Draws.Microcontroller, new PointF(0, 0)));
 
-            Components.Add(new Component(Draws.RomMemory, new PointF(-100, 40)));
+            Components.Add(new Component(Draws.JKFlipFlop, new PointF(-100, 40)));
             //Components.Add(new Component(Draws.Circuit[8,16], new PointF(200, 0)));
             
 
@@ -1179,13 +1179,140 @@ namespace IDE {
             GenDisable8Bit();
             GenAdders();
             GenMemories();
+            GenRegistrers();
+            GenULA();
         }
         
-        private static void GenULA() { }
-        private static void GenRegistrers() { }
         private static void GenControlModule() { }
         private static void GenLedMatrix() { }
         private static void GenBlackTerminal() { }
+        private static void GenULA() {
+            TextRenderer.DrawText("ULA", Color.Black, new PointF(0, 0));
+            ULA = new ComponentDraw(GL.GenLists(1), 220, 100, 30);
+            GL.NewList(ULA.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("ULA", Color.Black, new PointF(0, 0));
+
+            GL.Color3(Color_off);
+            GL.Begin(PrimitiveType.LineLoop);
+            GL.Vertex2(-105, 40);
+            GL.Vertex2(-15, 40);
+            GL.Vertex2(0, 20);
+            GL.Vertex2(15, 40);
+            GL.Vertex2(105, 40);
+            GL.Vertex2(45, -40);
+            GL.Vertex2(-45, -40);
+            GL.End();
+
+            GL.Begin(PrimitiveType.Lines);
+            for (int i = 0; i < 8; i++) {
+                GL.Vertex2(i * 10 - 95, 40);
+                GL.Vertex2(i * 10 - 95, 50);
+
+                ULA.Terminals[i] = new Point(i * 10 - 95, 50);
+                ULA.TerminalsString[i] = "A[" + i + "]";
+                GL.Vertex2(i * 10 + 25, 40);
+                GL.Vertex2(i * 10 + 25, 50);
+
+                ULA.Terminals[i+8] = new Point(i * 10 + 25, 50);
+                ULA.TerminalsString[i+8] = "B[" + (i) + "]";
+                GL.Vertex2(i * 10 - 35, -40);
+                GL.Vertex2(i * 10 - 35, -50);
+
+                ULA.Terminals[i + 20] = new Point(i * 10 - 35, -50);
+                ULA.TerminalsString[i + 20] = "O[" + (i) + "]";
+
+            }
+
+            GL.Vertex2(-90, 20);
+            GL.Vertex2(-110, 20);
+            ULA.Terminals[16] = new Point(-110, 20);
+            ULA.TerminalsString[16] = "S0";
+
+            GL.Vertex2(-82, 10);
+            GL.Vertex2(-110, 10);
+            ULA.Terminals[17] = new Point(-110, 10);
+            ULA.TerminalsString[17] = "S1";
+
+            GL.Vertex2(-75, 0);
+            GL.Vertex2(-110, 0);
+            ULA.Terminals[18] = new Point(-110, 0);
+            ULA.TerminalsString[18] = "S2";
+
+            GL.Vertex2(-60, -20);
+            GL.Vertex2(-110, -20);
+            ULA.Terminals[19] = new Point(-110, -20);
+            ULA.TerminalsString[19] = "Enable";
+            
+            GL.Vertex2(90, 20);
+            GL.Vertex2(110, 20);
+            ULA.Terminals[28] = new Point(110, 20);
+            ULA.TerminalsString[28] = "Flag Z";
+
+            GL.Vertex2(82, 10);
+            GL.Vertex2(110, 10);
+            ULA.Terminals[29] = new Point(110, 10);
+            ULA.TerminalsString[29] = "Flag C";
+
+            GL.End();
+
+            GL.EndList();
+        }
+        private static void GenRegistrers() {
+            TextRenderer.DrawText("R\ne\ng", Color.Black, new PointF(0, 0));
+            TextRenderer.DrawText("R\ne\ng\nS\nG", Color.Black, new PointF(0, 0));
+            ComponentDraw DrawCircuit = Circuit[11, 8];
+            Registrer8Bit = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
+            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+                Registrer8Bit.Terminals[i] = DrawCircuit.Terminals[i];
+                if (i < 8) {
+                    Registrer8Bit.TerminalsString[i] = ("In" + (i % 8));
+                } else if (i > 10) {
+                    Registrer8Bit.TerminalsString[i] = ("Out" + ((i - 3) % 8));
+                } else {
+                    switch (i) {
+                        case 8:
+                            Registrer8Bit.TerminalsString[i] = "Enable";
+                            break;
+                        case 9:
+                            Registrer8Bit.TerminalsString[i] = "Clock";
+                            break;
+                        case 10:
+                            Registrer8Bit.TerminalsString[i] = "Reset";
+                            break;
+                    }
+
+                }
+            }
+            GL.NewList(Registrer8Bit.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("R\ne\ng", Color.Black, new PointF(0, 0));
+            GL.CallList(DrawCircuit.DisplayListHandle);
+            GL.EndList();
+
+            DrawCircuit = Circuit[10, 8];
+            Registrer8BitSG = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
+            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+                Registrer8BitSG.Terminals[i] = DrawCircuit.Terminals[i];
+                if (i < 8) {
+                    Registrer8BitSG.TerminalsString[i] = ("In" + (i % 8));
+                } else if (i > 9) {
+                    Registrer8BitSG.TerminalsString[i] = ("Out" + ((i - 2) % 8));
+                } else {
+                    switch (i) {
+                        case 8:
+                            Registrer8BitSG.TerminalsString[i] = "Enable";
+                            break;
+                        case 9:
+                            Registrer8BitSG.TerminalsString[i] = "Reset";
+                            break;
+                    }
+
+                }
+            }
+            GL.NewList(Registrer8BitSG.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("R\ne\ng\nS\nG", Color.Black, new PointF(0, 0));
+            GL.CallList(DrawCircuit.DisplayListHandle);
+            GL.EndList();
+        }
         private static void GenMemories() {
             TextRenderer.DrawText("Ram", Color.Black, new PointF(0, 0));
             TextRenderer.DrawText("Rom", Color.Black, new PointF(0, 0));
@@ -1423,21 +1550,26 @@ namespace IDE {
         }
         private static void GenRSFlipFlop() {
             TextRenderer.DrawText("SR", Color.Black, new PointF(0, 0));
-            RSFlipFlop = new ComponentDraw(GL.GenLists(1), 60, 40, 5);
+            RSFlipFlop = new ComponentDraw(GL.GenLists(1), 60, 60, 7);
             RSFlipFlop.TerminalsString[0] = "S";
             RSFlipFlop.TerminalsString[1] = "R";
             RSFlipFlop.TerminalsString[2] = "CLK";
-            RSFlipFlop.TerminalsString[3] = "Q";
-            RSFlipFlop.TerminalsString[4] = "Q'";
+            RSFlipFlop.TerminalsString[3] = "Force set";
+            RSFlipFlop.TerminalsString[4] = "Force reset";
+            RSFlipFlop.TerminalsString[5] = "Q";
+            RSFlipFlop.TerminalsString[6] = "Q'";
             RSFlipFlop.Terminals[0] = new Point(-30, 10);
             RSFlipFlop.Terminals[1] = new Point(-30, -10);
             RSFlipFlop.Terminals[2] = new Point(-30, 0);
+            RSFlipFlop.Terminals[3] = new Point(0, 30);
+            RSFlipFlop.Terminals[4] = new Point(0, -30);
 
-            RSFlipFlop.Terminals[3] = new Point(30, 10);
-            RSFlipFlop.Terminals[4] = new Point(30, -10);
+            RSFlipFlop.Terminals[5] = new Point(30, 10);
+            RSFlipFlop.Terminals[6] = new Point(30, -10);
 
             GL.NewList(RSFlipFlop.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("SR", Color.Black, new PointF(0, 0));
+            GL.Color3(Color.Black);
             GL.Begin(PrimitiveType.Lines);
 
             GL.Vertex2(-30, -10);
@@ -1455,6 +1587,11 @@ namespace IDE {
             GL.Vertex2(30, -10);
             GL.Vertex2(20, -10);
 
+            GL.Vertex2(0, -20);
+            GL.Vertex2(0, -30);
+
+            GL.Vertex2(0, 20);
+            GL.Vertex2(0, 30);
             GL.End();
 
             GL.Begin(PrimitiveType.LineLoop);
@@ -1468,21 +1605,26 @@ namespace IDE {
         }
         private static void GenJKFlipFlop() {
             TextRenderer.DrawText("JK", Color.Black, new PointF(0, 0));
-            JKFlipFlop = new ComponentDraw(GL.GenLists(1), 60, 40, 5);
+            JKFlipFlop = new ComponentDraw(GL.GenLists(1), 60, 60, 7);
             JKFlipFlop.TerminalsString[0] = "J";
             JKFlipFlop.TerminalsString[1] = "K";
             JKFlipFlop.TerminalsString[2] = "CLK";
-            JKFlipFlop.TerminalsString[3] = "Q";
-            JKFlipFlop.TerminalsString[4] = "Q'";
+            JKFlipFlop.TerminalsString[3] = "S";
+            JKFlipFlop.TerminalsString[4] = "R";
+            JKFlipFlop.TerminalsString[5] = "Q";
+            JKFlipFlop.TerminalsString[6] = "Q'";
             JKFlipFlop.Terminals[0] = new Point(-30, 10);
             JKFlipFlop.Terminals[1] = new Point(-30, -10);
             JKFlipFlop.Terminals[2] = new Point(-30, 0);
+            JKFlipFlop.Terminals[3] = new Point(0, 30);
+            JKFlipFlop.Terminals[4] = new Point(0, -30);
 
-            JKFlipFlop.Terminals[3] = new Point(30, 10);
-            JKFlipFlop.Terminals[4] = new Point(30, -10);
+            JKFlipFlop.Terminals[5] = new Point(30, 10);
+            JKFlipFlop.Terminals[6] = new Point(30, -10);
 
             GL.NewList(JKFlipFlop.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("JK", Color.Black, new PointF(0, 0));
+            GL.Color3(Color.Black);
             GL.Begin(PrimitiveType.Lines);
 
             GL.Vertex2(-30, -10);
@@ -1500,6 +1642,11 @@ namespace IDE {
             GL.Vertex2(30, -10);
             GL.Vertex2(20, -10);
 
+            GL.Vertex2(0, -20);
+            GL.Vertex2(0, -30);
+
+            GL.Vertex2(0, 20);
+            GL.Vertex2(0, 30);
             GL.End();
 
             GL.Begin(PrimitiveType.LineLoop);
@@ -2594,6 +2741,12 @@ namespace IDE {
                 Type = ComponentType.RamMemory;
             } else if (draw.DisplayListHandle == Draws.RomMemory.DisplayListHandle) {
                 Type = ComponentType.RomMemory;
+            } else if (draw.DisplayListHandle == Draws.ULA.DisplayListHandle) {
+                Type = ComponentType.ULA;
+            } else if (draw.DisplayListHandle == Draws.Registrer8Bit.DisplayListHandle) {
+                Type = ComponentType.Registrer8Bit;
+            } else if (draw.DisplayListHandle == Draws.Registrer8BitSG.DisplayListHandle) {
+                Type = ComponentType.Registrer8BitSG;
             } else {
                 throw new NotImplementedException();
             }

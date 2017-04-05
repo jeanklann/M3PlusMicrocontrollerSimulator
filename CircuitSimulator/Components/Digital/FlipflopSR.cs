@@ -12,18 +12,18 @@ namespace CircuitSimulator {
     /// R: pin 4,<para />
     /// Q: pin 5,<para />
     /// </summary>
-    public class FlipflopJK : Chip {
+    public class FlipflopSR : Chip {
         private float lastClk = Pin.LOW;
 
-        public Pin J { get { return Pins[0]; } }
-        public Pin K { get { return Pins[1]; } }
+        public Pin Set { get { return Pins[0]; } }
+        public Pin Reset { get { return Pins[1]; } }
         public Pin CLK { get { return Pins[2]; } }
         public Pin S { get { return Pins[3]; } }
         public Pin R { get { return Pins[4]; } }
         public Pin Q { get { return Pins[5]; } }
         public Pin Qnot { get { return Pins[6]; } }
 
-        public FlipflopJK(string name = "Flipflop component") : base(name, 7) {
+        public FlipflopSR(string name = "Flipflop component") : base(name, 7) {
 
         }
 
@@ -44,44 +44,31 @@ namespace CircuitSimulator {
             }
             return true;
         }
-        /// <summary>
-        /// <para>Execute the JK Flipflop.</para>
-        /// </summary>
-        /// <example>
-        /// JK flipflop truth table:
-        /// <code>
-        ///     Clock     J   K   S   R   Q  !Q   
-        ///       -       -   -   1   0   1   0   
-        ///       -       -   -   0   1   0   1   
-        ///      desc     0   0   0   0   Q  !Q   
-        ///      desc     1   0   0   0   1   0   
-        ///      desc     0   1   0   0   0   1   
-        ///      desc     1   1   0   0  !Q   Q   
-        /// </code>
-        /// </example>
         protected internal override void Execute() {
             base.Execute();
-            if (S.GetDigital() == Pin.HIGH) { //S = 1
+            if (S.GetDigital() == Pin.HIGH) { //Set it = 1
                 Q.value = Pin.HIGH;
                 Qnot.value = Pin.LOW;
-            } else if (R.GetDigital() == Pin.HIGH) { // R = 1
+            } else if (R.GetDigital() == Pin.HIGH) { // Reset it = 1
                 Q.value = Pin.LOW;
                 Qnot.value = Pin.HIGH;
             } else if(CLK.value == Pin.LOW && lastClk == Pin.HIGH) { //Clock desc
-                 if (J.GetDigital() == Pin.HIGH) {
-                    if(K.GetDigital() == Pin.HIGH) { // J = 1, K = 1
-                        Q.value = Q.Neg();
-                        Qnot.value = Qnot.Neg();
-                    } else { // J = 1, K = 0
+                if (Set.GetDigital() == Pin.HIGH) {
+                    if(Reset.GetDigital() == Pin.HIGH) { // S = 1, R = 1
+                        Q.value = Pin.LOW;
+                        Qnot.value = Pin.LOW;
+                    } else { // S = 1, R = 0
                         Q.value = Pin.HIGH;
                         Qnot.value = Pin.LOW;
                     }
                 } else {
-                    if(K.GetDigital() == Pin.HIGH) { // J = 0, K = 1
+                    if(Reset.GetDigital() == Pin.HIGH) { // S = 0, R = 1
                         Q.value = Pin.LOW;
                         Qnot.value = Pin.HIGH;
                     } else { // J = 0, K = 0
-                        //Do nothing, because the outputs stays same
+                        Q.value = Pin.LOW;
+                        Qnot.value = Pin.LOW;
+                        //Error
                     }
                 }
             }

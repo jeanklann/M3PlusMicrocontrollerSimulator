@@ -42,6 +42,9 @@
     <Compile Include="Components\Digital\BcdTo7Seg.cs" />
     <Compile Include="Components\Digital\ClockLogicInput.cs" />
     <Compile Include="Components\Digital\Display7Seg.cs" />
+    <Compile Include="Components\Digital\FlipflopD.cs" />
+    <Compile Include="Components\Digital\FlipflopT.cs" />
+    <Compile Include="Components\Digital\FlipflopSR.cs" />
     <Compile Include="Components\Digital\FlipflopJK.cs" />
     <Compile Include="Components\Digital\FullAdder.cs" />
     <Compile Include="Components\Digital\Gates\AndGate.cs" />

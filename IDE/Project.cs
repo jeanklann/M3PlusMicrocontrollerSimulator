@@ -256,6 +256,7 @@ namespace IDE {
                     draw = Draws.Keyboard;
                     break;
                 case ComponentType.Display7Seg:
+                    draw = Draws.Display7SegBase;
                     break;
                 case ComponentType.Circuit:
                     break;
@@ -263,16 +264,53 @@ namespace IDE {
                     draw = Draws.Microcontroller;
                     break;
                 case ComponentType.Osciloscope:
+                    draw = Draws.Osciloscope;
                     break;
                 case ComponentType.BlackTerminal:
                     break;
                 case ComponentType.JKFlipFlop:
+                    draw = Draws.JKFlipFlop;
                     break;
                 case ComponentType.RSFlipFlop:
+                    draw = Draws.RSFlipFlop;
                     break;
                 case ComponentType.DFlipFlop:
+                    draw = Draws.DFlipFlop;
                     break;
                 case ComponentType.TFlipFlop:
+                    draw = Draws.TFlipFlop;
+                    break;
+                case ComponentType.ControlModule:
+                    draw = Draws.ControlModule;
+                    break;
+                case ComponentType.PortBank:
+                    draw = Draws.PortBank;
+                    break;
+                case ComponentType.RamMemory:
+                    draw = Draws.RamMemory;
+                    break;
+                case ComponentType.RomMemory:
+                    draw = Draws.RomMemory;
+                    break;
+                case ComponentType.Stack:
+                    break;
+                case ComponentType.Tristate:
+                    draw = Draws.Disable[0];
+                    break;
+                case ComponentType.ULA:
+                    draw = Draws.ULA;
+                    break;
+                case ComponentType.Registrer8Bit:
+                    draw = Draws.Registrer8Bit;
+                    break;
+                case ComponentType.Registrer8BitSG:
+                    draw = Draws.Registrer8BitSG;
+                    break;
+                case ComponentType.Registrers:
+                    draw = Draws.Registrers;
+                    break;
+                case ComponentType.Disable8Bit:
+                    draw = Draws.Disable8Bit;
                     break;
                 default:
                     break;
