@@ -36,6 +36,185 @@ namespace IDE {
 
         public static string FilePath;
 
+        public static bool ExportLogiSim(string path) {
+            try {
+                Compile();
+                if (Simulador == null) return false;
+                StreamWriter sw = new StreamWriter(path);
+                Stream BaseStream = sw.BaseStream;
+                BinaryWriter bw = new BinaryWriter(BaseStream);
+                bw.Write(Encoding.ASCII.GetBytes("v2.0 raw\n"));
+                for (int i = 0; i < Simulador.Program.Length; i++) {
+                    if (Simulador.Program[i] == null) break;
+                    byte[] bytes = Simulador.Program[i].Convert();
+                    for (int j = 0; j < bytes.Length; j++) {
+                        bw.Write(Encoding.ASCII.GetBytes(bytes[j].ToString("x")));
+                    }
+                    if((i+1)%16 == 0)
+                        bw.Write(Encoding.ASCII.GetBytes("\n"));
+                }
+                bw.Close();
+                return true;
+            } catch (Exception) {
+                return false;
+            }
+        }
+        public static bool ImportLogiSim(string path) {
+            try {
+                StreamReader sr = new StreamReader(path);
+                
+                string all = sr.ReadToEnd();
+                all = all.Replace("v2.0 raw", "");
+                all = all.Replace("\r","");
+                all = all.Replace("\n", "");
+                string[] hexes = all.Split(' ');
+                byte[] bytes = new byte[hexes.Length];
+                for (int i = 0; i < hexes.Length; i++) {
+                    bytes[i] = byte.Parse(hexes[i], System.Globalization.NumberStyles.HexNumber);
+                }
+                int index = 0;
+                int outIndex;
+                List<Instruction> InstructionList = new List<Instruction>();
+                while (index < bytes.Length) {
+                    Instruction instruction;
+                    Instruction.Convert(bytes, index, out outIndex, out instruction);
+                    InstructionList.Add(instruction);
+                    index = outIndex;
+                }
+
+                Codigo.scintilla.Text = "";
+                int pos = 0;
+                foreach (Instruction item in InstructionList) {
+                    foreach (Instruction itemLabel in InstructionList) {
+                        if (itemLabel.Label != null && itemLabel.Label != "" && itemLabel.Label.StartsWith("Byte_")) {
+                            if (itemLabel.Address == pos)
+                                Codigo.scintilla.Text += itemLabel.Label + ":\r\n";
+                        }
+                    }
+                    Codigo.scintilla.Text += item.Text + "\r\n";
+                    pos += item.Size;
+                }
+
+                sr.Close();
+                return true;
+            } catch (Exception) {
+                return false;
+            }
+        }
+        public static bool ExportHex(string path) {
+            try {
+                Compile();
+                if (Simulador == null) return false;
+                StreamWriter sw = new StreamWriter(path);
+                Stream BaseStream = sw.BaseStream;
+                BinaryWriter bw = new BinaryWriter(BaseStream);
+                for (int i = 0; i < Simulador.Program.Length; i++) {
+                    if (Simulador.Program[i] == null) break;
+                    byte[] bytes = Simulador.Program[i].Convert();
+                    for (int j = 0; j < bytes.Length; j++) {
+                        bw.Write(Encoding.ASCII.GetBytes(bytes[j].ToString("X2")));
+                    }
+                }
+                bw.Close();
+                return true;
+            } catch (Exception) {
+                return false;
+            }
+        }
+        public static bool ImportHex(string path) {
+            try {
+                StreamReader sr = new StreamReader(path);
+                Stream BaseStream = sr.BaseStream;
+                BinaryReader br = new BinaryReader(BaseStream);
+
+                byte[] bytes = new byte[BaseStream.Length/2];
+                while (BaseStream.Position < BaseStream.Length) {
+                    bytes[BaseStream.Position/2] = byte.Parse(br.ReadByte() + "" + br.ReadByte(), System.Globalization.NumberStyles.HexNumber);
+                }
+                int index = 0;
+                int outIndex;
+                List<Instruction> InstructionList = new List<Instruction>();
+                while (index < bytes.Length) {
+                    Instruction instruction;
+                    Instruction.Convert(bytes, index, out outIndex, out instruction);
+                    InstructionList.Add(instruction);
+                    index = outIndex;
+                }
+                Codigo.scintilla.Text = "";
+                int pos = 0;
+                foreach (Instruction item in InstructionList) {
+                    foreach (Instruction itemLabel in InstructionList) {
+                        if(itemLabel.Label != null && itemLabel.Label != "" && itemLabel.Label.StartsWith("Byte_")) {
+                            if(itemLabel.Address == pos)
+                                Codigo.scintilla.Text += itemLabel.Label+":\r\n";
+                        }
+                    }
+                    Codigo.scintilla.Text += item.Text + "\r\n";
+                    pos += item.Size;
+                }
+                br.Close();
+                return true;
+            } catch (Exception) {
+                return false;
+            }
+        }
+        public static bool ExportBinary(string path) {
+            try {
+                Compile();
+                if (Simulador == null) return false;
+                StreamWriter sw = new StreamWriter(path);
+                Stream BaseStream = sw.BaseStream;
+                BinaryWriter bw = new BinaryWriter(BaseStream);
+                for (int i = 0; i < Simulador.Program.Length; i++) {
+                    if(Simulador.Program[i] == null) break;
+                    byte[] bytes = Simulador.Program[i].Convert();
+                    bw.Write(bytes);
+                }
+                bw.Close();
+                return true;
+            } catch (Exception) {
+                return false;
+            }
+        }
+        public static bool ImportBinary(string path) {
+            try {
+                StreamReader sr = new StreamReader(path);
+                Stream BaseStream = sr.BaseStream;
+                BinaryReader br = new BinaryReader(BaseStream);
+
+                byte[] bytes = new byte[BaseStream.Length];
+                while (BaseStream.Position < BaseStream.Length) {
+                    bytes[BaseStream.Position] = br.ReadByte();
+                }
+                int index = 0;
+                int outIndex;
+                List<Instruction> InstructionList = new List<Instruction>();
+                while (index < bytes.Length) {
+                    Instruction instruction;
+                    Instruction.Convert(bytes, index, out outIndex, out instruction);
+                    InstructionList.Add(instruction);
+                    index = outIndex;
+                }
+
+                Codigo.scintilla.Text = "";
+                int pos = 0;
+                foreach (Instruction item in InstructionList) {
+                    foreach (Instruction itemLabel in InstructionList) {
+                        if (itemLabel.Label != null && itemLabel.Label != "" && itemLabel.Label.StartsWith("Byte_")) {
+                            if (itemLabel.Address == pos)
+                                Codigo.scintilla.Text += itemLabel.Label + ":\r\n";
+                        }
+                    }
+                    Codigo.scintilla.Text += item.Text + "\r\n";
+                    pos += item.Size;
+                }
+                br.Close();
+                return true;
+            } catch (Exception) {
+                return false;
+            }
+        }
+
         public static void Compile() {
             try {
                 Compilador = new Compiler();
@@ -86,8 +265,12 @@ namespace IDE {
                 
                 MessageBox.Show(MainForm, "Programa montado com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             } catch (CompilerError e1) {
+                Compilador = null;
+                Simulador = null;
                 MessageBox.Show(MainForm, e1.Message, "Erro de compilação", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } catch (Exception e2) {
+                Compilador = null;
+                Simulador = null;
                 MessageBox.Show(MainForm, "Erro interno: \n" + e2.Message, "Erro interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

@@ -324,5 +324,49 @@ namespace IDE {
         private void somaRegistradoresToolStripMenuItem_Click(object sender, EventArgs e) {
             UIStatics.Codigo.scintilla.Text = "MOV 00, A\nSOMA_A:\nADD 01, A\nJMPC SOMA_B\nJMP SOMA_A\nSOMA_B:\nMOV B, A\nADD 01, B\nJMPC SOMA_C\nMOV 00, A\nJMP SOMA_A\nSOMA_C:\nMOV C, A\nADD 01, C\nJMPC SOMA_D\nMOV 00, A\nJMP SOMA_A\nSOMA_D:\nMOV D, A\nADD 01, D\nJMPC SOMA_E\nMOV 00, A\nJMP SOMA_A\nSOMA_E:\nMOV E, A\nADD 01, E\nMOV 00, A\nJMP SOMA_A";
         }
+
+        private void exportarToolStripMenuItem_Click(object sender, EventArgs e) {
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.Filter = "Arquivo binário (*.bin)|*.bin|Arquivo hexadecimal (*.hex)|*.hex|Arquivo do logisim (*.mmmp)|*.mmmp|Todos os arquivos (*.*)|*.*";
+            DialogResult fileDialogResult = fileDialog.ShowDialog(this);
+            if (fileDialogResult == DialogResult.Cancel ||
+                fileDialogResult == DialogResult.Abort ||
+                fileDialogResult == DialogResult.None) {
+                return;
+            } else {
+                if (fileDialog.FileName.EndsWith(".bin")){
+                    if (UIStatics.ExportBinary(fileDialog.FileName) == false)
+                        MessageBox.Show(this, "Ocorreu um erro ao exportar.", "Erro ao exportar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } else if (fileDialog.FileName.EndsWith(".hex")) {
+                    if (UIStatics.ExportHex(fileDialog.FileName) == false)
+                        MessageBox.Show(this, "Ocorreu um erro ao exportar.", "Erro ao exportar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } else if (fileDialog.FileName.EndsWith(".mmmp")) {
+                    if (UIStatics.ExportLogiSim(fileDialog.FileName) == false)
+                        MessageBox.Show(this, "Ocorreu um erro ao exportar.", "Erro ao exportar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void importarToolStripMenuItem_Click(object sender, EventArgs e) {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "Arquivo binário (*.bin)|*.bin|Arquivo hexadecimal (*.hex)|*.hex|Arquivo do logisim (*.mmmp)|*.mmmp|Todos os arquivos (*.*)|*.*";
+            DialogResult fileDialogResult = dialog.ShowDialog(this);
+            if (fileDialogResult == DialogResult.Cancel ||
+                fileDialogResult == DialogResult.Abort ||
+                fileDialogResult == DialogResult.None) {
+                return;
+            } else {
+                if (dialog.FileName.EndsWith(".bin")) {
+                    if (UIStatics.ImportBinary(dialog.FileName) == false)
+                        MessageBox.Show(this, "Ocorreu um erro ao importar.", "Erro ao importar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } else if (dialog.FileName.EndsWith(".hex")) {
+                    if (UIStatics.ImportHex(dialog.FileName) == false)
+                        MessageBox.Show(this, "Ocorreu um erro ao importar.", "Erro ao importar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } else if (dialog.FileName.EndsWith(".mmmp")) {
+                    if (UIStatics.ImportLogiSim(dialog.FileName) == false)
+                        MessageBox.Show(this, "Ocorreu um erro ao importar.", "Erro ao importar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }

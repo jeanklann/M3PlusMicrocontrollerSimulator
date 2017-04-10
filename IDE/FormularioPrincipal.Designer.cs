@@ -75,6 +75,8 @@
             this.piscaLedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator9 = new System.Windows.Forms.ToolStripSeparator();
             this.sobreToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.depurador1 = new IDE.Depurador();
             this.circuito1 = new IDE.Circuito();
             this.codigo1 = new IDE.Codigo();
@@ -121,6 +123,8 @@
             this.toolStripSeparator1,
             this.salvarToolStripMenuItem,
             this.salvarComoToolStripMenuItem,
+            this.importarToolStripMenuItem,
+            this.exportarToolStripMenuItem,
             this.toolStripSeparator2,
             this.fecharToolStripMenuItem});
             this.arquivoToolStripMenuItem.Name = "arquivoToolStripMenuItem";
@@ -168,7 +172,21 @@
             this.salvarComoToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.salvarComoToolStripMenuItem.Text = "Salvar como...";
             this.salvarComoToolStripMenuItem.Click += new System.EventHandler(this.salvarComoToolStripMenuItem_Click);
-            // 
+            //
+            // exportarToolStripMenuItem
+            //
+            this.exportarToolStripMenuItem.Name = "exportarToolStripMenuItem";
+            this.exportarToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.exportarToolStripMenuItem.Text = "Exportar código";
+            this.exportarToolStripMenuItem.Click += new System.EventHandler(this.exportarToolStripMenuItem_Click);
+            //
+            // importarToolStripMenuItem
+            //
+            this.importarToolStripMenuItem.Name = "exportarToolStripMenuItem";
+            this.importarToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.importarToolStripMenuItem.Text = "Importar código";
+            this.importarToolStripMenuItem.Click += new System.EventHandler(this.importarToolStripMenuItem_Click);
+            //
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
@@ -654,6 +672,8 @@
         private Circuito circuito1;
         private Depurador depurador1;
         private System.Windows.Forms.ToolStripMenuItem somaRegistradoresToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importarToolStripMenuItem;
     }
 }
 
