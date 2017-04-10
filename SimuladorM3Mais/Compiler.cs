@@ -110,6 +110,20 @@ namespace M3PlusMicrocontroller {
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
+                                    } else if (token.Type == TokenType.Dram) {
+                                        if (token.Value == "B") {
+                                            NewInstruction(Instruction.ADD_A_DRAMB());
+                                        } else if (token.Value == "C") {
+                                            NewInstruction(Instruction.ADD_A_DRAMC());
+                                        } else if (token.Value == "D") {
+                                            NewInstruction(Instruction.ADD_A_DRAMD());
+                                        } else if (token.Value == "E") {
+                                            NewInstruction(Instruction.ADD_A_DRAME());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
                                     }
                                 } else if (token.Value == "B") {
                                     token = NeedSeparator(tokenAnalyzer, Program);
@@ -213,6 +227,28 @@ namespace M3PlusMicrocontroller {
                                 } else {
                                     ThrowInvalidOperation(token, Program);
                                 }
+                            } else if (token.Type == TokenType.Dram) {
+                                string value = token.Value;
+                                token = NeedSeparator(tokenAnalyzer, Program);
+                                if (token.Type == TokenType.Registrer) {
+                                    if (token.Value == "A") {
+                                        if (value == "B") {
+                                            NewInstruction(Instruction.ADD_DRAMB_A());
+                                        } else if (value == "C") {
+                                            NewInstruction(Instruction.ADD_DRAMC_A());
+                                        } else if (value == "D") {
+                                            NewInstruction(Instruction.ADD_DRAMD_A());
+                                        } else if (value == "E") {
+                                            NewInstruction(Instruction.ADD_DRAME_A());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
+                                    }
+                                } else {
+                                    ThrowInvalidOperation(token, Program);
+                                }
                             } else {
                                 ThrowInvalidOperation(token, Program);
                             }
@@ -248,6 +284,20 @@ namespace M3PlusMicrocontroller {
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
+                                    } else if (token.Type == TokenType.Dram) {
+                                        if (token.Value == "B") {
+                                            NewInstruction(Instruction.SUB_A_DRAMB());
+                                        } else if (token.Value == "C") {
+                                            NewInstruction(Instruction.SUB_A_DRAMC());
+                                        } else if (token.Value == "D") {
+                                            NewInstruction(Instruction.SUB_A_DRAMD());
+                                        } else if (token.Value == "E") {
+                                            NewInstruction(Instruction.SUB_A_DRAME());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
                                     }
                                 } else if (token.Value == "B") {
                                     token = NeedSeparator(tokenAnalyzer, Program);
@@ -351,6 +401,28 @@ namespace M3PlusMicrocontroller {
                                 } else {
                                     ThrowInvalidOperation(token, Program);
                                 }
+                            } else if (token.Type == TokenType.Dram) {
+                                string value = token.Value;
+                                token = NeedSeparator(tokenAnalyzer, Program);
+                                if (token.Type == TokenType.Registrer) {
+                                    if (token.Value == "A") {
+                                        if (value == "B") {
+                                            NewInstruction(Instruction.SUB_DRAMB_A());
+                                        } else if (value == "C") {
+                                            NewInstruction(Instruction.SUB_DRAMC_A());
+                                        } else if (value == "D") {
+                                            NewInstruction(Instruction.SUB_DRAMD_A());
+                                        } else if (value == "E") {
+                                            NewInstruction(Instruction.SUB_DRAME_A());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
+                                    }
+                                } else {
+                                    ThrowInvalidOperation(token, Program);
+                                }
                             } else {
                                 ThrowInvalidOperation(token, Program);
                             }
@@ -386,6 +458,20 @@ namespace M3PlusMicrocontroller {
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
+                                    } else if (token.Type == TokenType.Dram) {
+                                        if (token.Value == "B") {
+                                            NewInstruction(Instruction.AND_A_DRAMB());
+                                        } else if (token.Value == "C") {
+                                            NewInstruction(Instruction.AND_A_DRAMC());
+                                        } else if (token.Value == "D") {
+                                            NewInstruction(Instruction.AND_A_DRAMD());
+                                        } else if (token.Value == "E") {
+                                            NewInstruction(Instruction.AND_A_DRAME());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
                                     }
                                 } else if (token.Value == "B") {
                                     token = NeedSeparator(tokenAnalyzer, Program);
@@ -489,6 +575,28 @@ namespace M3PlusMicrocontroller {
                                 } else {
                                     ThrowInvalidOperation(token, Program);
                                 }
+                            } else if (token.Type == TokenType.Dram) {
+                                string value = token.Value;
+                                token = NeedSeparator(tokenAnalyzer, Program);
+                                if (token.Type == TokenType.Registrer) {
+                                    if (token.Value == "A") {
+                                        if (value == "B") {
+                                            NewInstruction(Instruction.AND_DRAMB_A());
+                                        } else if (value == "C") {
+                                            NewInstruction(Instruction.AND_DRAMC_A());
+                                        } else if (value == "D") {
+                                            NewInstruction(Instruction.AND_DRAMD_A());
+                                        } else if (value == "E") {
+                                            NewInstruction(Instruction.AND_DRAME_A());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
+                                    }
+                                } else {
+                                    ThrowInvalidOperation(token, Program);
+                                }
                             } else {
                                 ThrowInvalidOperation(token, Program);
                             }
@@ -524,6 +632,20 @@ namespace M3PlusMicrocontroller {
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
+                                    } else if (token.Type == TokenType.Dram) {
+                                        if (token.Value == "B") {
+                                            NewInstruction(Instruction.OR_A_DRAMB());
+                                        } else if (token.Value == "C") {
+                                            NewInstruction(Instruction.OR_A_DRAMC());
+                                        } else if (token.Value == "D") {
+                                            NewInstruction(Instruction.OR_A_DRAMD());
+                                        } else if (token.Value == "E") {
+                                            NewInstruction(Instruction.OR_A_DRAME());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
                                     }
                                 } else if (token.Value == "B") {
                                     token = NeedSeparator(tokenAnalyzer, Program);
@@ -627,6 +749,28 @@ namespace M3PlusMicrocontroller {
                                 } else {
                                     ThrowInvalidOperation(token, Program);
                                 }
+                            } else if (token.Type == TokenType.Dram) {
+                                string value = token.Value;
+                                token = NeedSeparator(tokenAnalyzer, Program);
+                                if (token.Type == TokenType.Registrer) {
+                                    if (token.Value == "A") {
+                                        if (value == "B") {
+                                            NewInstruction(Instruction.OR_DRAMB_A());
+                                        } else if (value == "C") {
+                                            NewInstruction(Instruction.OR_DRAMC_A());
+                                        } else if (value == "D") {
+                                            NewInstruction(Instruction.OR_DRAMD_A());
+                                        } else if (value == "E") {
+                                            NewInstruction(Instruction.OR_DRAME_A());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
+                                    }
+                                } else {
+                                    ThrowInvalidOperation(token, Program);
+                                }
                             } else {
                                 ThrowInvalidOperation(token, Program);
                             }
@@ -662,6 +806,20 @@ namespace M3PlusMicrocontroller {
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
+                                    } else if (token.Type == TokenType.Dram) {
+                                        if (token.Value == "B") {
+                                            NewInstruction(Instruction.XOR_A_DRAMB());
+                                        } else if (token.Value == "C") {
+                                            NewInstruction(Instruction.XOR_A_DRAMC());
+                                        } else if (token.Value == "D") {
+                                            NewInstruction(Instruction.XOR_A_DRAMD());
+                                        } else if (token.Value == "E") {
+                                            NewInstruction(Instruction.XOR_A_DRAME());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
                                     }
                                 } else if (token.Value == "B") {
                                     token = NeedSeparator(tokenAnalyzer, Program);
@@ -765,6 +923,28 @@ namespace M3PlusMicrocontroller {
                                 } else {
                                     ThrowInvalidOperation(token, Program);
                                 }
+                            } else if (token.Type == TokenType.Dram) {
+                                string value = token.Value;
+                                token = NeedSeparator(tokenAnalyzer, Program);
+                                if (token.Type == TokenType.Registrer) {
+                                    if (token.Value == "A") {
+                                        if (value == "B") {
+                                            NewInstruction(Instruction.XOR_DRAMB_A());
+                                        } else if (value == "C") {
+                                            NewInstruction(Instruction.XOR_DRAMC_A());
+                                        } else if (value == "D") {
+                                            NewInstruction(Instruction.XOR_DRAMD_A());
+                                        } else if (value == "E") {
+                                            NewInstruction(Instruction.XOR_DRAME_A());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
+                                    }
+                                } else {
+                                    ThrowInvalidOperation(token, Program);
+                                }
                             } else {
                                 ThrowInvalidOperation(token, Program);
                             }
@@ -800,6 +980,20 @@ namespace M3PlusMicrocontroller {
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
+                                    } else if (token.Type == TokenType.Dram) {
+                                        if (token.Value == "B") {
+                                            NewInstruction(Instruction.NOT_A_DRAMB());
+                                        } else if (token.Value == "C") {
+                                            NewInstruction(Instruction.NOT_A_DRAMC());
+                                        } else if (token.Value == "D") {
+                                            NewInstruction(Instruction.NOT_A_DRAMD());
+                                        } else if (token.Value == "E") {
+                                            NewInstruction(Instruction.NOT_A_DRAME());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
                                     }
                                 } else if (token.Value == "B") {
                                     token = NeedSeparator(tokenAnalyzer, Program);
@@ -903,6 +1097,28 @@ namespace M3PlusMicrocontroller {
                                 } else {
                                     ThrowInvalidOperation(token, Program);
                                 }
+                            } else if (token.Type == TokenType.Dram) {
+                                string value = token.Value;
+                                token = NeedSeparator(tokenAnalyzer, Program);
+                                if (token.Type == TokenType.Registrer) {
+                                    if (token.Value == "A") {
+                                        if (value == "B") {
+                                            NewInstruction(Instruction.NOT_DRAMB_A());
+                                        } else if (value == "C") {
+                                            NewInstruction(Instruction.NOT_DRAMC_A());
+                                        } else if (value == "D") {
+                                            NewInstruction(Instruction.NOT_DRAMD_A());
+                                        } else if (value == "E") {
+                                            NewInstruction(Instruction.NOT_DRAME_A());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
+                                    }
+                                } else {
+                                    ThrowInvalidOperation(token, Program);
+                                }
                             } else {
                                 ThrowInvalidOperation(token, Program);
                             }
@@ -938,6 +1154,20 @@ namespace M3PlusMicrocontroller {
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
+                                    } else if (token.Type == TokenType.Dram) {
+                                        if (token.Value == "B") {
+                                            NewInstruction(Instruction.MOV_A_DRAMB());
+                                        } else if (token.Value == "C") {
+                                            NewInstruction(Instruction.MOV_A_DRAMC());
+                                        } else if (token.Value == "D") {
+                                            NewInstruction(Instruction.MOV_A_DRAMD());
+                                        } else if (token.Value == "E") {
+                                            NewInstruction(Instruction.MOV_A_DRAME());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
                                     }
                                 } else if (token.Value == "B") {
                                     token = NeedSeparator(tokenAnalyzer, Program);
@@ -1041,6 +1271,28 @@ namespace M3PlusMicrocontroller {
                                 } else {
                                     ThrowInvalidOperation(token, Program);
                                 }
+                            } else if (token.Type == TokenType.Dram) {
+                                string value = token.Value;
+                                token = NeedSeparator(tokenAnalyzer, Program);
+                                if (token.Type == TokenType.Registrer) {
+                                    if (token.Value == "A") {
+                                        if (value == "B") {
+                                            NewInstruction(Instruction.MOV_DRAMB_A());
+                                        } else if (value == "C") {
+                                            NewInstruction(Instruction.MOV_DRAMC_A());
+                                        } else if (value == "D") {
+                                            NewInstruction(Instruction.MOV_DRAMD_A());
+                                        } else if (value == "E") {
+                                            NewInstruction(Instruction.MOV_DRAME_A());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
+                                    }
+                                } else {
+                                    ThrowInvalidOperation(token, Program);
+                                }
                             } else {
                                 ThrowInvalidOperation(token, Program);
                             }
@@ -1076,6 +1328,20 @@ namespace M3PlusMicrocontroller {
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
+                                    } else if(token.Type == TokenType.Dram) {
+                                        if (token.Value == "B") {
+                                            NewInstruction(Instruction.INC_A_DRAMB());
+                                        } else if (token.Value == "C") {
+                                            NewInstruction(Instruction.INC_A_DRAMC());
+                                        } else if (token.Value == "D") {
+                                            NewInstruction(Instruction.INC_A_DRAMD());
+                                        } else if (token.Value == "E") {
+                                            NewInstruction(Instruction.INC_A_DRAME());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
                                     }
                                 } else if (token.Value == "B") {
                                     token = NeedSeparator(tokenAnalyzer, Program);
@@ -1179,6 +1445,28 @@ namespace M3PlusMicrocontroller {
                                 } else {
                                     ThrowInvalidOperation(token, Program);
                                 }
+                            } else if (token.Type == TokenType.Dram) {
+                                string value = token.Value;
+                                token = NeedSeparator(tokenAnalyzer, Program);
+                                if (token.Type == TokenType.Registrer) {
+                                    if (token.Value == "A") {
+                                        if (value == "B") {
+                                            NewInstruction(Instruction.INC_DRAMB_A());
+                                        } else if (value == "C") {
+                                            NewInstruction(Instruction.INC_DRAMC_A());
+                                        } else if (value == "D") {
+                                            NewInstruction(Instruction.INC_DRAMD_A());
+                                        } else if (value == "E") {
+                                            NewInstruction(Instruction.INC_DRAME_A());
+                                        } else {
+                                            ThrowInvalidOperation(token, Program);
+                                        }
+                                    } else {
+                                        ThrowInvalidOperation(token, Program);
+                                    }
+                                } else {
+                                    ThrowInvalidOperation(token, Program);
+                                }
                             } else {
                                 ThrowInvalidOperation(token, Program);
                             }
@@ -1221,6 +1509,50 @@ namespace M3PlusMicrocontroller {
                             break;
                         case "RET": //////////////////////////////////////// RET
                             NewInstruction(Instruction.RET());
+                            break;
+                        case "POPA": //////////////////////////////////////// POPA
+                            NewInstruction(Instruction.POPA());
+                            break;
+                        case "PUSHA": //////////////////////////////////////// PUSHA
+                            NewInstruction(Instruction.PUSHA());
+                            break;
+                        case "POP": //////////////////////////////////////// POP <reg>
+                            token = tokenAnalyzer.NextToken();
+                            if (token.Type == TokenType.Registrer) {
+                                string name = token.Value;
+                                if (name == "B") {
+                                    NewInstruction(Instruction.POP_B());
+                                } else if (name == "C") {
+                                    NewInstruction(Instruction.POP_C());
+                                } else if (name == "D") {
+                                    NewInstruction(Instruction.POP_D());
+                                } else if (name == "E") {
+                                    NewInstruction(Instruction.POP_E());
+                                } else {
+                                    ThrowInvalidLabel(token, Program);
+                                }
+                            } else {
+                                ThrowInvalidLabel(token, Program);
+                            }
+                            break;
+                        case "PUSH": //////////////////////////////////////// PUSH <reg>
+                            token = tokenAnalyzer.NextToken();
+                            if (token.Type == TokenType.Registrer) {
+                                string name = token.Value;
+                                if (name == "B") {
+                                    NewInstruction(Instruction.PUSH_B());
+                                } else if (name == "C") {
+                                    NewInstruction(Instruction.PUSH_C());
+                                } else if (name == "D") {
+                                    NewInstruction(Instruction.PUSH_D());
+                                } else if (name == "E") {
+                                    NewInstruction(Instruction.PUSH_E());
+                                } else {
+                                    ThrowInvalidLabel(token, Program);
+                                }
+                            } else {
+                                ThrowInvalidLabel(token, Program);
+                            }
                             break;
                         default:
                             throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, token.Index) + ". Instrução " + token.Value + " não implementada.");
@@ -1277,7 +1609,7 @@ namespace M3PlusMicrocontroller {
         public static readonly string[] INPUTS = { "IN0", "IN1", "IN2", "IN3" };
         public static readonly string[] OUTPUTS = { "OUT0", "OUT1", "OUT2", "OUT3" };
         public static readonly string[] REGISTRERS = { "A", "B", "C", "D", "E" };
-        public static readonly string[] CPUINSTRUCTIONS = { "ADD", "SUB", "AND", "OR", "XOR", "NOT", "MOV", "INC", "JMP", "JMPC", "JMPZ", "CALL", "RET" };
+        public static readonly string[] CPUINSTRUCTIONS = { "ADD", "SUB", "AND", "OR", "XOR", "NOT", "MOV", "INC", "JMP", "JMPC", "JMPZ", "CALL", "RET", "PUSH", "POP", "PUSHA", "POPA" };
         public static readonly char[] LINESEPARATOR = { '\n', '\r' };
         public static readonly char INSTRUCTIONSEPARATOR = ',';
         public static readonly char[] SPACE = { ' ', '\t' };
@@ -1463,9 +1795,14 @@ namespace M3PlusMicrocontroller {
                     if (number < 0 || number > 255) {
                         throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números para este processador devem estar entre 00 e FF.");
                     }
-                    if(Value.Length != 3)
+                    if (Value.Length != 3)
                         throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números em hexadecimais devem ter 2 dígitos.");
                     return new Token(TokenType.RamAddress, number.ToString(), BeginIndex);
+                } else if (Value.Length == 2) {
+                    for (int i = 1; i < Token.REGISTRERS.Length; i++) {
+                        if (Value[1] == Token.REGISTRERS[i][0])
+                            return new Token(TokenType.Dram, Token.REGISTRERS[i], BeginIndex);
+                    }
                 } else {
                     throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor de endereçamento inválido.");
                 }
@@ -1503,7 +1840,7 @@ namespace M3PlusMicrocontroller {
 
     }
     public enum TokenType {
-        Error, Separator, RamAddress, Number, Input, Output, Registrer, CPUInstruction, Identificator, IdentificatorSeparator, RomAddress, EoF
+        Error, Separator, RamAddress, Number, Input, Output, Registrer, CPUInstruction, Identificator, IdentificatorSeparator, RomAddress, EoF, Dram
     }
 
     public class CompilerError : Exception {

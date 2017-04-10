@@ -18,6 +18,8 @@ namespace M3PlusMicrocontroller {
         public byte[] In; //0: IN4, 1: IN1, 2: IN2, 3: IN3
         public byte[] Out; //0: OUT4, 1: OUT1, 2: OUT2, 3: OUT3
         public byte[] RAM;
+        public byte[] Stack;
+        public byte PointerStack;
 
         private int instructionsCountFrequency = 0;
         private int instructionsCount = 0;
@@ -43,6 +45,8 @@ namespace M3PlusMicrocontroller {
             In = new byte[4];
             Out = new byte[4];
             RAM = new byte[255];
+            Stack = new byte[255];
+            PointerStack = 0;
             Stopped = true;
             instructionsCountFrequency = 0;
             stepOutInstruction = null;
