@@ -1579,6 +1579,7 @@ namespace M3PlusMicrocontroller {
             } while (token.Type != TokenType.EoF);
             Instruction[] instructionCompiled = new Instruction[MEMORY_MAX_SIZE];
             foreach (InstructionCompiler item in Instructions) {
+                if(item.Instruction.Label != null) throw new CompilerError("Erro na instrução "+item.Instruction.Text+". Não foi encontrado o label "+ item.Instruction .Label+ ".");
                 instructionCompiled[item.Address] = item.Instruction;
             }
             return instructionCompiled;

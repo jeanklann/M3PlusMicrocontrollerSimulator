@@ -20,7 +20,7 @@ namespace IDE {
         public static Compiler Compilador;
         public static Simulator Simulador;
 
-        public static MMaisMaisLexer MMaisMaisLexer = new MMaisMaisLexer("mov add sub inc jmp jmpc jmpz call ret and or xor not", "a b c d e out0 out1 out2 out3 in0 in1 in2 in3");
+        public static MMaisMaisLexer MMaisMaisLexer = new MMaisMaisLexer("mov add sub inc jmp jmpc jmpz call ret and or xor not push pop pusha popa", "a b c d e out0 out1 out2 out3 in0 in1 in2 in3");
 
 
         public const int BREAKPOINT_INDEX_MARGIN = 1;
@@ -45,13 +45,17 @@ namespace IDE {
                 BinaryWriter bw = new BinaryWriter(BaseStream);
                 bw.Write(Encoding.ASCII.GetBytes("v2.0 raw\n"));
                 for (int i = 0; i < Simulador.Program.Length; i++) {
-                    if (Simulador.Program[i] == null) break;
+                    if (Simulador.Program[i] == null) continue;
                     byte[] bytes = Simulador.Program[i].Convert();
                     for (int j = 0; j < bytes.Length; j++) {
+                        if (j > 0)
+                            bw.Write(' ');
                         bw.Write(Encoding.ASCII.GetBytes(bytes[j].ToString("x")));
                     }
-                    if((i+1)%16 == 0)
+                    if ((i + 1) % 16 == 0)
                         bw.Write(Encoding.ASCII.GetBytes("\n"));
+                    else
+                        bw.Write(' ');
                 }
                 bw.Close();
                 return true;
@@ -65,11 +69,36 @@ namespace IDE {
                 
                 string all = sr.ReadToEnd();
                 all = all.Replace("v2.0 raw", "");
-                all = all.Replace("\r","");
-                all = all.Replace("\n", "");
+                all = all.Replace("\r"," ");
+                all = all.Replace("\n", " ");
+                all = all.Replace("  ", " ");
+                while (all.Contains("*")) {
+                    int i = all.IndexOf("*");
+                    int bi = i;
+                    int ei = i;
+                    char chr = all[bi];
+                    while(chr != ' ') {
+                        --bi;
+                        chr = all[bi];
+                    }
+                    chr = all[ei];
+                    while (chr != ' ') {
+                        ++ei;
+                        chr = all[ei];
+                    }
+                    int quant = int.Parse(all.Substring(bi, i - bi));
+                    string str = all.Substring(i + 1, ei - (i + 1));
+                    string tmp = "";
+                    for (int j = 0; j < quant; j++) {
+                        tmp += ' ';
+                        tmp += str;
+                    }
+                    all = all.Replace(all.Substring(bi, ei - bi), tmp);
+                }
                 string[] hexes = all.Split(' ');
                 byte[] bytes = new byte[hexes.Length];
                 for (int i = 0; i < hexes.Length; i++) {
+                    if (hexes[i] == "") continue;
                     bytes[i] = byte.Parse(hexes[i], System.Globalization.NumberStyles.HexNumber);
                 }
                 int index = 0;
@@ -109,7 +138,7 @@ namespace IDE {
                 Stream BaseStream = sw.BaseStream;
                 BinaryWriter bw = new BinaryWriter(BaseStream);
                 for (int i = 0; i < Simulador.Program.Length; i++) {
-                    if (Simulador.Program[i] == null) break;
+                    if (Simulador.Program[i] == null) continue;
                     byte[] bytes = Simulador.Program[i].Convert();
                     for (int j = 0; j < bytes.Length; j++) {
                         bw.Write(Encoding.ASCII.GetBytes(bytes[j].ToString("X2")));
@@ -129,7 +158,7 @@ namespace IDE {
 
                 byte[] bytes = new byte[BaseStream.Length/2];
                 while (BaseStream.Position < BaseStream.Length) {
-                    bytes[BaseStream.Position/2] = byte.Parse(br.ReadByte() + "" + br.ReadByte(), System.Globalization.NumberStyles.HexNumber);
+                    bytes[BaseStream.Position/2] = byte.Parse(((char)br.ReadByte()) + "" + ((char)br.ReadByte()), System.Globalization.NumberStyles.HexNumber);
                 }
                 int index = 0;
                 int outIndex;
@@ -166,7 +195,7 @@ namespace IDE {
                 Stream BaseStream = sw.BaseStream;
                 BinaryWriter bw = new BinaryWriter(BaseStream);
                 for (int i = 0; i < Simulador.Program.Length; i++) {
-                    if(Simulador.Program[i] == null) break;
+                    if(Simulador.Program[i] == null) continue;
                     byte[] bytes = Simulador.Program[i].Convert();
                     bw.Write(bytes);
                 }

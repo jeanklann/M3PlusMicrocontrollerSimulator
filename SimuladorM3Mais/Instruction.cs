@@ -106,23 +106,23 @@ namespace M3PlusMicrocontroller {
                     break;
                 case Operation_enum.JMP:
                     res = new byte[] { HD_BYTE, JMP_BYTE, 0x00, 0x00 };
-                    res[2] = (byte)(Address/256);
-                    res[3] = (byte)(Address%256);
+                    res[2] = (byte)((Address - 1) / 256);
+                    res[3] = (byte)((Address - 1) % 256);
                     return res;
                 case Operation_enum.JMPC:
                     res = new byte[] { HD_BYTE, JMPC_BYTE, 0x00, 0x00 };
-                    res[2] = (byte)(Address / 256);
-                    res[3] = (byte)(Address % 256);
+                    res[2] = (byte)((Address - 1) / 256);
+                    res[3] = (byte)((Address - 1) % 256);
                     return res;
                 case Operation_enum.JMPZ:
                     res = new byte[] { HD_BYTE, JMPZ_BYTE, 0x00, 0x00 };
-                    res[2] = (byte)(Address / 256);
-                    res[3] = (byte)(Address % 256);
+                    res[2] = (byte)((Address - 1) / 256);
+                    res[3] = (byte)((Address - 1) % 256);
                     return res;
                 case Operation_enum.CALL:
                     res = new byte[] { HD_BYTE, CALL_BYTE, 0x00, 0x00 };
-                    res[2] = (byte)(Address / 256);
-                    res[3] = (byte)(Address % 256);
+                    res[2] = (byte)((Address - 1) / 256);
+                    res[3] = (byte)((Address - 1) % 256);
                     return res;
                 case Operation_enum.RET:
                     res = new byte[] { HD_BYTE, HD_BYTE, CALL_BYTE };
@@ -200,17 +200,17 @@ namespace M3PlusMicrocontroller {
             instruction = null;
             int index = inputIndex;
             byte byte_fluxo = (byte)(byteArray[index] & HD_BYTE);
-            byte byte_reg = (byte)(byteArray[index] & D_BYTE);
+            byte byte_reg = (byte)(byteArray[index] & E_BYTE);
             byte byte_instruction = (byte)(byteArray[index] & INC_BYTE);
             if (byte_fluxo == HD_BYTE) {
                 ++index;
                 byte_fluxo = (byte)(byteArray[index] & HD_BYTE);
-                byte_reg = (byte)(byteArray[index] & D_BYTE);
+                byte_reg = (byte)(byteArray[index] & E_BYTE);
                 byte_instruction = (byte)(byteArray[index] & INC_BYTE);
                 if (byte_fluxo == HD_BYTE) {
                     ++index;
                     byte_fluxo = (byte)(byteArray[index] & HD_BYTE);
-                    byte_reg = (byte)(byteArray[index] & D_BYTE);
+                    byte_reg = (byte)(byteArray[index] & E_BYTE);
                     byte_instruction = (byte)(byteArray[index] & INC_BYTE);
                     switch (byte_fluxo) {
                         case RET_BYTE:
@@ -256,9 +256,9 @@ namespace M3PlusMicrocontroller {
                                         break;
                                     case MOV_BYTE:
                                         if (byte_reg == B_BYTE) instruction = MOV_DRAMB_A();
-                                        if (byte_reg == B_BYTE) instruction = MOV_DRAMC_A();
-                                        if (byte_reg == B_BYTE) instruction = MOV_DRAMD_A();
-                                        if (byte_reg == B_BYTE) instruction = MOV_DRAME_A();
+                                        if (byte_reg == C_BYTE) instruction = MOV_DRAMC_A();
+                                        if (byte_reg == D_BYTE) instruction = MOV_DRAMD_A();
+                                        if (byte_reg == E_BYTE) instruction = MOV_DRAME_A();
                                         break;
                                     case INC_BYTE:
                                         if (byte_reg == B_BYTE) instruction = INC_DRAMB_A();
@@ -312,9 +312,9 @@ namespace M3PlusMicrocontroller {
                                         break;
                                     case MOV_BYTE:
                                         if (byte_reg == B_BYTE) instruction = MOV_A_DRAMB();
-                                        if (byte_reg == B_BYTE) instruction = MOV_A_DRAMC();
-                                        if (byte_reg == B_BYTE) instruction = MOV_A_DRAMD();
-                                        if (byte_reg == B_BYTE) instruction = MOV_A_DRAME();
+                                        if (byte_reg == C_BYTE) instruction = MOV_A_DRAMC();
+                                        if (byte_reg == D_BYTE) instruction = MOV_A_DRAMD();
+                                        if (byte_reg == E_BYTE) instruction = MOV_A_DRAME();
                                         break;
                                     case INC_BYTE:
                                         if (byte_reg == B_BYTE) instruction = INC_A_DRAMB();
@@ -430,9 +430,9 @@ namespace M3PlusMicrocontroller {
                                         break;
                                     case MOV_BYTE:
                                         if (byte_reg == B_BYTE) instruction = MOV_ROM_B(val);
-                                        if (byte_reg == B_BYTE) instruction = MOV_ROM_C(val);
-                                        if (byte_reg == B_BYTE) instruction = MOV_ROM_D(val);
-                                        if (byte_reg == B_BYTE) instruction = MOV_ROM_E(val);
+                                        if (byte_reg == C_BYTE) instruction = MOV_ROM_C(val);
+                                        if (byte_reg == D_BYTE) instruction = MOV_ROM_D(val);
+                                        if (byte_reg == E_BYTE) instruction = MOV_ROM_E(val);
                                         break;
                                     case INC_BYTE:
                                         if (byte_reg == B_BYTE) instruction = INC_ROM_B(val);
@@ -487,8 +487,8 @@ namespace M3PlusMicrocontroller {
                                 int end = byteArray[index] * 256;
                                 ++index;
                                 end += byteArray[index];
-                                instruction = JMP("Byte_" + end);
-                                instruction.Address = end;
+                                instruction = JMP("Byte_" + (end + 1));
+                                instruction.Address = (end + 1);
                             }
                             break;
                         case JMPC_BYTE: {
@@ -496,8 +496,8 @@ namespace M3PlusMicrocontroller {
                                 int end = byteArray[index] * 256;
                                 ++index;
                                 end += byteArray[index];
-                                instruction = JMPC("Byte_" + end);
-                                instruction.Address = end;
+                                instruction = JMPC("Byte_" + (end + 1));
+                                instruction.Address = (end + 1);
                             }
                             break;
                         case JMPZ_BYTE: {
@@ -505,8 +505,8 @@ namespace M3PlusMicrocontroller {
                                 int end = byteArray[index] * 256;
                                 ++index;
                                 end += byteArray[index];
-                                instruction = JMPZ("Byte_" + end);
-                                instruction.Address = end;
+                                instruction = JMPZ("Byte_" + (end + 1));
+                                instruction.Address = (end + 1);
                             }
                             break;
                         case CALL_BYTE: {
@@ -514,8 +514,8 @@ namespace M3PlusMicrocontroller {
                                 int end = byteArray[index] * 256;
                                 ++index;
                                 end += byteArray[index];
-                                instruction = CALL("Byte_" + end);
-                                instruction.Address = end;
+                                instruction = CALL("Byte_" + (end + 1));
+                                instruction.Address = (end + 1);
                             }
                             break;
                         default:
@@ -597,9 +597,9 @@ namespace M3PlusMicrocontroller {
                                     break;
                                 case MOV_BYTE:
                                     if (byte_reg == B_BYTE) instruction = MOV_A_B();
-                                    if (byte_reg == B_BYTE) instruction = MOV_A_C();
-                                    if (byte_reg == B_BYTE) instruction = MOV_A_D();
-                                    if (byte_reg == B_BYTE) instruction = MOV_A_E();
+                                    if (byte_reg == C_BYTE) instruction = MOV_A_C();
+                                    if (byte_reg == D_BYTE) instruction = MOV_A_D();
+                                    if (byte_reg == E_BYTE) instruction = MOV_A_E();
                                     break;
                                 case INC_BYTE:
                                     if (byte_reg == B_BYTE) instruction = INC_A_B();
@@ -687,9 +687,9 @@ namespace M3PlusMicrocontroller {
                                     break;
                                 case MOV_BYTE:
                                     if (byte_reg == B_BYTE) instruction = MOV_A_OUT0();
-                                    if (byte_reg == B_BYTE) instruction = MOV_A_OUT1();
-                                    if (byte_reg == B_BYTE) instruction = MOV_A_OUT2();
-                                    if (byte_reg == B_BYTE) instruction = MOV_A_OUT3();
+                                    if (byte_reg == C_BYTE) instruction = MOV_A_OUT1();
+                                    if (byte_reg == D_BYTE) instruction = MOV_A_OUT2();
+                                    if (byte_reg == E_BYTE) instruction = MOV_A_OUT3();
                                     break;
                                 case INC_BYTE:
                                     if (byte_reg == B_BYTE) instruction = INC_A_OUT0();
@@ -743,9 +743,9 @@ namespace M3PlusMicrocontroller {
                                     break;
                                 case MOV_BYTE:
                                     if (byte_reg == B_BYTE) instruction = MOV_B_A();
-                                    if (byte_reg == B_BYTE) instruction = MOV_C_A();
-                                    if (byte_reg == B_BYTE) instruction = MOV_D_A();
-                                    if (byte_reg == B_BYTE) instruction = MOV_E_A();
+                                    if (byte_reg == C_BYTE) instruction = MOV_C_A();
+                                    if (byte_reg == D_BYTE) instruction = MOV_D_A();
+                                    if (byte_reg == E_BYTE) instruction = MOV_E_A();
                                     break;
                                 case INC_BYTE:
                                     if (byte_reg == B_BYTE) instruction = INC_B_A();
@@ -833,9 +833,9 @@ namespace M3PlusMicrocontroller {
                                     break;
                                 case MOV_BYTE:
                                     if (byte_reg == B_BYTE) instruction = MOV_IN0_A();
-                                    if (byte_reg == B_BYTE) instruction = MOV_IN1_A();
-                                    if (byte_reg == B_BYTE) instruction = MOV_IN2_A();
-                                    if (byte_reg == B_BYTE) instruction = MOV_IN3_A();
+                                    if (byte_reg == C_BYTE) instruction = MOV_IN1_A();
+                                    if (byte_reg == D_BYTE) instruction = MOV_IN2_A();
+                                    if (byte_reg == E_BYTE) instruction = MOV_IN3_A();
                                     break;
                                 case INC_BYTE:
                                     if (byte_reg == B_BYTE) instruction = INC_IN0_A();
@@ -4148,6 +4148,7 @@ namespace M3PlusMicrocontroller {
         }
         public static Instruction JMP(string label) {
             Instruction instruction = new Instruction("JMP " + label, "Pula para o label " + label + ".", 4);
+            instruction.OperationEnum = Operation_enum.JMP;
             instruction.Label = label;
             instruction.Function = delegate (Simulator simulator) {
                 --simulator.PointerStack;
@@ -4162,6 +4163,7 @@ namespace M3PlusMicrocontroller {
         }
         public static Instruction JMPC(string label) {
             Instruction instruction = new Instruction("JMPC " + label, "Pula para o label " + label + " caso a flag carry esteja ligada.", 4);
+            instruction.OperationEnum = Operation_enum.JMPC;
             instruction.Label = label;
             instruction.Function = delegate (Simulator simulator) {
                 if (simulator.Flag_C) {
@@ -4178,6 +4180,7 @@ namespace M3PlusMicrocontroller {
         }
         public static Instruction JMPZ(string label) {
             Instruction instruction = new Instruction("JMPZ " + label, "Pula para o label " + label + " caso a flag zero esteja ligada.", 4);
+            instruction.OperationEnum = Operation_enum.JMPZ;
             instruction.Label = label;
             instruction.Function = delegate (Simulator simulator) {
                 if (simulator.Flag_Z) {
@@ -4194,19 +4197,20 @@ namespace M3PlusMicrocontroller {
         }
         public static Instruction CALL(string label) {
             Instruction instruction = new Instruction("CALL " + label, "Chama o procedimento no label " + label + ".", 4);
+            instruction.OperationEnum = Operation_enum.CALL;
             instruction.Label = label;
             instruction.Function = delegate (Simulator simulator) {
-                int next = simulator.NextInstruction + instruction.Size;
+                int next = simulator.NextInstruction;
 
                 --simulator.PointerStack;
                 simulator.Stack[simulator.PointerStack] = (byte)(next / 256);
                 --simulator.PointerStack;
-                simulator.Stack[simulator.PointerStack] = (byte)(next);
+                simulator.Stack[simulator.PointerStack] = (byte)(next % 256);
 
                 --simulator.PointerStack;
                 simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address / 256);
                 --simulator.PointerStack;
-                simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address);
+                simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address % 256);
 
                 simulator.NextInstruction = instruction.Address;
 
@@ -4217,12 +4221,13 @@ namespace M3PlusMicrocontroller {
         }
         public static Instruction RET() {
             Instruction instruction = new Instruction("RET", "Retorno do procedimento.", 3);
+            instruction.OperationEnum = Operation_enum.RET;
             instruction.Function = delegate (Simulator simulator) {
                 int next = 0;
 
-                next = simulator.Stack[simulator.PointerStack];
+                next = simulator.Stack[simulator.PointerStack] % 256;
                 ++simulator.PointerStack;
-                next = simulator.Stack[simulator.PointerStack] * 256;
+                next += simulator.Stack[simulator.PointerStack] * 256;
                 ++simulator.PointerStack;
 
                 simulator.NextInstruction = next;
@@ -4231,48 +4236,58 @@ namespace M3PlusMicrocontroller {
         }
         public static Instruction PUSHA() {
             Instruction instruction = new Instruction("PUSHA", "Coloca o registrador acumulador na pilha.", 3);
+            instruction.OperationEnum = Operation_enum.PUSHA;
             instruction.Function = delegate (Simulator simulator) {
-                ++simulator.PointerStack;
+                --simulator.PointerStack;
                 simulator.Stack[simulator.PointerStack] = simulator.Reg[0];
             };
             return instruction;
         }
         public static Instruction POPA() {
             Instruction instruction = new Instruction("POPA", "Tira um valor da pilha e coloca no acumulador.", 3);
+            instruction.OperationEnum = Operation_enum.POPA;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.Stack[simulator.PointerStack];
-                --simulator.PointerStack;
+                ++simulator.PointerStack;
             };
             return instruction;
         }
         public static Instruction PUSH_B() {
             Instruction instruction = new Instruction("PUSH B", "Coloca o registrador B na pilha.", 3);
+            instruction.OperationEnum = Operation_enum.PUSH;
+            instruction.RegistrerEnum = Registrer_enum.B;
             instruction.Function = delegate (Simulator simulator) {
-                ++simulator.PointerStack;
+                --simulator.PointerStack;
                 simulator.Stack[simulator.PointerStack] = simulator.Reg[1];
             };
             return instruction;
         }
         public static Instruction PUSH_C() {
             Instruction instruction = new Instruction("PUSH C", "Coloca o registrador C na pilha.", 3);
+            instruction.OperationEnum = Operation_enum.PUSH;
+            instruction.RegistrerEnum = Registrer_enum.C;
             instruction.Function = delegate (Simulator simulator) {
-                ++simulator.PointerStack;
+                --simulator.PointerStack;
                 simulator.Stack[simulator.PointerStack] = simulator.Reg[2];
             };
             return instruction;
         }
         public static Instruction PUSH_D() {
             Instruction instruction = new Instruction("PUSH D", "Coloca o registrador D na pilha.", 3);
+            instruction.OperationEnum = Operation_enum.PUSH;
+            instruction.RegistrerEnum = Registrer_enum.D;
             instruction.Function = delegate (Simulator simulator) {
-                ++simulator.PointerStack;
+                --simulator.PointerStack;
                 simulator.Stack[simulator.PointerStack] = simulator.Reg[3];
             };
             return instruction;
         }
         public static Instruction PUSH_E() {
             Instruction instruction = new Instruction("PUSH E", "Coloca o registrador E na pilha.", 3);
+            instruction.OperationEnum = Operation_enum.PUSH;
+            instruction.RegistrerEnum = Registrer_enum.E;
             instruction.Function = delegate (Simulator simulator) {
-                ++simulator.PointerStack;
+                --simulator.PointerStack;
                 simulator.Stack[simulator.PointerStack] = simulator.Reg[4];
             };
             return instruction;
@@ -4280,33 +4295,41 @@ namespace M3PlusMicrocontroller {
 
         public static Instruction POP_B() {
             Instruction instruction = new Instruction("POP B", "Tira um valor da pilha e coloca no registrador B.", 3);
+            instruction.OperationEnum = Operation_enum.POP;
+            instruction.RegistrerEnum = Registrer_enum.B;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[1] = simulator.Stack[simulator.PointerStack];
-                --simulator.PointerStack;
+                ++simulator.PointerStack;
             };
             return instruction;
         }
         public static Instruction POP_C() {
             Instruction instruction = new Instruction("POP C", "Tira um valor da pilha e coloca no registrador C.", 3);
+            instruction.OperationEnum = Operation_enum.POP;
+            instruction.RegistrerEnum = Registrer_enum.C;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[2] = simulator.Stack[simulator.PointerStack];
-                --simulator.PointerStack;
+                ++simulator.PointerStack;
             };
             return instruction;
         }
         public static Instruction POP_D() {
             Instruction instruction = new Instruction("POP D", "Tira um valor da pilha e coloca no registrador D.", 3);
+            instruction.OperationEnum = Operation_enum.POP;
+            instruction.RegistrerEnum = Registrer_enum.D;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[3] = simulator.Stack[simulator.PointerStack];
-                --simulator.PointerStack;
+                ++simulator.PointerStack;
             };
             return instruction;
         }
         public static Instruction POP_E() {
             Instruction instruction = new Instruction("POP E", "Tira um valor da pilha e coloca no registrador E.", 3);
+            instruction.OperationEnum = Operation_enum.POP;
+            instruction.RegistrerEnum = Registrer_enum.E;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[4] = simulator.Stack[simulator.PointerStack];
-                --simulator.PointerStack;
+                ++simulator.PointerStack;
             };
             return instruction;
         }

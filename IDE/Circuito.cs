@@ -546,7 +546,7 @@ namespace IDE {
             Draws.Load();
             Components.Add(new Component(Draws.Microcontroller, new PointF(0, 0)));
 
-            Components.Add(new Component(Draws.JKFlipFlop, new PointF(-100, 40)));
+            //Components.Add(new Component(Draws.JKFlipFlop, new PointF(-100, 40)));
             //Components.Add(new Component(Draws.Circuit[8,16], new PointF(200, 0)));
             
             

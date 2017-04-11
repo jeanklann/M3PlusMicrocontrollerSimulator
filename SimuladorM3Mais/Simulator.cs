@@ -44,8 +44,8 @@ namespace M3PlusMicrocontroller {
             Reg = new byte[5];
             In = new byte[4];
             Out = new byte[4];
-            RAM = new byte[255];
-            Stack = new byte[255];
+            RAM = new byte[256];
+            Stack = new byte[256];
             PointerStack = 0;
             Stopped = true;
             instructionsCountFrequency = 0;
