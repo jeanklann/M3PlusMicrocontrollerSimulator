@@ -210,11 +210,13 @@ namespace IDE {
         public Point_Project Center;
         public float Rotation;
         public ComponentType Type;
+        public int RootComponent;
 
         public Component_Project(Component c) {
             Center = c.Center;
             Rotation = c.Rotation;
             Type = c.Type;
+            RootComponent = UIStatics.Circuito.Components.IndexOf(c.RootComponent);
         }
         public static implicit operator Component(Component_Project c) {
             ComponentDraw draw = null;
@@ -319,6 +321,7 @@ namespace IDE {
             Component component = new Component(draw, c.Center);
             component.Rotation = c.Rotation;
             component.Type = c.Type;
+            component.RootComponent = UIStatics.Circuito.Components[c.RootComponent];
 
             return component;
         }
@@ -332,9 +335,11 @@ namespace IDE {
         public Point_Project To;
         public int ToComponent;
         public int ToIndex;
+        public int RootComponent;
         
         public Wire_Project(Wire wire, FileProject project) {
             From = wire.From;
+            RootComponent = UIStatics.Circuito.Components.IndexOf(wire.RootComponent);
             if (wire.FromComponent != null) {
                 FromComponent = UIStatics.Circuito.Components.IndexOf(wire.FromComponent);
                 FromIndex = wire.FromIndex;
@@ -354,7 +359,8 @@ namespace IDE {
         }
         public Wire ToWire(FileProject project) {
             Wire wire = new Wire(From, To);
-            if(FromComponent != -1) {
+            wire.RootComponent = UIStatics.Circuito.Components[RootComponent];
+            if (FromComponent != -1) {
                 wire.FromComponent = UIStatics.Circuito.Components[FromComponent];
                 wire.FromIndex = FromIndex;
             } else {

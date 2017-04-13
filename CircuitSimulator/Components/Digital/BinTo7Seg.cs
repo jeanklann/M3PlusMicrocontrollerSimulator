@@ -28,23 +28,23 @@ namespace CircuitSimulator.Components.Digital {
         public bool IsHexadecimalValid = true;
 
         private static readonly float[,] table = new float[,] {
-            {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, //0
-            {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, {Pin.LOW}, {Pin.LOW}, {Pin.LOW}, //1
-            {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, {Pin.HIGH}, //2
-            {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, {Pin.LOW}, {Pin.HIGH}, //3
-            {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, //4
-            {Pin.HIGH}, {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, //5
-            {Pin.HIGH}, {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, //6
-            {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, {Pin.LOW}, {Pin.LOW}, {Pin.LOW}, //7
-            {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, //8
-            {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, //9
-            {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, //A
-            {Pin.LOW}, {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, //B
-            {Pin.HIGH}, {Pin.LOW}, {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, //C
-            {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.LOW}, {Pin.HIGH}, //D
-            {Pin.HIGH}, {Pin.LOW}, {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, //E
-            {Pin.HIGH}, {Pin.LOW}, {Pin.LOW}, {Pin.LOW}, {Pin.HIGH}, {Pin.HIGH}, {Pin.HIGH}, //F
-            {Pin.LOW}, {Pin.LOW}, {Pin.LOW}, {Pin.LOW}, {Pin.LOW}, {Pin.LOW}, {Pin.LOW}, //clean
+            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW}, //0
+            {Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW}, //1
+            {Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH}, //2
+            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.LOW, Pin.HIGH}, //3
+            {Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.LOW, Pin.HIGH, Pin.HIGH}, //4
+            {Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH}, //5
+            {Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //6
+            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW}, //7
+            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //8
+            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH}, //9
+            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //A
+            {Pin.LOW, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //B
+            {Pin.HIGH, Pin.LOW, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW}, //C
+            {Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH}, //D
+            {Pin.HIGH, Pin.LOW, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //E
+            {Pin.HIGH, Pin.LOW, Pin.LOW, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //F
+            {Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW}, //clean
         };
 
 
@@ -73,7 +73,7 @@ namespace CircuitSimulator.Components.Digital {
         }
         protected internal override void Execute() {
             base.Execute();
-            if(Enable.GetDigital() == Pin.HIGH) {
+            if(Enable.GetDigital() == Pin.LOW) {
                 ToOutput(16);
             } else {
                 int value = 0;

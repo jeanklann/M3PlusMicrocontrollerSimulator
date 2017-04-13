@@ -39,7 +39,7 @@
     <Compile Include="Circuit.cs" />
     <Compile Include="Components\Digital\Chip.cs" />
     <Compile Include="Components\Component.cs" />
-    <Compile Include="Components\Digital\BcdTo7Seg.cs" />
+    <Compile Include="Components\Digital\BinTo7Seg.cs" />
     <Compile Include="Components\Digital\ClockLogicInput.cs" />
     <Compile Include="Components\Digital\Display7Seg.cs" />
     <Compile Include="Components\Digital\FlipflopD.cs" />

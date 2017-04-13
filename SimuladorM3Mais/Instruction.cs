@@ -4154,7 +4154,7 @@ namespace M3PlusMicrocontroller {
                 --simulator.PointerStack;
                 simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address / 256);
                 --simulator.PointerStack;
-                simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address);
+                simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address % 256);
                 simulator.NextInstruction = instruction.Address;
                 ++simulator.PointerStack;
                 ++simulator.PointerStack;
@@ -4170,7 +4170,7 @@ namespace M3PlusMicrocontroller {
                     --simulator.PointerStack;
                     simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address / 256);
                     --simulator.PointerStack;
-                    simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address);
+                    simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address % 256);
                     simulator.NextInstruction = instruction.Address;
                     ++simulator.PointerStack;
                     ++simulator.PointerStack;
@@ -4187,7 +4187,7 @@ namespace M3PlusMicrocontroller {
                     --simulator.PointerStack;
                     simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address / 256);
                     --simulator.PointerStack;
-                    simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address);
+                    simulator.Stack[simulator.PointerStack] = (byte)(instruction.Address % 256);
                     simulator.NextInstruction = instruction.Address;
                     ++simulator.PointerStack;
                     ++simulator.PointerStack;
