@@ -51,7 +51,7 @@ namespace IDE {
             return SerializeObject(project, UIStatics.FilePath);
         }
         public static bool Load(string dir) {
-            FileProject project = DeSerializeObject(UIStatics.FilePath);
+            FileProject project = DeSerializeObject(dir);
             if (project == null) return false;
             UIStatics.Depurador.SetText("");
             UIStatics.Simulador = null;
@@ -314,6 +314,9 @@ namespace IDE {
                 case ComponentType.Disable8Bit:
                     draw = Draws.Disable8Bit;
                     break;
+                case ComponentType.BinTo7Seg:
+                    draw = Draws.BinTo7Seg;
+                    break;
                 default:
                     break;
             }
@@ -321,7 +324,8 @@ namespace IDE {
             Component component = new Component(draw, c.Center);
             component.Rotation = c.Rotation;
             component.Type = c.Type;
-            component.RootComponent = UIStatics.Circuito.Components[c.RootComponent];
+            if(c.RootComponent != -1)
+                component.RootComponent = UIStatics.Circuito.Components[c.RootComponent];
 
             return component;
         }
@@ -359,7 +363,8 @@ namespace IDE {
         }
         public Wire ToWire(FileProject project) {
             Wire wire = new Wire(From, To);
-            wire.RootComponent = UIStatics.Circuito.Components[RootComponent];
+            if (RootComponent != -1)
+                wire.RootComponent = UIStatics.Circuito.Components[RootComponent];
             if (FromComponent != -1) {
                 wire.FromComponent = UIStatics.Circuito.Components[FromComponent];
                 wire.FromIndex = FromIndex;

@@ -45,7 +45,9 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         public Pin ULAOPsel2 { get { return Pins[38]; } }
         public Pin RGPBsel0 { get { return Pins[39]; } }
         public Pin RGPBsel1 { get { return Pins[40]; } }
-        
+
+        public static MicrocontrollerData MicrocontrollerData;
+
         private int HDCounter = 0;
         private byte regAddress = 0;
         private byte RegAddress  { get{ return regAddress; } set {
@@ -62,6 +64,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         public ControlModule(string name = "ControlModule") : base(name, 41) {
             canStart = true;
             internalMicroInstructions = new Dictionary<string, bool>();
+            MicrocontrollerData = new MicrocontrollerData();
         }
         protected override void AllocatePins() {
             for (int i = 0; i < Pins.Length; i++) {
@@ -99,6 +102,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             
                 
         }
+
+
 
 
         private void ResetBools() {
@@ -507,5 +512,17 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
         };
+    }
+
+    public class MicrocontrollerData {
+        public int NextInstruction;
+        public bool Flag_C;
+        public bool Flag_Z;
+        public byte[] Reg; //0:A, 1:B, 2:C, 3:D, 4:E
+        public byte[] In; //0: IN4, 1: IN1, 2: IN2, 3: IN3
+        public byte[] Out; //0: OUT4, 1: OUT1, 2: OUT2, 3: OUT3
+        public byte[] RAM;
+        public byte[] Stack;
+        public byte PointerStack;
     }
 }

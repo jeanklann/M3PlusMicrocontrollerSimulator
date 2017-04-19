@@ -35,6 +35,7 @@ namespace IDE {
         public Dictionary<CircuitSimulator.Component, Component> DrawComponentsToCircuitComponent = new Dictionary<CircuitSimulator.Component, Component>();
         public Dictionary<CircuitSimulator.Components.Wire, Wire> DrawWireToCircuitWire = new Dictionary<CircuitSimulator.Components.Wire, Wire>();
         public Color ClearColor;
+        public List<ExtraTerminal> ExtraTerminals;
         public Circuito() {
             InitializeComponent();
         }
@@ -58,7 +59,39 @@ namespace IDE {
             Circuit = null;
             ResetColors();
         }
+        private void RefreshExtraTerminals() {
+            ExtraTerminals = new List<ExtraTerminal>();
+            for (int i = 0; i < Wires.Count; i++) {
+                if(Wires[i].FromComponent == null) {
+                    RefreshExtraTerminals_internal(Wires[i].From, Wires[i].RootComponent);
+                }
+                if(Wires[i].ToComponent == null) {
+                    RefreshExtraTerminals_internal(Wires[i].To, Wires[i].RootComponent);
+                }
+            }
+        }
+        private void RefreshExtraTerminals_internal(PointF point, Component root) {
+            int count = 0;
+            for (int i = 0; i < Wires.Count; i++) {
+                if (Wires[i].RootComponent != root) continue;
+                if(Wires[i].FromComponent == null) {
+                    if (Wires[i].From == point)
+                        ++count;
+                }
+                if (Wires[i].ToComponent == null) {
+                    if (Wires[i].To == point)
+                        ++count;
+                }
+                if (count > 2) {
+                    ExtraTerminals.Add(new ExtraTerminal(point, root));
+                    break;
+                }
+            }
+            if (count != 2) {
+                ExtraTerminals.Add(new ExtraTerminal(point, root));
+            }
 
+        }
         private void ResetColors() {
             foreach (Wire item in Wires) {
                 item.Color = Draws.Color_off;
@@ -371,8 +404,8 @@ namespace IDE {
 
         public override void Refresh() {
             base.Refresh();
-            
-            
+
+            RefreshExtraTerminals();
             if (MouseProps.Button2Pressed) {
                 Position = new PointF(Position.X+((MouseProps.LastPosition.X - MouseProps.CurrentPosition.X)/zoom), Position.Y-((MouseProps.LastPosition.Y - MouseProps.CurrentPosition.Y)/zoom));
             }
@@ -519,7 +552,15 @@ namespace IDE {
             } else {
                 GL.LineWidth(1);
             }
-            
+            if (ExtraTerminals != null) {
+                GL.Color3(Color.Black);
+                foreach (ExtraTerminal item in ExtraTerminals) {
+                    if (item.Root != InsideComponent) continue;
+                    GL.Translate(item.Point.X, item.Point.Y, 0);
+                    GL.CallList(Draws.TerminalHandle);
+                    GL.Translate(-item.Point.X, -item.Point.Y, 0);
+                }
+            }
             foreach (Component item in Components) {
                 if (item.RootComponent != InsideComponent)
                     continue;
@@ -570,14 +611,19 @@ namespace IDE {
             Application.Idle += Application_Idle;
             
             Draws.Load();
-            Components.Add(new Component(Draws.Microcontroller, new PointF(0, 0)));
+            Console.WriteLine(Application.StartupPath + "\\Default.m3mprj");
+            Console.WriteLine(FileProject.Load(Application.StartupPath+"\\Default.m3mprj"));
+            /*
+            MountMicrocontroller();
 
             Components.Add(new Component(Draws.BinTo7Seg, new PointF(-200, 40)));
-            Components.Add(new Component(Draws.Display7SegBase, new PointF(-100, 40)));
+            Components.Add(new Component(Draws.Display7SegBase, new PointF(-100, 40)));*/
             //Components.Add(new Component(Draws.Circuit[8,16], new PointF(200, 0)));
-
+            
+            
 
         }
+
         public void LoadControl() {
             Visible = true;
             Visible = false;
@@ -932,9 +978,173 @@ namespace IDE {
                         SelectedWire = null;
                         HoverWire = null;
                     }
+                } else if (e.KeyCode == Keys.Enter) { //DebugMode
+                    Console.WriteLine("Enter");
+                } else if(e.KeyCode == Keys.C) {
+                    string r = Microsoft.VisualBasic.Interaction.InputBox("Nome do componente a ser criado:", "Criar componente [DEBUG]", "");
+                    if (r != null && r != "") {
+                        switch (r) {
+
+                            case "Input":
+                                Components.Add(new Component(Draws.Input[0], new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Output":
+                                Components.Add(new Component(Draws.Output[0], new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Disable":
+                                Components.Add(new Component(Draws.Disable[0], new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Not":
+                                Components.Add(new Component(Draws.Not[0], new PointF(0, 0), InsideComponent));
+                                break;
+                            case "And":
+                                Components.Add(new Component(Draws.And[0], new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Nand":
+                                Components.Add(new Component(Draws.Nand[0], new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Or":
+                                Components.Add(new Component(Draws.Or[0], new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Nor":
+                                Components.Add(new Component(Draws.Nor[0], new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Xnor":
+                                Components.Add(new Component(Draws.Xnor[0], new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Keyboard":
+                                Components.Add(new Component(Draws.Keyboard, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Display7Seg":
+                                Components.Add(new Component(Draws.Display7SegBase, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "BinTo7Seg":
+                                Components.Add(new Component(Draws.BinTo7Seg, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Microcontroller":
+                                Components.Add(new Component(Draws.Microcontroller, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Osciloscope":
+                                Components.Add(new Component(Draws.Osciloscope, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "JKFlipFlop":
+                                Components.Add(new Component(Draws.JKFlipFlop, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "RSFlipFlop":
+                                Components.Add(new Component(Draws.RSFlipFlop, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "DFlipFlop":
+                                Components.Add(new Component(Draws.DFlipFlop, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "TFlipFlop":
+                                Components.Add(new Component(Draws.TFlipFlop, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "BinTo7SHalfAddereg":
+                                Components.Add(new Component(Draws.HalfAdder, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "FullAdder":
+                                Components.Add(new Component(Draws.FullAdder, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "ULA":
+                                Components.Add(new Component(Draws.ULA, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "ControlModule":
+                                Components.Add(new Component(Draws.ControlModule, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Registrer8Bit":
+                                Components.Add(new Component(Draws.Registrer8Bit, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Registrers":
+                                Components.Add(new Component(Draws.Registrers, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "RamMemory":
+                                Components.Add(new Component(Draws.RamMemory, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "RomMemory":
+                                Components.Add(new Component(Draws.RomMemory, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "PortBank":
+                                Components.Add(new Component(Draws.PortBank, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Registrer8BitSG":
+                                Components.Add(new Component(Draws.Registrer8BitSG, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "LedMatrix":
+                                Components.Add(new Component(Draws.LedMatrix, new PointF(0, 0), InsideComponent));
+                                break;
+                            case "Disable8Bit":
+                                Components.Add(new Component(Draws.Disable8Bit, new PointF(0, 0), InsideComponent));
+                                break;
+                            /*
+                            None, Input, Output, Disable, Not, And, Nand, Or, Nor, Xor, Xnor, Keyboard, Display7Seg, BinTo7Seg, Circuit,
+        Microcontroller, Osciloscope, BlackTerminal, JKFlipFlop, RSFlipFlop, DFlipFlop, TFlipFlop,
+        HalfAdder, FullAdder, ULA, ControlModule, Registrer8Bit, Registrers, Tristate, Stack, RamMemory,
+        RomMemory, PortBank, Registrer8BitSG, LedMatrix, Disable8Bit*/
+                            default:
+                                MessageBox.Show("Componente "+ r +" inexistente.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                break;
+                        }
+                    }
                 }
             }
             Refresh();
+        }
+
+        private string DebugGenerateNewComponentsString() {
+            string res = "";
+
+            for (int i = 0; i < Components.Count; i++) {
+                res += "Component c_" + i + "_" + Components[i].Type.ToString()+" = new Component(";
+                res += "Draws." + Components[i].Type.ToString();
+                switch (Components[i].Type) {
+                    case ComponentType.And:
+                    case ComponentType.Nand:
+                    case ComponentType.Or:
+                    case ComponentType.Nor:
+                    case ComponentType.Xor:
+                    case ComponentType.Not:
+                    case ComponentType.Disable:
+                    case ComponentType.Input:
+                    case ComponentType.Output:
+                        res += "[0], ";
+                        break;
+                    default:
+                        res += ", ";
+                        break;
+                }
+                res += "new PointF(" + Components[i].Center.X + ", " + Components[i].Center.Y + ")";
+                if(Components[i].RootComponent != null) {
+                    res += ", c_" + Components.IndexOf(Components[i].RootComponent) + "_" + Components[i].RootComponent.Type.ToString();
+                }
+                res += ");\r\n";
+                res += "Components.Add(c_" + i + "_" + Components[i].Type.ToString() + ")";
+            }
+            for (int i = 0; i < Wires.Count; i++) {
+                res += "Component c_" + i + "_" + Components[i].Type.ToString() + " = new Component(";
+                res += "Draws." + Components[i].Type.ToString();
+                switch (Components[i].Type) {
+                    case ComponentType.And:
+                    case ComponentType.Nand:
+                    case ComponentType.Or:
+                    case ComponentType.Nor:
+                    case ComponentType.Xor:
+                    case ComponentType.Not:
+                    case ComponentType.Disable:
+                    case ComponentType.Input:
+                    case ComponentType.Output:
+                        res += "[0], ";
+                        break;
+                    default:
+                        res += ", ";
+                        break;
+                }
+                res += "new PointF(" + Components[i].Center.X + ", " + Components[i].Center.Y + ")";
+                if (Components[i].RootComponent != null) {
+                    res += ", c_" + Components.IndexOf(Components[i].RootComponent) + "_" + Components[i].RootComponent.Type.ToString();
+                }
+                res += ");\r\n";
+            }
+            return res;
         }
 
         private void aNDToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -982,6 +1192,54 @@ namespace IDE {
         }
 
         private void displayDe7SegmentosToolStripMenuItem_Click(object sender, EventArgs e) {
+
+        }
+
+        private void MountMicrocontroller() {
+            /*
+            Component microcontroller = new Component(Draws.Microcontroller, new PointF(0, 0));
+            Components.Add(microcontroller);
+
+            Component controlModule = new Component(Draws.ControlModule, new PointF(-500, 0), microcontroller);
+            Components.Add(controlModule);
+            for (int i = 0; i < 8*4; i++) {
+                Components.Add(new Component(Draws.Input[0], new PointF(-1600, 145 - i * 10), microcontroller));
+                Components.Add(new Component(Draws.Output[0], new PointF(-1500, 145 - i * 10), microcontroller));
+            }
+            Components.Add(new Component(Draws.PortBank, new PointF(-1600, -500), microcontroller));*/
+            /*
+            Component in0 = new Component(Draws.Input[0], new PointF(-800, 145), microcontroller);
+            Component in1 = new Component(Draws.Input[0], new PointF(-800, 135), microcontroller);
+            Component in2 = new Component(Draws.Input[0], new PointF(-800, 125), microcontroller);
+            Component in3 = new Component(Draws.Input[0], new PointF(-800, 115), microcontroller);
+            Component in4 = new Component(Draws.Input[0], new PointF(-800, 105), microcontroller);
+            Component in5 = new Component(Draws.Input[0], new PointF(-800, 95), microcontroller);
+            Component in6 = new Component(Draws.Input[0], new PointF(-800, 85), microcontroller);
+            Component in7 = new Component(Draws.Input[0], new PointF(-800, 75), microcontroller);
+            Components.Add(in0);
+            Components.Add(in1);
+            Components.Add(in2);
+            Components.Add(in3);
+            Components.Add(in4);
+            Components.Add(in5);
+            Components.Add(in6);
+            Components.Add(in7);
+
+            Component tristatein = new Component(Draws.Disable8Bit, new PointF(-750, 105), microcontroller);
+            Components.Add(tristatein);
+
+            Component tristateout = new Component(Draws.Disable8Bit, new PointF(-750, 0), microcontroller);
+            Components.Add(tristateout);
+
+            Wires.Add(new Wire(in0, 0, tristatein, 0, microcontroller));
+            Wires.Add(new Wire(in1, 0, tristatein, 1, microcontroller));
+            Wires.Add(new Wire(in2, 0, tristatein, 2, microcontroller));
+            Wires.Add(new Wire(in3, 0, tristatein, 3, microcontroller));
+            Wires.Add(new Wire(in4, 0, tristatein, 4, microcontroller));
+            Wires.Add(new Wire(in5, 0, tristatein, 5, microcontroller));
+            Wires.Add(new Wire(in6, 0, tristatein, 6, microcontroller));
+            Wires.Add(new Wire(in7, 0, tristatein, 7, microcontroller));
+            */
 
         }
     }
@@ -1223,9 +1481,38 @@ namespace IDE {
             GenRegistrers();
             GenULA();
             GenControlModule();
+            GenPortBank();
         }
         private static void GenLedMatrix() { }
         private static void GenBlackTerminal() { }
+        private static void GenPortBank() {
+            TextRenderer.DrawText("Port\nBank", Color.Black, new PointF(0, 0));
+            ComponentDraw DrawCircuit = Circuit[45, 40];
+            PortBank = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
+            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+                PortBank.Terminals[i] = DrawCircuit.Terminals[i];
+                if (i < 8 * 4) {
+                    PortBank.TerminalsString[i] = ("in" + (i / 8) + "[" + (i % 8) + "]");
+                } else if (i < 8 * 5 + 5 ) {
+                    PortBank.TerminalsString[i] = ("inBus" + (i % 8));
+                } else if (i < 8 * 6 + 5) {
+                    PortBank.TerminalsString[i] = ("outBus" + ((i-5) % 8));
+                } else {
+                    PortBank.TerminalsString[i] = ("out" + (((i-5) / 8) - 6) + "[" + ((i-5) % 8) + "]");
+                }
+            }
+            PortBank.TerminalsString[8 * 5 + 0] = ("S2");
+            PortBank.TerminalsString[8 * 5 + 1] = ("S1");
+            PortBank.TerminalsString[8 * 5 + 2] = ("I");
+            PortBank.TerminalsString[8 * 5 + 3] = ("O");
+            PortBank.TerminalsString[8 * 5 + 4] = ("R");
+
+            GL.NewList(PortBank.DisplayListHandle, ListMode.Compile);
+            TextRenderer.DrawText("Port\nBank", Color.Black, new PointF(0, 0));
+            GL.CallList(DrawCircuit.DisplayListHandle);
+
+            GL.EndList();
+        }
         private static void GenControlModule() {
             TextRenderer.DrawText("Control\nModule", Color.Black, new PointF(0, 0));
             ComponentDraw DrawCircuit = Circuit[11, 30];
@@ -2796,10 +3083,23 @@ namespace IDE {
         public int[] ExtraHandlers; //Used to display things on the component
         public bool[] ActiveExtraHandlers;
 
-        public Component(ComponentDraw draw, PointF center) {
+        public override string ToString() {
+            string roots = "";
+            Component root = RootComponent;
+            while(root != null) {
+                roots += root.Type.ToString() + ".";
+                root = root.RootComponent;
+            }
+            return roots+Type.ToString() + " in X: " + Center.X + ", Y: "+ Center.Y;
+        }
+
+        public Component(ComponentDraw draw, PointF center, Component rootComponent = null) {
             Draw = draw;
             Center = center;
-            RootComponent = UIStatics.Circuito.InsideComponent;
+            if (rootComponent == null)
+                RootComponent = UIStatics.Circuito.InsideComponent;
+            else
+                RootComponent = rootComponent;
 
             if (draw.DisplayListHandle == Draws.And[0].DisplayListHandle ||
                     draw.DisplayListHandle == Draws.And[1].DisplayListHandle) {
@@ -2870,6 +3170,8 @@ namespace IDE {
                 Type = ComponentType.ControlModule;
             } else if (draw.DisplayListHandle == Draws.BinTo7Seg.DisplayListHandle) {
                 Type = ComponentType.BinTo7Seg;
+            } else if (draw.DisplayListHandle == Draws.PortBank.DisplayListHandle) {
+                Type = ComponentType.PortBank;
             } else {
                 throw new NotImplementedException();
             }
@@ -2922,11 +3224,15 @@ namespace IDE {
         public int ToIndex;
         public Component RootComponent;
 
-        public Wire(PointF from, PointF to) {
+        public Wire(PointF from, PointF to, Component rootComponent = null) {
             From = from;
             To = to;
+            if (rootComponent == null)
+                RootComponent = UIStatics.Circuito.InsideComponent;
+            else
+                RootComponent = rootComponent;
         }
-        public Wire(Component from, int indexFrom, Component to, int indexTo) {
+        public Wire(Component from, int indexFrom, Component to, int indexTo, Component rootComponent = null) {
             FromComponent = from;
             FromIndex = indexFrom;
             ToComponent = to;
@@ -2937,25 +3243,34 @@ namespace IDE {
             To = to.TransformTerminal(indexTo);
             To.X += to.Center.X;
             To.Y += to.Center.Y;
-            RootComponent = UIStatics.Circuito.InsideComponent;
+            if (rootComponent == null)
+                RootComponent = UIStatics.Circuito.InsideComponent;
+            else
+                RootComponent = rootComponent;
         }
-        public Wire(Component from, int indexFrom, PointF to) {
+        public Wire(Component from, int indexFrom, PointF to, Component rootComponent = null) {
             FromComponent = from;
             FromIndex = indexFrom;
             From = from.TransformTerminal(indexFrom);
             From.X += from.Center.X;
             From.Y += from.Center.Y;
             To = to;
-            RootComponent = UIStatics.Circuito.InsideComponent;
+            if (rootComponent == null)
+                RootComponent = UIStatics.Circuito.InsideComponent;
+            else
+                RootComponent = rootComponent;
         }
-        public Wire(PointF from, Component to, int indexTo) {
+        public Wire(PointF from, Component to, int indexTo, Component rootComponent = null) {
             From = from;
             ToComponent = to;
             ToIndex = indexTo;
             To = to.TransformTerminal(indexTo);
             To.X += to.Center.X;
             To.Y += to.Center.Y;
-            RootComponent = UIStatics.Circuito.InsideComponent;
+            if (rootComponent == null)
+                RootComponent = UIStatics.Circuito.InsideComponent;
+            else
+                RootComponent = rootComponent;
         }
     }
     public struct Terminals {
@@ -2998,5 +3313,14 @@ namespace IDE {
             return worldPos;
         }
     }
+    public struct ExtraTerminal {
+        public PointF Point;
+        public Component Root;
+        public ExtraTerminal(PointF point, Component root) {
+            Point = point;
+            Root = root;
+        }
+    }
 }
+
     

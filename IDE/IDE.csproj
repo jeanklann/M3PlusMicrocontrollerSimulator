@@ -78,6 +78,7 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\OpenTK\OpenTK.dll</HintPath>
@@ -185,6 +186,9 @@
     </EmbeddedResource>
     <None Include="APIs\OpenTK\OpenTK.dll.config" />
     <None Include="APIs\SCINTILLANet\LICENSE" />
+    <None Include="Default.m3mprj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\app.manifest" />
   </ItemGroup>
   <ItemGroup>
