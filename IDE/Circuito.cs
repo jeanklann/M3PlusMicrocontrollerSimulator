@@ -299,10 +299,6 @@ namespace IDE {
                     CircuitSimulator.Component component = Circuit.AddComponent(new Microcontroller());
                     CircuitComponentToDrawComponents.Add(item, component);
                     DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Disable[0].DisplayListHandle ||
-                            item.Draw.DisplayListHandle == Draws.Disable[1].DisplayListHandle ||
-                            item.Draw.DisplayListHandle == Draws.Disable[2].DisplayListHandle) {
-                    throw new NotImplementedException();
                 } else if (item.Draw.DisplayListHandle == Draws.Display7SegBase.DisplayListHandle) {
                     CircuitSimulator.Component component = Circuit.AddComponent(new Display7Seg());
                     CircuitComponentToDrawComponents.Add(item, component);
@@ -312,8 +308,51 @@ namespace IDE {
                     CircuitComponentToDrawComponents.Add(item, component);
                     DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.ControlModule.DisplayListHandle) {
-                    ControlModule component = Circuit.AddComponent(
-                        new ControlModule());
+                    CircuitSimulator.Component component = Circuit.AddComponent(new ControlModule());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.PortBank.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new PortBank());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.Registrers.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new Registrers());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.Disable8Bit.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new Disable8Bit());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.RamMemory.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new RamMemory());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.Counter8Bit.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new Counter8Bit());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.RomAddresser.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new RomAddresser());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.RomMemory.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new RomMemory());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.ULA.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new ULA());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.Registrer8BitSG.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new Registrer8BitSG());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.Registrer8BitCBuffer.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new Registrer8BitCBuffer());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.Clock.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new InternalClock());
                     CircuitComponentToDrawComponents.Add(item, component);
                     DrawComponentsToCircuitComponent.Add(component, item);
                 } else {
@@ -1714,7 +1753,7 @@ namespace IDE {
                 } else {
                     switch (i) {
                         case 8:
-                            Registrer8BitSG.TerminalsString[i] = "Enable";
+                            Registrer8BitSG.TerminalsString[i] = "Clock";
                             break;
                         case 9:
                             Registrer8BitSG.TerminalsString[i] = "Reset";

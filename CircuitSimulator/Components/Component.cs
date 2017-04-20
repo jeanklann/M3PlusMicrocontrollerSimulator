@@ -11,6 +11,7 @@ namespace CircuitSimulator {
 
         public string Name;
         public Pin[] Pins;
+        
 
         /// <summary>
         /// Electronic component
@@ -88,7 +89,7 @@ namespace CircuitSimulator {
         public bool IsOutput { get { return isOutput; } }
 
         public List<Pin> connectedPins;
-
+        
         /// <summary>
         /// Pin to every component
         /// </summary>
@@ -103,6 +104,14 @@ namespace CircuitSimulator {
             this.isOpen = isOpen;
             this.value = value;
             connectedPins = new List<Pin>();
+        }
+
+        public bool CanExecute(bool cannotBeOpen = true) {
+            if (cannotBeOpen) {
+                if (isOpen) return false;
+            }
+            if (component.simulationId == simulationId) return false;
+            return true;
         }
 
         /// <summary>
@@ -136,10 +145,11 @@ namespace CircuitSimulator {
         /// </summary>
         internal void Propagate() {
             foreach(Pin pin in connectedPins) {
-                if(pin.value != value) {
+                if(pin.value != value || pin.isOpen != isOpen) {
                     pin.simulationId = simulationId;
                     pin.value = value;
-                    if(pin.component.CanExecute()) {
+                    pin.isOpen = isOpen;
+                    if (pin.component.CanExecute()) {
                         Circuit.AddToExecution(pin.component);
                     }
                     pin.Propagate();

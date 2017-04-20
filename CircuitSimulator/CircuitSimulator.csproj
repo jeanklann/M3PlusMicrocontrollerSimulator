@@ -41,7 +41,9 @@
     <Compile Include="Components\Component.cs" />
     <Compile Include="Components\Digital\BinTo7Seg.cs" />
     <Compile Include="Components\Digital\ClockLogicInput.cs" />
+    <Compile Include="Components\Digital\Counter8Bit.cs" />
     <Compile Include="Components\Digital\Display7Seg.cs" />
+    <Compile Include="Components\Digital\Disable8Bit.cs" />
     <Compile Include="Components\Digital\FlipflopD.cs" />
     <Compile Include="Components\Digital\FlipflopT.cs" />
     <Compile Include="Components\Digital\FlipflopSR.cs" />
@@ -60,6 +62,15 @@
     <Compile Include="Components\Digital\LogicOutput.cs" />
     <Compile Include="Components\Digital\Microcontroller.cs" />
     <Compile Include="Components\Digital\MMaisMaisMais\ControlModule.cs" />
+    <Compile Include="Components\Digital\MMaisMaisMais\InternalClock.cs" />
+    <Compile Include="Components\Digital\MMaisMaisMais\PortBank.cs" />
+    <Compile Include="Components\Digital\MMaisMaisMais\Registrer8BitCBuffer.cs" />
+    <Compile Include="Components\Digital\MMaisMaisMais\Registrers.cs" />
+    <Compile Include="Components\Digital\MMaisMaisMais\RomAddresser.cs" />
+    <Compile Include="Components\Digital\MMaisMaisMais\ULA.cs" />
+    <Compile Include="Components\Digital\RamMemory.cs" />
+    <Compile Include="Components\Digital\Registrer8BitSG.cs" />
+    <Compile Include="Components\Digital\RomMemory.cs" />
     <Compile Include="Components\Digital\ShiftRegister.cs" />
     <Compile Include="Components\Macro.cs" />
     <Compile Include="Components\Wire.cs" />
