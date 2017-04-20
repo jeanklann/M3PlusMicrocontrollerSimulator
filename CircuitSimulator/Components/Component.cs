@@ -110,7 +110,7 @@ namespace CircuitSimulator {
         /// If the value it's not the correct digital value, it verifies if it's close to set high or low.
         /// </summary>
         /// <param name="value">The voltage value</param>
-        internal void SetDigital(float value) {
+        public void SetDigital(float value) {
             float med = (HIGH + LOW) / 2f;
             if(value > med)
                 this.value = HIGH;
@@ -122,7 +122,7 @@ namespace CircuitSimulator {
         /// Gets the digital value
         /// </summary>
         /// <returns>HIGH value or LOW value</returns>
-        internal float GetDigital() {
+        public float GetDigital() {
             float med = (HIGH + LOW) / 2f;
             if(value > med)
                 return HIGH;
@@ -136,7 +136,7 @@ namespace CircuitSimulator {
         /// </summary>
         internal void Propagate() {
             foreach(Pin pin in connectedPins) {
-                if(pin.simulationId != simulationId) {
+                if(pin.value != value) {
                     pin.simulationId = simulationId;
                     pin.value = value;
                     if(pin.component.CanExecute()) {

@@ -317,6 +317,18 @@ namespace IDE {
                 case ComponentType.BinTo7Seg:
                     draw = Draws.BinTo7Seg;
                     break;
+                case ComponentType.Registrer8BitCBuffer:
+                    draw = Draws.Registrer8BitCBuffer;
+                    break;
+                case ComponentType.Counter8Bit:
+                    draw = Draws.Counter8Bit;
+                    break;
+                case ComponentType.RomAddresser:
+                    draw = Draws.RomAddresser;
+                    break;
+                case ComponentType.Clock:
+                    draw = Draws.Clock;
+                    break;
                 default:
                     break;
             }

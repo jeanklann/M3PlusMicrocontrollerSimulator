@@ -9,12 +9,13 @@ namespace CircuitSimulator.Components {
         }
 
         internal override bool CanExecute() {
-            if (simulationId == circuit.SimulationId) return false;
+            //if (simulationId == circuit.SimulationId) return false;
+            /*
             for (int i = 0; i < Pins.Length; i++) {
-                if (Pins[i].simulationId != circuit.SimulationId) {
-                    return true;
+                if (Pins[i].simulationId == circuit.SimulationId) {
+                    return false;
                 }
-            }
+            }*/
             return true;
         }
 

@@ -20,6 +20,7 @@ namespace M3PlusMicrocontroller {
         public byte[] RAM;
         public byte[] Stack;
         public byte PointerStack;
+        public int LowFrequencyIteraction = 0;
 
         private int instructionsCountFrequency = 0;
         private int instructionsCount = 0;
@@ -96,8 +97,12 @@ namespace M3PlusMicrocontroller {
                         lastBreakpointInstruction = null;
                     }
                 }
-                NextInstruction += instruction.Size;
-                instruction.Function(this);
+                if (!FrequencyLimit || Frequency > 10) {
+                    NextInstruction += instruction.Size;
+                    instruction.Function(this);
+                } else {
+                    ++LowFrequencyIteraction;
+                }
                 ++instructionsCountFrequency;
                 ++instructionsCount;
                 if (frequencyReaded) {

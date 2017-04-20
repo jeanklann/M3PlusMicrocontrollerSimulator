@@ -23,8 +23,6 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.arquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.novoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,25 +79,8 @@
             this.circuito1 = new IDE.Circuito();
             this.codigo1 = new IDE.Codigo();
             this.somaRegistradoresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 448);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(576, 22);
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(85, 17);
-            this.toolStripStatusLabel1.Text = "Texto de status";
             // 
             // menuStrip1
             // 
@@ -556,7 +537,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.depurador1.Location = new System.Drawing.Point(12, 27);
             this.depurador1.Name = "depurador1";
-            this.depurador1.Size = new System.Drawing.Size(552, 418);
+            this.depurador1.Size = new System.Drawing.Size(552, 430);
             this.depurador1.TabIndex = 5;
             this.depurador1.Visible = false;
             // 
@@ -568,7 +549,7 @@
             this.circuito1.BackColor = System.Drawing.SystemColors.Control;
             this.circuito1.Location = new System.Drawing.Point(12, 27);
             this.circuito1.Name = "circuito1";
-            this.circuito1.Size = new System.Drawing.Size(552, 418);
+            this.circuito1.Size = new System.Drawing.Size(552, 430);
             this.circuito1.TabIndex = 4;
             this.circuito1.Visible = false;
             this.circuito1.VSync = false;
@@ -580,7 +561,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.codigo1.Location = new System.Drawing.Point(12, 27);
             this.codigo1.Name = "codigo1";
-            this.codigo1.Size = new System.Drawing.Size(552, 418);
+            this.codigo1.Size = new System.Drawing.Size(552, 430);
             this.codigo1.TabIndex = 3;
             // 
             // somaRegistradoresToolStripMenuItem
@@ -598,7 +579,6 @@
             this.Controls.Add(this.depurador1);
             this.Controls.Add(this.circuito1);
             this.Controls.Add(this.codigo1);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormularioPrincipal";
@@ -606,8 +586,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormularioPrincipal_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormularioPrincipal_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -616,8 +594,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem arquivoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editarToolStripMenuItem;

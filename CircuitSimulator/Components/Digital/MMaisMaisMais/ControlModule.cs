@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
-    class ControlModule : Chip {
+    public class ControlModule : Chip {
         public Pin In0 { get { return Pins[0]; } }
         public Pin In1 { get { return Pins[1]; } }
         public Pin In2 { get { return Pins[2]; } }
@@ -46,7 +46,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         public Pin RGPBsel0 { get { return Pins[39]; } }
         public Pin RGPBsel1 { get { return Pins[40]; } }
 
-        public static MicrocontrollerData MicrocontrollerData;
+        public MicrocontrollerData MicrocontrollerData;
 
         private int HDCounter = 0;
         private byte regAddress = 0;
@@ -99,8 +99,11 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             }
             lastClock = currentClock;
             EOI.SetDigital(RegAddress == 0 ? Pin.HIGH : Pin.LOW);
-            
-                
+
+            for (int i = 0; i < Pins.Length; i++) {
+                Pins[i].Propagate();
+            }
+
         }
 
 
@@ -320,12 +323,16 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             return Addresses[address];
         }
         private void ClockRI() {
-            RI = InputData[indexInstruction];
-            ULAOPsel2.SetDigital((RI & 1) == 1 ? Pin.HIGH : Pin.LOW);
-            ULAOPsel1.SetDigital((RI & 2) == 1 ? Pin.HIGH : Pin.LOW);
-            ULAOPsel0.SetDigital((RI & 4) == 1 ? Pin.HIGH : Pin.LOW);
-            RGPBsel1.SetDigital((RI & 8) == 1 ? Pin.HIGH : Pin.LOW);
-            RGPBsel0.SetDigital((RI & 16) == 1 ? Pin.HIGH : Pin.LOW);
+            if (InputData != null) {
+                RI = InputData[indexInstruction];
+                ULAOPsel2.SetDigital((RI & 1) == 1 ? Pin.HIGH : Pin.LOW);
+                ULAOPsel1.SetDigital((RI & 2) == 1 ? Pin.HIGH : Pin.LOW);
+                ULAOPsel0.SetDigital((RI & 4) == 1 ? Pin.HIGH : Pin.LOW);
+                RGPBsel1.SetDigital((RI & 8) == 1 ? Pin.HIGH : Pin.LOW);
+                RGPBsel0.SetDigital((RI & 16) == 1 ? Pin.HIGH : Pin.LOW);
+            } else {
+                RI = 0;
+            }
         }
         private void SetInputData(byte[] value) {
             InputData = value;
@@ -524,5 +531,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         public byte[] RAM;
         public byte[] Stack;
         public byte PointerStack;
+
+        public int LowFrequencyIteraction = 0;
     }
 }
