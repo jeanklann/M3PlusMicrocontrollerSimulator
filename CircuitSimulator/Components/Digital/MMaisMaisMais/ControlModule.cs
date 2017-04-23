@@ -522,15 +522,15 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     }
 
     public class MicrocontrollerData {
-        public int NextInstruction;
-        public bool Flag_C;
-        public bool Flag_Z;
-        public byte[] Reg; //0:A, 1:B, 2:C, 3:D, 4:E
-        public byte[] In; //0: IN4, 1: IN1, 2: IN2, 3: IN3
-        public byte[] Out; //0: OUT4, 1: OUT1, 2: OUT2, 3: OUT3
-        public byte[] RAM;
-        public byte[] Stack;
-        public byte PointerStack;
+        public int NextInstruction = 0;
+        public bool Flag_C = false;
+        public bool Flag_Z = false;
+        public byte[] Reg = new byte[5]; //0:A, 1:B, 2:C, 3:D, 4:E
+        public byte[] In = new byte[4]; //0: IN4, 1: IN1, 2: IN2, 3: IN3
+        public byte[] Out = new byte[4]; //0: OUT4, 1: OUT1, 2: OUT2, 3: OUT3
+        public byte[] RAM = new byte[256];
+        public byte[] Stack = new byte[256];
+        public byte PointerStack = 0;
 
         public int LowFrequencyIteraction = 0;
     }
