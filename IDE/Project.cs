@@ -142,70 +142,6 @@ namespace IDE {
         }
     }
     [Serializable]
-    public class Size_Project {
-        public float Width, Height;
-        public Size_Project(SizeF size) {
-            Width = size.Width;
-            Height = size.Height;
-        }
-        public Size_Project(float Width, float Height) {
-            this.Width = Width;
-            this.Height = Height;
-        }
-        public static implicit operator SizeF(Size_Project s) {
-            return new SizeF(s.Width, s.Height);
-        }
-        public static implicit operator Size_Project(SizeF s) {
-            return new Size_Project(s);
-        }
-
-    }
-    [Serializable]
-    public class Rectangle_Project {
-        public Point_Project Point;
-        public Size_Project Size;
-        public Rectangle_Project(PointF point, SizeF size) {
-            Point = point;
-            Size = size;
-        }
-        public Rectangle_Project(float x, float y, float w, float h) {
-            Point = new Point_Project(x, y);
-            Size = new Size_Project(w, h);
-        }
-        public Rectangle_Project(RectangleF rect) {
-            Point = rect.Location;
-            Size = rect.Size;
-        }
-        public static implicit operator RectangleF(Rectangle_Project r) {
-            return new RectangleF(r.Point, r.Size);
-        }
-        public static implicit operator Rectangle_Project(RectangleF r) {
-            return new Rectangle_Project(r);
-        }
-    }
-    [Serializable]
-    public class Color_Project {
-        public byte A, R, G, B;
-        public Color_Project(Color color) {
-            A = color.A;
-            R = color.R;
-            G = color.G;
-            B = color.B;
-        }
-        public Color_Project(byte R, byte G, byte B, byte A = 255) {
-            this.A = A;
-            this.R = R;
-            this.G = G;
-            this.B = B;
-        }
-        public static implicit operator Color(Color_Project c) {
-            return Color.FromArgb(c.A, c.R, c.G, c.B);
-        }
-        public static implicit operator Color_Project(Color c) {
-            return new Color_Project(c);
-        }
-    }
-    [Serializable]
     public class Component_Project {
         public Point_Project Center;
         public float Rotation;
@@ -347,7 +283,6 @@ namespace IDE {
         public Point_Project From;
         public int FromComponent;
         public int FromIndex;
-        public Color_Project Color;
         public Point_Project To;
         public int ToComponent;
         public int ToIndex;
@@ -371,7 +306,6 @@ namespace IDE {
                 ToIndex = -1;
                 ToComponent = -1;
             }
-            Color = Draws.Color_off;
         }
         public Wire ToWire(FileProject project) {
             Wire wire = new Wire(From, To);

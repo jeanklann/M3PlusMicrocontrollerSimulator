@@ -124,7 +124,7 @@ namespace IDE {
         }
 
         private void ThreadRun() {
-            while (Circuit != null || !UIStatics.WantExit) {
+            while (Circuit != null && !UIStatics.WantExit) {
                 List<CircuitSimulator.Component> copy;
                 try {
                     copy = Circuit.Components;
@@ -135,7 +135,7 @@ namespace IDE {
                 foreach (CircuitSimulator.Component item in copy) {
                     if(item is CircuitSimulator.Components.Wire) {
                         Wire DrawComponent = DrawWireToCircuitWire[(CircuitSimulator.Components.Wire)item];
-                        if (item.Pins[0].IsOpen) {
+                        if (item.Pins[0].IsOpen || item.SimulationId != Circuit.SimulationId) {
                             DrawComponent.Color = Draws.Color_3rd;
                         } else if (item.Pins[0].Value >= halfCut) {
                             DrawComponent.Color = Draws.Color_on;
@@ -406,7 +406,7 @@ namespace IDE {
                                 TempPins.Add(CircuitWireToDrawWire[item2].Pins[1]);
                         }
                     }
-                    Wire.Pins[1].Connect(To.Pins[item.FromIndex]);
+                    Wire.Pins[1].Connect(To.Pins[item.ToIndex]);
                     foreach (Pin pin in TempPins) {
                         Wire.Pins[0].Connect(pin);
                     }

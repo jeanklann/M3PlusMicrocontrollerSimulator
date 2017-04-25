@@ -11,6 +11,7 @@ namespace CircuitSimulator {
 
         public string Name;
         public Pin[] Pins;
+        public int SimulationId { get { return simulationId; } }
         
 
         /// <summary>
@@ -19,7 +20,7 @@ namespace CircuitSimulator {
         /// <param name="name">The nome of the component</param>
         /// <param name="pinQuantity">The quantity of pins that this component need to have</param>
         public Component(string name = "Generic component", int pinQuantity = 1) {
-            if(name != null)
+            if (name != null)
                 Name = name;
             Pins = new Pin[pinQuantity];
             AllocatePins();
@@ -76,7 +77,7 @@ namespace CircuitSimulator {
     public class Pin {
         public const float HIGH = 5;
         public const float LOW = 0;
-
+        public const float HALFCUT = (HIGH + LOW) / 2f;
         internal int simulationId = 0;
         internal float value;
         internal bool isOpen;
@@ -145,7 +146,7 @@ namespace CircuitSimulator {
         /// </summary>
         internal void Propagate() {
             foreach(Pin pin in connectedPins) {
-                if(pin.value != value || pin.isOpen != isOpen) {
+                if(pin.simulationId != Circuit.SimulationId || pin.value != value || pin.isOpen != isOpen) {
                     pin.simulationId = simulationId;
                     pin.value = value;
                     pin.isOpen = isOpen;
@@ -154,7 +155,10 @@ namespace CircuitSimulator {
                     }
                     pin.Propagate();
                 }
-            }
+            }/*
+            if (component.CanExecute()) {
+                Circuit.AddToExecution(picomponent);
+            }*/
         }
 
         /// <summary>
@@ -162,9 +166,10 @@ namespace CircuitSimulator {
         /// </summary>
         /// <param name="pin">The pin to be connected</param>
         public void Connect(Pin pin) {
-            if(connectedPins.Contains(pin)) return;
-            connectedPins.Add(pin);
-            pin.connectedPins.Add(this);
+            if(!connectedPins.Contains(pin))
+                connectedPins.Add(pin);
+            if (!pin.connectedPins.Contains(pin))
+                pin.connectedPins.Add(this);
         }
 
         /// <summary>

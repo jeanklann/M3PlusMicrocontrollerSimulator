@@ -154,6 +154,7 @@ namespace IDE {
                                 e.Cancel = true;
                                 return;
                             }
+                            UIStatics.WantExit = true;
                         } else {
                             return;
                         }
@@ -166,9 +167,11 @@ namespace IDE {
                         }
                     }
                 } else if(dialogResult == DialogResult.No) {
+                    UIStatics.WantExit = true;
                     return;
                 }
             } else {
+                UIStatics.WantExit = true;
                 return;
             }
         }

@@ -24,12 +24,16 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
         internal override bool CanExecute() {
             if (simulationId == circuit.SimulationId) return false;
-            if(Reset.simulationId != circuit.SimulationId) {
-                if (Reset.Value >= (Pin.HIGH + Pin.LOW) / 2f) return true;
-            }
-            for (int i = 0; i < 10; i++) {
+            for (int i = 8; i <= 9; i++) {
                 if (Pins[i].simulationId != circuit.SimulationId) {
                     return false;
+                }
+            }
+            if (Pins[8].value >= Pin.HALFCUT && lastClock <= Pin.HALFCUT) {
+                for (int i = 0; i < 8; i++) {
+                    if (Pins[i].simulationId != circuit.SimulationId) {
+                        return false;
+                    }
                 }
             }
             return true;

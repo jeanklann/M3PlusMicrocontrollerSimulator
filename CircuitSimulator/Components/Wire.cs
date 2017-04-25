@@ -9,7 +9,7 @@ namespace CircuitSimulator.Components {
         }
 
         internal override bool CanExecute() {
-            //if (simulationId == circuit.SimulationId) return false;
+            if (simulationId == circuit.SimulationId) return false;
             /*
             for (int i = 0; i < Pins.Length; i++) {
                 if (Pins[i].simulationId == circuit.SimulationId) {
@@ -20,17 +20,21 @@ namespace CircuitSimulator.Components {
         }
 
         protected internal override void Execute() {
-            float value = Pin.LOW;
+            int index = -1;
             for (int i = 0; i < Pins.Length; i++) {
                 if (Pins[i].simulationId == circuit.SimulationId) {
-                    value = Pins[i].Value;
+                    index = i;
+                    break;
                 }
             }
+            if (index == -1) throw new Exception("Erro interno");
 
             base.Execute();
             
             for(int i = 0; i < Pins.Length; i++) {
-                Pins[i].value = value;
+                if (i == index) continue;
+                Pins[i].value = Pins[index].value;
+                Pins[i].isOpen = Pins[index].isOpen;
                 Pins[i].Propagate();
             }
         }

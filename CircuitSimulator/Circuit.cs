@@ -11,7 +11,7 @@ namespace CircuitSimulator {
         private float timePerTick;
         private float time = 0f;
 
-        internal int SimulationId { get { return simulationId; } }
+        public int SimulationId { get { return simulationId; } }
 
         public List<Component> Components;
         public float TimePerTick { get { return timePerTick; } }

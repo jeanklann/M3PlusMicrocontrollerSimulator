@@ -68,6 +68,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
         protected override void AllocatePins() {
             for (int i = 0; i < Pins.Length; i++) {
+                //Pins[i] = new Pin(this, true, false); //outputs
+                
                 if (i < 11)
                     Pins[i] = new Pin(this, false, false); //inputs
                 else
@@ -100,9 +102,19 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             lastClock = currentClock;
             EOI.SetDigital(RegAddress == 0 ? Pin.HIGH : Pin.LOW);
 
-            for (int i = 0; i < Pins.Length; i++) {
+            /*
+            for (int i = 11; i < Pins.Length; i++) {
+                Pins[i].value = Pin.LOW;
+            }
+            ULAOPsel0.value = Pin.HIGH;
+            ULAOPsel1.value = Pin.HIGH;
+            ULAOPsel2.value = Pin.HIGH;
+            ULAbus.value = Pin.HIGH;
+            */
+            for (int i = 11; i < Pins.Length; i++) {
                 Pins[i].Propagate();
             }
+            Clock.Propagate();
 
         }
 

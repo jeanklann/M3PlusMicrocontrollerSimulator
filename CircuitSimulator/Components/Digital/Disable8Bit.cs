@@ -18,9 +18,14 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
         internal override bool CanExecute() {
             if (simulationId == circuit.SimulationId) return false;
-            for (int i = 0; i < 9; i++) {
-                if (Pins[i].simulationId != circuit.SimulationId) {
-                    return false;
+            if (Pins[8].simulationId != circuit.SimulationId) {
+                return false;
+            }
+            if (Pins[8].value >= Pin.HALFCUT) {
+                for (int i = 0; i < 8; i++) {
+                    if (Pins[i].simulationId != circuit.SimulationId) {
+                        return false;
+                    }
                 }
             }
             return true;
@@ -28,7 +33,12 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
 
         protected internal override void Execute() {
             base.Execute();
-            throw new NotImplementedException();
+            if (Pins[8].value >= Pin.HALFCUT) {
+                for (int i = 0; i < 8; i++) {
+                    Pins[i + 9].value = Pins[i].value;
+                    Pins[i + 9].Propagate();
+                }
+            }
         }
     }
 
