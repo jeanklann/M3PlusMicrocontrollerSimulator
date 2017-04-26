@@ -6,8 +6,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class RomAddresser : Chip {
         private float lastClockL = Pin.LOW;
         private float lastClockH = Pin.LOW;
-        private byte RegL = 0;
-        private byte RegH = 0;
+        public byte RegL = 0;
+        public byte RegH = 0;
 
         public RomAddresser(string name = "RomAddresser") : base(name, 38) {
 
@@ -43,19 +43,27 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
 
             if ((Pins[9].value >= Pin.HALFCUT && lastClockH < Pin.HALFCUT) ||
                 (Pins[10].value >= Pin.HALFCUT && lastClockL < Pin.HALFCUT)) {
-                byte val = 0;
-                val += (byte)(Pins[0].value >= Pin.HALFCUT ? 1 : 0);
-                val += (byte)(Pins[1].value >= Pin.HALFCUT ? 2 : 0);
-                val += (byte)(Pins[2].value >= Pin.HALFCUT ? 4 : 0);
-                val += (byte)(Pins[3].value >= Pin.HALFCUT ? 8 : 0);
-                val += (byte)(Pins[4].value >= Pin.HALFCUT ? 16 : 0);
-                val += (byte)(Pins[5].value >= Pin.HALFCUT ? 32 : 0);
-                val += (byte)(Pins[6].value >= Pin.HALFCUT ? 64 : 0);
-                val += (byte)(Pins[7].value >= Pin.HALFCUT ? 128 : 0);
-                if (Pins[9].value >= Pin.HALFCUT && lastClockH < Pin.HALFCUT) {
-                    RegH = val;
+                if (Pins[8].value < Pin.HALFCUT) {
+                    int address = RegH * 256 + RegL;
+                    ++address;
+                    RegH = (byte) (address / 256);
+                    RegL = (byte) (address % 256);
                 } else {
-                    RegL = val;
+                    byte val = 0;
+                    val += (byte)(Pins[0].value >= Pin.HALFCUT ? 1 : 0);
+                    val += (byte)(Pins[1].value >= Pin.HALFCUT ? 2 : 0);
+                    val += (byte)(Pins[2].value >= Pin.HALFCUT ? 4 : 0);
+                    val += (byte)(Pins[3].value >= Pin.HALFCUT ? 8 : 0);
+                    val += (byte)(Pins[4].value >= Pin.HALFCUT ? 16 : 0);
+                    val += (byte)(Pins[5].value >= Pin.HALFCUT ? 32 : 0);
+                    val += (byte)(Pins[6].value >= Pin.HALFCUT ? 64 : 0);
+                    val += (byte)(Pins[7].value >= Pin.HALFCUT ? 128 : 0);
+                    if (Pins[9].value >= Pin.HALFCUT && lastClockH < Pin.HALFCUT) {
+                        RegH = val;
+                    }
+                    if (Pins[10].value >= Pin.HALFCUT && lastClockH < Pin.HALFCUT) {
+                        RegL = val;
+                    }
                 }
             }
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class RamMemory : Chip {
-        byte[] internalValue = new byte[256];
+        public byte[] InternalValue = new byte[256];
         public RamMemory(string name = "RamMemory") : base(name, 19) {
 
         }
@@ -46,7 +46,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             simulationId = circuit.SimulationId;
             if (Pins[10].value >= Pin.HALFCUT) {
                 for (int i = 0; i < 256; i++) {
-                    internalValue[i] = 0;
+                    InternalValue[i] = 0;
                 }
             }
             if(Pins[8].value >= Pin.HALFCUT) {
@@ -61,7 +61,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 address += (byte)(Pins[7].value >= Pin.HALFCUT ? 128 : 0);
 
                 if(Pins[9].value >= Pin.HALFCUT) {
-                    byte val = internalValue[address];
+                    byte val = InternalValue[address];
                     for (int i = 11; i <= 18; i++)
                         Pins[i].value = Pin.LOW;
                     if (val >= 128) {

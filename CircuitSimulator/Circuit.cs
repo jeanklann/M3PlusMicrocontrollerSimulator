@@ -10,6 +10,7 @@ namespace CircuitSimulator {
         private Queue<Component> executionQueue;
         private float timePerTick;
         private float time = 0f;
+        private int lastId = -1;
 
         public int SimulationId { get { return simulationId; } }
 
@@ -37,7 +38,7 @@ namespace CircuitSimulator {
             if(component == null) throw new Exception("Component is null");
             if(component.circuit != null && component.circuit != this) throw new Exception("The component is attached to another circuit");
             component.circuit = this;
-
+            component.Id = ++lastId;
             if(!Components.Contains(component)) {
                 Components.Add(component);
             }

@@ -16,6 +16,7 @@ using CircuitSimulator.Components.Digital.MMaisMaisMais;
 
 namespace IDE {
     public partial class Circuito : GLControl {
+        public InternalComponents InternalComponents = new InternalComponents();
         public MouseProps MouseProps = new MouseProps();
         public Terminals Terminals = new Terminals();
         public List<Wire> Wires = new List<Wire>();
@@ -229,13 +230,20 @@ namespace IDE {
             }
         }
         private void ProcessControlModule(ControlModule module) {
-            float halfCut = (Pin.HIGH + Pin.LOW) / 2f;
-            if (UIStatics.Simulador != null && module.MicrocontrollerData.LowFrequencyIteraction != UIStatics.Simulador.LowFrequencyIteraction) {
-                if (module.Clock.Value < halfCut)
+            if (UIStatics.Simulador != null && module.LowFrequencyIteraction != UIStatics.Simulador.LowFrequencyIteraction) {
+
+                if (InternalComponents.ControlModule.NeedSet) {
+                    GetValuesToSimulator();
+                }
+
+                if (module.Clock.Value < Pin.HALFCUT)
                     module.Clock.SetDigital(Pin.HIGH);
                 else
                     module.Clock.SetDigital(Pin.LOW);
-                module.MicrocontrollerData.LowFrequencyIteraction = UIStatics.Simulador.LowFrequencyIteraction;
+                module.LowFrequencyIteraction = UIStatics.Simulador.LowFrequencyIteraction;
+            }
+            if (InternalComponents.ControlModule.NeedSet) {
+                SetValuesFromSimulator();
             }
         }
 
@@ -362,6 +370,33 @@ namespace IDE {
                     Console.WriteLine("Componente " + item.Type + " não programado. Adicionado chip genérico.");
                 }
             }
+            
+            foreach (CircuitSimulator.Component component in Circuit.Components) {
+                if (component is ControlModule)
+                    InternalComponents.ControlModule = (ControlModule)component;
+                else if (component is RomMemory)
+                    InternalComponents.RomMemory = (RomMemory)component;
+                else if (component is ULA)
+                    InternalComponents.ULA = (ULA)component;
+                else if (component is Registrers)
+                    InternalComponents.Registrers = (Registrers)component;
+                else if (component is Registrer8BitCBuffer)
+                    InternalComponents.Accumulator = (Registrer8BitCBuffer)component;
+                else if (component is Counter8Bit)
+                    InternalComponents.StackCounter = (Counter8Bit)component;
+                else if (component is PortBank)
+                    InternalComponents.PortBank = (PortBank)component;
+                else if (component is RomAddresser)
+                    InternalComponents.RomAddresser = (RomAddresser)component;
+                else if (component is RamMemory) {
+                    if(component.Id == 39) {
+                        InternalComponents.StackMemory = (RamMemory)component;
+                    } else if(component.Id == 40) {
+                        InternalComponents.RamMemory = (RamMemory)component;
+                    }
+                }
+            }
+
             foreach (Wire item in Wires) {
                 CircuitSimulator.Components.Wire wire = Circuit.AddComponent(new CircuitSimulator.Components.Wire());
                 CircuitWireToDrawWire.Add(item, wire);
@@ -437,7 +472,62 @@ namespace IDE {
                     }
                 }
             }
-
+        }
+        
+        private void GetValuesToSimulator() {
+            Array.Copy(InternalComponents.RamMemory.InternalValue,
+                UIStatics.Simulador.RAM,
+                UIStatics.Simulador.RAM.Length);
+            Array.Copy(InternalComponents.StackMemory.InternalValue,
+                UIStatics.Simulador.Stack,
+                UIStatics.Simulador.RAM.Length);
+            UIStatics.Simulador.Reg[0] =
+                InternalComponents.Accumulator.InternalValue;
+            UIStatics.Simulador.Reg[1] =
+                InternalComponents.Registrers.Reg[0];
+            UIStatics.Simulador.Reg[2] =
+                InternalComponents.Registrers.Reg[1];
+            UIStatics.Simulador.Reg[3] =
+                InternalComponents.Registrers.Reg[2];
+            UIStatics.Simulador.Reg[4] =
+                InternalComponents.Registrers.Reg[3];
+            int nextInstruction =
+                InternalComponents.RomAddresser.RegH * 256 +
+                InternalComponents.RomAddresser.RegL;
+            if(UIStatics.Simulador.Program[nextInstruction] != null) {
+                UIStatics.Simulador.NextInstruction = nextInstruction;
+            } else {
+                Console.WriteLine("ERRO[PC:"+nextInstruction+"]");
+            }
+            
+        }
+        private void SetValuesFromSimulator() {
+            Array.Copy(UIStatics.Simulador.CompiledProgram, 
+                InternalComponents.RomMemory.InternalValue, 
+                UIStatics.Simulador.CompiledProgram.Length);
+            
+            Array.Copy(UIStatics.Simulador.RAM,
+                InternalComponents.RamMemory.InternalValue,
+                UIStatics.Simulador.RAM.Length);
+            Array.Copy(UIStatics.Simulador.Stack,
+                InternalComponents.StackMemory.InternalValue,
+                UIStatics.Simulador.RAM.Length);
+            InternalComponents.Accumulator.InternalValue =
+                UIStatics.Simulador.Reg[0];
+            InternalComponents.Registrers.Reg[0] =
+                UIStatics.Simulador.Reg[1];
+            InternalComponents.Registrers.Reg[1] =
+                UIStatics.Simulador.Reg[2];
+            InternalComponents.Registrers.Reg[2] =
+                UIStatics.Simulador.Reg[3];
+            InternalComponents.Registrers.Reg[3] =
+                UIStatics.Simulador.Reg[4];
+            /*
+            InternalComponents.RomAddresser.RegH =
+                (byte)((UIStatics.Simulador.NextInstruction) / 256);
+            InternalComponents.RomAddresser.RegL =
+                (byte)((UIStatics.Simulador.NextInstruction) % 256);*/
+            InternalComponents.ControlModule.NeedSet = false;
         }
 
         private float zoom = 1;
@@ -1567,7 +1657,7 @@ namespace IDE {
                 PortBank.Terminals[i] = DrawCircuit.Terminals[i];
                 if (i < 8 * 4) {
                     PortBank.TerminalsString[i] = ("in" + (i / 8) + "[" + (i % 8) + "]");
-                } else if (i < 8 * 5 + 5 ) {
+                } else if (i < 8 * 5 ) {
                     PortBank.TerminalsString[i] = ("inBus" + (i % 8));
                 } else if (i < 8 * 6 + 5) {
                     PortBank.TerminalsString[i] = ("outBus" + ((i-5) % 8));
@@ -3470,6 +3560,18 @@ namespace IDE {
             Point = point;
             Root = root;
         }
+    }
+    public struct InternalComponents {
+        public ControlModule ControlModule;
+        public RomMemory RomMemory;
+        public ULA ULA;
+        public Registrers Registrers;
+        public Registrer8BitCBuffer Accumulator;
+        public RamMemory RamMemory;
+        public RamMemory StackMemory;
+        public Counter8Bit StackCounter;
+        public PortBank PortBank;
+        public RomAddresser RomAddresser;
     }
 }
 

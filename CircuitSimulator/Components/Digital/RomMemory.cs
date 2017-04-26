@@ -6,7 +6,6 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class RomMemory : Chip {
         public byte[] InternalValue = new byte[65536];
         public RomMemory(string name = "RomMemory") : base(name, 25) {
-            InternalValue[0] = 0xff;
         }
 
         protected override void AllocatePins() {

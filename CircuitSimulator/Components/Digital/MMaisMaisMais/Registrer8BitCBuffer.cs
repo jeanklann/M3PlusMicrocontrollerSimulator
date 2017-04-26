@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class Registrer8BitCBuffer : Chip {
-        private byte internalValue = 0;
+        public byte InternalValue = 0;
         private float lastClock = Pin.LOW;
 
         public Registrer8BitCBuffer(string name = "Registrer8BitCBuffer") : base(name, 27) {
@@ -38,23 +38,23 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             simulationId = circuit.SimulationId;
 
             if (lastClock <= Pin.HALFCUT && Pins[8].value >= Pin.HALFCUT) {
-                internalValue = 0;
-                internalValue += (byte)(Pins[0].value >= Pin.HALFCUT ? 1 : 0);
-                internalValue += (byte)(Pins[1].value >= Pin.HALFCUT ? 2 : 0);
-                internalValue += (byte)(Pins[2].value >= Pin.HALFCUT ? 4 : 0);
-                internalValue += (byte)(Pins[3].value >= Pin.HALFCUT ? 8 : 0);
-                internalValue += (byte)(Pins[4].value >= Pin.HALFCUT ? 16 : 0);
-                internalValue += (byte)(Pins[5].value >= Pin.HALFCUT ? 32 : 0);
-                internalValue += (byte)(Pins[6].value >= Pin.HALFCUT ? 64 : 0);
-                internalValue += (byte)(Pins[7].value >= Pin.HALFCUT ? 128 : 0);
+                InternalValue = 0;
+                InternalValue += (byte)(Pins[0].value >= Pin.HALFCUT ? 1 : 0);
+                InternalValue += (byte)(Pins[1].value >= Pin.HALFCUT ? 2 : 0);
+                InternalValue += (byte)(Pins[2].value >= Pin.HALFCUT ? 4 : 0);
+                InternalValue += (byte)(Pins[3].value >= Pin.HALFCUT ? 8 : 0);
+                InternalValue += (byte)(Pins[4].value >= Pin.HALFCUT ? 16 : 0);
+                InternalValue += (byte)(Pins[5].value >= Pin.HALFCUT ? 32 : 0);
+                InternalValue += (byte)(Pins[6].value >= Pin.HALFCUT ? 64 : 0);
+                InternalValue += (byte)(Pins[7].value >= Pin.HALFCUT ? 128 : 0);
             }
 
             if(Pins[9].value >= Pin.HALFCUT) {
-                internalValue = 0;
+                InternalValue = 0;
             }
 
             if (Pins[9].value >= Pin.HALFCUT) {
-                byte val = internalValue;
+                byte val = InternalValue;
                 for (int i = 19; i < 27; i++)
                     Pins[i].value = Pin.LOW;
                 if (val >= 128) {
@@ -94,7 +94,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     Pins[i].Propagate();
                 }
             }
-            byte val2 = internalValue;
+            byte val2 = InternalValue;
             for (int i = 19; i < 27; i++)
                 Pins[i].value = Pin.LOW;
             if (val2 >= 128) {

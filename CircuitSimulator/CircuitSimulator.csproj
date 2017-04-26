@@ -60,7 +60,7 @@
     <Compile Include="Components\Digital\Keyboard.cs" />
     <Compile Include="Components\Digital\LogicInput.cs" />
     <Compile Include="Components\Digital\LogicOutput.cs" />
-    <Compile Include="Components\Digital\Microcontroller.cs" />
+    <Compile Include="Components\Digital\MMaisMaisMais\Microcontroller.cs" />
     <Compile Include="Components\Digital\MMaisMaisMais\ControlModule.cs" />
     <Compile Include="Components\Digital\MMaisMaisMais\InternalClock.cs" />
     <Compile Include="Components\Digital\MMaisMaisMais\PortBank.cs" />

@@ -264,6 +264,15 @@ namespace IDE {
 
                 Instruction[] instructions = Compilador.Compile(Codigo.scintilla.Text, breakpoints);
                 Simulador.Program = instructions;
+                List<byte> compiledProgram = new List<byte>();
+                for (int i = 0; i < Simulador.Program.Length; i++) {
+                    if (Simulador.Program[i] == null) continue;
+                    byte[] bytes = Simulador.Program[i].Convert();
+                    for (int j = 0; j < bytes.Length; j++) {
+                        compiledProgram.Add(bytes[j]);
+                    }
+                }
+                Simulador.CompiledProgram = compiledProgram.ToArray();
                 StringBuilder text = new StringBuilder();
                 Depurador.AddressToLine = new int[Compiler.MEMORY_MAX_SIZE];
                 /*

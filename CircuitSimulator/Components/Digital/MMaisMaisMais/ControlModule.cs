@@ -46,8 +46,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         public Pin RGPBsel0 { get { return Pins[39]; } }
         public Pin RGPBsel1 { get { return Pins[40]; } }
 
-        public MicrocontrollerData MicrocontrollerData;
-
+        public bool NeedSet = true;
+        private float lastEOI = Pin.LOW;
         private int HDCounter = 0;
         private byte regAddress = 0;
         private byte RegAddress  { get{ return regAddress; } set {
@@ -56,15 +56,14 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             } }
         private byte regAddressInc = 0;
         private byte RI = 0;
-        private byte[] InputData;
-        private int indexInstruction;
         private bool currentClock = false;
         private bool lastClock = false;
+
+        public int LowFrequencyIteraction = 0;
 
         public ControlModule(string name = "ControlModule") : base(name, 41) {
             canStart = true;
             internalMicroInstructions = new Dictionary<string, bool>();
-            MicrocontrollerData = new MicrocontrollerData();
         }
         protected override void AllocatePins() {
             for (int i = 0; i < Pins.Length; i++) {
@@ -82,10 +81,9 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
         protected internal override void Execute() {
             base.Execute();
-            float halfCut = (Pin.HIGH - Pin.LOW) / 2f;
 
-            if (Reset.value >= halfCut) RegAddress = 0;
-            currentClock = Clock.value >= halfCut;
+            if (Reset.value >= Pin.HALFCUT) RegAddress = 0;
+            currentClock = Clock.value >= Pin.HALFCUT;
             if (currentClock == true && lastClock == false) {
                 if (internalMicroInstructions.ContainsKey("SelRI")) {
                     if (internalMicroInstructions["SelRI"]) {
@@ -96,12 +94,16 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 } else {
                     RegAddress = 0;
                 }
-                ResetBools();
-                ProcessBools();
             }
+            ResetBools();
+            ProcessBools();
+            Console.WriteLine(RegAddress);
             lastClock = currentClock;
             EOI.SetDigital(RegAddress == 0 ? Pin.HIGH : Pin.LOW);
-
+            if(EOI.value >= Pin.HALFCUT && lastEOI <= Pin.HALFCUT) {
+                NeedSet = true;
+            }
+            lastEOI = EOI.value;
             /*
             for (int i = 11; i < Pins.Length; i++) {
                 Pins[i].value = Pin.LOW;
@@ -134,10 +136,14 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             for (int i = 0; i < 32; i++) {
                 ProcessBool(i, MicroInstructions[address, i], true);
             }
+            for (int i = 11; i < Pins.Length; i++) {
+                Pins[i].Propagate();
+            }
+
         }
         private void ProcessBool(int index, bool value, bool doAction) {
             string key;
-            float halfCut = (Pin.HIGH - Pin.LOW) / 2f;
+            bool ClockSubida = currentClock == true && lastClock == false;
             switch (index) {
                 case 0:
                     key = "SPIncDec";
@@ -176,11 +182,11 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                             break;
                         }
 
-                        if (FlagInCarry.Value >= halfCut && internalMicroInstructions["CresC"]) {
+                        if (FlagInCarry.Value >= Pin.HALFCUT && internalMicroInstructions["CresC"]) {
                             PCLclock.SetDigital(Pin.HIGH);
                             break;
                         }
-                        if (FlagInZero.Value >= halfCut && internalMicroInstructions["CresZ"]) {
+                        if (FlagInZero.Value >= Pin.HALFCUT && internalMicroInstructions["CresZ"]) {
                             PCLclock.SetDigital(Pin.HIGH);
                             break;
                         }
@@ -199,11 +205,11 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                             break;
                         }
 
-                        if (FlagInCarry.Value >= halfCut && internalMicroInstructions["CresC"]) {
+                        if (FlagInCarry.Value >= Pin.HALFCUT && internalMicroInstructions["CresC"]) {
                             PCHclock.SetDigital(Pin.HIGH);
                             break;
                         }
-                        if (FlagInZero.Value >= halfCut && internalMicroInstructions["CresZ"]) {
+                        if (FlagInZero.Value >= Pin.HALFCUT && internalMicroInstructions["CresZ"]) {
                             PCHclock.SetDigital(Pin.HIGH);
                             break;
                         }
@@ -237,16 +243,20 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 case 10:
                     key = "HD clock";
                     if (doAction) {
-                        if (value)
-                            ++HDCounter;
+                        if (ClockSubida) {
+                            if (value)
+                                ++HDCounter;
+                        }
                     }
                     break;
                 case 11:
                     key = "SelRI";
                     if (doAction) {
                         if (value) {
-                            ClockRI();
+                            if (ClockSubida)
+                                ClockRI();
                             RegAddress = DecodificadorDeIntrucao();
+                            
                         }
                     }
                     break;
@@ -254,7 +264,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     key = "RIClock";
                     if (doAction) {
                         if (value) {
-                            ClockRI();
+                            if (ClockSubida)
+                                ClockRI();
                             RegAddress = DecodificadorDeIntrucao();
                         }
                     }
@@ -275,8 +286,10 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 case 18:
                     key = "HD res";
                     if (doAction) {
-                        if(value)
-                            HDCounter = 0;
+                        if (ClockSubida) {
+                            if (value)
+                                HDCounter = 0;
+                        }
                     }
                     break;
                 case 19:
@@ -284,39 +297,75 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     break;
                 case 20:
                     key = "Out clock";
+                    if (doAction) {
+                        OUTclock.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 case 21:
                     key = "IN Bus";
+                    if (doAction) {
+                        INbus.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 case 22:
                     key = "RAM cs";
+                    if (doAction) {
+                        RAMcs.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 case 23:
                     key = "Ram wr";
+                    if (doAction) {
+                        RAMwr.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 case 24:
                     key = "RAM rd";
+                    if (doAction) {
+                        RAMrd.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 case 25:
                     key = "Reg Clock";
+                    if (doAction) {
+                        RGPCclock.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 case 26:
                     key = "Reg Bus";
+                    if (doAction) {
+                        RGbus.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 case 27:
                     key = "AC Clock";
+                    if (doAction) {
+                        ACclock.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 case 28:
                     key = "AC Bus";
+                    if (doAction) {
+                        ACbus.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 case 29:
                     key = "BUF Clock";
+                    if (doAction) {
+                        BUFclock.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 case 30:
                     key = "ULA Bus";
+                    if (doAction) {
+                        ULAbus.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 case 31:
                     key = "Sel SP";
+                    if (doAction) {
+                        SPsel.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                    }
                     break;
                 default:
                     key = "null";
@@ -328,26 +377,29 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
         private byte DecodificadorDeIntrucao() {
             int address = 0;
-            address += (RI & 128) == 1 ? 1 : 0;
-            address += (RI & 64) == 1 ? 2 : 0;
-            address += (RI & 32) == 1 ? 4 : 0;
-            address += HDCounter*8;
+            address += (RI & 1);
+            address += (RI & 2);
+            address += (RI & 4);
+            if (internalMicroInstructions["HD"])
+                address += HDCounter*8;
             return Addresses[address];
         }
         private void ClockRI() {
-            if (InputData != null) {
-                RI = InputData[indexInstruction];
-                ULAOPsel2.SetDigital((RI & 1) == 1 ? Pin.HIGH : Pin.LOW);
-                ULAOPsel1.SetDigital((RI & 2) == 1 ? Pin.HIGH : Pin.LOW);
-                ULAOPsel0.SetDigital((RI & 4) == 1 ? Pin.HIGH : Pin.LOW);
-                RGPBsel1.SetDigital((RI & 8) == 1 ? Pin.HIGH : Pin.LOW);
-                RGPBsel0.SetDigital((RI & 16) == 1 ? Pin.HIGH : Pin.LOW);
-            } else {
-                RI = 0;
-            }
-        }
-        private void SetInputData(byte[] value) {
-            InputData = value;
+            RI = 0;
+            RI += (byte)(Pins[0].value >= Pin.HALFCUT ? 1 : 0);
+            RI += (byte)(Pins[1].value >= Pin.HALFCUT ? 2 : 0);
+            RI += (byte)(Pins[2].value >= Pin.HALFCUT ? 4 : 0);
+            RI += (byte)(Pins[3].value >= Pin.HALFCUT ? 8 : 0);
+            RI += (byte)(Pins[4].value >= Pin.HALFCUT ? 16 : 0);
+            RI += (byte)(Pins[5].value >= Pin.HALFCUT ? 32 : 0);
+            RI += (byte)(Pins[6].value >= Pin.HALFCUT ? 64 : 0);
+            RI += (byte)(Pins[7].value >= Pin.HALFCUT ? 128 : 0);
+
+            ULAOPsel2.SetDigital((RI & 128) == 128 ? Pin.HIGH : Pin.LOW);
+            ULAOPsel1.SetDigital((RI & 64) == 64 ? Pin.HIGH : Pin.LOW);
+            ULAOPsel0.SetDigital((RI & 32) == 32 ? Pin.HIGH : Pin.LOW);
+            RGPBsel1.SetDigital((RI & 16) == 16 ? Pin.HIGH : Pin.LOW);
+            RGPBsel0.SetDigital((RI & 8) == 8 ? Pin.HIGH : Pin.LOW);
         }
 
         private Dictionary<string, bool> internalMicroInstructions;
@@ -531,19 +583,5 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
         };
-    }
-
-    public class MicrocontrollerData {
-        public int NextInstruction = 0;
-        public bool Flag_C = false;
-        public bool Flag_Z = false;
-        public byte[] Reg = new byte[5]; //0:A, 1:B, 2:C, 3:D, 4:E
-        public byte[] In = new byte[4]; //0: IN4, 1: IN1, 2: IN2, 3: IN3
-        public byte[] Out = new byte[4]; //0: OUT4, 1: OUT1, 2: OUT2, 3: OUT3
-        public byte[] RAM = new byte[256];
-        public byte[] Stack = new byte[256];
-        public byte PointerStack = 0;
-
-        public int LowFrequencyIteraction = 0;
     }
 }

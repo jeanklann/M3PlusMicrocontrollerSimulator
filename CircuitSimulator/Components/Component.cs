@@ -9,6 +9,7 @@ namespace CircuitSimulator {
         protected internal bool canStart = false;
         protected internal Circuit circuit;
 
+        public long Id = -1;
         public string Name;
         public Pin[] Pins;
         public int SimulationId { get { return simulationId; } }

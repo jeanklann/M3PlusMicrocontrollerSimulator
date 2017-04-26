@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class Registrers : Chip {
-        byte[] reg = new byte[4];
+        public byte[] Reg = new byte[4];
         private float lastClock = Pin.LOW;
         public Registrers(string name = "Registrers") : base(name, 21) {
 
@@ -48,23 +48,23 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 val += (byte)(Pins[5].value >= Pin.HALFCUT ? 32 : 0);
                 val += (byte)(Pins[6].value >= Pin.HALFCUT ? 64 : 0);
                 val += (byte)(Pins[7].value >= Pin.HALFCUT ? 128 : 0);
-                if (Pins[11].value < Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) reg[0] = val;
-                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) reg[1] = val;
-                if (Pins[11].value < Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) reg[2] = val;
-                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) reg[3] = val;
+                if (Pins[11].value < Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) Reg[0] = val;
+                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) Reg[1] = val;
+                if (Pins[11].value < Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) Reg[2] = val;
+                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) Reg[3] = val;
             }
 
             if (Pins[10].value >= Pin.HALFCUT) {
                 for (int i = 0; i < 4; i++) {
-                    reg[i] = 0;
+                    Reg[i] = 0;
                 }
             }
             if (Pins[9].value >= Pin.HALFCUT) {
                 byte val = 0;
-                if (Pins[11].value < Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) val = reg[0];
-                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) val = reg[1];
-                if (Pins[11].value < Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) val = reg[2];
-                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) val = reg[3];
+                if (Pins[11].value < Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) val = Reg[0];
+                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) val = Reg[1];
+                if (Pins[11].value < Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) val = Reg[2];
+                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) val = Reg[3];
                 
                 for (int i = 13; i < 21; i++)
                     Pins[i].value = Pin.LOW;

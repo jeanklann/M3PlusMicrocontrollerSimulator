@@ -12,6 +12,7 @@ namespace M3PlusMicrocontroller {
         public bool FrequencyLimit = true;
         public int NextInstruction;
         public Instruction[] Program;
+        public byte[] CompiledProgram;
         public bool Flag_C = false;
         public bool Flag_Z = false;
         public byte[] Reg; //0:A, 1:B, 2:C, 3:D, 4:E
@@ -57,6 +58,9 @@ namespace M3PlusMicrocontroller {
         public void Run() {
             if (!Running) {
                 thread = new Thread(Run_thread);
+                if (Stopped) {
+                    Reset();
+                }
                 Running = true;
                 Stopped = false;
                 thread.Start();
@@ -83,6 +87,7 @@ namespace M3PlusMicrocontroller {
                     Running = false;
                     MessageBox.Show("O simulador tentou executar uma instrução no endereço " + NextInstruction + ", porém neste endereço não há nenhuma instrução. " +
                         "Verifique o seu código, e, caso o programa se comportou corretamente, coloque o seguinte código ao final do programa: \"FIM_DO_PROGRAMA: JMP FIM_DO_PROGRAMA\".", "Erro na simulação", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Stopped = true;
                     break;
                 }
                 if (instruction.HasBreakpoint) {
