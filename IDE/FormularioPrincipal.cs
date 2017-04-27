@@ -14,6 +14,7 @@ namespace IDE {
 
         public FormularioPrincipal() {
             InitializeComponent();
+            Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
 
             UIStatics.Codigo = codigo1;
             UIStatics.Depurador = depurador1;

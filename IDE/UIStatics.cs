@@ -524,44 +524,69 @@ namespace IDE {
                             }
                         break;
                         case StateNumber:
-                            if (char.IsDigit(c) || (c >= 'a' && c <= 'f')) {
+                            if (char.IsDigit(c) || (c >= 'a' && c <= 'f') || c == 'd' || c == 'h') {
                                 length++;
-                                if(length > 2) {
+                                if(length < 3 && c == 'h') {
                                     state = StateIdentifier;
+                                }
+                                if (length > 2) {
+                                    if (length == 3 && c == 'h') {
+                                    } else if (char.IsDigit(c)) {
+                                    } else if (c == 'd') {
+                                        bool valid = true;
+                                        for (int i = currentPos-1; i >= currentPos-(length-1); i--) {
+                                            char c2 = char.ToLower(text[i]);
+                                            if (!char.IsDigit(c2)) valid = false;
+                                        }
+                                        if(!valid) state = StateIdentifier;
+                                    } else {
+                                        state = StateIdentifier;
+                                    }
                                 }
                             } else {
                                 if (char.IsLetterOrDigit(c) || c == '_') {
                                     state = StateIdentifier;
                                     reprocess = true;
-                                } else if(length == 2) {
+                                } else if (length < 2) {
+                                    state = StateIdentifier;
+                                    reprocess = true;
+                                } else {
                                     scintilla.SetStyling(length, Number);
                                     length = 0;
                                     state = StateDefault;
-                                    reprocess = true;
-                                } else {
-                                    state = StateIdentifier;
                                     reprocess = true;
                                 }
                             }
                             
                             break;
                         case StateAddress:
-                            if (char.IsDigit(c) || (c >= 'a' && c <= 'f')) {
+                            if (char.IsDigit(c) || (c >= 'a' && c <= 'f') || c == 'd' || c == 'h') {
                                 length++;
-                                if (length > 3) {
+                                if (length < 4 && c == 'h') {
                                     state = StateIdentifier;
+                                }
+                                if (length > 3) {
+                                    if (length == 4 && c == 'h') {
+                                    } else if (char.IsDigit(c)) {
+                                    } else if (c == 'd') {
+                                        bool valid = true;
+                                        for (int i = currentPos - 1; i >= currentPos - (length - 2); i--) {
+                                            char c2 = char.ToLower(text[i]);
+                                            if (!char.IsDigit(c2)) valid = false;
+                                        }
+                                        if (!valid) state = StateIdentifier;
+                                    } else {
+                                        state = StateIdentifier;
+                                    }
                                 }
                             } else {
                                 if (char.IsLetterOrDigit(c) || c == '_') {
                                     state = StateIdentifier;
                                     reprocess = true;
-                                } else if(length == 3) {
+                                } else {
                                     scintilla.SetStyling(length, Number);
                                     length = 0;
                                     state = StateDefault;
-                                    reprocess = true;
-                                } else {
-                                    state = StateIdentifier;
                                     reprocess = true;
                                 }
                             }

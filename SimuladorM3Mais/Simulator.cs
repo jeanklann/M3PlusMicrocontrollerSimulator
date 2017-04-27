@@ -22,13 +22,19 @@ namespace M3PlusMicrocontroller {
         public byte[] Stack;
         public byte PointerStack;
         public int LowFrequencyIteraction = 0;
-
+        
         private int instructionsCountFrequency = 0;
         private int instructionsCount = 0;
         private int currentFrequency = 0;
         private bool frequencyReaded = false;
         public int CurrentFrequency { get { return currentFrequency; } }
-
+        private bool internalSimulation = false;
+        public bool InternalSimulation { get { return internalSimulation; } set {
+                if(Frequency > 20) {
+                    Frequency = 20;
+                }
+                internalSimulation = value;
+            } }
         private Thread thread;
         public bool Running = false;
         public bool Stopped = true;
@@ -102,7 +108,7 @@ namespace M3PlusMicrocontroller {
                         lastBreakpointInstruction = null;
                     }
                 }
-                if (!FrequencyLimit || Frequency > 10) {
+                if (!FrequencyLimit || !internalSimulation) {
                     NextInstruction += instruction.Size;
                     instruction.Function(this);
                 } else {

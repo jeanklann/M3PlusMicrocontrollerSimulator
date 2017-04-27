@@ -1792,12 +1792,10 @@ namespace M3PlusMicrocontroller {
             int number = -1;
 
             if (Value[0] == Token.RAM) {
-                if (TryParseHex(Value.Substring(1, Value.Length - 1), out number)) {
+                if (TryParseAnyNumber(Value.Substring(1, Value.Length - 1), out number)) {
                     if (number < 0 || number > 255) {
-                        throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números para este processador devem estar entre 00 e FF.");
+                        throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números para este processador devem estar entre 00 e FF em hexadecimal, ou entre 000 e 255 em decimal (00h - FFh e 000d - 255d).");
                     }
-                    if (Value.Length != 3)
-                        throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números em hexadecimais devem ter 2 dígitos.");
                     return new Token(TokenType.RamAddress, number.ToString(), BeginIndex);
                 } else if (Value.Length == 2) {
                     for (int i = 1; i < Token.REGISTRERS.Length; i++) {
@@ -1807,12 +1805,10 @@ namespace M3PlusMicrocontroller {
                 } else {
                     throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor de endereçamento inválido.");
                 }
-            } else if (TryParseHex(Value, out number)) {
+            } else if (TryParseAnyNumber(Value, out number)) {
                 if (number < 0 || number > 255) {
-                    throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números para este processador devem estar entre 00 e FF.");
+                    throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ".  Valor inválido, os números para este processador devem estar entre 00 e FF em hexadecimal, ou entre 000 e 255 em decimal (00h - FFh e 000d - 255d).");
                 }
-                if (Value.Length != 2)
-                    throw new CompilerError("Erro na linha " + Helpers.CountLines(Program, BeginIndex) + ". Valor inválido, os números em hexadecimais devem ter 2 dígitos.");
                 return new Token(TokenType.Number, number.ToString(), BeginIndex);
             }
 
@@ -1834,6 +1830,50 @@ namespace M3PlusMicrocontroller {
                 number = Convert.ToInt32(value, 16);
                 return true;
             } catch (Exception) {
+                number = -1;
+                return false;
+            }
+        }
+        private static bool TryParseAnyNumber(string value, out int number) {
+            if (value.Length > 2) {
+                if (value[value.Length - 1] == 'H') {
+                    if(value.Length != 3) {
+                        number = -1;
+                        return false;
+                    }
+                    try {
+                        number = Convert.ToInt32(value.Substring(0, value.Length-1), 16);
+                        return true;
+                    } catch (Exception) {
+                        number = -1;
+                        return false;
+                    }
+                } else if (value[value.Length - 1] == 'D') {
+                    try {
+                        number = Convert.ToInt32(value.Substring(0, value.Length - 1));
+                        return true;
+                    } catch (Exception) {
+                        number = -1;
+                        return false;
+                    }
+                } else {
+                    try {
+                        number = Convert.ToInt32(value);
+                        return true;
+                    } catch (Exception) {
+                        number = -1;
+                        return false;
+                    }
+                }
+            } else if(value.Length == 2){
+                try {
+                    number = Convert.ToInt32(value, 16);
+                    return true;
+                } catch (Exception) {
+                    number = -1;
+                    return false;
+                }
+            } else {
                 number = -1;
                 return false;
             }

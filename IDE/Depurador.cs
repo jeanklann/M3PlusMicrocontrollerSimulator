@@ -202,13 +202,17 @@ namespace IDE {
                         string inicio = "Frequência real: ";
                         string mod = "Hz";
                         float frequencia = UIStatics.Simulador.CurrentFrequency;
-                        if(frequencia >= 1000) {
-                            frequencia = frequencia / 1000f;
-                            mod = "kHz";
+                        if(!internalSimulation.Checked) {
+                            inicio = "I/s real:";
+                            mod = "Ips";
                         }
                         if (frequencia >= 1000) {
                             frequencia = frequencia / 1000f;
-                            mod = "MHz";
+                            mod = "kIps";
+                        }
+                        if (frequencia >= 1000) {
+                            frequencia = frequencia / 1000f;
+                            mod = "MIps";
                         }
                         frequencia = (float) (Math.Round(frequencia * 100) / 100);
 
@@ -295,9 +299,50 @@ namespace IDE {
             if(UIStatics.Simulador != null) {
                 UIStatics.Simulador.FrequencyLimit = FrequencyLimiter;
                 UIStatics.Simulador.Frequency = Frequency;
+                UIStatics.Simulador.InternalSimulation = internalSimulation.Checked;
             }
         }
 
-        
+        private void abrirMemoriaRam_Click(object sender, EventArgs e) {
+            FormRamMemory f = new FormRamMemory();
+            f.Build(256, FormRamType.RAM);
+            f.Show(this);
+        }
+
+        private void abrirMemoriaPilha_Click(object sender, EventArgs e) {
+            FormRamMemory f = new FormRamMemory();
+            f.Build(256, FormRamType.Stack);
+            f.Show(this);
+        }
+
+        private void internalSimulation_CheckedChanged(object sender, EventArgs e) {
+            if (internalSimulation.Checked) {
+                frequencyActive.Checked = true;
+                frequencyActive.Enabled = false;
+                frequencyCombo.Items.Clear();
+                frequencyCombo.Items.Add("Hz");
+                frequencyCombo.Text = "Hz";
+                frequencyCombo.SelectedIndex = 0;
+                if (frequencyNumeric.Value > 20.00M)
+                    frequencyNumeric.Value = 20.00M;
+                frequencyNumeric.Maximum = 20.00M;
+                freq = (double)frequencyNumeric.Value;
+                power = frequencyCombo.SelectedIndex;
+                UpdateFrequency();
+
+            } else {
+                frequencyActive.Enabled = true;
+                frequencyCombo.Items.Clear();
+                frequencyCombo.Items.Add("IPS");
+                frequencyCombo.Items.Add("kIPS");
+                frequencyCombo.Items.Add("MIPS");
+                frequencyCombo.Text = "IPS";
+                frequencyCombo.SelectedIndex = 0;
+                frequencyNumeric.Maximum = 999.99M;
+                freq = (double)frequencyNumeric.Value;
+                power = frequencyCombo.SelectedIndex;
+                UpdateFrequency();
+            }
+        }
     }
 }

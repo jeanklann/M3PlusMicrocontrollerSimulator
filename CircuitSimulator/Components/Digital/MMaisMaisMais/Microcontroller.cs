@@ -5,7 +5,6 @@ using System.Text;
 namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class Microcontroller:Component {
         public PortBank PortBank;
-        public bool CanExecutePortBank = false;
         public Microcontroller(string name = "Logic Input"):base(name, 64) {
             for (int i = 0; i < 32; i++) {
                 Pins[i].isOutput = false;
@@ -124,7 +123,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
 
         protected internal override void Execute() {
             base.Execute();
-            if (PortBank != null && CanExecutePortBank) {
+            if (PortBank != null) {
                 for (int i = 0; i < 4; i++) {
                     SetOutput(PortBank.GetOutput(i), i);
                     for (int j = 0; j < 8; j++) {

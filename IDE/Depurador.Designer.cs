@@ -66,9 +66,12 @@
             this.frequencyNumeric = new System.Windows.Forms.NumericUpDown();
             this.frequencyActive = new System.Windows.Forms.CheckBox();
             this.frequencyCombo = new System.Windows.Forms.ComboBox();
+            this.internalSimulation = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.realFrequency = new System.Windows.Forms.Label();
+            this.abrirMemoriaRam = new System.Windows.Forms.Button();
+            this.abrirMemoriaPilha = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -160,7 +163,7 @@
             this.groupBox1.Controls.Add(this.eField);
             this.groupBox1.Controls.Add(this.cField);
             this.groupBox1.Controls.Add(this.dField);
-            this.groupBox1.Location = new System.Drawing.Point(3, 129);
+            this.groupBox1.Location = new System.Drawing.Point(3, 162);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(156, 191);
             this.groupBox1.TabIndex = 13;
@@ -453,7 +456,7 @@
             // 
             this.groupBox4.Controls.Add(this.zCheck);
             this.groupBox4.Controls.Add(this.cCheck);
-            this.groupBox4.Location = new System.Drawing.Point(3, 326);
+            this.groupBox4.Location = new System.Drawing.Point(3, 359);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(156, 52);
             this.groupBox4.TabIndex = 14;
@@ -550,7 +553,7 @@
             // frequencyNumeric
             // 
             this.frequencyNumeric.DecimalPlaces = 2;
-            this.frequencyNumeric.Location = new System.Drawing.Point(6, 42);
+            this.frequencyNumeric.Location = new System.Drawing.Point(6, 72);
             this.frequencyNumeric.Maximum = new decimal(new int[] {
             99999,
             0,
@@ -590,16 +593,28 @@
             // 
             this.frequencyCombo.FormattingEnabled = true;
             this.frequencyCombo.Items.AddRange(new object[] {
-            "Hz",
-            "kHz",
-            "MHz"});
-            this.frequencyCombo.Location = new System.Drawing.Point(101, 42);
+            "IPS",
+            "kIPS",
+            "MIPS"});
+            this.frequencyCombo.Location = new System.Drawing.Point(101, 72);
             this.frequencyCombo.Name = "frequencyCombo";
             this.frequencyCombo.Size = new System.Drawing.Size(49, 21);
             this.frequencyCombo.TabIndex = 22;
-            this.frequencyCombo.Text = "Hz";
+            this.frequencyCombo.Text = "IPS";
             this.toolTip1.SetToolTip(this.frequencyCombo, "Em Hertz, kiloHertz, MegaHertz");
             this.frequencyCombo.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // internalSimulation
+            // 
+            this.internalSimulation.AutoSize = true;
+            this.internalSimulation.Location = new System.Drawing.Point(6, 42);
+            this.internalSimulation.Name = "internalSimulation";
+            this.internalSimulation.Size = new System.Drawing.Size(110, 17);
+            this.internalSimulation.TabIndex = 25;
+            this.internalSimulation.Text = "Simulação interna";
+            this.toolTip1.SetToolTip(this.internalSimulation, "Ativa a simulação do circuito interno da M+++");
+            this.internalSimulation.UseVisualStyleBackColor = true;
+            this.internalSimulation.CheckedChanged += new System.EventHandler(this.internalSimulation_CheckedChanged);
             // 
             // contextMenuStrip1
             // 
@@ -608,13 +623,14 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.internalSimulation);
             this.groupBox5.Controls.Add(this.realFrequency);
             this.groupBox5.Controls.Add(this.frequencyActive);
             this.groupBox5.Controls.Add(this.frequencyCombo);
             this.groupBox5.Controls.Add(this.frequencyNumeric);
             this.groupBox5.Location = new System.Drawing.Point(3, 34);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(156, 89);
+            this.groupBox5.Size = new System.Drawing.Size(156, 122);
             this.groupBox5.TabIndex = 22;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Frequência";
@@ -622,16 +638,40 @@
             // realFrequency
             // 
             this.realFrequency.AutoSize = true;
-            this.realFrequency.Location = new System.Drawing.Point(6, 69);
+            this.realFrequency.Location = new System.Drawing.Point(6, 99);
             this.realFrequency.Name = "realFrequency";
             this.realFrequency.Size = new System.Drawing.Size(105, 13);
             this.realFrequency.TabIndex = 24;
             this.realFrequency.Text = "Frequência real: 0Hz";
             // 
+            // abrirMemoriaRam
+            // 
+            this.abrirMemoriaRam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.abrirMemoriaRam.Location = new System.Drawing.Point(452, 323);
+            this.abrirMemoriaRam.Name = "abrirMemoriaRam";
+            this.abrirMemoriaRam.Size = new System.Drawing.Size(178, 23);
+            this.abrirMemoriaRam.TabIndex = 23;
+            this.abrirMemoriaRam.Text = "Abrir memória RAM";
+            this.abrirMemoriaRam.UseVisualStyleBackColor = true;
+            this.abrirMemoriaRam.Click += new System.EventHandler(this.abrirMemoriaRam_Click);
+            // 
+            // abrirMemoriaPilha
+            // 
+            this.abrirMemoriaPilha.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.abrirMemoriaPilha.Location = new System.Drawing.Point(452, 352);
+            this.abrirMemoriaPilha.Name = "abrirMemoriaPilha";
+            this.abrirMemoriaPilha.Size = new System.Drawing.Size(178, 23);
+            this.abrirMemoriaPilha.TabIndex = 24;
+            this.abrirMemoriaPilha.Text = "Abrir memória de pilha";
+            this.abrirMemoriaPilha.UseVisualStyleBackColor = true;
+            this.abrirMemoriaPilha.Click += new System.EventHandler(this.abrirMemoriaPilha_Click);
+            // 
             // Depurador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.abrirMemoriaPilha);
+            this.Controls.Add(this.abrirMemoriaRam);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.btnOut);
             this.Controls.Add(this.btnIn);
@@ -707,5 +747,8 @@
         private System.Windows.Forms.ComboBox frequencyCombo;
         private System.Windows.Forms.CheckBox frequencyActive;
         private System.Windows.Forms.Label realFrequency;
+        private System.Windows.Forms.Button abrirMemoriaRam;
+        private System.Windows.Forms.Button abrirMemoriaPilha;
+        private System.Windows.Forms.CheckBox internalSimulation;
     }
 }

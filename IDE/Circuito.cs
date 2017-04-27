@@ -232,6 +232,10 @@ namespace IDE {
         private void ProcessControlModule(ControlModule module) {
             if (UIStatics.Simulador != null && module.LowFrequencyIteraction != UIStatics.Simulador.LowFrequencyIteraction) {
 
+                if(InternalComponents.Microcontroller.PortBank == null) {
+                    InternalComponents.Microcontroller.PortBank = InternalComponents.PortBank;
+                }
+
                 if (InternalComponents.ControlModule.NeedSet) {
                     GetValuesToSimulator();
                 }
@@ -388,6 +392,8 @@ namespace IDE {
                     InternalComponents.PortBank = (PortBank)component;
                 else if (component is RomAddresser)
                     InternalComponents.RomAddresser = (RomAddresser)component;
+                else if (component is Microcontroller)
+                    InternalComponents.Microcontroller = (Microcontroller)component;
                 else if (component is RamMemory) {
                     if(component.Id == 39) {
                         InternalComponents.StackMemory = (RamMemory)component;
@@ -1106,9 +1112,7 @@ namespace IDE {
                 Keys[] arr = KonamiCode.ToArray();
                 if (arr.Length == konamiCodeCorrect.Length) {
                     bool isCorrect = true;
-                    Console.WriteLine();
                     for (int i = 0; i < arr.Length; i++) {
-                        Console.Write(arr[i].ToString()+ " ");
                         if (arr[i] != konamiCodeCorrect[i]) {
                             isCorrect = false;
                             break;
@@ -1161,7 +1165,6 @@ namespace IDE {
                         HoverWire = null;
                     }
                 } else if (e.KeyCode == Keys.Enter) { //DebugMode
-                    Console.WriteLine("Enter");
                 } else if(e.KeyCode == Keys.C && IsDebugMode) {
                     string r = Microsoft.VisualBasic.Interaction.InputBox("Nome do componente a ser criado:", "Criar componente [DEBUG]", "");
                     if (r != null && r != "") {
@@ -3572,6 +3575,7 @@ namespace IDE {
         public Counter8Bit StackCounter;
         public PortBank PortBank;
         public RomAddresser RomAddresser;
+        public Microcontroller Microcontroller;
     }
 }
 

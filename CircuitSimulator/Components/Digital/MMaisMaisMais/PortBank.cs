@@ -98,6 +98,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             }
             lastClock = Pins[8 * 5 + 3].value;
             if (Pins[8 * 5 + 2].value >= Pin.HALFCUT) { //joga input pro bus
+
                 byte val = 0;
                 if (Pins[8 * 5 + 1].value < Pin.HALFCUT && Pins[8 * 5 + 0].value < Pin.HALFCUT) val = RegOut[0];
                 if (Pins[8 * 5 + 1].value >= Pin.HALFCUT && Pins[8 * 5 + 0].value < Pin.HALFCUT) val = RegOut[1];
@@ -112,6 +113,19 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 Pins[8 * 5 + 5 + 5].value = (val & 0x20) == 0x00 ? Pin.LOW : Pin.HIGH;
                 Pins[8 * 5 + 5 + 6].value = (val & 0x40) == 0x00 ? Pin.LOW : Pin.HIGH;
                 Pins[8 * 5 + 5 + 7].value = (val & 0x80) == 0x00 ? Pin.LOW : Pin.HIGH;
+
+                for (int i = 0; i < 8; i++) {
+                    if (Pins[8 * 5 + 1].value < Pin.HALFCUT && Pins[8 * 5 + 0].value < Pin.HALFCUT) {
+                        Pins[8 * 5 + 5 + 0].value = Pins[8 * 0 + i].value;
+                    } else if (Pins[8 * 5 + 1].value >= Pin.HALFCUT && Pins[8 * 5 + 0].value < Pin.HALFCUT) {
+                        Pins[8 * 5 + 5 + 0].value = Pins[8 * 1 + i].value;
+                    } else if (Pins[8 * 5 + 1].value < Pin.HALFCUT && Pins[8 * 5 + 0].value >= Pin.HALFCUT) {
+                        Pins[8 * 5 + 5 + 0].value = Pins[8 * 2 + i].value;
+                    } else if (Pins[8 * 5 + 1].value >= Pin.HALFCUT && Pins[8 * 5 + 0].value >= Pin.HALFCUT) {
+                        Pins[8 * 5 + 5 + 0].value = Pins[8 * 3 + i].value;
+                    }
+                }
+
 
                 for (int i = 0; i < 8; i++) {
                     Pins[8 * 5 + 5 + i].simulationId = circuit.SimulationId;
