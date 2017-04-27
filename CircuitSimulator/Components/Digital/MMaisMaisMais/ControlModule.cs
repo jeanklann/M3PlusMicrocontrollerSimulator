@@ -97,7 +97,6 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             }
             ResetBools();
             ProcessBools();
-            Console.WriteLine(RegAddress);
             lastClock = currentClock;
             EOI.SetDigital(RegAddress == 0 ? Pin.HIGH : Pin.LOW);
             if(EOI.value >= Pin.HALFCUT && lastEOI <= Pin.HALFCUT) {
@@ -129,7 +128,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             }
         }
         private void ProcessBools() {
-            int address = regAddress;
+            int address = RegAddress;
             for (int i = 0; i < 32; i++) {
                 ProcessBool(i, MicroInstructions[address, i], false);
             }
@@ -139,7 +138,12 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             for (int i = 11; i < Pins.Length; i++) {
                 Pins[i].Propagate();
             }
-
+            if (currentClock == true && lastClock == false) {
+                if (address > 60) {
+                    Console.WriteLine("JMP");
+                }
+                Console.WriteLine(address);
+            }
         }
         private void ProcessBool(int index, bool value, bool doAction) {
             string key;
@@ -253,9 +257,9 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     key = "SelRI";
                     if (doAction) {
                         if (value) {
-                            if (ClockSubida)
+                            if (ClockSubida) {
                                 ClockRI();
-                            RegAddress = DecodificadorDeIntrucao();
+                            }
                             
                         }
                     }
@@ -264,9 +268,9 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     key = "RIClock";
                     if (doAction) {
                         if (value) {
-                            if (ClockSubida)
+                            if (ClockSubida) {
                                 ClockRI();
-                            RegAddress = DecodificadorDeIntrucao();
+                            }
                         }
                     }
                     break;
@@ -286,10 +290,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 case 18:
                     key = "HD res";
                     if (doAction) {
-                        if (ClockSubida) {
-                            if (value)
-                                HDCounter = 0;
-                        }
+                        if (value)
+                            HDCounter = 0;
                     }
                     break;
                 case 19:
@@ -380,8 +382,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             address += (RI & 1);
             address += (RI & 2);
             address += (RI & 4);
-            if (internalMicroInstructions["HD"])
-                address += HDCounter*8;
+            address += HDCounter*8;
             return Addresses[address];
         }
         private void ClockRI() {

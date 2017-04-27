@@ -110,6 +110,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     value += (byte)(Pins[16].value >= Pin.HALFCUT ? 32 : 0);
                     value += (byte)(Pins[17].value >= Pin.HALFCUT ? 64 : 0);
                     value += (byte)(Pins[18].value >= Pin.HALFCUT ? 128 : 0);
+                    InternalValue[address] = value;
                 }
 
             }

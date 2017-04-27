@@ -106,23 +106,23 @@ namespace M3PlusMicrocontroller {
                     break;
                 case Operation_enum.JMP:
                     res = new byte[] { HD_BYTE, JMP_BYTE, 0x00, 0x00 };
-                    res[2] = (byte)((Address - 1) / 256);
-                    res[3] = (byte)((Address - 1) % 256);
+                    res[2] = (byte)((Address) / 256);
+                    res[3] = (byte)((Address) % 256);
                     return res;
                 case Operation_enum.JMPC:
                     res = new byte[] { HD_BYTE, JMPC_BYTE, 0x00, 0x00 };
-                    res[2] = (byte)((Address - 1) / 256);
-                    res[3] = (byte)((Address - 1) % 256);
+                    res[2] = (byte)((Address) / 256);
+                    res[3] = (byte)((Address) % 256);
                     return res;
                 case Operation_enum.JMPZ:
                     res = new byte[] { HD_BYTE, JMPZ_BYTE, 0x00, 0x00 };
-                    res[2] = (byte)((Address - 1) / 256);
-                    res[3] = (byte)((Address - 1) % 256);
+                    res[2] = (byte)((Address) / 256);
+                    res[3] = (byte)((Address) % 256);
                     return res;
                 case Operation_enum.CALL:
                     res = new byte[] { HD_BYTE, CALL_BYTE, 0x00, 0x00 };
-                    res[2] = (byte)((Address - 1) / 256);
-                    res[3] = (byte)((Address - 1) % 256);
+                    res[2] = (byte)((Address) / 256);
+                    res[3] = (byte)((Address) % 256);
                     return res;
                 case Operation_enum.RET:
                     res = new byte[] { HD_BYTE, HD_BYTE, CALL_BYTE };
@@ -487,8 +487,8 @@ namespace M3PlusMicrocontroller {
                                 int end = byteArray[index] * 256;
                                 ++index;
                                 end += byteArray[index];
-                                instruction = JMP("Byte_" + (end + 1));
-                                instruction.Address = (end + 1);
+                                instruction = JMP("Byte_" + (end));
+                                instruction.Address = (end);
                             }
                             break;
                         case JMPC_BYTE: {
@@ -496,8 +496,8 @@ namespace M3PlusMicrocontroller {
                                 int end = byteArray[index] * 256;
                                 ++index;
                                 end += byteArray[index];
-                                instruction = JMPC("Byte_" + (end + 1));
-                                instruction.Address = (end + 1);
+                                instruction = JMPC("Byte_" + (end));
+                                instruction.Address = (end);
                             }
                             break;
                         case JMPZ_BYTE: {
@@ -505,8 +505,8 @@ namespace M3PlusMicrocontroller {
                                 int end = byteArray[index] * 256;
                                 ++index;
                                 end += byteArray[index];
-                                instruction = JMPZ("Byte_" + (end + 1));
-                                instruction.Address = (end + 1);
+                                instruction = JMPZ("Byte_" + (end));
+                                instruction.Address = (end);
                             }
                             break;
                         case CALL_BYTE: {
@@ -514,8 +514,8 @@ namespace M3PlusMicrocontroller {
                                 int end = byteArray[index] * 256;
                                 ++index;
                                 end += byteArray[index];
-                                instruction = CALL("Byte_" + (end + 1));
-                                instruction.Address = (end + 1);
+                                instruction = CALL("Byte_" + (end));
+                                instruction.Address = (end);
                             }
                             break;
                         default:
