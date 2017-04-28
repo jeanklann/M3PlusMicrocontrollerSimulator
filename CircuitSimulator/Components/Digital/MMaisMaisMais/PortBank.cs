@@ -23,6 +23,19 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             Pins[port * 8 + 6].value = (value & 0x40) == 0x40 ? Pin.HIGH : Pin.LOW;
             Pins[port * 8 + 7].value = (value & 0x80) == 0x80 ? Pin.HIGH : Pin.LOW;
         }
+        public byte GetInput(int port) {
+            if (port < 0 || port > 3) throw new Exception("Porta inválida.");
+            byte val = 0;
+            val += (byte)(Pins[port * 8 + 0].value >= Pin.HALFCUT ? 1 : 0);
+            val += (byte)(Pins[port * 8 + 1].value >= Pin.HALFCUT ? 2 : 0);
+            val += (byte)(Pins[port * 8 + 2].value >= Pin.HALFCUT ? 4 : 0);
+            val += (byte)(Pins[port * 8 + 3].value >= Pin.HALFCUT ? 8 : 0);
+            val += (byte)(Pins[port * 8 + 4].value >= Pin.HALFCUT ? 16 : 0);
+            val += (byte)(Pins[port * 8 + 5].value >= Pin.HALFCUT ? 32 : 0);
+            val += (byte)(Pins[port * 8 + 6].value >= Pin.HALFCUT ? 64 : 0);
+            val += (byte)(Pins[port * 8 + 7].value >= Pin.HALFCUT ? 128 : 0);
+            return val;
+        }
         public float GetOutput(int port, int pin) {
             if (port < 0 || port > 3) throw new Exception("Porta inválida.");
             if (pin < 0 || pin > 8) throw new Exception("Pino inválido.");
@@ -100,10 +113,10 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             if (Pins[8 * 5 + 2].value >= Pin.HALFCUT) { //joga input pro bus
 
                 byte val = 0;
-                if (Pins[8 * 5 + 1].value < Pin.HALFCUT && Pins[8 * 5 + 0].value < Pin.HALFCUT) val = RegOut[0];
-                if (Pins[8 * 5 + 1].value >= Pin.HALFCUT && Pins[8 * 5 + 0].value < Pin.HALFCUT) val = RegOut[1];
-                if (Pins[8 * 5 + 1].value < Pin.HALFCUT && Pins[8 * 5 + 0].value >= Pin.HALFCUT) val = RegOut[2];
-                if (Pins[8 * 5 + 1].value >= Pin.HALFCUT && Pins[8 * 5 + 0].value >= Pin.HALFCUT) val = RegOut[3];
+                if (Pins[8 * 5 + 1].value < Pin.HALFCUT && Pins[8 * 5 + 0].value < Pin.HALFCUT) val = GetInput(0);
+                if (Pins[8 * 5 + 1].value >= Pin.HALFCUT && Pins[8 * 5 + 0].value < Pin.HALFCUT) val = GetInput(1);
+                if (Pins[8 * 5 + 1].value < Pin.HALFCUT && Pins[8 * 5 + 0].value >= Pin.HALFCUT) val = GetInput(2);
+                if (Pins[8 * 5 + 1].value >= Pin.HALFCUT && Pins[8 * 5 + 0].value >= Pin.HALFCUT) val = GetInput(3);
 
                 Pins[8 * 5 + 5 + 0].value = (val & 0x01) == 0x00 ? Pin.LOW : Pin.HIGH;
                 Pins[8 * 5 + 5 + 1].value = (val & 0x02) == 0x00 ? Pin.LOW : Pin.HIGH;
@@ -116,13 +129,13 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
 
                 for (int i = 0; i < 8; i++) {
                     if (Pins[8 * 5 + 1].value < Pin.HALFCUT && Pins[8 * 5 + 0].value < Pin.HALFCUT) {
-                        Pins[8 * 5 + 5 + 0].value = Pins[8 * 0 + i].value;
+                        Pins[8 * 5 + 5 + i].value = Pins[8 * 0 + i].value;
                     } else if (Pins[8 * 5 + 1].value >= Pin.HALFCUT && Pins[8 * 5 + 0].value < Pin.HALFCUT) {
-                        Pins[8 * 5 + 5 + 0].value = Pins[8 * 1 + i].value;
+                        Pins[8 * 5 + 5 + i].value = Pins[8 * 1 + i].value;
                     } else if (Pins[8 * 5 + 1].value < Pin.HALFCUT && Pins[8 * 5 + 0].value >= Pin.HALFCUT) {
-                        Pins[8 * 5 + 5 + 0].value = Pins[8 * 2 + i].value;
+                        Pins[8 * 5 + 5 + i].value = Pins[8 * 2 + i].value;
                     } else if (Pins[8 * 5 + 1].value >= Pin.HALFCUT && Pins[8 * 5 + 0].value >= Pin.HALFCUT) {
-                        Pins[8 * 5 + 5 + 0].value = Pins[8 * 3 + i].value;
+                        Pins[8 * 5 + 5 + i].value = Pins[8 * 3 + i].value;
                     }
                 }
 

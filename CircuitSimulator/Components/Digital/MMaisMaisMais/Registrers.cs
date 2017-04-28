@@ -38,7 +38,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         protected internal override void Execute() {
             simulationId = circuit.SimulationId;
 
-            if (lastClock <= Pin.HALFCUT && Pins[8].value >= Pin.HALFCUT) {
+            if (lastClock <= Pin.HALFCUT && Pins[9].value >= Pin.HALFCUT) {
                 byte val = 0;
                 val += (byte)(Pins[0].value >= Pin.HALFCUT ? 1 : 0);
                 val += (byte)(Pins[1].value >= Pin.HALFCUT ? 2 : 0);
@@ -53,13 +53,14 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 if (Pins[11].value < Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) Reg[2] = val;
                 if (Pins[11].value >= Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) Reg[3] = val;
             }
+            lastClock = Pins[9].value;
 
             if (Pins[10].value >= Pin.HALFCUT) {
                 for (int i = 0; i < 4; i++) {
                     Reg[i] = 0;
                 }
             }
-            if (Pins[9].value >= Pin.HALFCUT) {
+            if (Pins[8].value >= Pin.HALFCUT) {
                 byte val = 0;
                 if (Pins[11].value < Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) val = Reg[0];
                 if (Pins[11].value >= Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) val = Reg[1];

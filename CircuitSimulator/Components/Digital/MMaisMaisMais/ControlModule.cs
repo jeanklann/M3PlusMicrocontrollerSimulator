@@ -138,12 +138,6 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             for (int i = 11; i < Pins.Length; i++) {
                 Pins[i].Propagate();
             }
-            if (currentClock == true && lastClock == false) {
-                if (address > 60) {
-                    Console.WriteLine("JMP");
-                }
-                Console.WriteLine(address);
-            }
         }
         private void ProcessBool(int index, bool value, bool doAction) {
             string key;
@@ -181,7 +175,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                             PCLclock.SetDigital(Pin.LOW);
                             break;
                         }
-                        if (!internalMicroInstructions["CresC"] || !internalMicroInstructions["CresZ"]) {
+                        if (!internalMicroInstructions["CresC"] && !internalMicroInstructions["CresZ"]) {
                             PCLclock.SetDigital(Pin.HIGH);
                             break;
                         }
@@ -204,7 +198,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                             PCHclock.SetDigital(Pin.LOW);
                             break;
                         }
-                        if (!internalMicroInstructions["CresC"] || !internalMicroInstructions["CresZ"]) {
+                        if (!internalMicroInstructions["CresC"] && !internalMicroInstructions["CresZ"]) {
                             PCHclock.SetDigital(Pin.HIGH);
                             break;
                         }
@@ -550,11 +544,11 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             {false, false, false, true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, true},
             {false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, true},
             {false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, true},
-            {false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-            {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            {false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false},
             {false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, true, false, false},

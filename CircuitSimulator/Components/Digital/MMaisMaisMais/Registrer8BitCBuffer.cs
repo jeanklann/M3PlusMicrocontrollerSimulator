@@ -48,8 +48,9 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 InternalValue += (byte)(Pins[6].value >= Pin.HALFCUT ? 64 : 0);
                 InternalValue += (byte)(Pins[7].value >= Pin.HALFCUT ? 128 : 0);
             }
+            lastClock = Pins[8].value;
 
-            if(Pins[10].value >= Pin.HALFCUT) {
+            if (Pins[10].value >= Pin.HALFCUT) {
                 InternalValue = 0;
             }
 

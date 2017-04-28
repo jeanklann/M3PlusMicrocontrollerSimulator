@@ -13,6 +13,7 @@ namespace IDE {
         public int[] AddressToLine;
         public int Frequency = 1;
         public bool FrequencyLimiter = true;
+        public bool InternalSimulation = false;
 
         private double freq = 1;
         private int power = 0;
@@ -39,7 +40,8 @@ namespace IDE {
                 if (UIStatics.Simulador.Program != null) {
                     for (int i = 0; i < AddressToLine.Length; i++) {
                         if(AddressToLine[i] == line.Index) {
-                            UIStatics.Simulador.Program[i].HasBreakpoint = true;
+                            if(UIStatics.Simulador.Program[i] != null)
+                                UIStatics.Simulador.Program[i].HasBreakpoint = true;
                         }
                     }
                 }
@@ -54,7 +56,8 @@ namespace IDE {
                 if (UIStatics.Simulador.Program != null) {
                     for (int i = 0; i < AddressToLine.Length; i++) {
                         if (AddressToLine[i] == line.Index) {
-                            UIStatics.Simulador.Program[i].HasBreakpoint = false;
+                            if (UIStatics.Simulador.Program[i] != null)
+                                UIStatics.Simulador.Program[i].HasBreakpoint = false;
                         }
                     }
                 }
@@ -316,6 +319,7 @@ namespace IDE {
         }
 
         private void internalSimulation_CheckedChanged(object sender, EventArgs e) {
+            InternalSimulation = internalSimulation.Checked;
             if (internalSimulation.Checked) {
                 frequencyActive.Checked = true;
                 frequencyActive.Enabled = false;

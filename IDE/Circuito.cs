@@ -230,22 +230,24 @@ namespace IDE {
             }
         }
         private void ProcessControlModule(ControlModule module) {
-            if (UIStatics.Simulador != null && module.LowFrequencyIteraction != UIStatics.Simulador.LowFrequencyIteraction) {
+            if (UIStatics.Simulador != null && UIStatics.Simulador.InternalSimulation) {
+                if (module.LowFrequencyIteraction != UIStatics.Simulador.LowFrequencyIteraction) {
 
-                if(InternalComponents.Microcontroller.PortBank == null) {
-                    InternalComponents.Microcontroller.PortBank = InternalComponents.PortBank;
+                    if (InternalComponents.Microcontroller.PortBank == null) {
+                        InternalComponents.Microcontroller.PortBank = InternalComponents.PortBank;
+                    }
+                    if (module.Clock.Value < Pin.HALFCUT)
+                        module.Clock.SetDigital(Pin.HIGH);
+                    else
+                        module.Clock.SetDigital(Pin.LOW);
+                    module.LowFrequencyIteraction = UIStatics.Simulador.LowFrequencyIteraction;
                 }
-                if (module.Clock.Value < Pin.HALFCUT)
-                    module.Clock.SetDigital(Pin.HIGH);
-                else
-                    module.Clock.SetDigital(Pin.LOW);
-                module.LowFrequencyIteraction = UIStatics.Simulador.LowFrequencyIteraction;
-            }
-            if (InternalComponents.ControlModule.NeedSet) {
-                GetValuesToSimulator();
-            }
-            if (InternalComponents.ControlModule.NeedSet) {
-                SetValuesFromSimulator();
+                if (InternalComponents.ControlModule.NeedSet) {
+                    GetValuesToSimulator();
+                }
+                if (InternalComponents.ControlModule.NeedSet) {
+                    SetValuesFromSimulator();
+                }
             }
         }
 
@@ -487,14 +489,14 @@ namespace IDE {
                 UIStatics.Simulador.RAM.Length);
             UIStatics.Simulador.Reg[0] =
                 InternalComponents.Accumulator.InternalValue;
-            UIStatics.Simulador.Reg[1] =
-                InternalComponents.Registrers.Reg[0];
-            UIStatics.Simulador.Reg[2] =
-                InternalComponents.Registrers.Reg[1];
-            UIStatics.Simulador.Reg[3] =
-                InternalComponents.Registrers.Reg[2];
-            UIStatics.Simulador.Reg[4] =
-                InternalComponents.Registrers.Reg[3];
+            for (int i = 0; i < 4; i++) {
+                UIStatics.Simulador.Reg[i+1] =
+                    InternalComponents.Registrers.Reg[i];
+                UIStatics.Simulador.Out[i] =
+                    InternalComponents.PortBank.RegOut[i];
+                UIStatics.Simulador.In[i] = 
+                    InternalComponents.PortBank.GetInput(i);
+            }
             int nextInstruction =
                 InternalComponents.RomAddresser.RegH * 256 +
                 InternalComponents.RomAddresser.RegL;
@@ -518,14 +520,10 @@ namespace IDE {
                 UIStatics.Simulador.RAM.Length);
             InternalComponents.Accumulator.InternalValue =
                 UIStatics.Simulador.Reg[0];
-            InternalComponents.Registrers.Reg[0] =
-                UIStatics.Simulador.Reg[1];
-            InternalComponents.Registrers.Reg[1] =
-                UIStatics.Simulador.Reg[2];
-            InternalComponents.Registrers.Reg[2] =
-                UIStatics.Simulador.Reg[3];
-            InternalComponents.Registrers.Reg[3] =
-                UIStatics.Simulador.Reg[4];
+            for (int i = 0; i < 4; i++) {
+                InternalComponents.Registrers.Reg[i] =
+                UIStatics.Simulador.Reg[i+1];
+            }
             InternalComponents.RomAddresser.RegH =
                 (byte)((UIStatics.Simulador.NextInstruction) / 256);
             InternalComponents.RomAddresser.RegL =

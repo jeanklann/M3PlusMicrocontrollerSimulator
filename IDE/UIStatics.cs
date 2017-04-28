@@ -251,6 +251,7 @@ namespace IDE {
                 Simulador = new Simulator();
                 Simulador.Frequency = Depurador.Frequency;
                 Simulador.FrequencyLimit = Depurador.FrequencyLimiter;
+                Simulador.InternalSimulation = Depurador.InternalSimulation;
                 Depurador.SetText("");
                 Depurador.RemoveAllLabels();
                 Depurador.RemoveAllBreakpoint();

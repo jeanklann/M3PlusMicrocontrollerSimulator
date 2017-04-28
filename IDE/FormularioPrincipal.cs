@@ -318,11 +318,13 @@ namespace IDE {
         }
 
         private void ajudaToolStripMenuItem1_Click(object sender, EventArgs e) {
-
+            Ajuda ajuda = new Ajuda();
+            ajuda.Show(this);
         }
 
         private void sobreToolStripMenuItem_Click(object sender, EventArgs e) {
-
+            Sobre sobre = new Sobre();
+            sobre.ShowDialog(this);
         }
 
         private void somaRegistradoresToolStripMenuItem_Click(object sender, EventArgs e) {

@@ -125,7 +125,7 @@ namespace M3PlusMicrocontroller {
                     res[3] = (byte)((Address) % 256);
                     return res;
                 case Operation_enum.RET:
-                    res = new byte[] { HD_BYTE, HD_BYTE, CALL_BYTE };
+                    res = new byte[] { HD_BYTE, HD_BYTE, RET_BYTE };
                     return res;
                 case Operation_enum.DRAM_A:
                     res = new byte[] { HD_BYTE, HD_BYTE, DRAM_A_BYTE };

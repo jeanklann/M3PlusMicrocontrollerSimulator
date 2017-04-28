@@ -80,8 +80,13 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
 
         private void ToOutput() {
             byte val = RegL;
-            for (int i = 14; i < 22; i++)
+            for (int i = 14; i < 22; i++) 
                 Pins[i].value = Pin.LOW;
+            if (Pins[12].value >= Pin.HALFCUT || Pins[11].value >= Pin.HALFCUT) {
+                for (int i = 30; i < 38; i++) {
+                    Pins[i].value = Pin.LOW;
+                }
+            }
             if (val >= 128) {
                 Pins[21].value = Pin.HIGH;
                 val -= 128;
@@ -206,7 +211,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 Pins[i].simulationId = simulationId;
                 Pins[i].Propagate();
             }
-            if(Pins[11].value >= Pin.HALFCUT || Pins[12].value >= Pin.HALFCUT) {
+            if(Pins[11].value >= Pin.HALFCUT || Pins[12].value >= Pin.HALFCUT &&
+                !(Pins[11].value >= Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT)) {
                 for (int i = 30; i < 38; i++) {
                     Pins[i].simulationId = simulationId;
                     Pins[i].Propagate();

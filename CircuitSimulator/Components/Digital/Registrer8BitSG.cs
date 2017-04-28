@@ -11,7 +11,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         private byte internalValue = 0;
         private float lastClock = Pin.LOW;
 
-        public Registrer8BitSG(string name = "RomAddresser") : base(name, 18) {
+        public Registrer8BitSG(string name = "Registrer8BitSG") : base(name, 18) {
 
         }
 
@@ -57,10 +57,13 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     if (Pins[6].Value >= halfCut) internalValue += 64;
                     if (Pins[7].Value >= halfCut) internalValue += 128;
                 }
-                lastClock = Clock.Value;
             }
+            lastClock = Clock.Value;
 
             byte tempVal = internalValue;
+            for (int i = 10; i < 18; i++) {
+                Pins[i].SetDigital(Pin.LOW);
+            }
             if ((tempVal & 0x01) == 0x01) Pins[10].SetDigital(Pin.HIGH);
             if ((tempVal & 0x02) == 0x02) Pins[11].SetDigital(Pin.HIGH);
             if ((tempVal & 0x04) == 0x04) Pins[12].SetDigital(Pin.HIGH);
