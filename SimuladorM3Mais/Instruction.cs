@@ -3384,7 +3384,9 @@ namespace M3PlusMicrocontroller {
             Instruction instruction = new Instruction("MOV A, B", "Copia o conteúdo do acumulador para o acumulador.", 1);
             instruction.InstructionEnum = Instruction_enum.MOV;
             instruction.Function = delegate (Simulator simulator) {
-                simulator.Reg[1] = simulator.Reg[0];
+                simulator.Reg[0] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3395,6 +3397,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.B;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[1] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.Reg[1] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3405,6 +3409,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.C;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[2] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.Reg[2] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3415,6 +3421,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.D;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[3] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.Reg[3] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3425,6 +3433,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.E;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[4] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.Reg[4] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3435,6 +3445,8 @@ namespace M3PlusMicrocontroller {
             instruction.RamAddress = address;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.RAM[address] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3445,6 +3457,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.C;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[1] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.Out[1] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3455,6 +3469,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.D;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[2] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.Out[2] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3465,6 +3481,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.E;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[3] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.Out[3] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3475,6 +3493,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.B;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Out[0] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.Out[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3485,6 +3505,8 @@ namespace M3PlusMicrocontroller {
             instruction.InstructionEnum = Instruction_enum.MOV;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.Reg[1];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3495,6 +3517,8 @@ namespace M3PlusMicrocontroller {
             instruction.InstructionEnum = Instruction_enum.MOV;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.Reg[2];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3505,6 +3529,8 @@ namespace M3PlusMicrocontroller {
             instruction.InstructionEnum = Instruction_enum.MOV;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.Reg[3];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3515,6 +3541,8 @@ namespace M3PlusMicrocontroller {
             instruction.InstructionEnum = Instruction_enum.MOV;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.Reg[4];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3525,6 +3553,8 @@ namespace M3PlusMicrocontroller {
             instruction.RamAddress = address;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.RAM[address];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3535,6 +3565,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.C;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.In[1];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3545,6 +3577,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.D;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.In[2];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3555,6 +3589,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.E;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.In[3];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3565,6 +3601,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.B;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.In[0];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3575,6 +3613,8 @@ namespace M3PlusMicrocontroller {
             instruction.RomValue = data;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = data;
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3586,6 +3626,8 @@ namespace M3PlusMicrocontroller {
             instruction.RomValue = data;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[1] = data;
+                simulator.Flag_Z = simulator.Reg[1] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3597,6 +3639,8 @@ namespace M3PlusMicrocontroller {
             instruction.RomValue = data;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[2] = data;
+                simulator.Flag_Z = simulator.Reg[2] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3608,6 +3652,8 @@ namespace M3PlusMicrocontroller {
             instruction.RomValue = data;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[3] = data;
+                simulator.Flag_Z = simulator.Reg[3] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3619,6 +3665,8 @@ namespace M3PlusMicrocontroller {
             instruction.RomValue = data;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[4] = data;
+                simulator.Flag_Z = simulator.Reg[4] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3630,6 +3678,8 @@ namespace M3PlusMicrocontroller {
             instruction.RamAddress = address;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[address] = data;
+                simulator.Flag_Z = simulator.RAM[address] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3640,6 +3690,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.B;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.RAM[simulator.Reg[1]];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3650,6 +3702,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.C;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.RAM[simulator.Reg[2]];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3660,6 +3714,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.D;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.RAM[simulator.Reg[3]];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3670,6 +3726,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.E;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.RAM[simulator.Reg[4]];
+                simulator.Flag_Z = simulator.Reg[0] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3680,6 +3738,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.B;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[simulator.Reg[1]] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.RAM[simulator.Reg[1]] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3690,6 +3750,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.C;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[simulator.Reg[2]] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.RAM[simulator.Reg[2]] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3700,6 +3762,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.D;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[simulator.Reg[3]] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.RAM[simulator.Reg[3]] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }
@@ -3710,6 +3774,8 @@ namespace M3PlusMicrocontroller {
             instruction.RegistrerEnum = Registrer_enum.E;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.RAM[simulator.Reg[4]] = simulator.Reg[0];
+                simulator.Flag_Z = simulator.RAM[simulator.Reg[4]] == 0;
+                simulator.Flag_C = false;
             };
             return instruction;
         }

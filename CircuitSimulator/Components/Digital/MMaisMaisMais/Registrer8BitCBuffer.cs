@@ -49,7 +49,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 InternalValue += (byte)(Pins[7].value >= Pin.HALFCUT ? 128 : 0);
             }
 
-            if(Pins[9].value >= Pin.HALFCUT) {
+            if(Pins[10].value >= Pin.HALFCUT) {
                 InternalValue = 0;
             }
 
@@ -95,7 +95,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 }
             }
             byte val2 = InternalValue;
-            for (int i = 19; i < 27; i++)
+            for (int i = 11; i < 19; i++)
                 Pins[i].value = Pin.LOW;
             if (val2 >= 128) {
                 Pins[18].value = Pin.HIGH;

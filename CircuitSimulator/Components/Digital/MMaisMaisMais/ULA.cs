@@ -18,7 +18,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
         internal override bool CanExecute() {
             if (simulationId == circuit.SimulationId) return false;
-            for (int i = 0; i < 20; i++) {
+            for (int i = 8; i < 20; i++) {
                 if (Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }

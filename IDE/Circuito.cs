@@ -235,16 +235,14 @@ namespace IDE {
                 if(InternalComponents.Microcontroller.PortBank == null) {
                     InternalComponents.Microcontroller.PortBank = InternalComponents.PortBank;
                 }
-
-                if (InternalComponents.ControlModule.NeedSet) {
-                    GetValuesToSimulator();
-                }
-
                 if (module.Clock.Value < Pin.HALFCUT)
                     module.Clock.SetDigital(Pin.HIGH);
                 else
                     module.Clock.SetDigital(Pin.LOW);
                 module.LowFrequencyIteraction = UIStatics.Simulador.LowFrequencyIteraction;
+            }
+            if (InternalComponents.ControlModule.NeedSet) {
+                GetValuesToSimulator();
             }
             if (InternalComponents.ControlModule.NeedSet) {
                 SetValuesFromSimulator();
@@ -528,11 +526,10 @@ namespace IDE {
                 UIStatics.Simulador.Reg[3];
             InternalComponents.Registrers.Reg[3] =
                 UIStatics.Simulador.Reg[4];
-            /*
             InternalComponents.RomAddresser.RegH =
                 (byte)((UIStatics.Simulador.NextInstruction) / 256);
             InternalComponents.RomAddresser.RegL =
-                (byte)((UIStatics.Simulador.NextInstruction) % 256);*/
+                (byte)((UIStatics.Simulador.NextInstruction) % 256);
             InternalComponents.ControlModule.NeedSet = false;
         }
 
@@ -2060,7 +2057,7 @@ namespace IDE {
             GL.EndList();
         }
         private static void GenDisable8Bit() {
-            TextRenderer.DrawText("B\nu\nf", Color.Black, new PointF(0, 0));
+            TextRenderer.DrawText("T\nr\ni", Color.Black, new PointF(0, 0));
             ComponentDraw DrawCircuit = Circuit[9, 8];
             Disable8Bit = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
             for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
@@ -2074,7 +2071,7 @@ namespace IDE {
                 }
             }
             GL.NewList(Disable8Bit.DisplayListHandle, ListMode.Compile);
-            TextRenderer.DrawText("B\nu\nf", Color.Black, new PointF(0, 0));
+            TextRenderer.DrawText("T\nr\ni", Color.Black, new PointF(0, 0));
             GL.CallList(DrawCircuit.DisplayListHandle);
 
             GL.EndList();

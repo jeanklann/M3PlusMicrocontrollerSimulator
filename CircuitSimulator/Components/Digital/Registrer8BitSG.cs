@@ -4,8 +4,9 @@ using System.Text;
 
 namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class Registrer8BitSG : Chip {
-        public Pin Reset { get { return Pins[8]; } }
-        public Pin Clock { get { return Pins[9]; } }
+        public Pin Clock { get { return Pins[8]; } }
+        public Pin Reset { get { return Pins[9]; } }
+        
 
         private byte internalValue = 0;
         private float lastClock = Pin.LOW;
