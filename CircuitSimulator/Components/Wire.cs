@@ -33,7 +33,7 @@ namespace CircuitSimulator.Components {
             
             for(int i = 0; i < Pins.Length; i++) {
                 if (i == index) continue;
-                Pins[i].value = Pins[index].value;
+                Pins[i].Value = Pins[index].Value;
                 Pins[i].isOpen = Pins[index].isOpen;
                 Pins[i].Propagate();
             }

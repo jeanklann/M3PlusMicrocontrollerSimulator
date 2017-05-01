@@ -25,7 +25,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     return false;
                 }
             }
-            if(Pins[9].value >= Pin.HALFCUT && lastClock <= Pin.HALFCUT) {
+            if(Pins[9].Value >= Pin.HALFCUT && lastClock <= Pin.HALFCUT) {
                 for (int i = 0; i < 8; i++) {
                     if (Pins[i].simulationId != circuit.SimulationId) {
                         return false;
@@ -38,67 +38,67 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         protected internal override void Execute() {
             simulationId = circuit.SimulationId;
 
-            if (lastClock <= Pin.HALFCUT && Pins[9].value >= Pin.HALFCUT) {
+            if (lastClock <= Pin.HALFCUT && Pins[9].Value >= Pin.HALFCUT) {
                 byte val = 0;
-                val += (byte)(Pins[0].value >= Pin.HALFCUT ? 1 : 0);
-                val += (byte)(Pins[1].value >= Pin.HALFCUT ? 2 : 0);
-                val += (byte)(Pins[2].value >= Pin.HALFCUT ? 4 : 0);
-                val += (byte)(Pins[3].value >= Pin.HALFCUT ? 8 : 0);
-                val += (byte)(Pins[4].value >= Pin.HALFCUT ? 16 : 0);
-                val += (byte)(Pins[5].value >= Pin.HALFCUT ? 32 : 0);
-                val += (byte)(Pins[6].value >= Pin.HALFCUT ? 64 : 0);
-                val += (byte)(Pins[7].value >= Pin.HALFCUT ? 128 : 0);
-                if (Pins[11].value < Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) Reg[0] = val;
-                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) Reg[1] = val;
-                if (Pins[11].value < Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) Reg[2] = val;
-                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) Reg[3] = val;
+                val += (byte)(Pins[0].Value >= Pin.HALFCUT ? 1 : 0);
+                val += (byte)(Pins[1].Value >= Pin.HALFCUT ? 2 : 0);
+                val += (byte)(Pins[2].Value >= Pin.HALFCUT ? 4 : 0);
+                val += (byte)(Pins[3].Value >= Pin.HALFCUT ? 8 : 0);
+                val += (byte)(Pins[4].Value >= Pin.HALFCUT ? 16 : 0);
+                val += (byte)(Pins[5].Value >= Pin.HALFCUT ? 32 : 0);
+                val += (byte)(Pins[6].Value >= Pin.HALFCUT ? 64 : 0);
+                val += (byte)(Pins[7].Value >= Pin.HALFCUT ? 128 : 0);
+                if (Pins[11].Value < Pin.HALFCUT && Pins[12].Value < Pin.HALFCUT) Reg[0] = val;
+                if (Pins[11].Value >= Pin.HALFCUT && Pins[12].Value < Pin.HALFCUT) Reg[1] = val;
+                if (Pins[11].Value < Pin.HALFCUT && Pins[12].Value >= Pin.HALFCUT) Reg[2] = val;
+                if (Pins[11].Value >= Pin.HALFCUT && Pins[12].Value >= Pin.HALFCUT) Reg[3] = val;
             }
-            lastClock = Pins[9].value;
+            lastClock = Pins[9].Value;
 
-            if (Pins[10].value >= Pin.HALFCUT) {
+            if (Pins[10].Value >= Pin.HALFCUT) {
                 for (int i = 0; i < 4; i++) {
                     Reg[i] = 0;
                 }
             }
-            if (Pins[8].value >= Pin.HALFCUT) {
+            if (Pins[8].Value >= Pin.HALFCUT) {
                 byte val = 0;
-                if (Pins[11].value < Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) val = Reg[0];
-                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value < Pin.HALFCUT) val = Reg[1];
-                if (Pins[11].value < Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) val = Reg[2];
-                if (Pins[11].value >= Pin.HALFCUT && Pins[12].value >= Pin.HALFCUT) val = Reg[3];
+                if (Pins[11].Value < Pin.HALFCUT && Pins[12].Value < Pin.HALFCUT) val = Reg[0];
+                if (Pins[11].Value >= Pin.HALFCUT && Pins[12].Value < Pin.HALFCUT) val = Reg[1];
+                if (Pins[11].Value < Pin.HALFCUT && Pins[12].Value >= Pin.HALFCUT) val = Reg[2];
+                if (Pins[11].Value >= Pin.HALFCUT && Pins[12].Value >= Pin.HALFCUT) val = Reg[3];
                 
                 for (int i = 13; i < 21; i++)
-                    Pins[i].value = Pin.LOW;
+                    Pins[i].Value = Pin.LOW;
                 if (val >= 128) {
-                    Pins[20].value = Pin.HIGH;
+                    Pins[20].Value = Pin.HIGH;
                     val -= 128;
                 }
                 if (val >= 64) {
-                    Pins[19].value = Pin.HIGH;
+                    Pins[19].Value = Pin.HIGH;
                     val -= 64;
                 }
                 if (val >= 32) {
-                    Pins[18].value = Pin.HIGH;
+                    Pins[18].Value = Pin.HIGH;
                     val -= 32;
                 }
                 if (val >= 16) {
-                    Pins[17].value = Pin.HIGH;
+                    Pins[17].Value = Pin.HIGH;
                     val -= 16;
                 }
                 if (val >= 8) {
-                    Pins[16].value = Pin.HIGH;
+                    Pins[16].Value = Pin.HIGH;
                     val -= 8;
                 }
                 if (val >= 4) {
-                    Pins[15].value = Pin.HIGH;
+                    Pins[15].Value = Pin.HIGH;
                     val -= 4;
                 }
                 if (val >= 2) {
-                    Pins[14].value = Pin.HIGH;
+                    Pins[14].Value = Pin.HIGH;
                     val -= 2;
                 }
                 if (val >= 1) {
-                    Pins[13].value = Pin.HIGH;
+                    Pins[13].Value = Pin.HIGH;
                     val -= 1;
                 }
                 for (int i = 13; i < 21; i++) {

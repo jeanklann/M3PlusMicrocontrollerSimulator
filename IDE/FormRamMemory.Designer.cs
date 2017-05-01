@@ -26,6 +26,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.loading = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,11 +68,24 @@
             this.label2.Text = "Valor";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // loading
+            // 
+            this.loading.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loading.Location = new System.Drawing.Point(12, 12);
+            this.loading.Name = "loading";
+            this.loading.Size = new System.Drawing.Size(341, 397);
+            this.loading.TabIndex = 1;
+            this.loading.Text = "Carregando interface. Aguarde...";
+            this.loading.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // FormRamMemory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(365, 421);
+            this.Controls.Add(this.loading);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MinimumSize = new System.Drawing.Size(256, 150);
             this.Name = "FormRamMemory";
@@ -90,5 +104,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label loading;
     }
 }

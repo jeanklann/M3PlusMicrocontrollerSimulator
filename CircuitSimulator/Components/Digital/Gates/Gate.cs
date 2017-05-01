@@ -28,7 +28,7 @@ namespace CircuitSimulator {
         }
         protected internal override void Execute() {
             base.Execute();
-            Output.SetDigital(Pins[0].value);
+            Output.SetDigital(Pins[0].Value);
             for (int i = 1; i < Pins.Length - 1; i++) {
                 Output.SetDigital(Operation(Pins[i]));
             }

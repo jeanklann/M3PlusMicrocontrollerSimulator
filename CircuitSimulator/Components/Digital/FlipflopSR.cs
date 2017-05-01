@@ -47,32 +47,32 @@ namespace CircuitSimulator {
         protected internal override void Execute() {
             base.Execute();
             if (S.GetDigital() == Pin.HIGH) { //Set it = 1
-                Q.value = Pin.HIGH;
-                Qnot.value = Pin.LOW;
+                Q.Value = Pin.HIGH;
+                Qnot.Value = Pin.LOW;
             } else if (R.GetDigital() == Pin.HIGH) { // Reset it = 1
-                Q.value = Pin.LOW;
-                Qnot.value = Pin.HIGH;
-            } else if(CLK.value == Pin.LOW && lastClk == Pin.HIGH) { //Clock desc
+                Q.Value = Pin.LOW;
+                Qnot.Value = Pin.HIGH;
+            } else if(CLK.Value == Pin.LOW && lastClk == Pin.HIGH) { //Clock desc
                 if (Set.GetDigital() == Pin.HIGH) {
                     if(Reset.GetDigital() == Pin.HIGH) { // S = 1, R = 1
-                        Q.value = Pin.LOW;
-                        Qnot.value = Pin.LOW;
+                        Q.Value = Pin.LOW;
+                        Qnot.Value = Pin.LOW;
                     } else { // S = 1, R = 0
-                        Q.value = Pin.HIGH;
-                        Qnot.value = Pin.LOW;
+                        Q.Value = Pin.HIGH;
+                        Qnot.Value = Pin.LOW;
                     }
                 } else {
                     if(Reset.GetDigital() == Pin.HIGH) { // S = 0, R = 1
-                        Q.value = Pin.LOW;
-                        Qnot.value = Pin.HIGH;
+                        Q.Value = Pin.LOW;
+                        Qnot.Value = Pin.HIGH;
                     } else { // J = 0, K = 0
-                        Q.value = Pin.LOW;
-                        Qnot.value = Pin.LOW;
+                        Q.Value = Pin.LOW;
+                        Qnot.Value = Pin.LOW;
                         //Error
                     }
                 }
             }
-            lastClk = CLK.value;
+            lastClk = CLK.Value;
             Q.Propagate();
             Qnot.Propagate();
         }

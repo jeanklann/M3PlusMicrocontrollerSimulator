@@ -82,8 +82,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         protected internal override void Execute() {
             base.Execute();
 
-            if (Reset.value >= Pin.HALFCUT) RegAddress = 0;
-            currentClock = Clock.value >= Pin.HALFCUT;
+            if (Reset.Value >= Pin.HALFCUT) RegAddress = 0;
+            currentClock = Clock.Value >= Pin.HALFCUT;
             if (currentClock == true && lastClock == false) {
                 if (internalMicroInstructions.ContainsKey("SelRI")) {
                     if (internalMicroInstructions["SelRI"]) {
@@ -99,10 +99,10 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             ProcessBools();
             lastClock = currentClock;
             EOI.SetDigital(RegAddress == 0 ? Pin.HIGH : Pin.LOW);
-            if(EOI.value >= Pin.HALFCUT && lastEOI <= Pin.HALFCUT) {
+            if(EOI.Value >= Pin.HALFCUT && lastEOI <= Pin.HALFCUT) {
                 NeedSet = true;
             }
-            lastEOI = EOI.value;
+            lastEOI = EOI.Value;
             /*
             for (int i = 11; i < Pins.Length; i++) {
                 Pins[i].value = Pin.LOW;
@@ -134,9 +134,6 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             }
             for (int i = 0; i < 32; i++) {
                 ProcessBool(i, MicroInstructions[address, i], true);
-            }
-            for (int i = 11; i < Pins.Length; i++) {
-                Pins[i].Propagate();
             }
         }
         private void ProcessBool(int index, bool value, bool doAction) {
@@ -381,14 +378,14 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
         private void ClockRI() {
             RI = 0;
-            RI += (byte)(Pins[0].value >= Pin.HALFCUT ? 1 : 0);
-            RI += (byte)(Pins[1].value >= Pin.HALFCUT ? 2 : 0);
-            RI += (byte)(Pins[2].value >= Pin.HALFCUT ? 4 : 0);
-            RI += (byte)(Pins[3].value >= Pin.HALFCUT ? 8 : 0);
-            RI += (byte)(Pins[4].value >= Pin.HALFCUT ? 16 : 0);
-            RI += (byte)(Pins[5].value >= Pin.HALFCUT ? 32 : 0);
-            RI += (byte)(Pins[6].value >= Pin.HALFCUT ? 64 : 0);
-            RI += (byte)(Pins[7].value >= Pin.HALFCUT ? 128 : 0);
+            RI += (byte)(Pins[0].Value >= Pin.HALFCUT ? 1 : 0);
+            RI += (byte)(Pins[1].Value >= Pin.HALFCUT ? 2 : 0);
+            RI += (byte)(Pins[2].Value >= Pin.HALFCUT ? 4 : 0);
+            RI += (byte)(Pins[3].Value >= Pin.HALFCUT ? 8 : 0);
+            RI += (byte)(Pins[4].Value >= Pin.HALFCUT ? 16 : 0);
+            RI += (byte)(Pins[5].Value >= Pin.HALFCUT ? 32 : 0);
+            RI += (byte)(Pins[6].Value >= Pin.HALFCUT ? 64 : 0);
+            RI += (byte)(Pins[7].Value >= Pin.HALFCUT ? 128 : 0);
 
             ULAOPsel2.SetDigital((RI & 128) == 128 ? Pin.HIGH : Pin.LOW);
             ULAOPsel1.SetDigital((RI & 64) == 64 ? Pin.HIGH : Pin.LOW);
@@ -430,8 +427,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, true, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-            {false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-            {false, false, true, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            {false, false, true, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            {false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false},
@@ -473,8 +470,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false},
             {false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-            {false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-            {false, false, true, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            {false, false, true, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            {false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, true, false},
             {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
@@ -498,11 +495,11 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             {true, true, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true},
             {false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, true},
             {false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, true, true, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, true},
             {false, true, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {false, false, false, true, false, true, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, true},
-            {false, true, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-            {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            {false, true, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {true, true, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true},
             {true, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, true},
@@ -511,11 +508,11 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             {true, true, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true},
             {false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, true},
             {false, false, false, false, true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-            {false, false, false, true, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, true},
-            {false, true, false, false, true, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-            {false, false, false, true, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, true},
-            {false, true, false, false, false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
-            {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            {false, false, false, true, true, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, true},
+            {false, true, false, false, false, false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+            {false, false, false, true, false, true, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, true},
+            {false, true, false, false, false, false, false, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {true, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},
             {true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false},

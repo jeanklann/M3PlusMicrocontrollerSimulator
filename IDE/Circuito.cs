@@ -497,6 +497,10 @@ namespace IDE {
                 UIStatics.Simulador.In[i] = 
                     InternalComponents.PortBank.GetInput(i);
             }
+            UIStatics.Simulador.Flag_C =
+                InternalComponents.ULA.Pins[29].Value >= Pin.HALFCUT;
+            UIStatics.Simulador.Flag_Z =
+                InternalComponents.ULA.Pins[28].Value >= Pin.HALFCUT;
             int nextInstruction =
                 InternalComponents.RomAddresser.RegH * 256 +
                 InternalComponents.RomAddresser.RegL;
@@ -524,6 +528,11 @@ namespace IDE {
                 InternalComponents.Registrers.Reg[i] =
                 UIStatics.Simulador.Reg[i+1];
             }
+            InternalComponents.ULA.Pins[29].Value =
+                UIStatics.Simulador.Flag_C ? Pin.HIGH : Pin.LOW;
+            InternalComponents.ULA.Pins[28].Value =
+                UIStatics.Simulador.Flag_Z ? Pin.HIGH : Pin.LOW;
+
             InternalComponents.RomAddresser.RegH =
                 (byte)((UIStatics.Simulador.NextInstruction) / 256);
             InternalComponents.RomAddresser.RegL =
@@ -829,8 +838,11 @@ namespace IDE {
                 MouseProps.LastClickPosition = e.Location;
             } else if(e.Button == MouseButtons.Right) {
                 if(((MouseProps.LastDownPosition.X-e.X)* (MouseProps.LastDownPosition.X - e.X))+((MouseProps.LastDownPosition.Y - e.Y) * (MouseProps.LastDownPosition.Y - e.Y)) < 10 * 10) {
-                    PositionCreatingComponent = MouseProps.ToWorld(e.Location, ClientSize, Position, zoom);
-                    contextMenuStrip1.Show(this, e.Location);
+                    if (InsideComponent != null && InsideComponent.Draw.DisplayListHandle != Draws.Microcontroller.DisplayListHandle ||
+                        InsideComponent == null) {
+                        PositionCreatingComponent = MouseProps.ToWorld(e.Location, ClientSize, Position, zoom);
+                        contextMenuStrip1.Show(this, e.Location);
+                    }
                 } else {
                     contextMenuStrip1.Hide();
                 }

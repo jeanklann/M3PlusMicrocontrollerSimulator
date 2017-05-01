@@ -46,37 +46,37 @@ namespace CircuitSimulator {
             if(A.GetDigital() == Pin.HIGH) {
                 if(B.GetDigital() == Pin.HIGH) {
                     if(Cin.GetDigital() == Pin.HIGH) { //111
-                        S.value = Pin.HIGH;
-                        Cout.value = Pin.HIGH;
+                        S.Value = Pin.HIGH;
+                        Cout.Value = Pin.HIGH;
                     } else { //110
-                        S.value = Pin.LOW;
-                        Cout.value = Pin.HIGH;
+                        S.Value = Pin.LOW;
+                        Cout.Value = Pin.HIGH;
                     }
                 } else {
                     if(Cin.GetDigital() == Pin.HIGH) { //101
-                        S.value = Pin.LOW;
-                        Cout.value = Pin.HIGH;
+                        S.Value = Pin.LOW;
+                        Cout.Value = Pin.HIGH;
                     } else { //100
-                        S.value = Pin.HIGH;
-                        Cout.value = Pin.LOW;
+                        S.Value = Pin.HIGH;
+                        Cout.Value = Pin.LOW;
                     }
                 }
             } else {
                 if(B.GetDigital() == Pin.HIGH) {
                     if(Cin.GetDigital() == Pin.HIGH) { // 011
-                        S.value = Pin.LOW;
-                        Cout.value = Pin.HIGH;
+                        S.Value = Pin.LOW;
+                        Cout.Value = Pin.HIGH;
                     } else { //010
-                        S.value = Pin.HIGH;
-                        Cout.value = Pin.LOW;
+                        S.Value = Pin.HIGH;
+                        Cout.Value = Pin.LOW;
                     }
                 } else {
                     if(Cin.GetDigital() == Pin.HIGH) { //001
-                        S.value = Pin.HIGH;
-                        Cout.value = Pin.LOW;
+                        S.Value = Pin.HIGH;
+                        Cout.Value = Pin.LOW;
                     } else { //000
-                        S.value = Pin.LOW;
-                        Cout.value = Pin.LOW;
+                        S.Value = Pin.LOW;
+                        Cout.Value = Pin.LOW;
                     }
                 }
             }

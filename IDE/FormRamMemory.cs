@@ -16,11 +16,14 @@ namespace IDE {
         }
         public List<Components.DataField> Fields = new List<Components.DataField>();
         private Thread thread;
+        private Thread threadCreating;
         private bool wantClose = false;
         private FormRamType type;
+        private int quantity = 0;
 
         public void Build(int quantity, FormRamType type) {
             this.type = type;
+            this.quantity = quantity;
             switch (type) {
                 case FormRamType.RAM:
                     Text = "Visualizador e editor da memória RAM";
@@ -35,22 +38,35 @@ namespace IDE {
             for (int i = 1; i < total; i++) {
                 tableLayoutPanel1.RowStyles.RemoveAt(i);
             }
+
+            threadCreating = new Thread(Run_thread_create);
+            threadCreating.Start();
+            thread = new Thread(Run_thread);
+            thread.Start();
+        }
+
+        private void Run_thread_create() {
+            Size oldSize = Size;
+            Size = new Size(250, 100);
             for (int i = 0; i < quantity; i++) {
                 Label label = new Label();
                 label.Anchor = AnchorStyles.Left | AnchorStyles.Right;
                 label.Text = i.ToString();
-                
+
                 Components.DataField field = new Components.DataField();
                 field.Anchor = AnchorStyles.Left | AnchorStyles.Right;
                 Fields.Add(field);
 
                 tableLayoutPanel1.RowCount = tableLayoutPanel1.RowCount + 1;
-                tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, HEIGHT));
-                tableLayoutPanel1.Controls.Add(label, 0, tableLayoutPanel1.RowCount - 1);
-                tableLayoutPanel1.Controls.Add(field, 1, tableLayoutPanel1.RowCount - 1);
+                
+                Invoke((MethodInvoker)delegate () {
+                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, HEIGHT));
+                    tableLayoutPanel1.Controls.Add(label, 0, tableLayoutPanel1.RowCount - 1);
+                    tableLayoutPanel1.Controls.Add(field, 1, tableLayoutPanel1.RowCount - 1);
+                });
             }
-            thread = new Thread(Run_thread);
-            thread.Start();
+            Size = oldSize;
+            loading.Hide();
         }
 
         private void Run_thread() {

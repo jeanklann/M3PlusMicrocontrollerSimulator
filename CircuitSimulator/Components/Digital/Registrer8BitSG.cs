@@ -30,7 +30,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     return false;
                 }
             }
-            if (Pins[8].value >= Pin.HALFCUT && lastClock <= Pin.HALFCUT) {
+            if (Pins[8].Value >= Pin.HALFCUT && lastClock <= Pin.HALFCUT) {
                 for (int i = 0; i < 8; i++) {
                     if (Pins[i].simulationId != circuit.SimulationId) {
                         return false;

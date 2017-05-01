@@ -46,21 +46,21 @@ namespace CircuitSimulator{
         
         protected internal override void Execute() {
             base.Execute();
-            if(Clock.value == Pin.LOW && lastClock == Pin.HIGH) {
+            if(Clock.Value == Pin.LOW && lastClock == Pin.HIGH) {
                 storedValue *= 2;
                 storedValue += Input.GetDigital() == Pin.HIGH ? 1u : 0u;
                 ulong temp = 1;
                 for(int i = 0; i < bits; i++) {
                     ulong val = storedValue & temp;
                     if(val > 0) {
-                        Pins[i + 2].value = Pin.HIGH;
+                        Pins[i + 2].Value = Pin.HIGH;
                     } else {
-                        Pins[i + 2].value = Pin.LOW;
+                        Pins[i + 2].Value = Pin.LOW;
                     }
                     temp *= 2;
                 }
             }
-            lastClock = Clock.value;
+            lastClock = Clock.Value;
             for(int i = 2; i < bits + 2; i++) {
                 Pins[i].Propagate();
             }

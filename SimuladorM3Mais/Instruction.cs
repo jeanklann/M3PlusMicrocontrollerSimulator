@@ -2872,7 +2872,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction XOR_ROM_RAM(byte data, byte address) {
-            Instruction instruction = new Instruction("XOR " + Helpers.ToHex(data) + ", #" + Helpers.ToHex(address), "Faz a operação XOR do valor " + Helpers.ToHex(data) + " com o acumulador e o resultado é colocado na memória ram no endereço " + Helpers.ToHex(address) + ".", 3);
+            Instruction instruction = new Instruction("XOR " + Helpers.ToHex(data) + ", #" + Helpers.ToHex(address), "Faz a operação XOR do valor " + Helpers.ToHex(data) + " com o acumulador e o resultado é colocado na memória ram no endereço " + Helpers.ToHex(address) + ".", 4);
             instruction.InstructionEnum = Instruction_enum.XOR;
             instruction.OperationEnum = Operation_enum.ROM_RAM;
             instruction.RomValue = data;
@@ -3671,7 +3671,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction MOV_ROM_RAM(byte data, byte address) {
-            Instruction instruction = new Instruction("MOV " + Helpers.ToHex(data) + ", #" + Helpers.ToHex(address), "Copia o valor " + Helpers.ToHex(data) + " para a memória no endereço " + Helpers.ToHex(address) + ".", 3);
+            Instruction instruction = new Instruction("MOV " + Helpers.ToHex(data) + ", #" + Helpers.ToHex(address), "Copia o valor " + Helpers.ToHex(data) + " para a memória no endereço " + Helpers.ToHex(address) + ".", 4);
             instruction.InstructionEnum = Instruction_enum.MOV;
             instruction.OperationEnum = Operation_enum.ROM_RAM;
             instruction.RomValue = data;

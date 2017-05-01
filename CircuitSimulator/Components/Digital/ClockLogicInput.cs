@@ -10,7 +10,7 @@ namespace CircuitSimulator {
         public float Frequency = 1f;
         public float Value {
             get {
-                return Pins[0].value;
+                return Pins[0].Value;
             }
             set {
                 Pins[0].SetDigital(value);
@@ -23,9 +23,9 @@ namespace CircuitSimulator {
         }
 
         private float Switch() {
-            if(Pins[0].value == Pin.HIGH) Pins[0].value = Pin.LOW;
-            else Pins[0].value = Pin.HIGH;
-            return Pins[0].value;
+            if(Pins[0].Value == Pin.HIGH) Pins[0].Value = Pin.LOW;
+            else Pins[0].Value = Pin.HIGH;
+            return Pins[0].Value;
         }
 
         protected internal override void Execute() {

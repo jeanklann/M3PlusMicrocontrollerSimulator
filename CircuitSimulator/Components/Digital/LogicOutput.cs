@@ -6,7 +6,7 @@ namespace CircuitSimulator {
     public class LogicOutput : Component {
         public float Value {
             get {
-                return Pins[0].value;
+                return Pins[0].Value;
             }
             set {
                 Pins[0].SetDigital(value);

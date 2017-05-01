@@ -121,13 +121,13 @@ namespace CircuitSimulator.Components.Digital {
                 f.isOpen = false;
                 g.isOpen = false;
             }
-            a.value = table[value, 0];
-            b.value = table[value, 1];
-            c.value = table[value, 2];
-            d.value = table[value, 3];
-            e.value = table[value, 4];
-            f.value = table[value, 5];
-            g.value = table[value, 6];
+            a.Value = table[value, 0];
+            b.Value = table[value, 1];
+            c.Value = table[value, 2];
+            d.Value = table[value, 3];
+            e.Value = table[value, 4];
+            f.Value = table[value, 5];
+            g.Value = table[value, 6];
         }
 
     }

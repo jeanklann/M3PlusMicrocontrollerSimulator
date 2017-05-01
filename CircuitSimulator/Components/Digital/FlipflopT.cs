@@ -46,20 +46,20 @@ namespace CircuitSimulator {
         protected internal override void Execute() {
             base.Execute();
             if (S.GetDigital() == Pin.HIGH) { //S = 1
-                Q.value = Pin.HIGH;
-                Qnot.value = Pin.LOW;
+                Q.Value = Pin.HIGH;
+                Qnot.Value = Pin.LOW;
             } else if (R.GetDigital() == Pin.HIGH) { // R = 1
-                Q.value = Pin.LOW;
-                Qnot.value = Pin.HIGH;
-            } else if (CLK.value == Pin.LOW && lastClk == Pin.HIGH) { //Clock desc
+                Q.Value = Pin.LOW;
+                Qnot.Value = Pin.HIGH;
+            } else if (CLK.Value == Pin.LOW && lastClk == Pin.HIGH) { //Clock desc
                 if (T.GetDigital() == Pin.HIGH) { //T = 1
-                    Q.value = Q.Neg();
-                    Qnot.value = Qnot.Neg();
+                    Q.Value = Q.Neg();
+                    Qnot.Value = Qnot.Neg();
                 } else { //T = 0
                     //Do nothing, because the outputs stays same
                 }
             }
-            lastClk = CLK.value;
+            lastClk = CLK.Value;
             Q.Propagate();
             Qnot.Propagate();
         }

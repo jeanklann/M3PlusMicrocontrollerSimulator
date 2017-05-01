@@ -10,7 +10,7 @@ namespace CircuitSimulator.Components.Digital {
             for (int i = 0; i < Pins.Length; i++) {
                 Pins[i].isOutput = true;
                 Pins[i].isOpen = false;
-                Pins[i].value = Pin.LOW;
+                Pins[i].Value = Pin.LOW;
             }
             canStart = true;
         }

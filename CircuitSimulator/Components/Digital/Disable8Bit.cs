@@ -21,7 +21,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             if (Pins[8].simulationId != circuit.SimulationId) {
                 return false;
             }
-            if (Pins[8].value >= Pin.HALFCUT) {
+            if (Pins[8].Value >= Pin.HALFCUT) {
                 for (int i = 0; i < 8; i++) {
                     if (Pins[i].simulationId != circuit.SimulationId) {
                         return false;
@@ -33,9 +33,9 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
 
         protected internal override void Execute() {
             base.Execute();
-            if (Pins[8].value >= Pin.HALFCUT) {
+            if (Pins[8].Value >= Pin.HALFCUT) {
                 for (int i = 0; i < 8; i++) {
-                    Pins[i + 9].value = Pins[i].value;
+                    Pins[i + 9].Value = Pins[i].Value;
                     Pins[i + 9].Propagate();
                 }
             }

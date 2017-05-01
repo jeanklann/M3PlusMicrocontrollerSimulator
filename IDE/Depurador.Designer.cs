@@ -31,32 +31,17 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.bField = new IDE.Components.DataField();
-            this.aField = new IDE.Components.DataField();
-            this.eField = new IDE.Components.DataField();
-            this.cField = new IDE.Components.DataField();
-            this.dField = new IDE.Components.DataField();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.in1Field = new IDE.Components.DataField();
-            this.in0Field = new IDE.Components.DataField();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.in2Field = new IDE.Components.DataField();
-            this.in3Field = new IDE.Components.DataField();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.out1Field = new IDE.Components.DataField();
-            this.out0Field = new IDE.Components.DataField();
             this.label6 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.out2Field = new IDE.Components.DataField();
-            this.out3Field = new IDE.Components.DataField();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.zCheck = new IDE.Components.CheckboxField();
-            this.cCheck = new IDE.Components.CheckboxField();
             this.btnPlay = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.btnPause = new System.Windows.Forms.Button();
@@ -72,6 +57,21 @@
             this.realFrequency = new System.Windows.Forms.Label();
             this.abrirMemoriaRam = new System.Windows.Forms.Button();
             this.abrirMemoriaPilha = new System.Windows.Forms.Button();
+            this.zCheck = new IDE.Components.CheckboxField();
+            this.cCheck = new IDE.Components.CheckboxField();
+            this.out1Field = new IDE.Components.DataField();
+            this.out0Field = new IDE.Components.DataField();
+            this.out2Field = new IDE.Components.DataField();
+            this.out3Field = new IDE.Components.DataField();
+            this.in1Field = new IDE.Components.DataField();
+            this.in0Field = new IDE.Components.DataField();
+            this.in2Field = new IDE.Components.DataField();
+            this.in3Field = new IDE.Components.DataField();
+            this.bField = new IDE.Components.DataField();
+            this.aField = new IDE.Components.DataField();
+            this.eField = new IDE.Components.DataField();
+            this.cField = new IDE.Components.DataField();
+            this.dField = new IDE.Components.DataField();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -170,66 +170,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Registradores";
             // 
-            // bField
-            // 
-            this.bField.ByteQuantity = ((byte)(1));
-            this.bField.Location = new System.Drawing.Point(27, 52);
-            this.bField.Name = "bField";
-            this.bField.Selected = IDE.Components.DataFieldType.DEC;
-            this.bField.Size = new System.Drawing.Size(119, 28);
-            this.bField.TabIndex = 6;
-            this.toolTip1.SetToolTip(this.bField, "Valor do registrador B");
-            this.bField.UserInput = false;
-            this.bField.Value = 0;
-            // 
-            // aField
-            // 
-            this.aField.ByteQuantity = ((byte)(1));
-            this.aField.Location = new System.Drawing.Point(27, 19);
-            this.aField.Name = "aField";
-            this.aField.Selected = IDE.Components.DataFieldType.DEC;
-            this.aField.Size = new System.Drawing.Size(119, 28);
-            this.aField.TabIndex = 3;
-            this.toolTip1.SetToolTip(this.aField, "Valor do registrador acumulador");
-            this.aField.UserInput = false;
-            this.aField.Value = 0;
-            // 
-            // eField
-            // 
-            this.eField.ByteQuantity = ((byte)(1));
-            this.eField.Location = new System.Drawing.Point(27, 154);
-            this.eField.Name = "eField";
-            this.eField.Selected = IDE.Components.DataFieldType.DEC;
-            this.eField.Size = new System.Drawing.Size(119, 28);
-            this.eField.TabIndex = 9;
-            this.toolTip1.SetToolTip(this.eField, "Valor do registrador E");
-            this.eField.UserInput = false;
-            this.eField.Value = 0;
-            // 
-            // cField
-            // 
-            this.cField.ByteQuantity = ((byte)(1));
-            this.cField.Location = new System.Drawing.Point(27, 86);
-            this.cField.Name = "cField";
-            this.cField.Selected = IDE.Components.DataFieldType.DEC;
-            this.cField.Size = new System.Drawing.Size(119, 28);
-            this.cField.TabIndex = 7;
-            this.toolTip1.SetToolTip(this.cField, "Valor do registrador C");
-            this.cField.UserInput = false;
-            this.cField.Value = 0;
-            // 
-            // dField
-            // 
-            this.dField.ByteQuantity = ((byte)(1));
-            this.dField.Location = new System.Drawing.Point(27, 120);
-            this.dField.Name = "dField";
-            this.dField.Selected = IDE.Components.DataFieldType.DEC;
-            this.dField.Size = new System.Drawing.Size(119, 28);
-            this.dField.TabIndex = 8;
-            this.toolTip1.SetToolTip(this.dField, "Valor do registrador D");
-            this.dField.UserInput = false;
-            this.dField.Value = 0;
-            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -246,35 +186,7 @@
             this.groupBox2.Size = new System.Drawing.Size(178, 153);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Entradas";
-            // 
-            // in1Field
-            // 
-            this.in1Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.in1Field.ByteQuantity = ((byte)(1));
-            this.in1Field.Location = new System.Drawing.Point(40, 52);
-            this.in1Field.Name = "in1Field";
-            this.in1Field.Selected = IDE.Components.DataFieldType.DEC;
-            this.in1Field.Size = new System.Drawing.Size(128, 28);
-            this.in1Field.TabIndex = 6;
-            this.toolTip1.SetToolTip(this.in1Field, "Valor da entrada IN2");
-            this.in1Field.UserInput = false;
-            this.in1Field.Value = 0;
-            // 
-            // in0Field
-            // 
-            this.in0Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.in0Field.ByteQuantity = ((byte)(1));
-            this.in0Field.Location = new System.Drawing.Point(40, 19);
-            this.in0Field.Name = "in0Field";
-            this.in0Field.Selected = IDE.Components.DataFieldType.DEC;
-            this.in0Field.Size = new System.Drawing.Size(128, 28);
-            this.in0Field.TabIndex = 3;
-            this.toolTip1.SetToolTip(this.in0Field, "Valor da entrada IN1");
-            this.in0Field.UserInput = false;
-            this.in0Field.Value = 0;
+            this.groupBox2.Text = "Entradas (somente leitura)";
             // 
             // label7
             // 
@@ -283,7 +195,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(24, 13);
             this.label7.TabIndex = 11;
-            this.label7.Text = "IN4";
+            this.label7.Text = "IN3";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label8
@@ -293,7 +205,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(24, 13);
             this.label8.TabIndex = 4;
-            this.label8.Text = "IN1";
+            this.label8.Text = "IN0";
             // 
             // label9
             // 
@@ -302,7 +214,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(24, 13);
             this.label9.TabIndex = 10;
-            this.label9.Text = "IN3";
+            this.label9.Text = "IN2";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label10
@@ -312,36 +224,8 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(24, 13);
             this.label10.TabIndex = 5;
-            this.label10.Text = "IN2";
+            this.label10.Text = "IN1";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // in2Field
-            // 
-            this.in2Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.in2Field.ByteQuantity = ((byte)(1));
-            this.in2Field.Location = new System.Drawing.Point(40, 86);
-            this.in2Field.Name = "in2Field";
-            this.in2Field.Selected = IDE.Components.DataFieldType.DEC;
-            this.in2Field.Size = new System.Drawing.Size(128, 28);
-            this.in2Field.TabIndex = 7;
-            this.toolTip1.SetToolTip(this.in2Field, "Valor da entrada IN3");
-            this.in2Field.UserInput = false;
-            this.in2Field.Value = 0;
-            // 
-            // in3Field
-            // 
-            this.in3Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.in3Field.ByteQuantity = ((byte)(1));
-            this.in3Field.Location = new System.Drawing.Point(40, 120);
-            this.in3Field.Name = "in3Field";
-            this.in3Field.Selected = IDE.Components.DataFieldType.DEC;
-            this.in3Field.Size = new System.Drawing.Size(128, 28);
-            this.in3Field.TabIndex = 8;
-            this.toolTip1.SetToolTip(this.in3Field, "Valor da entrada IN4");
-            this.in3Field.UserInput = false;
-            this.in3Field.Value = 0;
             // 
             // groupBox3
             // 
@@ -359,33 +243,7 @@
             this.groupBox3.Size = new System.Drawing.Size(178, 153);
             this.groupBox3.TabIndex = 15;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Saídas";
-            // 
-            // out1Field
-            // 
-            this.out1Field.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.out1Field.ByteQuantity = ((byte)(1));
-            this.out1Field.Location = new System.Drawing.Point(49, 52);
-            this.out1Field.Name = "out1Field";
-            this.out1Field.Selected = IDE.Components.DataFieldType.DEC;
-            this.out1Field.Size = new System.Drawing.Size(119, 28);
-            this.out1Field.TabIndex = 6;
-            this.toolTip1.SetToolTip(this.out1Field, "Valor da saída OUT2");
-            this.out1Field.UserInput = false;
-            this.out1Field.Value = 0;
-            // 
-            // out0Field
-            // 
-            this.out0Field.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.out0Field.ByteQuantity = ((byte)(1));
-            this.out0Field.Location = new System.Drawing.Point(49, 19);
-            this.out0Field.Name = "out0Field";
-            this.out0Field.Selected = IDE.Components.DataFieldType.DEC;
-            this.out0Field.Size = new System.Drawing.Size(119, 28);
-            this.out0Field.TabIndex = 3;
-            this.toolTip1.SetToolTip(this.out0Field, "Valor da saída OUT1");
-            this.out0Field.UserInput = false;
-            this.out0Field.Value = 0;
+            this.groupBox3.Text = "Saídas (somente leitura)";
             // 
             // label6
             // 
@@ -394,7 +252,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(36, 13);
             this.label6.TabIndex = 11;
-            this.label6.Text = "OUT4";
+            this.label6.Text = "OUT3";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label11
@@ -404,7 +262,7 @@
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(36, 13);
             this.label11.TabIndex = 4;
-            this.label11.Text = "OUT1";
+            this.label11.Text = "OUT0";
             // 
             // label12
             // 
@@ -413,7 +271,7 @@
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(36, 13);
             this.label12.TabIndex = 10;
-            this.label12.Text = "OUT3";
+            this.label12.Text = "OUT2";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label13
@@ -423,34 +281,8 @@
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(36, 13);
             this.label13.TabIndex = 5;
-            this.label13.Text = "OUT2";
+            this.label13.Text = "OUT1";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // out2Field
-            // 
-            this.out2Field.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.out2Field.ByteQuantity = ((byte)(1));
-            this.out2Field.Location = new System.Drawing.Point(49, 86);
-            this.out2Field.Name = "out2Field";
-            this.out2Field.Selected = IDE.Components.DataFieldType.DEC;
-            this.out2Field.Size = new System.Drawing.Size(119, 28);
-            this.out2Field.TabIndex = 7;
-            this.toolTip1.SetToolTip(this.out2Field, "Valor da saída OUT3");
-            this.out2Field.UserInput = false;
-            this.out2Field.Value = 0;
-            // 
-            // out3Field
-            // 
-            this.out3Field.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.out3Field.ByteQuantity = ((byte)(1));
-            this.out3Field.Location = new System.Drawing.Point(49, 120);
-            this.out3Field.Name = "out3Field";
-            this.out3Field.Selected = IDE.Components.DataFieldType.DEC;
-            this.out3Field.Size = new System.Drawing.Size(119, 28);
-            this.out3Field.TabIndex = 8;
-            this.toolTip1.SetToolTip(this.out3Field, "Valor da saída OUT4");
-            this.out3Field.UserInput = false;
-            this.out3Field.Value = 0;
             // 
             // groupBox4
             // 
@@ -462,32 +294,6 @@
             this.groupBox4.TabIndex = 14;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Flags";
-            // 
-            // zCheck
-            // 
-            this.zCheck.AutoSize = true;
-            this.zCheck.Location = new System.Drawing.Point(98, 26);
-            this.zCheck.Name = "zCheck";
-            this.zCheck.Size = new System.Drawing.Size(48, 17);
-            this.zCheck.TabIndex = 7;
-            this.zCheck.Text = "Zero";
-            this.toolTip1.SetToolTip(this.zCheck, "Flag zero: se o registrador está zerado");
-            this.zCheck.UserInput = false;
-            this.zCheck.UseVisualStyleBackColor = true;
-            this.zCheck.Value = false;
-            // 
-            // cCheck
-            // 
-            this.cCheck.AutoSize = true;
-            this.cCheck.Location = new System.Drawing.Point(13, 26);
-            this.cCheck.Name = "cCheck";
-            this.cCheck.Size = new System.Drawing.Size(50, 17);
-            this.cCheck.TabIndex = 6;
-            this.cCheck.Text = "Carry";
-            this.toolTip1.SetToolTip(this.cCheck, "Flag carry: se excedeu o número de bits utilizado no registrador resultante");
-            this.cCheck.UserInput = false;
-            this.cCheck.UseVisualStyleBackColor = true;
-            this.cCheck.Value = false;
             // 
             // btnPlay
             // 
@@ -665,6 +471,200 @@
             this.abrirMemoriaPilha.Text = "Abrir memória de pilha";
             this.abrirMemoriaPilha.UseVisualStyleBackColor = true;
             this.abrirMemoriaPilha.Click += new System.EventHandler(this.abrirMemoriaPilha_Click);
+            // 
+            // zCheck
+            // 
+            this.zCheck.AutoSize = true;
+            this.zCheck.Location = new System.Drawing.Point(98, 26);
+            this.zCheck.Name = "zCheck";
+            this.zCheck.Size = new System.Drawing.Size(48, 17);
+            this.zCheck.TabIndex = 7;
+            this.zCheck.Text = "Zero";
+            this.toolTip1.SetToolTip(this.zCheck, "Flag zero: se o registrador está zerado");
+            this.zCheck.UserInput = false;
+            this.zCheck.UseVisualStyleBackColor = true;
+            this.zCheck.Value = false;
+            // 
+            // cCheck
+            // 
+            this.cCheck.AutoSize = true;
+            this.cCheck.Location = new System.Drawing.Point(13, 26);
+            this.cCheck.Name = "cCheck";
+            this.cCheck.Size = new System.Drawing.Size(50, 17);
+            this.cCheck.TabIndex = 6;
+            this.cCheck.Text = "Carry";
+            this.toolTip1.SetToolTip(this.cCheck, "Flag carry: se excedeu o número de bits utilizado no registrador resultante");
+            this.cCheck.UserInput = false;
+            this.cCheck.UseVisualStyleBackColor = true;
+            this.cCheck.Value = false;
+            // 
+            // out1Field
+            // 
+            this.out1Field.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.out1Field.ByteQuantity = ((byte)(1));
+            this.out1Field.Location = new System.Drawing.Point(49, 52);
+            this.out1Field.Name = "out1Field";
+            this.out1Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.out1Field.Size = new System.Drawing.Size(119, 28);
+            this.out1Field.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.out1Field, "Valor da saída OUT2");
+            this.out1Field.UserInput = false;
+            this.out1Field.Value = 0;
+            // 
+            // out0Field
+            // 
+            this.out0Field.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.out0Field.ByteQuantity = ((byte)(1));
+            this.out0Field.Location = new System.Drawing.Point(49, 19);
+            this.out0Field.Name = "out0Field";
+            this.out0Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.out0Field.Size = new System.Drawing.Size(119, 28);
+            this.out0Field.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.out0Field, "Valor da saída OUT1");
+            this.out0Field.UserInput = false;
+            this.out0Field.Value = 0;
+            // 
+            // out2Field
+            // 
+            this.out2Field.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.out2Field.ByteQuantity = ((byte)(1));
+            this.out2Field.Location = new System.Drawing.Point(49, 86);
+            this.out2Field.Name = "out2Field";
+            this.out2Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.out2Field.Size = new System.Drawing.Size(119, 28);
+            this.out2Field.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.out2Field, "Valor da saída OUT3");
+            this.out2Field.UserInput = false;
+            this.out2Field.Value = 0;
+            // 
+            // out3Field
+            // 
+            this.out3Field.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.out3Field.ByteQuantity = ((byte)(1));
+            this.out3Field.Location = new System.Drawing.Point(49, 120);
+            this.out3Field.Name = "out3Field";
+            this.out3Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.out3Field.Size = new System.Drawing.Size(119, 28);
+            this.out3Field.TabIndex = 8;
+            this.toolTip1.SetToolTip(this.out3Field, "Valor da saída OUT4");
+            this.out3Field.UserInput = false;
+            this.out3Field.Value = 0;
+            // 
+            // in1Field
+            // 
+            this.in1Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.in1Field.ByteQuantity = ((byte)(1));
+            this.in1Field.Location = new System.Drawing.Point(40, 52);
+            this.in1Field.Name = "in1Field";
+            this.in1Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.in1Field.Size = new System.Drawing.Size(128, 28);
+            this.in1Field.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.in1Field, "Valor da entrada IN2");
+            this.in1Field.UserInput = false;
+            this.in1Field.Value = 0;
+            // 
+            // in0Field
+            // 
+            this.in0Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.in0Field.ByteQuantity = ((byte)(1));
+            this.in0Field.Location = new System.Drawing.Point(40, 19);
+            this.in0Field.Name = "in0Field";
+            this.in0Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.in0Field.Size = new System.Drawing.Size(128, 28);
+            this.in0Field.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.in0Field, "Valor da entrada IN1");
+            this.in0Field.UserInput = false;
+            this.in0Field.Value = 0;
+            // 
+            // in2Field
+            // 
+            this.in2Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.in2Field.ByteQuantity = ((byte)(1));
+            this.in2Field.Location = new System.Drawing.Point(40, 86);
+            this.in2Field.Name = "in2Field";
+            this.in2Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.in2Field.Size = new System.Drawing.Size(128, 28);
+            this.in2Field.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.in2Field, "Valor da entrada IN3");
+            this.in2Field.UserInput = false;
+            this.in2Field.Value = 0;
+            // 
+            // in3Field
+            // 
+            this.in3Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.in3Field.ByteQuantity = ((byte)(1));
+            this.in3Field.Location = new System.Drawing.Point(40, 120);
+            this.in3Field.Name = "in3Field";
+            this.in3Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.in3Field.Size = new System.Drawing.Size(128, 28);
+            this.in3Field.TabIndex = 8;
+            this.toolTip1.SetToolTip(this.in3Field, "Valor da entrada IN4");
+            this.in3Field.UserInput = false;
+            this.in3Field.Value = 0;
+            // 
+            // bField
+            // 
+            this.bField.ByteQuantity = ((byte)(1));
+            this.bField.Location = new System.Drawing.Point(27, 52);
+            this.bField.Name = "bField";
+            this.bField.Selected = IDE.Components.DataFieldType.DEC;
+            this.bField.Size = new System.Drawing.Size(119, 28);
+            this.bField.TabIndex = 6;
+            this.toolTip1.SetToolTip(this.bField, "Valor do registrador B");
+            this.bField.UserInput = false;
+            this.bField.Value = 0;
+            // 
+            // aField
+            // 
+            this.aField.ByteQuantity = ((byte)(1));
+            this.aField.Location = new System.Drawing.Point(27, 19);
+            this.aField.Name = "aField";
+            this.aField.Selected = IDE.Components.DataFieldType.DEC;
+            this.aField.Size = new System.Drawing.Size(119, 28);
+            this.aField.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.aField, "Valor do registrador acumulador");
+            this.aField.UserInput = false;
+            this.aField.Value = 0;
+            // 
+            // eField
+            // 
+            this.eField.ByteQuantity = ((byte)(1));
+            this.eField.Location = new System.Drawing.Point(27, 154);
+            this.eField.Name = "eField";
+            this.eField.Selected = IDE.Components.DataFieldType.DEC;
+            this.eField.Size = new System.Drawing.Size(119, 28);
+            this.eField.TabIndex = 9;
+            this.toolTip1.SetToolTip(this.eField, "Valor do registrador E");
+            this.eField.UserInput = false;
+            this.eField.Value = 0;
+            // 
+            // cField
+            // 
+            this.cField.ByteQuantity = ((byte)(1));
+            this.cField.Location = new System.Drawing.Point(27, 86);
+            this.cField.Name = "cField";
+            this.cField.Selected = IDE.Components.DataFieldType.DEC;
+            this.cField.Size = new System.Drawing.Size(119, 28);
+            this.cField.TabIndex = 7;
+            this.toolTip1.SetToolTip(this.cField, "Valor do registrador C");
+            this.cField.UserInput = false;
+            this.cField.Value = 0;
+            // 
+            // dField
+            // 
+            this.dField.ByteQuantity = ((byte)(1));
+            this.dField.Location = new System.Drawing.Point(27, 120);
+            this.dField.Name = "dField";
+            this.dField.Selected = IDE.Components.DataFieldType.DEC;
+            this.dField.Size = new System.Drawing.Size(119, 28);
+            this.dField.TabIndex = 8;
+            this.toolTip1.SetToolTip(this.dField, "Valor do registrador D");
+            this.dField.UserInput = false;
+            this.dField.Value = 0;
             // 
             // Depurador
             // 

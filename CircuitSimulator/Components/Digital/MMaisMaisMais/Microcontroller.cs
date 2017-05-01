@@ -40,7 +40,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         public byte PinValuesToByteValue(int index) {
             float[] pins = new float[8];
             for (int i = 7; i >= 0; i--) {
-                pins[i] = Pins[8 * index+i].value;
+                pins[i] = Pins[8 * index+i].Value;
             }
             byte value = 0;
             float valSup = (Pin.HIGH + Pin.LOW) / 2;
@@ -127,7 +127,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 for (int i = 0; i < 4; i++) {
                     SetOutput(PortBank.GetOutput(i), i);
                     for (int j = 0; j < 8; j++) {
-                        PortBank.SetInput(i, j, Pins[i * 8 + j].value);
+                        PortBank.SetInput(i, j, Pins[i * 8 + j].Value);
                     }
                 }
             }

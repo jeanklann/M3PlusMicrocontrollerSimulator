@@ -79,14 +79,14 @@ namespace CircuitSimulator {
         public const float HIGH = 5;
         public const float LOW = 0;
         public const float HALFCUT = (HIGH + LOW) / 2f;
+        public float Value;
         internal int simulationId = 0;
-        internal float value;
         internal bool isOpen;
         internal bool isOutput;
         internal Component component;
         internal Circuit Circuit { get { return component.circuit; } }
 
-        public float Value { get { return value; } }
+        //public float Value { get { return value; } }
         public bool IsOpen { get { return isOpen; } }
         public bool IsOutput { get { return isOutput; } }
 
@@ -104,7 +104,7 @@ namespace CircuitSimulator {
             this.component = component;
             this.isOutput = isOutput;
             this.isOpen = isOpen;
-            this.value = value;
+            this.Value = value;
             connectedPins = new List<Pin>();
         }
 
@@ -124,9 +124,9 @@ namespace CircuitSimulator {
         public void SetDigital(float value) {
             float med = (HIGH + LOW) / 2f;
             if(value > med)
-                this.value = HIGH;
+                this.Value = HIGH;
             else
-                this.value = LOW;
+                this.Value = LOW;
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace CircuitSimulator {
         /// <returns>HIGH value or LOW value</returns>
         public float GetDigital() {
             float med = (HIGH + LOW) / 2f;
-            if(value > med)
+            if(Value > med)
                 return HIGH;
             return LOW;
         }
@@ -147,9 +147,9 @@ namespace CircuitSimulator {
         /// </summary>
         internal void Propagate() {
             foreach(Pin pin in connectedPins) {
-                if(pin.simulationId != Circuit.SimulationId || pin.value != value || pin.isOpen != isOpen) {
+                if(pin.simulationId != Circuit.SimulationId || pin.Value != Value || pin.isOpen != isOpen) {
                     pin.simulationId = simulationId;
-                    pin.value = value;
+                    pin.Value = Value;
                     pin.isOpen = isOpen;
                     if (pin.component.CanExecute()) {
                         Circuit.AddToExecution(pin.component);
@@ -188,7 +188,7 @@ namespace CircuitSimulator {
         /// </summary>
         /// <returns>the string value</returns>
         public override string ToString() {
-            return Converters.ToString(value, Greatness.Volt);
+            return Converters.ToString(Value, Greatness.Volt);
         }
         /// <summary>
         /// Compare if the other pin is open either, ...
@@ -205,7 +205,7 @@ namespace CircuitSimulator {
         /// <param name="pin">the pin to be compared</param>
         /// <returns>if both are equal</returns>
         protected internal bool IsEqualValue(Pin pin) {
-            if(pin.value != value) return false;
+            if(pin.Value != Value) return false;
             return true;
         }
         /// <summary>
@@ -240,7 +240,7 @@ namespace CircuitSimulator {
         /// </summary>
         /// <returns>if the pin is digital</returns>
         public bool IsDigital() {
-            if(value == HIGH || value == LOW) return true;
+            if(Value == HIGH || Value == LOW) return true;
             return false;
         }
         #region operators
@@ -291,19 +291,19 @@ namespace CircuitSimulator {
         }
         public static float operator <(Pin l, Pin r) {
             if(!l.IsEqualOthers(r)) return LOW;
-            return l.value < r.value ? HIGH : LOW;
+            return l.Value < r.Value ? HIGH : LOW;
         }
         public static float operator >(Pin l, Pin r) {
             if(!l.IsEqualOthers(r)) return LOW;
-            return l.value > r.value ? HIGH : LOW;
+            return l.Value > r.Value ? HIGH : LOW;
         }
         public static float operator <=(Pin l, Pin r) {
             if(!l.IsEqualOthers(r)) return LOW;
-            return l.value <= r.value ? HIGH : LOW;
+            return l.Value <= r.Value ? HIGH : LOW;
         }
         public static float operator >=(Pin l, Pin r) {
             if(!l.IsEqualOthers(r)) return LOW;
-            return l.value >= r.value ? HIGH : LOW;
+            return l.Value >= r.Value ? HIGH : LOW;
         }
         public float And(Pin other) {
             return this & other;
