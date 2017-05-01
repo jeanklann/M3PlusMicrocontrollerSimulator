@@ -64,3 +64,8 @@ D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\IDE.FormularioPrincipal
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\IDE.Properties.Resources.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\IDE.PropriedadesDoProjeto.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\IDE.csproj.GenerateResource.Cache
+D:\M3PlusMicrocontrollerSimulator\IDE\bin\Release\Default.m3mprj
+D:\M3PlusMicrocontrollerSimulator\IDE\bin\Release\CircuitSimulator.dll
+D:\M3PlusMicrocontrollerSimulator\IDE\bin\Release\CircuitSimulator.pdb
+D:\M3PlusMicrocontrollerSimulator\IDE\obj\Release\IDE.Ajuda.resources
+D:\M3PlusMicrocontrollerSimulator\IDE\obj\Release\IDE.Sobre.resources

@@ -7,3 +7,4 @@ D:\Desenvolvimento\M3PlusMicrocontroller\CircuitSimulator\bin\Release\CircuitSim
 D:\Desenvolvimento\M3PlusMicrocontroller\CircuitSimulator\obj\Release\CircuitSimulator.csprojResolveAssemblyReference.cache
 D:\Desenvolvimento\M3PlusMicrocontroller\CircuitSimulator\obj\Release\CircuitSimulator.dll
 D:\Desenvolvimento\M3PlusMicrocontroller\CircuitSimulator\obj\Release\CircuitSimulator.pdb
+D:\M3PlusMicrocontrollerSimulator\CircuitSimulator\obj\Release\CircuitSimulator.csprojResolveAssemblyReference.cache

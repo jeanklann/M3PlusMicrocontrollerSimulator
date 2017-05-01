@@ -48,8 +48,6 @@
             this.removerTodosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verPróximoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verAnteriorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.propriedadesDoProjetoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.códigoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.depuraçãoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -193,9 +191,7 @@
             this.toolStripSeparator4,
             this.selecionarTudoToolStripMenuItem,
             this.toolStripSeparator5,
-            this.breakpointsToolStripMenuItem,
-            this.toolStripSeparator6,
-            this.propriedadesDoProjetoToolStripMenuItem});
+            this.breakpointsToolStripMenuItem});
             this.editarToolStripMenuItem.Name = "editarToolStripMenuItem";
             this.editarToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.editarToolStripMenuItem.Text = "Editar";
@@ -314,19 +310,6 @@
             this.verAnteriorToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.verAnteriorToolStripMenuItem.Text = "Ver anterior";
             this.verAnteriorToolStripMenuItem.Click += new System.EventHandler(this.verAnteriorToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(198, 6);
-            // 
-            // propriedadesDoProjetoToolStripMenuItem
-            // 
-            this.propriedadesDoProjetoToolStripMenuItem.Image = global::IDE.Properties.Resources.interface_1;
-            this.propriedadesDoProjetoToolStripMenuItem.Name = "propriedadesDoProjetoToolStripMenuItem";
-            this.propriedadesDoProjetoToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.propriedadesDoProjetoToolStripMenuItem.Text = "Propriedades do projeto";
-            this.propriedadesDoProjetoToolStripMenuItem.Click += new System.EventHandler(this.propriedadesDoProjetoToolStripMenuItem_Click);
             // 
             // verToolStripMenuItem
             // 
@@ -628,8 +611,6 @@
         private System.Windows.Forms.ToolStripMenuItem removerTodosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem verPróximoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem verAnteriorToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripMenuItem propriedadesDoProjetoToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem rodarToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
