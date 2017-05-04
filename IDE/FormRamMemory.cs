@@ -16,7 +16,6 @@ namespace IDE {
         }
         public List<Components.DataField> Fields = new List<Components.DataField>();
         private Thread thread;
-        private Thread threadCreating;
         private bool wantClose = false;
         private FormRamType type;
         private int quantity = 0;
@@ -39,13 +38,7 @@ namespace IDE {
                 tableLayoutPanel1.RowStyles.RemoveAt(i);
             }
 
-            threadCreating = new Thread(Run_thread_create);
-            threadCreating.Start();
-            thread = new Thread(Run_thread);
-            thread.Start();
-        }
 
-        private void Run_thread_create() {
             Size oldSize = Size;
             Size = new Size(250, 100);
             for (int i = 0; i < quantity; i++) {
@@ -58,16 +51,19 @@ namespace IDE {
                 Fields.Add(field);
 
                 tableLayoutPanel1.RowCount = tableLayoutPanel1.RowCount + 1;
-                
-                Invoke((MethodInvoker)delegate () {
-                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, HEIGHT));
-                    tableLayoutPanel1.Controls.Add(label, 0, tableLayoutPanel1.RowCount - 1);
-                    tableLayoutPanel1.Controls.Add(field, 1, tableLayoutPanel1.RowCount - 1);
-                });
+
+                tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, HEIGHT));
+                tableLayoutPanel1.Controls.Add(label, 0, tableLayoutPanel1.RowCount - 1);
+                tableLayoutPanel1.Controls.Add(field, 1, tableLayoutPanel1.RowCount - 1);
             }
             Size = oldSize;
             loading.Hide();
+
+
+            thread = new Thread(Run_thread);
+            thread.Start();
         }
+        
 
         private void Run_thread() {
             while (!wantClose) {
@@ -89,6 +85,10 @@ namespace IDE {
                     Thread.Sleep(100);
                 }
             }
+            foreach (var item in Fields) {
+                item.Dispose();
+            }
+            Fields.Clear();
         }
 
         private void FormRamMemory_FormClosing(object sender, FormClosingEventArgs e) {

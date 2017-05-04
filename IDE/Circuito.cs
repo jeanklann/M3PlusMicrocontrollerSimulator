@@ -771,7 +771,6 @@ namespace IDE {
         private void Circuito_Load(object sender, EventArgs e) {
             ClearColor = BackColor;
             GL.ClearColor(ClearColor);
-            
             Application.Idle += Application_Idle;
             
             Draws.Load();
@@ -1404,10 +1403,30 @@ namespace IDE {
         private static Font font = new Font(FontFamily.GenericMonospace, 12);
         private Bitmap bmp;
         private Graphics gfx;
+        private Size textSize;
         private int texture;
         private Rectangle dirty_region;
         private bool disposed;
         
+
+        private static int GetPowerOfTwo(int value) {
+            if (value == 0) return 1;
+            if (value <= 1) return 1;
+            if (value <= 2) return 2;
+            if (value <= 4) return 4;
+            if (value <= 8) return 8;
+            if (value <= 16) return 16;
+            if (value <= 32) return 32;
+            if (value <= 64) return 64;
+            if (value <= 128) return 128;
+            if (value <= 256) return 256;
+            if (value <= 512) return 512;
+            if (value <= 1024) return 1024;
+            if (value <= 2048) return 2048;
+            if (value <= 4096) return 4096;
+            if (value <= 8192) return 8192;
+            return 1;
+        }
 
         private TextRenderer() {
             if (GraphicsContext.CurrentContext == null)
@@ -1451,19 +1470,18 @@ namespace IDE {
                 Brush brush = new SolidBrush(color);
                 renderer.gfx.DrawString(text, font, brush, 0, 0);
                 SizeF textSize = renderer.gfx.MeasureString(text, font);
+                renderer.textSize = new Size((int)(textSize.Width + 0.5f), (int)(textSize.Height + 0.5f));
+
                 renderer.gfx.Dispose();
                 renderer.bmp.Dispose();
-                width = (int)(textSize.Width + 0.5f);
-                height = (int)(textSize.Height + 0.5f);
-                if (width <= 0)
-                    throw new ArgumentOutOfRangeException("width");
-                if (height <= 0)
-                    throw new ArgumentOutOfRangeException("height ");
+                width = GetPowerOfTwo(renderer.textSize.Width);
+                height = GetPowerOfTwo(renderer.textSize.Height);
                 renderer.bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 renderer.gfx = Graphics.FromImage(renderer.bmp);
                 renderer.gfx.Clear(UIStatics.Circuito.ClearColor);
                 renderer.gfx.DrawString(text, font, brush, 0, 0);
                 renderer.dirty_region = new Rectangle(0, 0, renderer.bmp.Width, renderer.bmp.Height);
+                GL.Enable(EnableCap.Texture2D);
                 renderer.texture = GL.GenTexture();
                 textRenderers[hash] = renderer;
                 GL.BindTexture(TextureTarget.Texture2D, renderer.texture);
@@ -1487,18 +1505,22 @@ namespace IDE {
             } else {
                 renderer = textRenderers[hash];
                 GL.BindTexture(TextureTarget.Texture2D, renderer.texture);
-                width = renderer.bmp.Width;
-                height = renderer.bmp.Height;
+                width = renderer.textSize.Width;
+                height = renderer.textSize.Height;
+
+                float wmax = width / (float)renderer.bmp.Width;
+                float hmax = height / (float)renderer.bmp.Height;
+
+                GL.Color3(Color.White);
+                GL.Begin(PrimitiveType.Quads);
+
+                GL.TexCoord2(0, hmax); GL.Vertex2(point.X - width / 2, point.Y - height / 2);
+                GL.TexCoord2(wmax, hmax); GL.Vertex2(point.X + width / 2, point.Y - height / 2);
+                GL.TexCoord2(wmax, 0); GL.Vertex2(point.X + width / 2, point.Y + height / 2);
+                GL.TexCoord2(0, 0); GL.Vertex2(point.X - width / 2, point.Y + height / 2);
+                GL.End();
             }
-
-            GL.Color3(Color.White);
-            GL.Begin(PrimitiveType.Quads);
-
-            GL.TexCoord2(0, 1); GL.Vertex2(point.X - width/2, point.Y - height/2);
-            GL.TexCoord2(1, 1); GL.Vertex2(point.X + width / 2, point.Y - height/2);
-            GL.TexCoord2(1, 0); GL.Vertex2(point.X + width / 2, point.Y + height / 2);
-            GL.TexCoord2(0, 0); GL.Vertex2(point.X - width/2, point.Y + height / 2);
-            GL.End();
+            
         }
     }
 
