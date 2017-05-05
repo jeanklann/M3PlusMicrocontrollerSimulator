@@ -5,13 +5,13 @@ using System.Text;
 namespace CircuitSimulator.Components.Digital {
     public class BinTo7Seg:Chip {
         /// <summary>
-        /// Most dignificant bit
+        /// Less dignificant bit
         /// </summary>
         public Pin A { get { return Pins[0]; } }
         public Pin B { get { return Pins[1]; } }
         public Pin C { get { return Pins[2]; } }
         /// <summary>
-        /// less significant bit
+        /// Most significant bit
         /// </summary>
         public Pin D { get { return Pins[3]; } }
         /// <summary>
@@ -78,13 +78,13 @@ namespace CircuitSimulator.Components.Digital {
             } else {
                 int value = 0;
                 if(D.GetDigital() == Pin.HIGH)
-                    value += 1;
-                if(C.GetDigital() == Pin.HIGH)
-                    value += 2;
-                if(B.GetDigital() == Pin.HIGH)
-                    value += 4;
-                if(A.GetDigital() == Pin.HIGH)
                     value += 8;
+                if(C.GetDigital() == Pin.HIGH)
+                    value += 4;
+                if(B.GetDigital() == Pin.HIGH)
+                    value += 2;
+                if(A.GetDigital() == Pin.HIGH)
+                    value += 1;
                 if(!IsHexadecimalValid) {
                     if(value >= 9)
                         value = 16;

@@ -206,16 +206,16 @@ namespace IDE {
                         string mod = "Hz";
                         float frequencia = UIStatics.Simulador.CurrentFrequency;
                         if(!internalSimulation.Checked) {
-                            inicio = "I/s real:";
-                            mod = "Ips";
+                            inicio = "IPS real:";
+                            mod = "IPS";
                         }
                         if (frequencia >= 1000) {
                             frequencia = frequencia / 1000f;
-                            mod = "kIps";
+                            mod = "kIPS";
                         }
                         if (frequencia >= 1000) {
                             frequencia = frequencia / 1000f;
-                            mod = "MIps";
+                            mod = "MIPS";
                         }
                         frequencia = (float) (Math.Round(frequencia * 100) / 100);
 

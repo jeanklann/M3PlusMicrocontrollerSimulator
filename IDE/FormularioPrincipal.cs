@@ -222,6 +222,7 @@ namespace IDE {
         }
 
         private void novoToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (UIStatics.Simulador != null) return;
             if (codigo1.Changed) {
                 DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (dialogResult == DialogResult.Yes) {

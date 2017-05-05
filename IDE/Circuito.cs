@@ -13,6 +13,7 @@ using System.Threading;
 using CircuitSimulator.Components.Digital;
 using OpenTK.Graphics;
 using CircuitSimulator.Components.Digital.MMaisMaisMais;
+using System.Diagnostics;
 
 namespace IDE {
     public partial class Circuito : GLControl {
@@ -28,6 +29,7 @@ namespace IDE {
         private bool canDrag = false;
         private Circuit Circuit;
         private Thread thread;
+        private Thread threadDraw;
         public PointF Position = new PointF();
         public PointF PositionCreatingComponent = new PointF();
         public Component InsideComponent;
@@ -40,6 +42,7 @@ namespace IDE {
         public List<ExtraTerminal> ExtraTerminals;
         private bool IsDebugMode = false;
         private Queue<Keys> KonamiCode = new Queue<Keys>();
+        private Stopwatch Syncronizer = new Stopwatch();
         private Keys[] konamiCodeCorrect = new Keys[] { Keys.NumPad8, Keys.NumPad8, Keys.NumPad2, Keys.NumPad2, Keys.NumPad4, Keys.NumPad6, Keys.NumPad4, Keys.NumPad6, Keys.B, Keys.A };
         public Circuito() {
             InitializeComponent();
@@ -51,14 +54,6 @@ namespace IDE {
                 thread = new Thread(ThreadRun);
                 thread.Start();
             }
-        }
-        public void Tick() {
-            if (Circuit == null) {
-                MountCircuit();
-                thread = new Thread(ThreadRun);
-                thread.Start();
-            }
-            Circuit.Ticks(5);
         }
         public void Stop() {
             Circuit = null;
@@ -214,7 +209,7 @@ namespace IDE {
                             }
                         } else if (item is Display7Seg) {
                             Display7Seg display = ((Display7Seg)item);
-                            for (int i = 0; i < 7; i++) {
+                            for (int i = 0; i < 8; i++) {
                                 DrawComponent.ActiveExtraHandlers[i] = display.Pins[i].Value >= halfCut;
                             }
                         } else if (item is ControlModule) {
@@ -225,7 +220,11 @@ namespace IDE {
                         }
                     }
                 }
-                Circuit.Tick();
+                try {
+                    Circuit.Tick();
+                } catch (Exception e) {
+                    Console.WriteLine(e);
+                }
                 Thread.Sleep(16);
             }
         }
@@ -765,16 +764,18 @@ namespace IDE {
             DrawBoxes();
 
             SwapBuffers();
-            
         }
 
         private void Circuito_Load(object sender, EventArgs e) {
             ClearColor = BackColor;
             GL.ClearColor(ClearColor);
-            Application.Idle += Application_Idle;
             
             Draws.Load();
             FileProject.Load(Application.StartupPath+"\\Default.m3mprj");
+
+
+            threadDraw = new Thread(ThreadDraw);
+            threadDraw.Start();
         }
 
         public void LoadControl() {
@@ -782,9 +783,10 @@ namespace IDE {
             Visible = false;
 
         }
-        void Application_Idle(object sender, EventArgs e) {
-            while (IsIdle) {
-                Render();
+        void ThreadDraw() {
+            while (!UIStatics.WantExit) {
+                Invalidate();
+                Thread.Sleep(10);
             }
         }
         
@@ -801,7 +803,16 @@ namespace IDE {
         }
 
         private void Circuito_Paint(object sender, PaintEventArgs e) {
-            Render();
+            if (!Syncronizer.IsRunning) {
+                Render();
+                Syncronizer.Start();
+            } else {
+                if(Syncronizer.ElapsedMilliseconds >= 10) {
+                    Render();
+                    Syncronizer.Reset();
+                    Syncronizer.Start();
+                }
+            }
         }
 
         private void Circuito_KeyUp(object sender, KeyEventArgs e) {
@@ -810,6 +821,7 @@ namespace IDE {
         }
 
         private void Circuito_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e) {
+            UIStatics.Codigo.Changed = true;
             MouseProps.LastDoubleClickPosition = e.Location;
             if(Over != null) {
                 if(Over.Draw.DisplayListHandle == Draws.Input[0].DisplayListHandle) {
@@ -833,6 +845,7 @@ namespace IDE {
         }
 
         private void Circuito_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) {
+            UIStatics.Codigo.Changed = true;
             if (e.Button == MouseButtons.Left) {
                 MouseProps.LastClickPosition = e.Location;
             } else if(e.Button == MouseButtons.Right) {
@@ -893,6 +906,7 @@ namespace IDE {
         }
 
         private void Circuito_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e) {
+            UIStatics.Codigo.Changed = true;
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) {
                 MouseProps.LastUpPosition = e.Location;
                 if (e.Button == MouseButtons.Left) {
@@ -1130,7 +1144,7 @@ namespace IDE {
                     }
                 }
             }
-
+            UIStatics.Codigo.Changed = true;
             KeyDown_byte = (byte) e.KeyValue;
             if (Circuit == null) {
                 if (!IsDebugMode) {
@@ -2409,6 +2423,7 @@ namespace IDE {
             GL.Vertex2(-15, 35);
             GL.End();
             GL.EndList();
+
             Display7SegPart[6] = GL.GenLists(1);
             GL.NewList(Display7SegPart[6], ListMode.Compile); //g
             GL.Begin(PrimitiveType.TriangleFan);

@@ -366,13 +366,13 @@ namespace IDE {
         public static void StepIn() {
             if (Simulador != null) {
                 Simulador.Debug_StepInto();
-                Circuito.Tick();
+                Circuito.Run();
             }
         }
         public static void StepOut() {
             if (Simulador != null) {
                 Simulador.Debug_StepOut();
-                Circuito.Tick();
+                Circuito.Run();
             }
         }
 

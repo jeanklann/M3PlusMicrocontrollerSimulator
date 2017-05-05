@@ -30,8 +30,10 @@ namespace M3PlusMicrocontroller {
         public int CurrentFrequency { get { return currentFrequency; } }
         private bool internalSimulation = false;
         public bool InternalSimulation { get { return internalSimulation; } set {
-                if(Frequency > 20) {
-                    Frequency = 20;
+                if (value == true) {
+                    if (Frequency > 20) {
+                        Frequency = 20;
+                    }
                 }
                 internalSimulation = value;
             } }
