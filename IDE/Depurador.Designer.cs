@@ -69,6 +69,7 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.realFrequency = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.abrirMemoriaROM = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -565,7 +566,7 @@
             // abrirMemoriaRam
             // 
             this.abrirMemoriaRam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.abrirMemoriaRam.Location = new System.Drawing.Point(309, 328);
+            this.abrirMemoriaRam.Location = new System.Drawing.Point(309, 327);
             this.abrirMemoriaRam.Name = "abrirMemoriaRam";
             this.abrirMemoriaRam.Size = new System.Drawing.Size(178, 23);
             this.abrirMemoriaRam.TabIndex = 23;
@@ -635,10 +636,23 @@
             this.label14.TabIndex = 26;
             this.label14.Text = "PC: ";
             // 
+            // abrirMemoriaROM
+            // 
+            this.abrirMemoriaROM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.abrirMemoriaROM.Location = new System.Drawing.Point(309, 388);
+            this.abrirMemoriaROM.Name = "abrirMemoriaROM";
+            this.abrirMemoriaROM.Size = new System.Drawing.Size(178, 23);
+            this.abrirMemoriaROM.TabIndex = 27;
+            this.abrirMemoriaROM.Text = "Abrir memória ROM";
+            this.toolTip1.SetToolTip(this.abrirMemoriaROM, "Abre a janela de visualização e edição da memória RAM");
+            this.abrirMemoriaROM.UseVisualStyleBackColor = true;
+            this.abrirMemoriaROM.Click += new System.EventHandler(this.abrirMemoriaROM_Click);
+            // 
             // Depurador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.abrirMemoriaROM);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.programCounter);
             this.Controls.Add(this.abrirMemoriaPilha);
@@ -714,5 +728,6 @@
         private System.Windows.Forms.CheckBox internalSimulation;
         private Components.DataField programCounter;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button abrirMemoriaROM;
     }
 }

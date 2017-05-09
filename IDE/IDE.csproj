@@ -145,6 +145,12 @@
     <Compile Include="FormRamMemory.Designer.cs">
       <DependentUpon>FormRamMemory.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormRomMemory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormRomMemory.Designer.cs">
+      <DependentUpon>FormRomMemory.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormularioPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -184,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormRamMemory.resx">
       <DependentUpon>FormRamMemory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormRomMemory.resx">
+      <DependentUpon>FormRomMemory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormularioPrincipal.resx">
       <DependentUpon>FormularioPrincipal.cs</DependentUpon>

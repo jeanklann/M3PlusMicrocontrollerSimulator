@@ -3381,7 +3381,7 @@ namespace M3PlusMicrocontroller {
             return instruction;
         }
         public static Instruction MOV_A_A() {
-            Instruction instruction = new Instruction("MOV A, B", "Copia o conteúdo do acumulador para o acumulador.", 1);
+            Instruction instruction = new Instruction("MOV A, A", "Copia o conteúdo do acumulador para o acumulador.", 1);
             instruction.InstructionEnum = Instruction_enum.MOV;
             instruction.Function = delegate (Simulator simulator) {
                 simulator.Reg[0] = simulator.Reg[0];

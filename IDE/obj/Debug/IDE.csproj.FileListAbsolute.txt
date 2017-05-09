@@ -110,3 +110,4 @@ D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.Sobre.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Debug\IDE.Ajuda.resources
 D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\IDE.Ajuda.resources
 D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\IDE.Sobre.resources
+D:\M3PlusMicrocontrollerSimulator\IDE\obj\Debug\IDE.FormRomMemory.resources

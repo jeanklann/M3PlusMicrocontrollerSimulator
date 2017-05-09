@@ -385,5 +385,10 @@ namespace IDE {
                 UIStatics.MainForm.ToolStripStatusLabel.Text = UIStatics.Simulador.Program[LineToAddress[line]].Description;
             }
         }
+
+        private void abrirMemoriaROM_Click(object sender, EventArgs e) {
+            FormRomMemory f = new FormRomMemory();
+            f.Show(this);
+        }
     }
 }
