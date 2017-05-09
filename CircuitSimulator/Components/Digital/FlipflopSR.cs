@@ -34,6 +34,7 @@ namespace CircuitSimulator {
             for(int i = 5; i < 7; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
+            Qnot.Value = Pin.HIGH;
         }
         internal override bool CanExecute() {
             if(simulationId == circuit.SimulationId) return false;

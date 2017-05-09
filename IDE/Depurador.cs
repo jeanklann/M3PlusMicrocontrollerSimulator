@@ -11,9 +11,11 @@ using ScintillaNET;
 namespace IDE {
     public partial class Depurador : UserControl {
         public int[] AddressToLine;
+        public int[] LineToAddress;
         public int Frequency = 1;
         public bool FrequencyLimiter = true;
         public bool InternalSimulation = false;
+        public bool ChangedToCompile = false;
 
         private double freq = 1;
         private int power = 0;
@@ -136,8 +138,20 @@ namespace IDE {
                 scintilla.Lines[prevLine].Goto();
         }
         private void updateLineNumber(int padding = 2) {
-            var maxLineNumberCharLength = scintilla.Lines.Count.ToString().Length;
-            scintilla.Margins[0].Width = scintilla.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) + padding;
+            scintilla.Margins[0].Type = MarginType.RightText;
+            int i;
+            int max = 0;
+            for (i = 0; i < scintilla.Lines.Count; i++) {
+                scintilla.Lines[i].MarginStyle = Style.LineNumber;
+                if (scintilla.Lines[i].Text != "") {
+                    scintilla.Lines[i].MarginText = LineToAddress[i].ToString();
+                    if (LineToAddress[i].ToString().Length > max)
+                        max = LineToAddress[i].ToString().Length;
+                } else {
+                    scintilla.Lines[i].MarginText = "";
+                }
+            }
+            scintilla.Margins[0].Width = scintilla.TextWidth(Style.LineNumber, new string('9', max + 1)) + padding;
         }
         public void ZoomMore() {
             scintilla.ZoomIn();
@@ -173,10 +187,19 @@ namespace IDE {
             Components.Add(out3Field);
             Components.Add(cCheck);
             Components.Add(zCheck);
+            Components.Add(programCounter);
 
             CheckForIllegalCrossThreadCalls = false;
             while (!UIStatics.WantExit) {
                 if (UIStatics.Simulador != null) {
+                    if (UIStatics.Simulador.Running) {
+                        try {
+                            UIStatics.MainForm.ToolStripStatusLabel.Text = "Executando programa. Instrução atual: " + UIStatics.Simulador.Program[UIStatics.Simulador.NextInstruction].Text;
+                        } catch( Exception ) {
+                            UIStatics.MainForm.ToolStripStatusLabel.Text = "Erro no programa.";
+                        }
+                    }
+                    programCounter.Value = UIStatics.Simulador.NextInstruction;
 
                     aField.Value = UIStatics.Simulador.Reg[0];
                     bField.Value = UIStatics.Simulador.Reg[1];
@@ -203,19 +226,19 @@ namespace IDE {
 
                     {
                         string inicio = "Frequência real: ";
-                        string mod = "Hz";
+                        string mod = " Hz";
                         float frequencia = UIStatics.Simulador.CurrentFrequency;
                         if(!internalSimulation.Checked) {
                             inicio = "IPS real:";
-                            mod = "IPS";
+                            mod = " IPS";
                         }
                         if (frequencia >= 1000) {
                             frequencia = frequencia / 1000f;
-                            mod = "kIPS";
+                            mod = " kIPS";
                         }
                         if (frequencia >= 1000) {
                             frequencia = frequencia / 1000f;
-                            mod = "MIPS";
+                            mod = " MIPS";
                         }
                         frequencia = (float) (Math.Round(frequencia * 100) / 100);
 
@@ -346,6 +369,20 @@ namespace IDE {
                 freq = (double)frequencyNumeric.Value;
                 power = frequencyCombo.SelectedIndex;
                 UpdateFrequency();
+            }
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e) {
+
+        }
+
+        private void scintilla_Leave(object sender, EventArgs e) {
+        }
+
+        private void scintilla_Click(object sender, EventArgs e) {
+            int line = scintilla.LineFromPosition(scintilla.CurrentPosition);
+            if (UIStatics.Simulador != null) {
+                UIStatics.MainForm.ToolStripStatusLabel.Text = UIStatics.Simulador.Program[LineToAddress[line]].Description;
             }
         }
     }

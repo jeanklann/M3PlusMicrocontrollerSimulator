@@ -158,14 +158,20 @@ namespace M3PlusMicrocontroller {
         }
 
         public void Debug_StepInto() {
+            Stopped = false;
             if (!Running) {
-                Instruction instruction = Program[NextInstruction];
-                NextInstruction += instruction.Size;
-                instruction.Function(this);
+                if (!internalSimulation) {
+                    Instruction instruction = Program[NextInstruction];
+                    NextInstruction += instruction.Size;
+                    instruction.Function(this);
+                } else {
+                    ++LowFrequencyIteraction;
+                }
             }
         }
 
         public void Debug_StepOut() {
+            Stopped = false;
             if (!Running) {
                 Instruction instruction = Program[NextInstruction];
                 NextInstruction += instruction.Size;

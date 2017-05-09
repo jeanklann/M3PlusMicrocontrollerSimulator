@@ -28,6 +28,11 @@ namespace IDE {
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.entradaESaídaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.entradaLógicaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saídaLógicaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tecladoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.displayDe7SegmentosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.portasLógicasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aNDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nANDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,11 +43,8 @@ namespace IDE {
             this.nOTToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.circuitosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.decodificador7SegmentosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.entradaESaídaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.entradaLógicaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saídaLógicaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tecladoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.displayDe7SegmentosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flipflopJKToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flipflopRSToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,85 +55,7 @@ namespace IDE {
             this.portasLógicasToolStripMenuItem,
             this.circuitosToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(155, 92);
-            // 
-            // portasLógicasToolStripMenuItem
-            // 
-            this.portasLógicasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aNDToolStripMenuItem,
-            this.nANDToolStripMenuItem,
-            this.oRToolStripMenuItem,
-            this.nORToolStripMenuItem,
-            this.xORToolStripMenuItem,
-            this.xNORToolStripMenuItem,
-            this.nOTToolStripMenuItem});
-            this.portasLógicasToolStripMenuItem.Name = "portasLógicasToolStripMenuItem";
-            this.portasLógicasToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.portasLógicasToolStripMenuItem.Text = "Portas Lógicas";
-            // 
-            // aNDToolStripMenuItem
-            // 
-            this.aNDToolStripMenuItem.Name = "aNDToolStripMenuItem";
-            this.aNDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.aNDToolStripMenuItem.Text = "AND";
-            this.aNDToolStripMenuItem.Click += new System.EventHandler(this.aNDToolStripMenuItem_Click);
-            // 
-            // nANDToolStripMenuItem
-            // 
-            this.nANDToolStripMenuItem.Name = "nANDToolStripMenuItem";
-            this.nANDToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.nANDToolStripMenuItem.Text = "NAND";
-            this.nANDToolStripMenuItem.Click += new System.EventHandler(this.nANDToolStripMenuItem_Click);
-            // 
-            // oRToolStripMenuItem
-            // 
-            this.oRToolStripMenuItem.Name = "oRToolStripMenuItem";
-            this.oRToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.oRToolStripMenuItem.Text = "OR";
-            this.oRToolStripMenuItem.Click += new System.EventHandler(this.oRToolStripMenuItem_Click);
-            // 
-            // nORToolStripMenuItem
-            // 
-            this.nORToolStripMenuItem.Name = "nORToolStripMenuItem";
-            this.nORToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.nORToolStripMenuItem.Text = "NOR";
-            this.nORToolStripMenuItem.Click += new System.EventHandler(this.nORToolStripMenuItem_Click);
-            // 
-            // xORToolStripMenuItem
-            // 
-            this.xORToolStripMenuItem.Name = "xORToolStripMenuItem";
-            this.xORToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.xORToolStripMenuItem.Text = "XOR";
-            this.xORToolStripMenuItem.Click += new System.EventHandler(this.xORToolStripMenuItem_Click);
-            // 
-            // xNORToolStripMenuItem
-            // 
-            this.xNORToolStripMenuItem.Name = "xNORToolStripMenuItem";
-            this.xNORToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.xNORToolStripMenuItem.Text = "XNOR";
-            this.xNORToolStripMenuItem.Click += new System.EventHandler(this.xNORToolStripMenuItem_Click);
-            // 
-            // nOTToolStripMenuItem
-            // 
-            this.nOTToolStripMenuItem.Name = "nOTToolStripMenuItem";
-            this.nOTToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.nOTToolStripMenuItem.Text = "NOT";
-            this.nOTToolStripMenuItem.Click += new System.EventHandler(this.nOTToolStripMenuItem_Click);
-            // 
-            // circuitosToolStripMenuItem
-            // 
-            this.circuitosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.decodificador7SegmentosToolStripMenuItem});
-            this.circuitosToolStripMenuItem.Name = "circuitosToolStripMenuItem";
-            this.circuitosToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.circuitosToolStripMenuItem.Text = "Circuitos";
-            // 
-            // decodificador7SegmentosToolStripMenuItem
-            // 
-            this.decodificador7SegmentosToolStripMenuItem.Name = "decodificador7SegmentosToolStripMenuItem";
-            this.decodificador7SegmentosToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.decodificador7SegmentosToolStripMenuItem.Text = "Decodificador 7 segmentos";
-            this.decodificador7SegmentosToolStripMenuItem.Click += new System.EventHandler(this.decodificador7SegmentosToolStripMenuItem_Click);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(155, 70);
             // 
             // entradaESaídaToolStripMenuItem
             // 
@@ -171,6 +95,100 @@ namespace IDE {
             this.displayDe7SegmentosToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
             this.displayDe7SegmentosToolStripMenuItem.Text = "Display de 7 segmentos";
             this.displayDe7SegmentosToolStripMenuItem.Click += new System.EventHandler(this.displayDe7SegmentosToolStripMenuItem_Click);
+            // 
+            // portasLógicasToolStripMenuItem
+            // 
+            this.portasLógicasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aNDToolStripMenuItem,
+            this.nANDToolStripMenuItem,
+            this.oRToolStripMenuItem,
+            this.nORToolStripMenuItem,
+            this.xORToolStripMenuItem,
+            this.xNORToolStripMenuItem,
+            this.nOTToolStripMenuItem});
+            this.portasLógicasToolStripMenuItem.Name = "portasLógicasToolStripMenuItem";
+            this.portasLógicasToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.portasLógicasToolStripMenuItem.Text = "Portas Lógicas";
+            // 
+            // aNDToolStripMenuItem
+            // 
+            this.aNDToolStripMenuItem.Name = "aNDToolStripMenuItem";
+            this.aNDToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.aNDToolStripMenuItem.Text = "AND";
+            this.aNDToolStripMenuItem.Click += new System.EventHandler(this.aNDToolStripMenuItem_Click);
+            // 
+            // nANDToolStripMenuItem
+            // 
+            this.nANDToolStripMenuItem.Name = "nANDToolStripMenuItem";
+            this.nANDToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.nANDToolStripMenuItem.Text = "NAND";
+            this.nANDToolStripMenuItem.Click += new System.EventHandler(this.nANDToolStripMenuItem_Click);
+            // 
+            // oRToolStripMenuItem
+            // 
+            this.oRToolStripMenuItem.Name = "oRToolStripMenuItem";
+            this.oRToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.oRToolStripMenuItem.Text = "OR";
+            this.oRToolStripMenuItem.Click += new System.EventHandler(this.oRToolStripMenuItem_Click);
+            // 
+            // nORToolStripMenuItem
+            // 
+            this.nORToolStripMenuItem.Name = "nORToolStripMenuItem";
+            this.nORToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.nORToolStripMenuItem.Text = "NOR";
+            this.nORToolStripMenuItem.Click += new System.EventHandler(this.nORToolStripMenuItem_Click);
+            // 
+            // xORToolStripMenuItem
+            // 
+            this.xORToolStripMenuItem.Name = "xORToolStripMenuItem";
+            this.xORToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.xORToolStripMenuItem.Text = "XOR";
+            this.xORToolStripMenuItem.Click += new System.EventHandler(this.xORToolStripMenuItem_Click);
+            // 
+            // xNORToolStripMenuItem
+            // 
+            this.xNORToolStripMenuItem.Name = "xNORToolStripMenuItem";
+            this.xNORToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.xNORToolStripMenuItem.Text = "XNOR";
+            this.xNORToolStripMenuItem.Click += new System.EventHandler(this.xNORToolStripMenuItem_Click);
+            // 
+            // nOTToolStripMenuItem
+            // 
+            this.nOTToolStripMenuItem.Name = "nOTToolStripMenuItem";
+            this.nOTToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.nOTToolStripMenuItem.Text = "NOT";
+            this.nOTToolStripMenuItem.Click += new System.EventHandler(this.nOTToolStripMenuItem_Click);
+            // 
+            // circuitosToolStripMenuItem
+            // 
+            this.circuitosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.decodificador7SegmentosToolStripMenuItem,
+            this.flipflopJKToolStripMenuItem,
+            this.flipflopRSToolStripMenuItem});
+            this.circuitosToolStripMenuItem.Name = "circuitosToolStripMenuItem";
+            this.circuitosToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.circuitosToolStripMenuItem.Text = "Circuitos";
+            // 
+            // decodificador7SegmentosToolStripMenuItem
+            // 
+            this.decodificador7SegmentosToolStripMenuItem.Name = "decodificador7SegmentosToolStripMenuItem";
+            this.decodificador7SegmentosToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.decodificador7SegmentosToolStripMenuItem.Text = "Decodificador 7 segmentos";
+            this.decodificador7SegmentosToolStripMenuItem.Click += new System.EventHandler(this.decodificador7SegmentosToolStripMenuItem_Click);
+            // 
+            // flipflopJKToolStripMenuItem
+            // 
+            this.flipflopJKToolStripMenuItem.Name = "flipflopJKToolStripMenuItem";
+            this.flipflopJKToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.flipflopJKToolStripMenuItem.Text = "Flip-flop JK";
+            this.flipflopJKToolStripMenuItem.Click += new System.EventHandler(this.flipflopJKToolStripMenuItem_Click);
+            // 
+            // flipflopRSToolStripMenuItem
+            // 
+            this.flipflopRSToolStripMenuItem.Name = "flipflopRSToolStripMenuItem";
+            this.flipflopRSToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
+            this.flipflopRSToolStripMenuItem.Text = "Flip-flop RS";
+            this.flipflopRSToolStripMenuItem.Click += new System.EventHandler(this.flipflopRSToolStripMenuItem_Click);
             // 
             // Circuito
             // 
@@ -213,5 +231,7 @@ namespace IDE {
         private ToolStripMenuItem saídaLógicaToolStripMenuItem;
         private ToolStripMenuItem tecladoToolStripMenuItem;
         private ToolStripMenuItem displayDe7SegmentosToolStripMenuItem;
+        private ToolStripMenuItem flipflopJKToolStripMenuItem;
+        private ToolStripMenuItem flipflopRSToolStripMenuItem;
     }
 }

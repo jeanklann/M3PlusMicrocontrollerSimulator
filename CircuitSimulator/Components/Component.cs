@@ -80,6 +80,7 @@ namespace CircuitSimulator {
         public const float LOW = 0;
         public const float HALFCUT = (HIGH + LOW) / 2f;
         public float Value;
+        public int SimulationId { get { return simulationId; } }
         internal int simulationId = 0;
         internal bool isOpen;
         internal bool isOutput;

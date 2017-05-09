@@ -52,6 +52,7 @@ namespace IDE {
         private void scintilla_TextChanged(object sender, EventArgs e) {
             updateLineNumber();
             Changed = true;
+            UIStatics.Depurador.ChangedToCompile = true;
         }
         public void GotoNextBreakpoint() {
             var line = scintilla.LineFromPosition(scintilla.CurrentPosition);

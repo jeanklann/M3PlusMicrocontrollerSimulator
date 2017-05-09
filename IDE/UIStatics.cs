@@ -15,7 +15,7 @@ namespace IDE {
         public static Depurador Depurador;
         public static Circuito Circuito;
 
-        public static Form MainForm;
+        public static FormularioPrincipal MainForm;
 
         public static Compiler Compilador;
         public static Simulator Simulador;
@@ -246,6 +246,7 @@ namespace IDE {
 
         public static void Compile() {
             try {
+                Depurador.ChangedToCompile = false;
                 Compilador = new Compiler();
                 if (Simulador != null) Simulador.Stop();
                 Simulador = new Simulator();
@@ -263,6 +264,9 @@ namespace IDE {
                     }
                 }
 
+                if(Codigo.scintilla.Text == "") {
+                    Codigo.scintilla.Text = "PROGRAMA_VAZIO:\r\nJMP PROGRAMA_VAZIO";
+                }
                 Instruction[] instructions = Compilador.Compile(Codigo.scintilla.Text, breakpoints);
                 Simulador.Program = instructions;
                 List<byte> compiledProgram = new List<byte>();
@@ -276,6 +280,7 @@ namespace IDE {
                 Simulador.CompiledProgram = compiledProgram.ToArray();
                 StringBuilder text = new StringBuilder();
                 Depurador.AddressToLine = new int[Compiler.MEMORY_MAX_SIZE];
+                Depurador.LineToAddress = new int[Compiler.MEMORY_MAX_SIZE];
                 /*
                 for (int i = 0; i < Codigo.scintilla.Lines.Count; i++) {
                     if ((Codigo.scintilla.Lines[i].MarkerGet() & maskBreakpoint) > 0) {
@@ -291,6 +296,7 @@ namespace IDE {
                 for (int i = 0; i < Compilador.Instructions.Count; i++) {
                     text.AppendLine(Compilador.Instructions[i].Instruction.Text);
                     Depurador.AddressToLine[Compilador.Instructions[i].Address] = i;
+                    Depurador.LineToAddress[i] = Compilador.Instructions[i].Address;
                 }
                 Depurador.SetText(text.ToString());
                 for (int i = 0; i < Compilador.Instructions.Count; i++) {
@@ -301,15 +307,17 @@ namespace IDE {
                 foreach (M3PlusMicrocontroller.Label item in Compilador.Labels) {
                     Depurador.AddLabel(Depurador.AddressToLine[item.Address]);
                 }
-                
-                MessageBox.Show(MainForm, "Programa montado com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MainForm.ToolStripStatusLabel.Text = "Programa montado com sucesso.";
+                //MessageBox.Show(MainForm, "Programa montado com sucesso.", "Sucesso", MessageBoxButtons.OK, MessageBoxIcon.Information);
             } catch (CompilerError e1) {
                 Compilador = null;
                 Simulador = null;
+                MainForm.ToolStripStatusLabel.Text = "Erros na montagem do programa.";
                 MessageBox.Show(MainForm, e1.Message, "Erro de compilação", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } catch (Exception e2) {
                 Compilador = null;
                 Simulador = null;
+                MainForm.ToolStripStatusLabel.Text = "Erro interno. Tente novamente.";
                 MessageBox.Show(MainForm, "Erro interno: \n" + e2.Message, "Erro interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -330,14 +338,17 @@ namespace IDE {
         }
 
         public static void Run() {
+            if(Simulador == null) {
+                Compile();
+            } else if (Depurador.ChangedToCompile) {
+                Simulador.Stop();
+                Circuito.Stop();
+                Compile();
+            }
             if (Simulador != null) {
                 if (!Simulador.Running) {
-                    if (Codigo.Visible) {
-                        Codigo.Visible = false;
-                        Circuito.Visible = false;
-                        Depurador.Visible = true;
-                    }
                     Simulador.Run();
+                    MainForm.ToolStripStatusLabel.Text = "Executando programa.";
                     Circuito.Run();
                 }
             }
@@ -350,28 +361,33 @@ namespace IDE {
             if (Simulador != null) {
                 if (Simulador.Running) {
                     Simulador.Pause();
+                    MainForm.ToolStripStatusLabel.Text = "Programa em pausa.";
                 } else {
                     Simulador.Run();
                     Simulador.Pause();
+                    MainForm.ToolStripStatusLabel.Text = "Programa em pausa.";
                 }
             }
             
         }
         public static void Stop() {
-            if(Simulador != null) {
+            if (Simulador != null) {
                 Simulador.Stop();
+                MainForm.ToolStripStatusLabel.Text = "Programa parado.";
             }
             Circuito.Stop();
         }
         public static void StepIn() {
             if (Simulador != null) {
                 Simulador.Debug_StepInto();
+                MainForm.ToolStripStatusLabel.Text = "Programa em pausa.";
                 Circuito.Run();
             }
         }
         public static void StepOut() {
             if (Simulador != null) {
                 Simulador.Debug_StepOut();
+                MainForm.ToolStripStatusLabel.Text = "Programa em pausa.";
                 Circuito.Run();
             }
         }
@@ -402,7 +418,6 @@ namespace IDE {
             scintilla.Lexer = Lexer.Container;
             
             scintilla.StyleNeeded += new System.EventHandler<ScintillaNET.StyleNeededEventArgs>(scintilla_StyleNeeded);
-            Console.WriteLine();
             /*
             scintilla.SetKeywords(0, "mov add sub inc jmp jmpc jmpz call ret and or xor not");
             scintilla.SetKeywords(1, "");

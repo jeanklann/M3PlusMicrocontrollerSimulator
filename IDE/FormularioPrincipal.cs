@@ -11,17 +11,22 @@ using System.Threading;
 
 namespace IDE {
     public partial class FormularioPrincipal : Form {
-
+        private Thread loadThread;
         public FormularioPrincipal() {
             InitializeComponent();
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-
-            UIStatics.Codigo = codigo1;
-            UIStatics.Depurador = depurador1;
-            UIStatics.Circuito = circuito1;
-
+            UIStatics.Codigo = (Codigo)codigo1;
+            UIStatics.Depurador = (Depurador)depurador1;
+            UIStatics.Circuito = (Circuito)circuito1;
             UIStatics.MainForm = this;
 
+            UIStatics.threadDepurador = new Thread(UIStatics.Depurador.UpdateAll);
+            UIStatics.threadDepurador.Start();
+
+
+        }
+        private void LoadThread() {
+            
         }
 
         private void richTextBox1_KeyDown(object sender, KeyEventArgs e) {
@@ -36,27 +41,31 @@ namespace IDE {
         
 
         private void verPróximoToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.GotoNextBreakpoint();
+            UIStatics.Codigo.GotoNextBreakpoint();
         }
 
         private void verAnteriorToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.GotoPreviousBreakpoint();
+            UIStatics.Codigo.GotoPreviousBreakpoint();
         }
 
         private void removerTodosToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.RemoveAllBreakpoint();
+            UIStatics.Codigo.RemoveAllBreakpoint();
         }
 
         private void adicionarNaLinhaToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.AddBreakpoint();
+            UIStatics.Codigo.AddBreakpoint();
         }
 
         private void removerNaLinhaToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.RemoveBreakpoint();
+            UIStatics.Codigo.RemoveBreakpoint();
         }
 
         private void Form1_Load(object sender, EventArgs e) {
-            UIStatics.Circuito.LoadControl();
+            tabControl1.SelectTab(1);
+            while (!UIStatics.Circuito.Loaded) {
+                Thread.Sleep(10);
+            }
+            tabControl1.SelectTab(0);
         }
 
         private void codigo1_Load(object sender, EventArgs e) {
@@ -64,43 +73,30 @@ namespace IDE {
         }
 
         private void códigoToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.Visible = true;
-            depurador1.Visible = false;
-            circuito1.Visible = false;
         }
 
         private void depuraçãoToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.Visible = false;
-            depurador1.Visible = true;
-            circuito1.Visible = false;
-            if (UIStatics.threadDepurador == null) {
-                UIStatics.threadDepurador = new Thread(UIStatics.Depurador.UpdateAll);
-                UIStatics.threadDepurador.Start();
-            }
         }
 
         private void circuitoToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.Visible = false;
-            depurador1.Visible = false;
-            circuito1.Visible = true;
         }
 
         private void zoomToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.ZoomMore();
-            depurador1.ZoomMore();
-            circuito1.ZoomMore();
+            UIStatics.Codigo.ZoomMore();
+            UIStatics.Depurador.ZoomMore();
+            UIStatics.Circuito.ZoomMore();
         }
 
         private void zoomToolStripMenuItem1_Click(object sender, EventArgs e) {
-            codigo1.ZoomLess();
-            depurador1.ZoomLess();
-            circuito1.ZoomLess();
+            UIStatics.Codigo.ZoomLess();
+            UIStatics.Depurador.ZoomLess();
+            UIStatics.Circuito.ZoomLess();
         }
 
         private void zoomOriginalToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.ZoomReset();
-            depurador1.ZoomReset();
-            circuito1.ZoomReset();
+            UIStatics.Codigo.ZoomReset();
+            UIStatics.Depurador.ZoomReset();
+            UIStatics.Circuito.ZoomReset();
         }
 
         private void analisarEConstruirToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -143,7 +139,7 @@ namespace IDE {
         }
 
         private void FormularioPrincipal_FormClosing(object sender, FormClosingEventArgs e) {
-            if (codigo1.Changed) {
+            if (UIStatics.Codigo.Changed || UIStatics.Circuito.Changed) {
                 DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if(dialogResult == DialogResult.Cancel) {
                     e.Cancel = true;
@@ -190,7 +186,8 @@ namespace IDE {
                     MessageBox.Show(this, "Ocorreu um erro ao salvar o projeto.", "Erro ao salvar o projeto", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 } else {
-                    codigo1.Changed = false;
+                    UIStatics.Codigo.Changed = false;
+                    UIStatics.Circuito.Changed = false;
                 }
             }
             return true;
@@ -198,63 +195,75 @@ namespace IDE {
         
 
         private void desfazerToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.scintilla.Undo();
+            UIStatics.Codigo.scintilla.Undo();
         }
 
         private void refazerToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.scintilla.Redo();
+            UIStatics.Codigo.scintilla.Redo();
         }
 
         private void cortarToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.scintilla.Cut();
+            UIStatics.Codigo.scintilla.Cut();
         }
 
         private void copierToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.scintilla.Copy();
+            UIStatics.Codigo.scintilla.Copy();
         }
 
         private void colarToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.scintilla.Paste();
+            UIStatics.Codigo.scintilla.Paste();
         }
 
         private void selecionarTudoToolStripMenuItem_Click(object sender, EventArgs e) {
-            codigo1.scintilla.SelectAll();
+            UIStatics.Codigo.scintilla.SelectAll();
         }
 
         private void novoToolStripMenuItem_Click(object sender, EventArgs e) {
+            New();
+        }
+
+        private void New() {
             if (UIStatics.Simulador != null) return;
-            if (codigo1.Changed) {
+            if (UIStatics.Codigo.Changed || UIStatics.Circuito.Changed) {
                 DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (dialogResult == DialogResult.Yes) {
                     if (UIStatics.FilePath != null) {
                         if (UIStatics.Save() == false) {
                             if (TrySave()) {
-                                codigo1.scintilla.Text = "";
-                                codigo1.Changed = false;
+                                UIStatics.Codigo.scintilla.Text = "";
+                                UIStatics.Codigo.Changed = false;
+                                UIStatics.Circuito.Changed = false;
                                 UIStatics.FilePath = null;
                             }
                         }
                     } else {
                         if (TrySave()) {
-                            codigo1.scintilla.Text = "";
-                            codigo1.Changed = false;
+                            UIStatics.Codigo.scintilla.Text = "";
+                            UIStatics.Codigo.Changed = false;
+                            UIStatics.Circuito.Changed = false;
                             UIStatics.FilePath = null;
                         }
                     }
                 } else if (dialogResult == DialogResult.No) {
-                    codigo1.scintilla.Text = "";
-                    codigo1.Changed = false;
+                    UIStatics.Codigo.scintilla.Text = "";
+                    UIStatics.Codigo.Changed = false;
+                    UIStatics.Circuito.Changed = false;
                     UIStatics.FilePath = null;
                 }
             } else {
-                codigo1.scintilla.Text = "";
-                codigo1.Changed = false;
+                UIStatics.Codigo.scintilla.Text = "";
+                UIStatics.Codigo.Changed = false;
+                UIStatics.Circuito.Changed = false;
                 UIStatics.FilePath = null;
             }
         }
 
         private void abrirToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (codigo1.Changed) {
+            Open();
+        }
+
+        private void Open() {
+            if (UIStatics.Codigo.Changed) {
                 DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (dialogResult == DialogResult.Yes) {
                     if (UIStatics.FilePath != null) {
@@ -290,7 +299,8 @@ namespace IDE {
                     MessageBox.Show(this, "Ocorreu um erro ao carregar o projeto.", "Erro ao carregar o projeto", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 } else {
-                    codigo1.Changed = false;
+                    UIStatics.Codigo.Changed = false;
+                    UIStatics.Circuito.Changed = false;
                 }
             }
             return true;
@@ -374,6 +384,98 @@ namespace IDE {
                         MessageBox.Show(this, "Ocorreu um erro ao importar.", "Erro ao importar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e) {
+            UIStatics.Run();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e) {
+            UIStatics.Pause();
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e) {
+            UIStatics.Stop();
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e) {
+            UIStatics.StepIn();
+        }
+
+        private void toolStripButton5_Click(object sender, EventArgs e) {
+            UIStatics.StepOut();
+        }
+
+        private void label1_Click(object sender, EventArgs e) {
+
+        }
+
+        private void toolStripButton6_Click(object sender, EventArgs e) {
+            UIStatics.Compile();
+        }
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
+
+        }
+
+        private void toolStripButton8_Click(object sender, EventArgs e) {
+            UIStatics.Codigo.scintilla.Undo();
+        }
+
+        private void toolStripButton9_Click(object sender, EventArgs e) {
+            UIStatics.Codigo.scintilla.Redo();
+        }
+
+        private void toolStripButton14_Click(object sender, EventArgs e) {
+            UIStatics.Codigo.scintilla.Copy();
+        }
+
+        private void toolStripButton15_Click(object sender, EventArgs e) {
+            UIStatics.Codigo.scintilla.Cut();
+        }
+
+        private void toolStripButton7_Click(object sender, EventArgs e) {
+            UIStatics.Codigo.scintilla.Paste();
+        }
+
+        private void toolStripButton10_Click(object sender, EventArgs e) {
+            New();
+        }
+
+        private void toolStripButton11_Click(object sender, EventArgs e) {
+            Open();
+        }
+
+        private void toolStripButton12_Click(object sender, EventArgs e) {
+            if (UIStatics.FilePath != null) {
+                if (UIStatics.Save() == false) {
+                    TrySave();
+                }
+            } else {
+                TrySave();
+            }
+        }
+
+        private void toolStripButton13_Click(object sender, EventArgs e) {
+            TrySave();
+        }
+
+        private void toolStripButton16_Click(object sender, EventArgs e) {
+            UIStatics.Codigo.ZoomMore();
+            UIStatics.Depurador.ZoomMore();
+            UIStatics.Circuito.ZoomMore();
+        }
+
+        private void toolStripButton17_Click(object sender, EventArgs e) {
+            UIStatics.Codigo.ZoomLess();
+            UIStatics.Depurador.ZoomLess();
+            UIStatics.Circuito.ZoomLess();
+        }
+
+        private void toolStripButton18_Click(object sender, EventArgs e) {
+            UIStatics.Codigo.ZoomReset();
+            UIStatics.Depurador.ZoomReset();
+            UIStatics.Circuito.ZoomReset();
         }
     }
 }

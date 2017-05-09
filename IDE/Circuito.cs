@@ -40,6 +40,8 @@ namespace IDE {
         public Dictionary<CircuitSimulator.Components.Wire, Wire> DrawWireToCircuitWire = new Dictionary<CircuitSimulator.Components.Wire, Wire>();
         public Color ClearColor;
         public List<ExtraTerminal> ExtraTerminals;
+        public bool Loaded = false;
+        public bool Changed = false;
         private bool IsDebugMode = false;
         private Queue<Keys> KonamiCode = new Queue<Keys>();
         private Stopwatch Syncronizer = new Stopwatch();
@@ -364,6 +366,22 @@ namespace IDE {
                     DrawComponentsToCircuitComponent.Add(component, item);
                 } else if (item.Draw.DisplayListHandle == Draws.Clock.DisplayListHandle) {
                     CircuitSimulator.Component component = Circuit.AddComponent(new InternalClock());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.JKFlipFlop.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopJK());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.DFlipFlop.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopD());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.RSFlipFlop.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopSR());
+                    CircuitComponentToDrawComponents.Add(item, component);
+                    DrawComponentsToCircuitComponent.Add(component, item);
+                } else if (item.Draw.DisplayListHandle == Draws.TFlipFlop.DisplayListHandle) {
+                    CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopT());
                     CircuitComponentToDrawComponents.Add(item, component);
                     DrawComponentsToCircuitComponent.Add(component, item);
                 } else {
@@ -735,11 +753,21 @@ namespace IDE {
                         if(item.ActiveExtraHandlers[i]) GL.CallList(item.ExtraHandlers[i]);
                     }
                 }
-                GL.Color3(Color.Black);
-                foreach (Point terminal in item.Draw.Terminals) {
-                    GL.Translate(terminal.X, terminal.Y, 0);
+                for (int i = 0; i < item.Draw.Terminals.Length; i++) {
+                    GL.Translate(item.Draw.Terminals[i].X, item.Draw.Terminals[i].Y, 0);
+                    if (UIStatics.Simulador != null && (UIStatics.Simulador.Running || !UIStatics.Simulador.Stopped) && CircuitComponentToDrawComponents.ContainsKey(item)) {
+                        if(CircuitComponentToDrawComponents[item].Pins[i].SimulationId != Circuit.SimulationId) {
+                            GL.Color3(Color.Gray);
+                        } else if(CircuitComponentToDrawComponents[item].Pins[i].Value >= Pin.HALFCUT) {
+                            GL.Color3(Color.Red);
+                        } else {
+                            GL.Color3(Color.Black);
+                        }
+                    } else {
+                        GL.Color3(Color.Black);
+                    }
                     GL.CallList(Draws.TerminalHandle);
-                    GL.Translate(-terminal.X, -terminal.Y, 0);
+                    GL.Translate(-item.Draw.Terminals[i].X, -item.Draw.Terminals[i].Y, 0);
                 }
                 GL.Rotate(-item.Rotation, 0, 0, 1);
                 GL.Translate(-item.Center.X, -item.Center.Y, 0);
@@ -765,7 +793,6 @@ namespace IDE {
 
             SwapBuffers();
         }
-
         private void Circuito_Load(object sender, EventArgs e) {
             ClearColor = BackColor;
             GL.ClearColor(ClearColor);
@@ -773,15 +800,10 @@ namespace IDE {
             Draws.Load();
             FileProject.Load(Application.StartupPath+"\\Default.m3mprj");
 
+            Loaded = true;
 
             threadDraw = new Thread(ThreadDraw);
             threadDraw.Start();
-        }
-
-        public void LoadControl() {
-            Visible = true;
-            Visible = false;
-
         }
         void ThreadDraw() {
             while (!UIStatics.WantExit) {
@@ -821,7 +843,7 @@ namespace IDE {
         }
 
         private void Circuito_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e) {
-            UIStatics.Codigo.Changed = true;
+            Changed = true;
             MouseProps.LastDoubleClickPosition = e.Location;
             if(Over != null) {
                 if(Over.Draw.DisplayListHandle == Draws.Input[0].DisplayListHandle) {
@@ -845,7 +867,7 @@ namespace IDE {
         }
 
         private void Circuito_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e) {
-            UIStatics.Codigo.Changed = true;
+            Changed = true;
             if (e.Button == MouseButtons.Left) {
                 MouseProps.LastClickPosition = e.Location;
             } else if(e.Button == MouseButtons.Right) {
@@ -906,7 +928,7 @@ namespace IDE {
         }
 
         private void Circuito_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e) {
-            UIStatics.Codigo.Changed = true;
+            Changed = true;
             if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right) {
                 MouseProps.LastUpPosition = e.Location;
                 if (e.Button == MouseButtons.Left) {
@@ -1144,7 +1166,7 @@ namespace IDE {
                     }
                 }
             }
-            UIStatics.Codigo.Changed = true;
+            Changed = true;
             KeyDown_byte = (byte) e.KeyValue;
             if (Circuit == null) {
                 if (!IsDebugMode) {
@@ -1348,6 +1370,14 @@ namespace IDE {
 
         private void displayDe7SegmentosToolStripMenuItem_Click(object sender, EventArgs e) {
             Components.Add(new Component(Draws.Display7SegBase, PositionCreatingComponent));
+        }
+
+        private void flipflopJKToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.JKFlipFlop, PositionCreatingComponent));
+        }
+
+        private void flipflopRSToolStripMenuItem_Click(object sender, EventArgs e) {
+            Components.Add(new Component(Draws.RSFlipFlop, PositionCreatingComponent));
         }
         
     }
