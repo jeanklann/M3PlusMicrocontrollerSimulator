@@ -74,3 +74,4 @@ D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Release\CircuitSimulator.dll
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\bin\Release\CircuitSimulator.pdb
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\IDE.Ajuda.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\IDE.Sobre.resources
+D:\M3PlusMicrocontrollerSimulator\IDE\obj\Release\IDE.FormRomMemory.resources

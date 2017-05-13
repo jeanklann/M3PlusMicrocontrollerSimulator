@@ -367,6 +367,9 @@ namespace IDE {
                     Simulador.Pause();
                     MainForm.ToolStripStatusLabel.Text = "Programa em pausa.";
                 }
+                if (Simulador.Program[Simulador.NextInstruction] != null) {
+                    MainForm.ToolStripStatusLabel.Text += " Instrução atual: " + Simulador.Program[Simulador.NextInstruction].Text;
+                }
             }
             
         }
@@ -381,6 +384,9 @@ namespace IDE {
             if (Simulador != null) {
                 Simulador.Debug_StepInto();
                 MainForm.ToolStripStatusLabel.Text = "Programa em pausa.";
+                if (Simulador.Program[Simulador.NextInstruction] != null) {
+                    MainForm.ToolStripStatusLabel.Text += " Instrução atual: " + Simulador.Program[Simulador.NextInstruction].Text;
+                }
                 Circuito.Run();
             }
         }
@@ -388,6 +394,9 @@ namespace IDE {
             if (Simulador != null) {
                 Simulador.Debug_StepOut();
                 MainForm.ToolStripStatusLabel.Text = "Programa em pausa.";
+                if (Simulador.Program[Simulador.NextInstruction] != null) {
+                    MainForm.ToolStripStatusLabel.Text += " Instrução atual: " + Simulador.Program[Simulador.NextInstruction].Text;
+                }
                 Circuito.Run();
             }
         }
