@@ -17,16 +17,24 @@ namespace IDE {
         }
 
         public void AddBreakpoint(Line line = null) {
-            if(line == null) {
-                line = scintilla.Lines[scintilla.CurrentLine];
+            try {
+                if (line == null) {
+                    line = scintilla.Lines[scintilla.CurrentLine];
+                }
+                line.MarkerAdd(UIStatics.BREAKPOINT_MARKER);
+            } catch (Exception e) {
+                UIStatics.ShowExceptionMessage(e);
             }
-            line.MarkerAdd(UIStatics.BREAKPOINT_MARKER);
         }
         public void RemoveBreakpoint(Line line = null) {
-            if(line == null) {
-                line = scintilla.Lines[scintilla.CurrentLine];
+            try {
+                if (line == null) {
+                    line = scintilla.Lines[scintilla.CurrentLine];
+                }
+                line.MarkerDelete(UIStatics.BREAKPOINT_MARKER);
+            } catch (Exception e) {
+                UIStatics.ShowExceptionMessage(e);
             }
-            line.MarkerDelete(UIStatics.BREAKPOINT_MARKER);
         }
         public void RemoveAllBreakpoint() {
             foreach(Line line in scintilla.Lines) {
@@ -55,16 +63,24 @@ namespace IDE {
             UIStatics.Depurador.ChangedToCompile = true;
         }
         public void GotoNextBreakpoint() {
-            var line = scintilla.LineFromPosition(scintilla.CurrentPosition);
-            var nextLine = scintilla.Lines[++line].MarkerNext(1 << UIStatics.BREAKPOINT_MARKER);
-            if(nextLine != -1)
-                scintilla.Lines[nextLine].Goto();
+            try {
+                var line = scintilla.LineFromPosition(scintilla.CurrentPosition);
+                var nextLine = scintilla.Lines[++line].MarkerNext(1 << UIStatics.BREAKPOINT_MARKER);
+                if (nextLine != -1)
+                    scintilla.Lines[nextLine].Goto();
+            } catch (Exception e) {
+                UIStatics.ShowExceptionMessage(e);
+            }
         }
         public void GotoPreviousBreakpoint() {
-            var line = scintilla.LineFromPosition(scintilla.CurrentPosition);
-            var prevLine = scintilla.Lines[--line].MarkerPrevious(1 << UIStatics.BREAKPOINT_MARKER);
-            if(prevLine != -1)
-                scintilla.Lines[prevLine].Goto();
+            try {
+                var line = scintilla.LineFromPosition(scintilla.CurrentPosition);
+                var prevLine = scintilla.Lines[--line].MarkerPrevious(1 << UIStatics.BREAKPOINT_MARKER);
+                if (prevLine != -1)
+                    scintilla.Lines[prevLine].Goto();
+            } catch (Exception e) {
+                UIStatics.ShowExceptionMessage(e);
+            }
         }
 
         private void updateLineNumber(int padding = 2) {

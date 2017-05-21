@@ -162,7 +162,7 @@ namespace M3PlusMicrocontroller {
                                     token = NeedSeparator(tokenAnalyzer, Program);
                                     if (token.Type == TokenType.Registrer) {
                                         if (token.Value == "A") {
-                                            NewInstruction(Instruction.ADD_D_A());
+                                            NewInstruction(Instruction.ADD_E_A());
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
@@ -336,7 +336,7 @@ namespace M3PlusMicrocontroller {
                                     token = NeedSeparator(tokenAnalyzer, Program);
                                     if (token.Type == TokenType.Registrer) {
                                         if (token.Value == "A") {
-                                            NewInstruction(Instruction.SUB_D_A());
+                                            NewInstruction(Instruction.SUB_E_A());
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
@@ -510,7 +510,7 @@ namespace M3PlusMicrocontroller {
                                     token = NeedSeparator(tokenAnalyzer, Program);
                                     if (token.Type == TokenType.Registrer) {
                                         if (token.Value == "A") {
-                                            NewInstruction(Instruction.AND_D_A());
+                                            NewInstruction(Instruction.AND_E_A());
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
@@ -684,7 +684,7 @@ namespace M3PlusMicrocontroller {
                                     token = NeedSeparator(tokenAnalyzer, Program);
                                     if (token.Type == TokenType.Registrer) {
                                         if (token.Value == "A") {
-                                            NewInstruction(Instruction.OR_D_A());
+                                            NewInstruction(Instruction.OR_E_A());
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
@@ -858,7 +858,7 @@ namespace M3PlusMicrocontroller {
                                     token = NeedSeparator(tokenAnalyzer, Program);
                                     if (token.Type == TokenType.Registrer) {
                                         if (token.Value == "A") {
-                                            NewInstruction(Instruction.XOR_D_A());
+                                            NewInstruction(Instruction.XOR_E_A());
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
@@ -1032,7 +1032,7 @@ namespace M3PlusMicrocontroller {
                                     token = NeedSeparator(tokenAnalyzer, Program);
                                     if (token.Type == TokenType.Registrer) {
                                         if (token.Value == "A") {
-                                            NewInstruction(Instruction.NOT_D_A());
+                                            NewInstruction(Instruction.NOT_E_A());
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }
@@ -1380,7 +1380,7 @@ namespace M3PlusMicrocontroller {
                                     token = NeedSeparator(tokenAnalyzer, Program);
                                     if (token.Type == TokenType.Registrer) {
                                         if (token.Value == "A") {
-                                            NewInstruction(Instruction.INC_D_A());
+                                            NewInstruction(Instruction.INC_E_A());
                                         } else {
                                             ThrowInvalidOperation(token, Program);
                                         }

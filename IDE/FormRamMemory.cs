@@ -44,7 +44,7 @@ namespace IDE {
             for (int i = 0; i < quantity; i++) {
                 Label label = new Label();
                 label.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-                label.Text = i.ToString();
+                label.Text = i.ToString("X2");
 
                 Components.DataField field = new Components.DataField();
                 field.Anchor = AnchorStyles.Left | AnchorStyles.Right;

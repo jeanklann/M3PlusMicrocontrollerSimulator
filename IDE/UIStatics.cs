@@ -314,11 +314,8 @@ namespace IDE {
                 Simulador = null;
                 MainForm.ToolStripStatusLabel.Text = "Erros na montagem do programa.";
                 MessageBox.Show(MainForm, e1.Message, "Erro de compilação", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } catch (Exception e2) {
-                Compilador = null;
-                Simulador = null;
-                MainForm.ToolStripStatusLabel.Text = "Erro interno. Tente novamente.";
-                MessageBox.Show(MainForm, "Erro interno: \n" + e2.Message, "Erro interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } catch (Exception e) {
+                ShowExceptionMessage(e);
             }
         }
 
@@ -328,6 +325,10 @@ namespace IDE {
             } else {
                 return false;
             }
+        }
+        public static void ShowExceptionMessage(Exception e = null){
+            ExceptionLog exceptionLog = new ExceptionLog(e);
+            exceptionLog.Show(MainForm);
         }
         public static bool Open() {
             if (FilePath != null) {

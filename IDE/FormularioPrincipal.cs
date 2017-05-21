@@ -23,7 +23,6 @@ namespace IDE {
             UIStatics.threadDepurador = new Thread(UIStatics.Depurador.UpdateAll);
             UIStatics.threadDepurador.Start();
 
-
         }
         private void LoadThread() {
             
@@ -38,8 +37,13 @@ namespace IDE {
 
         }
 
-        
 
+
+        private void reportarToolStripMenuItem_Click(object sender, EventArgs e) {
+            ExceptionLog exceptionLog = new ExceptionLog();
+            exceptionLog.Text = "Reportar um problema";
+            exceptionLog.Show(this);
+        }
         private void verPróximoToolStripMenuItem_Click(object sender, EventArgs e) {
             UIStatics.Codigo.GotoNextBreakpoint();
         }
@@ -128,7 +132,7 @@ namespace IDE {
         }
 
         private void piscaLedToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Text = "apagado:\nmov IN3,a\nand 32,a\njmpz apagado\npisca:\nmov 01,a\nmov a,out0\nmov 00,a\nmov a,out0\njmp pisca";
+            UIStatics.Codigo.scintilla.Text = "apagado:\nmov IN3,a\nand 20,a\njmpz apagado\npisca:\nmov 01,a\nmov a,out0\nmov 00,a\nmov a,out0\njmp pisca";
         }
 
         private void FormularioPrincipal_FormClosed(object sender, FormClosedEventArgs e) {

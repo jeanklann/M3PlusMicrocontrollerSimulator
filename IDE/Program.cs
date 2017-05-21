@@ -9,11 +9,14 @@ namespace IDE {
         /// </summary>
         [STAThread]
         static void Main() {
-            
-            
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormularioPrincipal());
+            try {
+                Application.Run(new FormularioPrincipal());
+            } catch(Exception e) {
+                UIStatics.ShowExceptionMessage(e);
+            }
             
         }
     }

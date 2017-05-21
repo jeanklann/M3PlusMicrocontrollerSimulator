@@ -30,6 +30,7 @@ namespace IDE {
         private Circuit Circuit;
         private Thread thread;
         private Thread threadDraw;
+        private Thread threadStatesPanel;
         public PointF Position = new PointF();
         public PointF PositionCreatingComponent = new PointF();
         public Component InsideComponent;
@@ -56,6 +57,107 @@ namespace IDE {
                 thread = new Thread(ThreadRun);
                 thread.Start();
             }
+        }
+        private void ThreadStatesUpdate() {
+            //for (int i = 0; i < 8; i++) {
+            //    ControlModule.TerminalsString[i] = "In" + i;
+            //}
+            //ControlModule.TerminalsString[8] = "Clock";
+            //ControlModule.TerminalsString[9] = "Flag IN carry";
+            //ControlModule.TerminalsString[10] = "Flag IN zero";
+            //ControlModule.TerminalsString[11] = "EOI";
+            //ControlModule.TerminalsString[12] = "ROM rd";
+            //ControlModule.TerminalsString[13] = "ROM cs";
+            //ControlModule.TerminalsString[14] = "PCH bus";
+            //ControlModule.TerminalsString[15] = "PCL bus";
+            //ControlModule.TerminalsString[16] = "PCH clock";
+            //ControlModule.TerminalsString[17] = "PCL clock";
+            //ControlModule.TerminalsString[18] = "Data PC sel";
+            //ControlModule.TerminalsString[19] = "DIR clock";
+            //ControlModule.TerminalsString[20] = "SP clock";
+            //ControlModule.TerminalsString[21] = "SP IncDec";
+            //ControlModule.TerminalsString[22] = "SP sel";
+            //ControlModule.TerminalsString[23] = "SP en";
+            //ControlModule.TerminalsString[24] = "Reset";
+            //ControlModule.TerminalsString[25] = "ULA bus";
+            //ControlModule.TerminalsString[26] = "Buf clk";
+            //ControlModule.TerminalsString[27] = "AC bus";
+            //ControlModule.TerminalsString[28] = "AC clk";
+            //ControlModule.TerminalsString[29] = "RG bus";
+            //ControlModule.TerminalsString[30] = "RG/PC clk";
+            //ControlModule.TerminalsString[31] = "RAM rd";
+            //ControlModule.TerminalsString[32] = "RAM wr";
+            //ControlModule.TerminalsString[33] = "RAM cs";
+            //ControlModule.TerminalsString[34] = "In bus";
+            //ControlModule.TerminalsString[35] = "Out clk";
+            //ControlModule.TerminalsString[36] = "ULA OP sel 0";
+            //ControlModule.TerminalsString[37] = "ULA OP sel 1";
+            //ControlModule.TerminalsString[38] = "ULA OP sel 2";
+            //ControlModule.TerminalsString[39] = "RG/PB sel 0";
+            //ControlModule.TerminalsString[40] = "RG/PB sel 1";
+            
+            while (!UIStatics.WantExit) {
+                try {
+                    Thread.Sleep(20);
+                    if (UIStatics.Simulador == null || InternalComponents.ControlModule == null || 
+                        InsideComponent == null || InsideComponent.Draw.DisplayListHandle != Draws.Microcontroller.DisplayListHandle ||
+                        UIStatics.Simulador.InternalSimulation == false ) {
+                        controlModuleStatesPanel.Visible = false;
+                        continue;
+                    } else {
+                        controlModuleStatesPanel.Visible = true;
+                    }
+                    bus.Text = GetBUSHexa() + "\r\nBUS";
+                    clock.Checked = InternalComponents.ControlModule.Clock.Value >= Pin.HALFCUT;
+                    flagC.Checked = InternalComponents.ControlModule.FlagInCarry.Value >= Pin.HALFCUT;
+                    flagZ.Checked = InternalComponents.ControlModule.FlagInZero.Value >= Pin.HALFCUT;
+                    EOI.Checked = InternalComponents.ControlModule.EOI.Value >= Pin.HALFCUT;
+                    ROMrd.Checked = InternalComponents.ControlModule.ROMrd.Value >= Pin.HALFCUT;
+                    ROMcs.Checked = InternalComponents.ControlModule.ROMcs.Value >= Pin.HALFCUT;
+                    PCHbus.Checked = InternalComponents.ControlModule.PCHbus.Value >= Pin.HALFCUT;
+                    PCLbus.Checked = InternalComponents.ControlModule.PCLbus.Value >= Pin.HALFCUT;
+                    PCHclk.Checked = InternalComponents.ControlModule.PCHclock.Value >= Pin.HALFCUT;
+                    PCLclk.Checked = InternalComponents.ControlModule.PCLclock.Value >= Pin.HALFCUT;
+                    DataPCsel.Checked = InternalComponents.ControlModule.DataPCsel.Value >= Pin.HALFCUT;
+                    DIRclk.Checked = InternalComponents.ControlModule.DIRclock.Value >= Pin.HALFCUT;
+                    SPclk.Checked = InternalComponents.ControlModule.SPclock.Value >= Pin.HALFCUT;
+                    SPen.Checked = InternalComponents.ControlModule.SPen.Value >= Pin.HALFCUT;
+                    SPIncDec.Checked = InternalComponents.ControlModule.SPIncDec.Value >= Pin.HALFCUT;
+                    SPsel.Checked = InternalComponents.ControlModule.SPsel.Value >= Pin.HALFCUT;
+                    SPen.Checked = InternalComponents.ControlModule.SPen.Value >= Pin.HALFCUT;
+                    Reset.Checked = InternalComponents.ControlModule.Reset.Value >= Pin.HALFCUT;
+                    ULAbus.Checked = InternalComponents.ControlModule.ULAbus.Value >= Pin.HALFCUT;
+                    BUFclk.Checked = InternalComponents.ControlModule.BUFclock.Value >= Pin.HALFCUT;
+                    ACbus.Checked = InternalComponents.ControlModule.ACbus.Value >= Pin.HALFCUT;
+                    ACclk.Checked = InternalComponents.ControlModule.ACclock.Value >= Pin.HALFCUT;
+                    RGbus.Checked = InternalComponents.ControlModule.RGbus.Value >= Pin.HALFCUT;
+                    RGPCclk.Checked = InternalComponents.ControlModule.RGPCclock.Value >= Pin.HALFCUT;
+                    RAMrd.Checked = InternalComponents.ControlModule.RAMrd.Value >= Pin.HALFCUT;
+                    RAMwr.Checked = InternalComponents.ControlModule.RAMwr.Value >= Pin.HALFCUT;
+                    RAMcs.Checked = InternalComponents.ControlModule.RAMcs.Value >= Pin.HALFCUT;
+                    INbus.Checked = InternalComponents.ControlModule.INbus.Value >= Pin.HALFCUT;
+                    OUTclk.Checked = InternalComponents.ControlModule.OUTclock.Value >= Pin.HALFCUT;
+                    ULAop0.Checked = InternalComponents.ControlModule.ULAOPsel0.Value >= Pin.HALFCUT;
+                    ULAop1.Checked = InternalComponents.ControlModule.ULAOPsel1.Value >= Pin.HALFCUT;
+                    ULAop2.Checked = InternalComponents.ControlModule.ULAOPsel2.Value >= Pin.HALFCUT;
+                    RGPB0.Checked = InternalComponents.ControlModule.RGPBsel0.Value >= Pin.HALFCUT;
+                    RGPB1.Checked = InternalComponents.ControlModule.RGPBsel1.Value >= Pin.HALFCUT;
+                } catch (Exception e) {
+                    UIStatics.ShowExceptionMessage(e);
+                }
+            }
+        }
+        private string GetBUSHexa() {
+            int val = 0;
+            val += InternalComponents.ControlModule.In0.Value >= Pin.HALFCUT ? 1 : 0;
+            val += InternalComponents.ControlModule.In1.Value >= Pin.HALFCUT ? 2 : 0;
+            val += InternalComponents.ControlModule.In2.Value >= Pin.HALFCUT ? 4 : 0;
+            val += InternalComponents.ControlModule.In3.Value >= Pin.HALFCUT ? 8 : 0;
+            val += InternalComponents.ControlModule.In4.Value >= Pin.HALFCUT ? 16 : 0;
+            val += InternalComponents.ControlModule.In5.Value >= Pin.HALFCUT ? 32 : 0;
+            val += InternalComponents.ControlModule.In6.Value >= Pin.HALFCUT ? 64 : 0;
+            val += InternalComponents.ControlModule.In7.Value >= Pin.HALFCUT ? 128 : 0;
+            return val.ToString("X2");
         }
         public void Stop() {
             Circuit = null;
@@ -126,7 +228,8 @@ namespace IDE {
                 List<CircuitSimulator.Component> copy;
                 try {
                     copy = Circuit.Components;
-                } catch (Exception) {
+                } catch (Exception e) {
+                    UIStatics.ShowExceptionMessage(e);
                     break;
                 }
                 float halfCut = Pin.HIGH + Pin.LOW / 2f;
@@ -225,7 +328,7 @@ namespace IDE {
                 try {
                     Circuit.Tick();
                 } catch (Exception e) {
-                    Console.WriteLine(e);
+                    UIStatics.ShowExceptionMessage(e);
                 }
                 Thread.Sleep(16);
             }
@@ -253,247 +356,251 @@ namespace IDE {
         }
 
         private void MountCircuit() {
-            Circuit = new Circuit();
-            CircuitComponentToDrawComponents.Clear();
-            CircuitWireToDrawWire.Clear();
-            DrawComponentsToCircuitComponent.Clear();
-            DrawWireToCircuitWire.Clear();
-            foreach (Component item in Components) {
-                if (item.Draw.DisplayListHandle == Draws.And[0].DisplayListHandle ||
-                    item.Draw.DisplayListHandle == Draws.And[1].DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new AndGate());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Nand[0].DisplayListHandle ||
-                            item.Draw.DisplayListHandle == Draws.Nand[1].DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new NandGate());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Or[0].DisplayListHandle ||
-                            item.Draw.DisplayListHandle == Draws.Or[1].DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new OrGate());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Nor[0].DisplayListHandle ||
-                            item.Draw.DisplayListHandle == Draws.Nor[1].DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new NorGate());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Xor[0].DisplayListHandle ||
-                            item.Draw.DisplayListHandle == Draws.Xor[1].DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new XorGate());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Xnor[0].DisplayListHandle ||
-                            item.Draw.DisplayListHandle == Draws.Xnor[1].DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new XnorGate());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Not[0].DisplayListHandle ||
-                            item.Draw.DisplayListHandle == Draws.Not[1].DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new NotGate());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Input[0].DisplayListHandle ||
-                             item.Draw.DisplayListHandle == Draws.Input[1].DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new LogicInput());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Output[0].DisplayListHandle ||
-                             item.Draw.DisplayListHandle == Draws.Output[1].DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new LogicOutput());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Keyboard.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new CircuitSimulator.Components.Digital.Keyboard());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Microcontroller.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new Microcontroller());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Display7SegBase.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new Display7Seg());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.BinTo7Seg.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new BinTo7Seg());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.ControlModule.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new ControlModule());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.PortBank.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new PortBank());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Registrers.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new Registrers());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Disable8Bit.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new Disable8Bit());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.RamMemory.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new RamMemory());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Counter8Bit.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new Counter8Bit());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.RomAddresser.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new RomAddresser());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.RomMemory.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new RomMemory());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.ULA.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new ULA());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Registrer8BitSG.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new Registrer8BitSG());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Registrer8BitCBuffer.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new Registrer8BitCBuffer());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.Clock.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new InternalClock());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.JKFlipFlop.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopJK());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.DFlipFlop.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopD());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.RSFlipFlop.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopSR());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else if (item.Draw.DisplayListHandle == Draws.TFlipFlop.DisplayListHandle) {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopT());
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                } else {
-                    CircuitSimulator.Component component = Circuit.AddComponent(new Chip("Generc chip of "+item.Type, item.Draw.Terminals.Length));
-                    CircuitComponentToDrawComponents.Add(item, component);
-                    DrawComponentsToCircuitComponent.Add(component, item);
-                    Console.WriteLine("Componente " + item.Type + " não programado. Adicionado chip genérico.");
+            try {
+                Circuit = new Circuit();
+                CircuitComponentToDrawComponents.Clear();
+                CircuitWireToDrawWire.Clear();
+                DrawComponentsToCircuitComponent.Clear();
+                DrawWireToCircuitWire.Clear();
+                foreach (Component item in Components) {
+                    if (item.Draw.DisplayListHandle == Draws.And[0].DisplayListHandle ||
+                        item.Draw.DisplayListHandle == Draws.And[1].DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new AndGate());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Nand[0].DisplayListHandle ||
+                                item.Draw.DisplayListHandle == Draws.Nand[1].DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new NandGate());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Or[0].DisplayListHandle ||
+                                item.Draw.DisplayListHandle == Draws.Or[1].DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new OrGate());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Nor[0].DisplayListHandle ||
+                                item.Draw.DisplayListHandle == Draws.Nor[1].DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new NorGate());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Xor[0].DisplayListHandle ||
+                                item.Draw.DisplayListHandle == Draws.Xor[1].DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new XorGate());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Xnor[0].DisplayListHandle ||
+                                item.Draw.DisplayListHandle == Draws.Xnor[1].DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new XnorGate());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Not[0].DisplayListHandle ||
+                                item.Draw.DisplayListHandle == Draws.Not[1].DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new NotGate());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Input[0].DisplayListHandle ||
+                                 item.Draw.DisplayListHandle == Draws.Input[1].DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new LogicInput());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Output[0].DisplayListHandle ||
+                                 item.Draw.DisplayListHandle == Draws.Output[1].DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new LogicOutput());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Keyboard.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new CircuitSimulator.Components.Digital.Keyboard());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Microcontroller.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new Microcontroller());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Display7SegBase.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new Display7Seg());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.BinTo7Seg.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new BinTo7Seg());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.ControlModule.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new ControlModule());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.PortBank.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new PortBank());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Registrers.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new Registrers());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Disable8Bit.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new Disable8Bit());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.RamMemory.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new RamMemory());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Counter8Bit.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new Counter8Bit());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.RomAddresser.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new RomAddresser());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.RomMemory.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new RomMemory());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.ULA.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new ULA());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Registrer8BitSG.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new Registrer8BitSG());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Registrer8BitCBuffer.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new Registrer8BitCBuffer());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.Clock.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new InternalClock());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.JKFlipFlop.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopJK());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.DFlipFlop.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopD());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.RSFlipFlop.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopSR());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else if (item.Draw.DisplayListHandle == Draws.TFlipFlop.DisplayListHandle) {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new FlipflopT());
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                    } else {
+                        CircuitSimulator.Component component = Circuit.AddComponent(new Chip("Generc chip of "+item.Type, item.Draw.Terminals.Length));
+                        CircuitComponentToDrawComponents.Add(item, component);
+                        DrawComponentsToCircuitComponent.Add(component, item);
+                        Console.WriteLine("Componente " + item.Type + " não programado. Adicionado chip genérico.");
+                    }
                 }
-            }
             
-            foreach (CircuitSimulator.Component component in Circuit.Components) {
-                if (component is ControlModule)
-                    InternalComponents.ControlModule = (ControlModule)component;
-                else if (component is RomMemory)
-                    InternalComponents.RomMemory = (RomMemory)component;
-                else if (component is ULA)
-                    InternalComponents.ULA = (ULA)component;
-                else if (component is Registrers)
-                    InternalComponents.Registrers = (Registrers)component;
-                else if (component is Registrer8BitCBuffer)
-                    InternalComponents.Accumulator = (Registrer8BitCBuffer)component;
-                else if (component is Counter8Bit)
-                    InternalComponents.StackCounter = (Counter8Bit)component;
-                else if (component is PortBank)
-                    InternalComponents.PortBank = (PortBank)component;
-                else if (component is RomAddresser)
-                    InternalComponents.RomAddresser = (RomAddresser)component;
-                else if (component is Microcontroller)
-                    InternalComponents.Microcontroller = (Microcontroller)component;
-                else if (component is RamMemory) {
-                    if(component.Id == 39) {
-                        InternalComponents.StackMemory = (RamMemory)component;
-                    } else if(component.Id == 40) {
-                        InternalComponents.RamMemory = (RamMemory)component;
+                foreach (CircuitSimulator.Component component in Circuit.Components) {
+                    if (component is ControlModule)
+                        InternalComponents.ControlModule = (ControlModule)component;
+                    else if (component is RomMemory)
+                        InternalComponents.RomMemory = (RomMemory)component;
+                    else if (component is ULA)
+                        InternalComponents.ULA = (ULA)component;
+                    else if (component is Registrers)
+                        InternalComponents.Registrers = (Registrers)component;
+                    else if (component is Registrer8BitCBuffer)
+                        InternalComponents.Accumulator = (Registrer8BitCBuffer)component;
+                    else if (component is Counter8Bit)
+                        InternalComponents.StackCounter = (Counter8Bit)component;
+                    else if (component is PortBank)
+                        InternalComponents.PortBank = (PortBank)component;
+                    else if (component is RomAddresser)
+                        InternalComponents.RomAddresser = (RomAddresser)component;
+                    else if (component is Microcontroller)
+                        InternalComponents.Microcontroller = (Microcontroller)component;
+                    else if (component is RamMemory) {
+                        if(component.Id == 39) {
+                            InternalComponents.StackMemory = (RamMemory)component;
+                        } else if(component.Id == 40) {
+                            InternalComponents.RamMemory = (RamMemory)component;
+                        }
                     }
                 }
-            }
 
-            foreach (Wire item in Wires) {
-                CircuitSimulator.Components.Wire wire = Circuit.AddComponent(new CircuitSimulator.Components.Wire());
-                CircuitWireToDrawWire.Add(item, wire);
-                DrawWireToCircuitWire.Add(wire, item);
-            }
+                foreach (Wire item in Wires) {
+                    CircuitSimulator.Components.Wire wire = Circuit.AddComponent(new CircuitSimulator.Components.Wire());
+                    CircuitWireToDrawWire.Add(item, wire);
+                    DrawWireToCircuitWire.Add(wire, item);
+                }
 
 
-            foreach (Wire item in Wires) {
-                if(item.FromComponent != null && item.ToComponent != null) {//from and to is component
-                    CircuitSimulator.Component From = CircuitComponentToDrawComponents[item.FromComponent];
-                    CircuitSimulator.Component To = CircuitComponentToDrawComponents[item.ToComponent];
-                    CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
-                    Wire.Pins[0].Connect(From.Pins[item.FromIndex]);
-                    Wire.Pins[1].Connect(To.Pins[item.ToIndex]);
-                } else if (item.FromComponent != null && item.ToComponent == null) {// from is and to is not a component
-                    CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
-                    CircuitSimulator.Component From = CircuitComponentToDrawComponents[item.FromComponent];
-                    List<Pin> TempPins = new List<Pin>();
-                    foreach (Wire item2 in Wires) {
-                        if(item.To == item2.From) {
-                            if (item != item2)
-                                TempPins.Add(CircuitWireToDrawWire[item2].Pins[0]);
-                        } else if(item.To == item2.To) {
-                            if (item != item2)
-                                TempPins.Add(CircuitWireToDrawWire[item2].Pins[1]);
+                foreach (Wire item in Wires) {
+                    if(item.FromComponent != null && item.ToComponent != null) {//from and to is component
+                        CircuitSimulator.Component From = CircuitComponentToDrawComponents[item.FromComponent];
+                        CircuitSimulator.Component To = CircuitComponentToDrawComponents[item.ToComponent];
+                        CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
+                        Wire.Pins[0].Connect(From.Pins[item.FromIndex]);
+                        Wire.Pins[1].Connect(To.Pins[item.ToIndex]);
+                    } else if (item.FromComponent != null && item.ToComponent == null) {// from is and to is not a component
+                        CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
+                        CircuitSimulator.Component From = CircuitComponentToDrawComponents[item.FromComponent];
+                        List<Pin> TempPins = new List<Pin>();
+                        foreach (Wire item2 in Wires) {
+                            if(item.To == item2.From) {
+                                if (item != item2)
+                                    TempPins.Add(CircuitWireToDrawWire[item2].Pins[0]);
+                            } else if(item.To == item2.To) {
+                                if (item != item2)
+                                    TempPins.Add(CircuitWireToDrawWire[item2].Pins[1]);
+                            }
                         }
-                    }
-                    Wire.Pins[0].Connect(From.Pins[item.FromIndex]);
-                    foreach (Pin pin in TempPins) {
-                        Wire.Pins[1].Connect(pin);
-                    }
-                } else if (item.FromComponent == null && item.ToComponent != null) {//from is not and to is a component
-                    CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
-                    CircuitSimulator.Component To = CircuitComponentToDrawComponents[item.ToComponent];
-                    List<Pin> TempPins = new List<Pin>();
-                    foreach (Wire item2 in Wires) {
-                        if (item.From == item2.From) {
-                            if (item != item2)
-                                TempPins.Add(CircuitWireToDrawWire[item2].Pins[0]);
-                        } else if (item.From == item2.To) {
-                            if (item != item2)
-                                TempPins.Add(CircuitWireToDrawWire[item2].Pins[1]);
+                        Wire.Pins[0].Connect(From.Pins[item.FromIndex]);
+                        foreach (Pin pin in TempPins) {
+                            Wire.Pins[1].Connect(pin);
                         }
-                    }
-                    Wire.Pins[1].Connect(To.Pins[item.ToIndex]);
-                    foreach (Pin pin in TempPins) {
-                        Wire.Pins[0].Connect(pin);
-                    }
-                } else if (item.FromComponent == null && item.ToComponent == null) {//from and to is not a component
-                    CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
-                    List<Pin> TempPinsFrom = new List<Pin>();
-                    List<Pin> TempPinsTo = new List<Pin>();
-                    foreach (Wire item2 in Wires) {
-                        if (item.From == item2.From) {
-                            if (item != item2)
-                                TempPinsFrom.Add(CircuitWireToDrawWire[item2].Pins[0]);
-                        } else if (item.From == item2.To) {
-                            if (item != item2)
-                                TempPinsFrom.Add(CircuitWireToDrawWire[item2].Pins[1]);
-                        } else if (item.To == item2.From) {
-                            if (item != item2)
-                                TempPinsTo.Add(CircuitWireToDrawWire[item2].Pins[0]);
-                        } else if (item.To == item2.To) {
-                            if (item != item2)
-                                TempPinsTo.Add(CircuitWireToDrawWire[item2].Pins[1]);
+                    } else if (item.FromComponent == null && item.ToComponent != null) {//from is not and to is a component
+                        CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
+                        CircuitSimulator.Component To = CircuitComponentToDrawComponents[item.ToComponent];
+                        List<Pin> TempPins = new List<Pin>();
+                        foreach (Wire item2 in Wires) {
+                            if (item.From == item2.From) {
+                                if (item != item2)
+                                    TempPins.Add(CircuitWireToDrawWire[item2].Pins[0]);
+                            } else if (item.From == item2.To) {
+                                if (item != item2)
+                                    TempPins.Add(CircuitWireToDrawWire[item2].Pins[1]);
+                            }
                         }
-                    }
-                    foreach (Pin pin in TempPinsFrom) {
-                        Wire.Pins[0].Connect(pin);
-                    }
-                    foreach (Pin pin in TempPinsTo) {
-                        Wire.Pins[1].Connect(pin);
+                        Wire.Pins[1].Connect(To.Pins[item.ToIndex]);
+                        foreach (Pin pin in TempPins) {
+                            Wire.Pins[0].Connect(pin);
+                        }
+                    } else if (item.FromComponent == null && item.ToComponent == null) {//from and to is not a component
+                        CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
+                        List<Pin> TempPinsFrom = new List<Pin>();
+                        List<Pin> TempPinsTo = new List<Pin>();
+                        foreach (Wire item2 in Wires) {
+                            if (item.From == item2.From) {
+                                if (item != item2)
+                                    TempPinsFrom.Add(CircuitWireToDrawWire[item2].Pins[0]);
+                            } else if (item.From == item2.To) {
+                                if (item != item2)
+                                    TempPinsFrom.Add(CircuitWireToDrawWire[item2].Pins[1]);
+                            } else if (item.To == item2.From) {
+                                if (item != item2)
+                                    TempPinsTo.Add(CircuitWireToDrawWire[item2].Pins[0]);
+                            } else if (item.To == item2.To) {
+                                if (item != item2)
+                                    TempPinsTo.Add(CircuitWireToDrawWire[item2].Pins[1]);
+                            }
+                        }
+                        foreach (Pin pin in TempPinsFrom) {
+                            Wire.Pins[0].Connect(pin);
+                        }
+                        foreach (Pin pin in TempPinsTo) {
+                            Wire.Pins[1].Connect(pin);
+                        }
                     }
                 }
+            } catch (Exception e) {
+                UIStatics.ShowExceptionMessage(e);
             }
         }
         
@@ -524,8 +631,8 @@ namespace IDE {
             if(UIStatics.Simulador.Program[nextInstruction] != null) {
                 UIStatics.Simulador.NextInstruction = nextInstruction;
             } else {
-                Console.WriteLine("ERRO[PC:"+nextInstruction+"]");
-            }
+                UIStatics.ShowExceptionMessage(new Exception("ERRO NO PC: "+nextInstruction));
+        }
             
         }
         private void SetValuesFromSimulator() {
@@ -804,6 +911,9 @@ namespace IDE {
 
             threadDraw = new Thread(ThreadDraw);
             threadDraw.Start();
+
+            threadStatesPanel = new Thread(ThreadStatesUpdate);
+            threadStatesPanel.Start();
         }
         void ThreadDraw() {
             while (!UIStatics.WantExit) {

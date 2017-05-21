@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IDE</RootNamespace>
     <AssemblyName>SimuladorM+++</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile>
@@ -139,6 +139,12 @@
     <Compile Include="Depurador.Designer.cs">
       <DependentUpon>Depurador.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExceptionLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExceptionLog.Designer.cs">
+      <DependentUpon>ExceptionLog.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormRamMemory.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Depurador.resx">
       <DependentUpon>Depurador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExceptionLog.resx">
+      <DependentUpon>ExceptionLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormRamMemory.resx">
       <DependentUpon>FormRamMemory.cs</DependentUpon>

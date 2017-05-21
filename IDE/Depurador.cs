@@ -35,36 +35,44 @@ namespace IDE {
         }
 
         public void AddBreakpoint(Line line = null) {
-            if(line == null) {
-                line = scintilla.Lines[scintilla.CurrentLine];
-            }
-            if (UIStatics.Simulador != null) {
-                if (UIStatics.Simulador.Program != null) {
-                    for (int i = 0; i < AddressToLine.Length; i++) {
-                        if(AddressToLine[i] == line.Index) {
-                            if(UIStatics.Simulador.Program[i] != null)
-                                UIStatics.Simulador.Program[i].HasBreakpoint = true;
+            try { 
+                if(line == null) {
+                    line = scintilla.Lines[scintilla.CurrentLine];
+                }
+                if (UIStatics.Simulador != null) {
+                    if (UIStatics.Simulador.Program != null) {
+                        for (int i = 0; i < AddressToLine.Length; i++) {
+                            if(AddressToLine[i] == line.Index) {
+                                if(UIStatics.Simulador.Program[i] != null)
+                                    UIStatics.Simulador.Program[i].HasBreakpoint = true;
+                            }
                         }
                     }
                 }
+                line.MarkerAdd(UIStatics.BREAKPOINT_MARKER);
+            } catch (Exception e) {
+                UIStatics.ShowExceptionMessage(e);
             }
-            line.MarkerAdd(UIStatics.BREAKPOINT_MARKER);
         }
         public void RemoveBreakpoint(Line line = null) {
-            if(line == null) {
-                line = scintilla.Lines[scintilla.CurrentLine];
-            }
-            if (UIStatics.Simulador != null) {
-                if (UIStatics.Simulador.Program != null) {
-                    for (int i = 0; i < AddressToLine.Length; i++) {
-                        if (AddressToLine[i] == line.Index) {
-                            if (UIStatics.Simulador.Program[i] != null)
-                                UIStatics.Simulador.Program[i].HasBreakpoint = false;
+            try {
+                if (line == null) {
+                    line = scintilla.Lines[scintilla.CurrentLine];
+                }
+                if (UIStatics.Simulador != null) {
+                    if (UIStatics.Simulador.Program != null) {
+                        for (int i = 0; i < AddressToLine.Length; i++) {
+                            if (AddressToLine[i] == line.Index) {
+                                if (UIStatics.Simulador.Program[i] != null)
+                                    UIStatics.Simulador.Program[i].HasBreakpoint = false;
+                            }
                         }
                     }
                 }
+                line.MarkerDelete(UIStatics.BREAKPOINT_MARKER);
+            } catch (Exception e) {
+                UIStatics.ShowExceptionMessage(e);
             }
-            line.MarkerDelete(UIStatics.BREAKPOINT_MARKER);
         }
         public void RemoveAllBreakpoint() {
             foreach(Line line in scintilla.Lines) {
@@ -191,98 +199,102 @@ namespace IDE {
 
             CheckForIllegalCrossThreadCalls = false;
             while (!UIStatics.WantExit) {
-                if (UIStatics.Simulador != null) {
-                    if (UIStatics.Simulador.Running) {
-                        try {
-                            UIStatics.MainForm.ToolStripStatusLabel.Text = "Executando programa. Instrução atual: " + UIStatics.Simulador.Program[UIStatics.Simulador.NextInstruction].Text;
-                        } catch( Exception ) {
-                            UIStatics.MainForm.ToolStripStatusLabel.Text = "Erro no programa.";
+                try {
+                    if (UIStatics.Simulador != null) {
+                        if (UIStatics.Simulador.Running) {
+                            try {
+                                UIStatics.MainForm.ToolStripStatusLabel.Text = "Executando programa. Instrução atual: " + UIStatics.Simulador.Program[UIStatics.Simulador.NextInstruction].Text;
+                            } catch (Exception) {
+                                UIStatics.MainForm.ToolStripStatusLabel.Text = "Erro no programa.";
+                            }
                         }
-                    }
-                    programCounter.Value = UIStatics.Simulador.NextInstruction;
+                        programCounter.Value = UIStatics.Simulador.NextInstruction;
 
-                    aField.Value = UIStatics.Simulador.Reg[0];
-                    bField.Value = UIStatics.Simulador.Reg[1];
-                    cField.Value = UIStatics.Simulador.Reg[2];
-                    dField.Value = UIStatics.Simulador.Reg[3];
-                    eField.Value = UIStatics.Simulador.Reg[4];
+                        aField.Value = UIStatics.Simulador.Reg[0];
+                        bField.Value = UIStatics.Simulador.Reg[1];
+                        cField.Value = UIStatics.Simulador.Reg[2];
+                        dField.Value = UIStatics.Simulador.Reg[3];
+                        eField.Value = UIStatics.Simulador.Reg[4];
 
-                    in0Field.Value = UIStatics.Simulador.In[0];
-                    in1Field.Value = UIStatics.Simulador.In[1];
-                    in2Field.Value = UIStatics.Simulador.In[2];
-                    in3Field.Value = UIStatics.Simulador.In[3];
+                        in0Field.Value = UIStatics.Simulador.In[0];
+                        in1Field.Value = UIStatics.Simulador.In[1];
+                        in2Field.Value = UIStatics.Simulador.In[2];
+                        in3Field.Value = UIStatics.Simulador.In[3];
 
-                    out0Field.Value = UIStatics.Simulador.Out[0];
-                    out1Field.Value = UIStatics.Simulador.Out[1];
-                    out2Field.Value = UIStatics.Simulador.Out[2];
-                    out3Field.Value = UIStatics.Simulador.Out[3];
+                        out0Field.Value = UIStatics.Simulador.Out[0];
+                        out1Field.Value = UIStatics.Simulador.Out[1];
+                        out2Field.Value = UIStatics.Simulador.Out[2];
+                        out3Field.Value = UIStatics.Simulador.Out[3];
 
-                    cCheck.Value = UIStatics.Simulador.Flag_C;
-                    zCheck.Value = UIStatics.Simulador.Flag_Z;
+                        cCheck.Value = UIStatics.Simulador.Flag_C;
+                        zCheck.Value = UIStatics.Simulador.Flag_Z;
 
-                    foreach (Components.Component item in Components) {
-                        item.Refresh();
-                    }
-
-                    {
-                        string inicio = "Frequência real: ";
-                        string mod = " Hz";
-                        float frequencia = UIStatics.Simulador.CurrentFrequency;
-                        if(!internalSimulation.Checked) {
-                            inicio = "IPS real:";
-                            mod = " IPS";
+                        foreach (Components.Component item in Components) {
+                            item.Refresh();
                         }
-                        if (frequencia >= 1000) {
-                            frequencia = frequencia / 1000f;
-                            mod = " kIPS";
+
+                        {
+                            string inicio = "Frequência real: ";
+                            string mod = " Hz";
+                            float frequencia = UIStatics.Simulador.CurrentFrequency;
+                            if (!internalSimulation.Checked) {
+                                inicio = "IPS real:";
+                                mod = " IPS";
+                            }
+                            if (frequencia >= 1000) {
+                                frequencia = frequencia / 1000f;
+                                mod = " kIPS";
+                            }
+                            if (frequencia >= 1000) {
+                                frequencia = frequencia / 1000f;
+                                mod = " MIPS";
+                            }
+                            frequencia = (float)(Math.Round(frequencia * 100) / 100);
+
+                            realFrequency.Text = inicio + frequencia + mod;
                         }
-                        if (frequencia >= 1000) {
-                            frequencia = frequencia / 1000f;
-                            mod = " MIPS";
+
+                        int nextLine = scintilla.Lines[0].MarkerNext(1 << UIStatics.INDEX_MARKER);
+                        int markerLine = AddressToLine[UIStatics.Simulador.NextInstruction];
+                        if (nextLine != markerLine) {
+                            if (nextLine != -1)
+                                scintilla.Lines[nextLine].MarkerDelete(UIStatics.INDEX_MARKER);
+                            scintilla.Lines[markerLine].MarkerAdd(UIStatics.INDEX_MARKER);
                         }
-                        frequencia = (float) (Math.Round(frequencia * 100) / 100);
 
-                        realFrequency.Text =  inicio + frequencia + mod;
+                        Thread.Sleep(30); //30ms to reaload to refresh the screen.
+
+                        if (aField.UserInput) UIStatics.Simulador.Reg[0] = (byte)aField.Value;
+                        if (bField.UserInput) UIStatics.Simulador.Reg[1] = (byte)bField.Value;
+                        if (cField.UserInput) UIStatics.Simulador.Reg[2] = (byte)cField.Value;
+                        if (dField.UserInput) UIStatics.Simulador.Reg[3] = (byte)dField.Value;
+                        if (eField.UserInput) UIStatics.Simulador.Reg[4] = (byte)eField.Value;
+
+                        /*
+                        if (in0Field.UserInput) UIStatics.Simulador.In[0] = (byte)in0Field.Value;
+                        if (in1Field.UserInput) UIStatics.Simulador.In[1] = (byte)in1Field.Value;
+                        if (in2Field.UserInput) UIStatics.Simulador.In[2] = (byte)in2Field.Value;
+                        if (in3Field.UserInput) UIStatics.Simulador.In[3] = (byte)in3Field.Value;
+                        */
+
+                        if (out0Field.UserInput) UIStatics.Simulador.Out[0] = (byte)out0Field.Value;
+                        if (out1Field.UserInput) UIStatics.Simulador.Out[1] = (byte)out1Field.Value;
+                        if (out2Field.UserInput) UIStatics.Simulador.Out[2] = (byte)out2Field.Value;
+                        if (out3Field.UserInput) UIStatics.Simulador.Out[3] = (byte)out3Field.Value;
+
+                        if (cCheck.UserInput) UIStatics.Simulador.Flag_C = cCheck.Value;
+                        if (zCheck.UserInput) UIStatics.Simulador.Flag_Z = zCheck.Value;
+
+
+                        foreach (Components.Component item in Components) {
+                            item.UserInput = false;
+                        }
+
+                    } else {
+                        Thread.Sleep(100);
                     }
-
-                    int nextLine = scintilla.Lines[0].MarkerNext(1 << UIStatics.INDEX_MARKER);
-                    int markerLine = AddressToLine[UIStatics.Simulador.NextInstruction];
-                    if (nextLine != markerLine) {
-                        if (nextLine != -1)
-                            scintilla.Lines[nextLine].MarkerDelete(UIStatics.INDEX_MARKER);
-                        scintilla.Lines[markerLine].MarkerAdd(UIStatics.INDEX_MARKER);
-                    }
-                    
-                    Thread.Sleep(30); //30ms to reaload to refresh the screen.
-
-                    if (aField.UserInput) UIStatics.Simulador.Reg[0] = (byte)aField.Value;
-                    if (bField.UserInput) UIStatics.Simulador.Reg[1] = (byte)bField.Value;
-                    if (cField.UserInput) UIStatics.Simulador.Reg[2] = (byte)cField.Value;
-                    if (dField.UserInput) UIStatics.Simulador.Reg[3] = (byte)dField.Value;
-                    if (eField.UserInput) UIStatics.Simulador.Reg[4] = (byte)eField.Value;
-
-                    /*
-                    if (in0Field.UserInput) UIStatics.Simulador.In[0] = (byte)in0Field.Value;
-                    if (in1Field.UserInput) UIStatics.Simulador.In[1] = (byte)in1Field.Value;
-                    if (in2Field.UserInput) UIStatics.Simulador.In[2] = (byte)in2Field.Value;
-                    if (in3Field.UserInput) UIStatics.Simulador.In[3] = (byte)in3Field.Value;
-                    */
-
-                    if (out0Field.UserInput) UIStatics.Simulador.Out[0] = (byte)out0Field.Value;
-                    if (out1Field.UserInput) UIStatics.Simulador.Out[1] = (byte)out1Field.Value;
-                    if (out2Field.UserInput) UIStatics.Simulador.Out[2] = (byte)out2Field.Value;
-                    if (out3Field.UserInput) UIStatics.Simulador.Out[3] = (byte)out3Field.Value;
-
-                    if (cCheck.UserInput) UIStatics.Simulador.Flag_C = cCheck.Value;
-                    if (zCheck.UserInput) UIStatics.Simulador.Flag_Z = zCheck.Value;
-
-
-                    foreach (Components.Component item in Components) {
-                        item.UserInput = false;
-                    }
-
-                } else {
-                    Thread.Sleep(100);
+                } catch (Exception e) {
+                    UIStatics.ShowExceptionMessage(e);
                 }
             }
         }
