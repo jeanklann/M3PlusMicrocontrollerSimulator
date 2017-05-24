@@ -86,21 +86,31 @@ namespace IDE {
         }
 
         private void zoomToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.ZoomMore();
-            UIStatics.Depurador.ZoomMore();
-            UIStatics.Circuito.ZoomMore();
+            if (tabControl1.SelectedIndex == 0) {
+                UIStatics.Codigo.ZoomMore();
+                UIStatics.Depurador.ZoomMore();
+            } else if (tabControl1.SelectedIndex == 1) {
+                UIStatics.Circuito.ZoomMore();
+            }
         }
 
         private void zoomToolStripMenuItem1_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.ZoomLess();
-            UIStatics.Depurador.ZoomLess();
-            UIStatics.Circuito.ZoomLess();
+            if (tabControl1.SelectedIndex == 0) {
+                UIStatics.Codigo.ZoomLess();
+                UIStatics.Depurador.ZoomLess();
+            } else if (tabControl1.SelectedIndex == 1) {
+                UIStatics.Circuito.ZoomLess();
+
+            }
         }
 
         private void zoomOriginalToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.ZoomReset();
-            UIStatics.Depurador.ZoomReset();
-            UIStatics.Circuito.ZoomReset();
+            if (tabControl1.SelectedIndex == 0) {
+                UIStatics.Codigo.ZoomReset();
+                UIStatics.Depurador.ZoomReset();
+            } else if (tabControl1.SelectedIndex == 1) {
+                UIStatics.Circuito.ZoomReset();
+            }
         }
 
         private void analisarEConstruirToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -465,21 +475,31 @@ namespace IDE {
         }
 
         private void toolStripButton16_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.ZoomMore();
-            UIStatics.Depurador.ZoomMore();
-            UIStatics.Circuito.ZoomMore();
+            if (tabControl1.SelectedIndex == 0) {
+                UIStatics.Codigo.ZoomMore();
+                UIStatics.Depurador.ZoomMore();
+            } else if (tabControl1.SelectedIndex == 1) {
+                UIStatics.Circuito.ZoomMore();
+            }
         }
 
         private void toolStripButton17_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.ZoomLess();
-            UIStatics.Depurador.ZoomLess();
-            UIStatics.Circuito.ZoomLess();
+            if (tabControl1.SelectedIndex == 0) {
+                UIStatics.Codigo.ZoomLess();
+                UIStatics.Depurador.ZoomLess();
+            } else if (tabControl1.SelectedIndex == 1) {
+                UIStatics.Circuito.ZoomLess();
+
+            }
         }
 
         private void toolStripButton18_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.ZoomReset();
-            UIStatics.Depurador.ZoomReset();
-            UIStatics.Circuito.ZoomReset();
+            if (tabControl1.SelectedIndex == 0) {
+                UIStatics.Codigo.ZoomReset();
+                UIStatics.Depurador.ZoomReset();
+            } else if (tabControl1.SelectedIndex == 1) {
+                UIStatics.Circuito.ZoomReset();
+            }
         }
     }
 }

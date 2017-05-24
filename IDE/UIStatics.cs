@@ -315,7 +315,8 @@ namespace IDE {
                 MainForm.ToolStripStatusLabel.Text = "Erros na montagem do programa.";
                 MessageBox.Show(MainForm, e1.Message, "Erro de compilação", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } catch (Exception e) {
-                ShowExceptionMessage(e);
+                if(!(e is CompilerError))
+                    ShowExceptionMessage(e);
             }
         }
 
