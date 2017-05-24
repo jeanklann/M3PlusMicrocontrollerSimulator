@@ -314,6 +314,7 @@ namespace IDE {
                 Simulador = null;
                 MainForm.ToolStripStatusLabel.Text = "Erros na montagem do programa.";
                 MessageBox.Show(MainForm, e1.Message, "Erro de compilação", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UIStatics.Simulador = null;
             } catch (Exception e) {
                 if(!(e is CompilerError))
                     ShowExceptionMessage(e);

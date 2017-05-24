@@ -294,7 +294,10 @@ namespace IDE {
                         Thread.Sleep(100);
                     }
                 } catch (Exception e) {
-                    UIStatics.ShowExceptionMessage(e);
+                    Thread.Sleep(30);
+                    if (UIStatics.Simulador != null) {
+                        UIStatics.ShowExceptionMessage(e);
+                    }
                 }
             }
         }
