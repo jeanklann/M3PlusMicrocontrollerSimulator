@@ -314,10 +314,11 @@ namespace IDE {
                 Simulador = null;
                 MainForm.ToolStripStatusLabel.Text = "Erros na montagem do programa.";
                 MessageBox.Show(MainForm, e1.Message, "Erro de compilação", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                UIStatics.Simulador = null;
             } catch (Exception e) {
                 if(!(e is CompilerError))
                     ShowExceptionMessage(e);
+                Compilador = null;
+                Simulador = null;
             }
         }
 
@@ -528,6 +529,9 @@ namespace IDE {
                     switch (state) {
                         case StateDefault:
                             if (c == ';') {
+                                scintilla.SetStyling(1, Comment);
+                                state = StateComment;
+                            } else if (c == '/' && char.ToLower(text[currentPos+1]) == '/') {
                                 scintilla.SetStyling(1, Comment);
                                 state = StateComment;
                             } else if (char.IsDigit(c) || (c >= 'a' && c <= 'f')) {

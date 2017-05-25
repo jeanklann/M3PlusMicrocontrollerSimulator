@@ -1615,7 +1615,7 @@ namespace M3PlusMicrocontroller {
         public static readonly char INSTRUCTIONSEPARATOR = ',';
         public static readonly char[] SPACE = { ' ', '\t' };
         public static readonly char IDENTIFICATORSEPARATOR = ':';
-        public static readonly char COMMENT = ';';
+        public static readonly string[] COMMENT = { ";", "//" };
         public static readonly char RAM = '#';
         
         public TokenType Type = TokenType.Error;
@@ -1685,27 +1685,33 @@ namespace M3PlusMicrocontroller {
                         break;
                     }
                 }
-                if (Token.COMMENT+"" == Value) {    //Comment
-                    Value = "";
-                    bool c = true;
-                    do {
-                        if (Program.Length <= Index) {
-                            c = false;
-                            break;
-                        }
-                        foreach (char item in Token.LINESEPARATOR) {  //End of comment
-                            if (item == Program[Index]) {
+                bool needContinue = false;
+                foreach (string comment in Token.COMMENT) {
+                    if (comment == Value) {    //Comment
+                        Value = "";
+                        bool c = true;
+                        do {
+                            if (Program.Length <= Index) {
                                 c = false;
                                 break;
                             }
-                        }
-                        ++Index;
-                        
-                    } while (c);
-                    Value = "";
-                    BeginIndex = Index;
-                    continue;
+                            foreach (char item in Token.LINESEPARATOR) {  //End of comment
+                                if (item == Program[Index]) {
+                                    c = false;
+                                    break;
+                                }
+                            }
+                            ++Index;
+
+                        } while (c);
+                        Value = "";
+                        BeginIndex = Index;
+                        needContinue = true;
+                        break;
+                    }
+                    if (needContinue) break;
                 }
+                if(needContinue) continue;
                 if (Value == "") {
                     BeginIndex = Index;
                     continue;
@@ -1745,12 +1751,20 @@ namespace M3PlusMicrocontroller {
                     Analyzed = true;
                     break;
                 }
-                if (Token.COMMENT == Value[Value.Length - 1]) {    //Comment at the final of the string
-                    Value = Value.Substring(0, Value.Length - 1);
-                    --Index;
-                    Analyzed = true;
-                    break;
+                foreach (string item in Token.COMMENT) {
+                    if (Value.Length >= 2 && item == Value.Substring(Value.Length - 2, 2)) {
+                        Value = Value.Substring(0, Value.Length - 2);
+                        --Index;
+                        Analyzed = true;
+                        break;
+                    } else if(Value.Length >= 1 && item == Value[Value.Length - 1] + "") {
+                        Value = Value.Substring(0, Value.Length - 1);
+                        --Index;
+                        Analyzed = true;
+                        break;
+                    }
                 }
+                if (Analyzed) break;
 
             } while (!Analyzed);
 
