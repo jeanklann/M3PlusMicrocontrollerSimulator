@@ -78,3 +78,4 @@ D:\M3PlusMicrocontrollerSimulator\IDE\obj\Release\IDE.FormRomMemory.resources
 D:\M3PlusMicrocontrollerSimulator\IDE\obj\Release\IDE.ExceptionLog.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\IDE.ExceptionLog.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\IDE.FormRomMemory.resources
+D:\M3PlusMicrocontrollerSimulator\IDE\obj\Release\IDE.InstructionLogForm.resources

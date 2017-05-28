@@ -351,6 +351,11 @@ namespace IDE {
             }
             if (Simulador != null) {
                 if (!Simulador.Running) {
+                    if (Simulador.Stopped) {
+                        Circuito.InstructionLog.Iniciar();
+                    } else {
+                        Circuito.InstructionLog.Continuar();
+                    }
                     Simulador.Run();
                     MainForm.ToolStripStatusLabel.Text = "Executando programa.";
                     Circuito.Run();
@@ -365,10 +370,13 @@ namespace IDE {
             if (Simulador != null) {
                 if (Simulador.Running) {
                     Simulador.Pause();
+                    Circuito.InstructionLog.Pausar();
                     MainForm.ToolStripStatusLabel.Text = "Programa em pausa.";
                 } else {
                     Simulador.Run();
                     Simulador.Pause();
+                    Circuito.InstructionLog.Continuar();
+                    Circuito.InstructionLog.Pausar();
                     MainForm.ToolStripStatusLabel.Text = "Programa em pausa.";
                 }
                 if (Simulador.Program[Simulador.NextInstruction] != null) {
@@ -380,6 +388,7 @@ namespace IDE {
         public static void Stop() {
             if (Simulador != null) {
                 Simulador.Stop();
+                Circuito.InstructionLog.Parar();
                 MainForm.ToolStripStatusLabel.Text = "Programa parado.";
             }
             Circuito.Stop();
@@ -387,6 +396,7 @@ namespace IDE {
         public static void StepIn() {
             if (Simulador != null) {
                 Simulador.Debug_StepInto();
+                Circuito.InstructionLog.PassoDentro();
                 MainForm.ToolStripStatusLabel.Text = "Programa em pausa.";
                 if (Simulador.Program[Simulador.NextInstruction] != null) {
                     MainForm.ToolStripStatusLabel.Text += " Instrução atual: " + Simulador.Program[Simulador.NextInstruction].Text;
@@ -397,6 +407,7 @@ namespace IDE {
         public static void StepOut() {
             if (Simulador != null) {
                 Simulador.Debug_StepOut();
+                Circuito.InstructionLog.PassoFora();
                 MainForm.ToolStripStatusLabel.Text = "Programa em pausa.";
                 if (Simulador.Program[Simulador.NextInstruction] != null) {
                     MainForm.ToolStripStatusLabel.Text += " Instrução atual: " + Simulador.Program[Simulador.NextInstruction].Text;

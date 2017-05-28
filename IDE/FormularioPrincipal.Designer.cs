@@ -117,6 +117,7 @@ namespace IDE {
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.logDasIntruçõesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.StatusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -362,7 +363,8 @@ namespace IDE {
             this.verToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.zoomToolStripMenuItem,
             this.zoomToolStripMenuItem1,
-            this.zoomOriginalToolStripMenuItem});
+            this.zoomOriginalToolStripMenuItem,
+            this.logDasIntruçõesToolStripMenuItem});
             this.verToolStripMenuItem.Name = "verToolStripMenuItem";
             this.verToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.verToolStripMenuItem.Text = "Ver";
@@ -554,7 +556,7 @@ namespace IDE {
             this.circuito1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.circuito1.Location = new System.Drawing.Point(3, 3);
             this.circuito1.Name = "circuito1";
-            this.circuito1.Size = new System.Drawing.Size(872, 512);
+            this.circuito1.Size = new System.Drawing.Size(902, 512);
             this.circuito1.TabIndex = 4;
             // 
             // codigo1
@@ -911,10 +913,18 @@ namespace IDE {
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(878, 518);
+            this.tabPage2.Size = new System.Drawing.Size(908, 518);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Circuito";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // logDasIntruçõesToolStripMenuItem
+            // 
+            this.logDasIntruçõesToolStripMenuItem.Image = global::IDE.Properties.Resources._interface;
+            this.logDasIntruçõesToolStripMenuItem.Name = "logDasIntruçõesToolStripMenuItem";
+            this.logDasIntruçõesToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.logDasIntruçõesToolStripMenuItem.Text = "Log das intruções";
+            this.logDasIntruçõesToolStripMenuItem.Click += new System.EventHandler(this.logDasIntruçõesToolStripMenuItem_Click);
             // 
             // FormularioPrincipal
             // 
@@ -1034,6 +1044,7 @@ namespace IDE {
         private System.Windows.Forms.ToolStripButton toolStripButton17;
         private System.Windows.Forms.ToolStripButton toolStripButton18;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolStripMenuItem logDasIntruçõesToolStripMenuItem;
 
 
 

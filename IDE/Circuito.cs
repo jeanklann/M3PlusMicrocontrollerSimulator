@@ -43,6 +43,7 @@ namespace IDE {
         public List<ExtraTerminal> ExtraTerminals;
         public bool Loaded = false;
         public bool Changed = false;
+        public InstructionLog InstructionLog = new InstructionLog();
         private bool IsDebugMode = false;
         private Queue<Keys> KonamiCode = new Queue<Keys>();
         private Stopwatch Syncronizer = new Stopwatch();
@@ -327,12 +328,58 @@ namespace IDE {
                 }
                 try {
                     Circuit.Tick();
+                    if(controlModuleLastClock != InternalComponents.ControlModule.Clock.Value && InternalComponents.ControlModule.Clock.Value == Pin.HIGH) {
+                        UpdateInstructionLog();
+                    }
+                    controlModuleLastClock = InternalComponents.ControlModule.Clock.Value;
                 } catch (Exception e) {
                     UIStatics.ShowExceptionMessage(e);
                 }
                 Thread.Sleep(16);
             }
         }
+        private void UpdateInstructionLog() {
+            InstructionLogItem item = new InstructionLogItem(UIStatics.Simulador.Program[UIStatics.Simulador.NextInstruction]);
+            
+            item.bus = GetBUSHexa();
+            item.clock = InternalComponents.ControlModule.Clock.Value >= Pin.HALFCUT;
+            item.flagC = InternalComponents.ControlModule.FlagInCarry.Value >= Pin.HALFCUT;
+            item.flagZ = InternalComponents.ControlModule.FlagInZero.Value >= Pin.HALFCUT;
+            item.EOI = InternalComponents.ControlModule.EOI.Value >= Pin.HALFCUT;
+            item.ROMrd = InternalComponents.ControlModule.ROMrd.Value >= Pin.HALFCUT;
+            item.ROMcs = InternalComponents.ControlModule.ROMcs.Value >= Pin.HALFCUT;
+            item.PCHbus = InternalComponents.ControlModule.PCHbus.Value >= Pin.HALFCUT;
+            item.PCLbus = InternalComponents.ControlModule.PCLbus.Value >= Pin.HALFCUT;
+            item.PCHclk = InternalComponents.ControlModule.PCHclock.Value >= Pin.HALFCUT;
+            item.PCLclk = InternalComponents.ControlModule.PCLclock.Value >= Pin.HALFCUT;
+            item.DataPCsel = InternalComponents.ControlModule.DataPCsel.Value >= Pin.HALFCUT;
+            item.DIRclk = InternalComponents.ControlModule.DIRclock.Value >= Pin.HALFCUT;
+            item.SPclk = InternalComponents.ControlModule.SPclock.Value >= Pin.HALFCUT;
+            item.SPen = InternalComponents.ControlModule.SPen.Value >= Pin.HALFCUT;
+            item.SPIncDec = InternalComponents.ControlModule.SPIncDec.Value >= Pin.HALFCUT;
+            item.SPsel = InternalComponents.ControlModule.SPsel.Value >= Pin.HALFCUT;
+            item.SPen = InternalComponents.ControlModule.SPen.Value >= Pin.HALFCUT;
+            item.Reset = InternalComponents.ControlModule.Reset.Value >= Pin.HALFCUT;
+            item.ULAbus = InternalComponents.ControlModule.ULAbus.Value >= Pin.HALFCUT;
+            item.BUFclk = InternalComponents.ControlModule.BUFclock.Value >= Pin.HALFCUT;
+            item.ACbus = InternalComponents.ControlModule.ACbus.Value >= Pin.HALFCUT;
+            item.ACclk = InternalComponents.ControlModule.ACclock.Value >= Pin.HALFCUT;
+            item.RGbus = InternalComponents.ControlModule.RGbus.Value >= Pin.HALFCUT;
+            item.RGPCclk = InternalComponents.ControlModule.RGPCclock.Value >= Pin.HALFCUT;
+            item.RAMrd = InternalComponents.ControlModule.RAMrd.Value >= Pin.HALFCUT;
+            item.RAMwr = InternalComponents.ControlModule.RAMwr.Value >= Pin.HALFCUT;
+            item.RAMcs = InternalComponents.ControlModule.RAMcs.Value >= Pin.HALFCUT;
+            item.INbus = InternalComponents.ControlModule.INbus.Value >= Pin.HALFCUT;
+            item.OUTclk = InternalComponents.ControlModule.OUTclock.Value >= Pin.HALFCUT;
+            item.ULAop0 = InternalComponents.ControlModule.ULAOPsel0.Value >= Pin.HALFCUT;
+            item.ULAop1 = InternalComponents.ControlModule.ULAOPsel1.Value >= Pin.HALFCUT;
+            item.ULAop2 = InternalComponents.ControlModule.ULAOPsel2.Value >= Pin.HALFCUT;
+            item.RGPB0 = InternalComponents.ControlModule.RGPBsel0.Value >= Pin.HALFCUT;
+            item.RGPB1 = InternalComponents.ControlModule.RGPBsel1.Value >= Pin.HALFCUT;
+            
+            InstructionLog.Add(item);
+        }
+        private float controlModuleLastClock = Pin.LOW;
         private void ProcessControlModule(ControlModule module) {
             if (UIStatics.Simulador != null && UIStatics.Simulador.InternalSimulation) {
                 if (module.LowFrequencyIteraction != UIStatics.Simulador.LowFrequencyIteraction) {
@@ -340,9 +387,9 @@ namespace IDE {
                     if (InternalComponents.Microcontroller.PortBank == null) {
                         InternalComponents.Microcontroller.PortBank = InternalComponents.PortBank;
                     }
-                    if (module.Clock.Value < Pin.HALFCUT)
+                    if (module.Clock.Value < Pin.HALFCUT) {
                         module.Clock.SetDigital(Pin.HIGH);
-                    else
+                    } else
                         module.Clock.SetDigital(Pin.LOW);
                     module.LowFrequencyIteraction = UIStatics.Simulador.LowFrequencyIteraction;
                 }

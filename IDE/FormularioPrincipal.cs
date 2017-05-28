@@ -501,5 +501,10 @@ namespace IDE {
                 UIStatics.Circuito.ZoomReset();
             }
         }
+
+        private void logDasIntruçõesToolStripMenuItem_Click(object sender, EventArgs e) {
+            InstructionLogForm form = new InstructionLogForm();
+            form.Show(this);
+        }
     }
 }
