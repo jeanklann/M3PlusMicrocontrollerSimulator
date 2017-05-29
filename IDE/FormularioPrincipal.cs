@@ -245,6 +245,7 @@ namespace IDE {
                         if (UIStatics.Save() == false) {
                             if (TrySave()) {
                                 UIStatics.Codigo.scintilla.Text = "";
+                                FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
                                 UIStatics.Codigo.Changed = false;
                                 UIStatics.Circuito.Changed = false;
                                 UIStatics.FilePath = null;
@@ -253,6 +254,7 @@ namespace IDE {
                     } else {
                         if (TrySave()) {
                             UIStatics.Codigo.scintilla.Text = "";
+                            FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
                             UIStatics.Codigo.Changed = false;
                             UIStatics.Circuito.Changed = false;
                             UIStatics.FilePath = null;
@@ -260,12 +262,14 @@ namespace IDE {
                     }
                 } else if (dialogResult == DialogResult.No) {
                     UIStatics.Codigo.scintilla.Text = "";
+                    FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
                     UIStatics.Codigo.Changed = false;
                     UIStatics.Circuito.Changed = false;
                     UIStatics.FilePath = null;
                 }
             } else {
                 UIStatics.Codigo.scintilla.Text = "";
+                FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
                 UIStatics.Codigo.Changed = false;
                 UIStatics.Circuito.Changed = false;
                 UIStatics.FilePath = null;

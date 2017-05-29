@@ -19,6 +19,11 @@ namespace IDE {
 
         private double freq = 1;
         private int power = 0;
+        private FormRomMemory formRomMemory;
+        private FormRamMemory formRamMemory;
+        private FormRamMemory formStackMemory;
+
+
 
         private List<Components.Component> Components;
 
@@ -345,15 +350,19 @@ namespace IDE {
         }
 
         private void abrirMemoriaRam_Click(object sender, EventArgs e) {
-            FormRamMemory f = new FormRamMemory();
-            f.Build(256, FormRamType.RAM);
-            f.Show(this);
+            if (formRamMemory == null || !formRamMemory.Visible) {
+                formRamMemory = new FormRamMemory();
+                formRamMemory.Build(256, FormRamType.RAM);
+                formRamMemory.Show(this);
+            }
         }
 
         private void abrirMemoriaPilha_Click(object sender, EventArgs e) {
-            FormRamMemory f = new FormRamMemory();
-            f.Build(256, FormRamType.Stack);
-            f.Show(this);
+            if (formStackMemory == null || !formStackMemory.Visible) {
+                formStackMemory = new FormRamMemory();
+                formStackMemory.Build(256, FormRamType.Stack);
+                formStackMemory.Show(this);
+            }
         }
 
         private void internalSimulation_CheckedChanged(object sender, EventArgs e) {
@@ -402,8 +411,10 @@ namespace IDE {
         }
 
         private void abrirMemoriaROM_Click(object sender, EventArgs e) {
-            FormRomMemory f = new FormRomMemory();
-            f.Show(this);
+            if (formRomMemory == null || !formRomMemory.Visible) {
+                formRomMemory = new FormRomMemory();
+                formRomMemory.Show(this);
+            }
         }
     }
 }

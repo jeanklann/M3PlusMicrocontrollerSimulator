@@ -75,7 +75,7 @@ namespace IDE {
                         }
                     }
                     Thread.Sleep(20);
-                } catch (Exception) { }
+                } catch (Exception) {}
             }
         }
 

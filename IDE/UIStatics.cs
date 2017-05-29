@@ -35,6 +35,7 @@ namespace IDE {
         public static Thread threadDepurador;
 
         public static string FilePath;
+        public static Thread ExceptionThread;
 
         public static bool ExportLogiSim(string path) {
             try {
@@ -330,9 +331,26 @@ namespace IDE {
             }
         }
         public static void ShowExceptionMessage(Exception e = null){
-            ExceptionLog exceptionLog = new ExceptionLog(e);
-            exceptionLog.Show(MainForm);
+            exception = e;
+            if (ExceptionThread == null) {
+                ExceptionThread = new Thread(ShowExceptionMessageThread);
+                ExceptionThread.Start();
+            }
+            UpdateException = true;
         }
+        private static void ShowExceptionMessageThread() {
+            while (!WantExit) {
+                if (UpdateException) {
+                    UpdateException = false;
+                    Stop();
+                    ExceptionLog exceptionLog = new ExceptionLog(exception);
+                    exceptionLog.ShowDialog(MainForm);
+                }
+                Thread.Sleep(25);
+            }
+        }
+        private static Exception exception;
+        private static bool UpdateException = false;
         public static bool Open() {
             if (FilePath != null) {
                 return FileProject.Load(FilePath);

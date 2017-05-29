@@ -67,23 +67,25 @@ namespace IDE {
 
         private void Run_thread() {
             while (!wantClose) {
-                if (UIStatics.Simulador != null) {
-                    for (int i = 0; i < Fields.Count; i++) {
-                        Fields[i].Value = type == FormRamType.RAM ? UIStatics.Simulador.RAM[i] : UIStatics.Simulador.Stack[i];
-                        Fields[i].Refresh();
-                    }
-                    Thread.Sleep(SLEEP);
+                try {
+                    if (UIStatics.Simulador != null) {
+                        for (int i = 0; i < Fields.Count; i++) {
+                            Fields[i].Value = type == FormRamType.RAM ? UIStatics.Simulador.RAM[i] : UIStatics.Simulador.Stack[i];
+                            Fields[i].Refresh();
+                        }
+                        Thread.Sleep(SLEEP);
 
-                    for (int i = 0; i < Fields.Count; i++) {
-                        if(type == FormRamType.RAM)
-                            if (Fields[i].UserInput) UIStatics.Simulador.RAM[i] = (byte)Fields[i].Value;
-                        else
-                            if (Fields[i].UserInput) UIStatics.Simulador.Stack[i] = (byte)Fields[i].Value;
-                        Fields[i].UserInput = false;
+                        for (int i = 0; i < Fields.Count; i++) {
+                            if (type == FormRamType.RAM)
+                                if (Fields[i].UserInput) UIStatics.Simulador.RAM[i] = (byte)Fields[i].Value;
+                                else
+                                if (Fields[i].UserInput) UIStatics.Simulador.Stack[i] = (byte)Fields[i].Value;
+                            Fields[i].UserInput = false;
+                        }
+                    } else {
+                        Thread.Sleep(100);
                     }
-                } else {
-                    Thread.Sleep(100);
-                }
+                } catch (Exception) { }
             }
             foreach (var item in Fields) {
                 item.Dispose();

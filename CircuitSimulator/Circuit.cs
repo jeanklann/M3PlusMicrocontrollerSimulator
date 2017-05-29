@@ -106,8 +106,10 @@ namespace CircuitSimulator {
             PrepareTick();
             while(executionQueue.Count > 0) {
                 Component component = executionQueue.Dequeue();
-                component.simulationId = simulationId;
-                component.Execute();
+                if (component != null) { //Failsafe
+                    component.simulationId = simulationId;
+                    component.Execute();
+                }
             }
             time += timePerTick;
         }

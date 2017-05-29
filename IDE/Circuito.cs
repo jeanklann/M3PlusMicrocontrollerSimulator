@@ -229,111 +229,111 @@ namespace IDE {
                 List<CircuitSimulator.Component> copy;
                 try {
                     copy = Circuit.Components;
+                    float halfCut = Pin.HIGH + Pin.LOW / 2f;
+                    foreach (CircuitSimulator.Component item in copy) {
+                        if (item is CircuitSimulator.Components.Wire) {
+                            Wire DrawComponent = DrawWireToCircuitWire[(CircuitSimulator.Components.Wire)item];
+                            if (item.Pins[0].IsOpen || item.SimulationId != Circuit.SimulationId) {
+                                DrawComponent.Color = Draws.Color_3rd;
+                            } else if (item.Pins[0].Value >= halfCut) {
+                                DrawComponent.Color = Draws.Color_on;
+                            } else {
+                                DrawComponent.Color = Draws.Color_off;
+                            }
+                        } else {
+                            Component DrawComponent = DrawComponentsToCircuitComponent[item];
+                            if (item is AndGate) {
+                                if (((AndGate)item).Output.Value >= halfCut) {
+                                    DrawComponent.Draw = Draws.And[1];
+                                } else {
+                                    DrawComponent.Draw = Draws.And[0];
+                                }
+                            } else if (item is NandGate) {
+                                if (((NandGate)item).Output.Value >= halfCut) {
+                                    DrawComponent.Draw = Draws.Nand[1];
+                                } else {
+                                    DrawComponent.Draw = Draws.Nand[0];
+                                }
+                            } else if (item is OrGate) {
+                                if (((OrGate)item).Output.Value >= halfCut) {
+                                    DrawComponent.Draw = Draws.Or[1];
+                                } else {
+                                    DrawComponent.Draw = Draws.Or[0];
+                                }
+                            } else if (item is NorGate) {
+                                if (((NorGate)item).Output.Value >= halfCut) {
+                                    DrawComponent.Draw = Draws.Nor[1];
+                                } else {
+                                    DrawComponent.Draw = Draws.Nor[0];
+                                }
+                            } else if (item is XorGate) {
+                                if (((XorGate)item).Output.Value >= halfCut) {
+                                    DrawComponent.Draw = Draws.Xor[1];
+                                } else {
+                                    DrawComponent.Draw = Draws.Xor[0];
+                                }
+                            } else if (item is XnorGate) {
+                                if (((XnorGate)item).Output.Value >= halfCut) {
+                                    DrawComponent.Draw = Draws.Xnor[1];
+                                } else {
+                                    DrawComponent.Draw = Draws.Xnor[0];
+                                }
+                            } else if (item is NotGate) {
+                                if (((NotGate)item).Output.Value >= halfCut) {
+                                    DrawComponent.Draw = Draws.Not[1];
+                                } else {
+                                    DrawComponent.Draw = Draws.Not[0];
+                                }
+                            } else if (item is LogicInput) {
+                                if (DrawComponent.Draw.DisplayListHandle == Draws.Input[0].DisplayListHandle) {
+                                    ((LogicInput)item).Value = Pin.LOW;
+                                } else if (DrawComponent.Draw.DisplayListHandle == Draws.Input[1].DisplayListHandle) {
+                                    ((LogicInput)item).Value = Pin.HIGH;
+                                } else {
+                                    throw new Exception("Erro.");
+                                }
+                            } else if (item is LogicOutput) {
+                                if (((LogicOutput)item).Pins[0].Value >= halfCut) {
+                                    DrawComponent.Draw = Draws.Output[1];
+                                } else {
+                                    DrawComponent.Draw = Draws.Output[0];
+                                }
+                            } else if (item is CircuitSimulator.Components.Digital.Keyboard) {
+                                ((CircuitSimulator.Components.Digital.Keyboard)item).Value = KeyDown_byte;
+                            } else if (item is Microcontroller) {
+                                if (UIStatics.Simulador != null) {
+                                    Microcontroller microcontroller = (Microcontroller)item;
+                                    for (int i = 0; i < 4; i++) {
+                                        UIStatics.Simulador.In[i] = microcontroller.PinValuesToByteValue(i);
+                                        microcontroller.SetOutput(UIStatics.Simulador.Out[i], i);
+                                    }
+                                }
+                            } else if (item is Display7Seg) {
+                                Display7Seg display = ((Display7Seg)item);
+                                for (int i = 0; i < 8; i++) {
+                                    DrawComponent.ActiveExtraHandlers[i] = display.Pins[i].Value >= halfCut;
+                                }
+                            } else if (item is ControlModule) {
+                                ControlModule module = ((ControlModule)item);
+                                ProcessControlModule(module);
+                            } else {
+                                //throw new NotImplementedException();
+                            }
+                        }
+                    }
+                } catch (InvalidOperationException) {
                 } catch (Exception e) {
                     UIStatics.ShowExceptionMessage(e);
                     break;
                 }
-                float halfCut = Pin.HIGH + Pin.LOW / 2f;
-                foreach (CircuitSimulator.Component item in copy) {
-                    if(item is CircuitSimulator.Components.Wire) {
-                        Wire DrawComponent = DrawWireToCircuitWire[(CircuitSimulator.Components.Wire)item];
-                        if (item.Pins[0].IsOpen || item.SimulationId != Circuit.SimulationId) {
-                            DrawComponent.Color = Draws.Color_3rd;
-                        } else if (item.Pins[0].Value >= halfCut) {
-                            DrawComponent.Color = Draws.Color_on;
-                        } else {
-                            DrawComponent.Color = Draws.Color_off;
-                        }
-                    } else {
-                        Component DrawComponent = DrawComponentsToCircuitComponent[item];
-                        if(item is AndGate) {
-                            if(((AndGate)item).Output.Value >= halfCut) {
-                                DrawComponent.Draw = Draws.And[1];
-                            } else {
-                                DrawComponent.Draw = Draws.And[0];
-                            }
-                        } else if (item is NandGate) {
-                            if (((NandGate)item).Output.Value >= halfCut) {
-                                DrawComponent.Draw = Draws.Nand[1];
-                            } else {
-                                DrawComponent.Draw = Draws.Nand[0];
-                            }
-                        } else if (item is OrGate) {
-                            if (((OrGate)item).Output.Value >= halfCut) {
-                                DrawComponent.Draw = Draws.Or[1];
-                            } else {
-                                DrawComponent.Draw = Draws.Or[0];
-                            }
-                        } else if (item is NorGate) {
-                            if (((NorGate)item).Output.Value >= halfCut) {
-                                DrawComponent.Draw = Draws.Nor[1];
-                            } else {
-                                DrawComponent.Draw = Draws.Nor[0];
-                            }
-                        }
-                        else if(item is XorGate) {
-                            if (((XorGate)item).Output.Value >= halfCut) {
-                                DrawComponent.Draw = Draws.Xor[1];
-                            } else {
-                                DrawComponent.Draw = Draws.Xor[0];
-                            }
-                        } else if (item is XnorGate) {
-                            if (((XnorGate)item).Output.Value >= halfCut) {
-                                DrawComponent.Draw = Draws.Xnor[1];
-                            } else {
-                                DrawComponent.Draw = Draws.Xnor[0];
-                            }
-                        } else if (item is NotGate) {
-                            if (((NotGate)item).Output.Value >= halfCut) {
-                                DrawComponent.Draw = Draws.Not[1];
-                            } else {
-                                DrawComponent.Draw = Draws.Not[0];
-                            }
-                        } else if (item is LogicInput) {
-                            if (DrawComponent.Draw.DisplayListHandle == Draws.Input[0].DisplayListHandle) {
-                                ((LogicInput)item).Value = Pin.LOW;
-                            } else if (DrawComponent.Draw.DisplayListHandle == Draws.Input[1].DisplayListHandle) {
-                                ((LogicInput)item).Value = Pin.HIGH;
-                            } else {
-                                throw new Exception("Erro.");
-                            }
-                        } else if (item is LogicOutput) {
-                            if (((LogicOutput)item).Pins[0].Value >= halfCut) {
-                                DrawComponent.Draw = Draws.Output[1];
-                            } else {
-                                DrawComponent.Draw = Draws.Output[0];
-                            }
-                        } else if (item is CircuitSimulator.Components.Digital.Keyboard) {
-                            ((CircuitSimulator.Components.Digital.Keyboard)item).Value = KeyDown_byte;
-                        } else if (item is Microcontroller) {
-                            if (UIStatics.Simulador != null) {
-                                Microcontroller microcontroller = (Microcontroller)item;
-                                for (int i = 0; i < 4; i++) {
-                                    UIStatics.Simulador.In[i] = microcontroller.PinValuesToByteValue(i);
-                                    microcontroller.SetOutput(UIStatics.Simulador.Out[i], i);
-                                }
-                            }
-                        } else if (item is Display7Seg) {
-                            Display7Seg display = ((Display7Seg)item);
-                            for (int i = 0; i < 8; i++) {
-                                DrawComponent.ActiveExtraHandlers[i] = display.Pins[i].Value >= halfCut;
-                            }
-                        } else if (item is ControlModule) {
-                            ControlModule module = ((ControlModule)item);
-                            ProcessControlModule(module);
-                        } else {
-                            //throw new NotImplementedException();
-                        }
-                    }
-                }
                 try {
                     Circuit.Tick();
-                    if(controlModuleLastClock != InternalComponents.ControlModule.Clock.Value && InternalComponents.ControlModule.Clock.Value == Pin.HIGH) {
+                    if (controlModuleLastClock != InternalComponents.ControlModule.Clock.Value && InternalComponents.ControlModule.Clock.Value == Pin.HIGH) {
                         UpdateInstructionLog();
                     }
                     controlModuleLastClock = InternalComponents.ControlModule.Clock.Value;
                 } catch (Exception e) {
-                    UIStatics.ShowExceptionMessage(e);
+                    //UIStatics.ShowExceptionMessage(e);
                 }
                 Thread.Sleep(16);
             }
