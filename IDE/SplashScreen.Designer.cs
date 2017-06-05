@@ -23,7 +23,21 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Location = new System.Drawing.Point(487, 216);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Versão beta 12";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // SplashScreen
             // 
@@ -33,7 +47,10 @@
             this.BackgroundImage = global::IDE.Properties.Resources.splash;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(588, 284);
+            this.Controls.Add(this.label1);
+            this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
             this.DoubleBuffered = true;
+            this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.ImeMode = System.Windows.Forms.ImeMode.On;
             this.Name = "SplashScreen";
@@ -43,9 +60,11 @@
             this.Text = "SplashScreen";
             this.TransparencyKey = System.Drawing.Color.Black;
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+        private System.Windows.Forms.Label label1;
     }
 }

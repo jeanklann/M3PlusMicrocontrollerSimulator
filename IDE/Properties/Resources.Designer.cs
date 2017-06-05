@@ -63,16 +63,6 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _interface {
-            get {
-                object obj = ResourceManager.GetObject("interface", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap animal {
             get {
                 object obj = ResourceManager.GetObject("animal", resourceCulture);
@@ -93,9 +83,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap clipboard_paste_button {
+        internal static System.Drawing.Bitmap clipboardpastebutton {
             get {
-                object obj = ResourceManager.GetObject("clipboard-paste-button", resourceCulture);
+                object obj = ResourceManager.GetObject("clipboardpastebutton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +113,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap computer_processor {
+        internal static System.Drawing.Bitmap computerprocessor {
             get {
-                object obj = ResourceManager.GetObject("computer-processor", resourceCulture);
+                object obj = ResourceManager.GetObject("computerprocessor", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +123,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap copy_file {
+        internal static System.Drawing.Bitmap copyfile {
             get {
-                object obj = ResourceManager.GetObject("copy-file", resourceCulture);
+                object obj = ResourceManager.GetObject("copyfile", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +193,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap interface_1 {
+        internal static System.Drawing.Bitmap interface0 {
             get {
-                object obj = ResourceManager.GetObject("interface-1", resourceCulture);
+                object obj = ResourceManager.GetObject("interface0", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,9 +203,19 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap interface_2 {
+        internal static System.Drawing.Bitmap interface1 {
             get {
-                object obj = ResourceManager.GetObject("interface-2", resourceCulture);
+                object obj = ResourceManager.GetObject("interface1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap interface2 {
+            get {
+                object obj = ResourceManager.GetObject("interface2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -233,9 +233,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap play_button {
+        internal static System.Drawing.Bitmap playbutton {
             get {
-                object obj = ResourceManager.GetObject("play-button", resourceCulture);
+                object obj = ResourceManager.GetObject("playbutton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -253,9 +253,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap search_1 {
+        internal static System.Drawing.Bitmap search1 {
             get {
-                object obj = ResourceManager.GetObject("search-1", resourceCulture);
+                object obj = ResourceManager.GetObject("search1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -313,9 +313,9 @@ namespace IDE.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap undo_arrow {
+        internal static System.Drawing.Bitmap undoarrow {
             get {
-                object obj = ResourceManager.GetObject("undo-arrow", resourceCulture);
+                object obj = ResourceManager.GetObject("undoarrow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

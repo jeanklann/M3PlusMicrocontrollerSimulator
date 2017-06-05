@@ -13,8 +13,6 @@ namespace IDE {
     public partial class FormularioPrincipal : Form {
         private Thread loadThread;
         public FormularioPrincipal() {
-            SplashScreen splash = new SplashScreen();
-            splash.Show();
             InitializeComponent();
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             UIStatics.Codigo = (Codigo)codigo1;

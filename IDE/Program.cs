@@ -13,7 +13,7 @@ namespace IDE {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             try {
-                Application.Run(new FormularioPrincipal());
+                Application.Run(SplashScreen.OpenMainForm(null));
             } catch(Exception e) {
                 UIStatics.ShowExceptionMessage(e);
             }

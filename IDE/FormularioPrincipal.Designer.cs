@@ -161,7 +161,7 @@ namespace IDE {
             // 
             // novoToolStripMenuItem
             // 
-            this.novoToolStripMenuItem.Image = global::IDE.Properties.Resources.interface_2;
+            this.novoToolStripMenuItem.Image = global::IDE.Properties.Resources.interface2;
             this.novoToolStripMenuItem.Name = "novoToolStripMenuItem";
             this.novoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.novoToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
@@ -279,7 +279,7 @@ namespace IDE {
             // 
             // copierToolStripMenuItem
             // 
-            this.copierToolStripMenuItem.Image = global::IDE.Properties.Resources.copy_file;
+            this.copierToolStripMenuItem.Image = global::IDE.Properties.Resources.copyfile;
             this.copierToolStripMenuItem.Name = "copierToolStripMenuItem";
             this.copierToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
             this.copierToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
@@ -288,7 +288,7 @@ namespace IDE {
             // 
             // colarToolStripMenuItem
             // 
-            this.colarToolStripMenuItem.Image = global::IDE.Properties.Resources.clipboard_paste_button;
+            this.colarToolStripMenuItem.Image = global::IDE.Properties.Resources.clipboardpastebutton;
             this.colarToolStripMenuItem.Name = "colarToolStripMenuItem";
             this.colarToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             this.colarToolStripMenuItem.Size = new System.Drawing.Size(198, 22);
@@ -393,7 +393,7 @@ namespace IDE {
             // 
             // zoomOriginalToolStripMenuItem
             // 
-            this.zoomOriginalToolStripMenuItem.Image = global::IDE.Properties.Resources.search_1;
+            this.zoomOriginalToolStripMenuItem.Image = global::IDE.Properties.Resources.search1;
             this.zoomOriginalToolStripMenuItem.Name = "zoomOriginalToolStripMenuItem";
             this.zoomOriginalToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D0)));
             this.zoomOriginalToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
@@ -430,7 +430,7 @@ namespace IDE {
             // 
             // rodarToolStripMenuItem
             // 
-            this.rodarToolStripMenuItem.Image = global::IDE.Properties.Resources.play_button;
+            this.rodarToolStripMenuItem.Image = global::IDE.Properties.Resources.playbutton;
             this.rodarToolStripMenuItem.Name = "rodarToolStripMenuItem";
             this.rodarToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.rodarToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
@@ -650,7 +650,7 @@ namespace IDE {
             // toolStripButton14
             // 
             this.toolStripButton14.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton14.Image = global::IDE.Properties.Resources.copy_file;
+            this.toolStripButton14.Image = global::IDE.Properties.Resources.copyfile;
             this.toolStripButton14.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton14.Name = "toolStripButton14";
             this.toolStripButton14.Size = new System.Drawing.Size(23, 22);
@@ -672,7 +672,7 @@ namespace IDE {
             // toolStripButton7
             // 
             this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton7.Image = global::IDE.Properties.Resources.clipboard_paste_button;
+            this.toolStripButton7.Image = global::IDE.Properties.Resources.clipboardpastebutton;
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
             this.toolStripButton7.Size = new System.Drawing.Size(23, 22);
@@ -688,7 +688,7 @@ namespace IDE {
             // toolStripButton10
             // 
             this.toolStripButton10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton10.Image = global::IDE.Properties.Resources.interface_2;
+            this.toolStripButton10.Image = global::IDE.Properties.Resources.interface2;
             this.toolStripButton10.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton10.Name = "toolStripButton10";
             this.toolStripButton10.Size = new System.Drawing.Size(23, 22);
@@ -737,7 +737,7 @@ namespace IDE {
             // toolStripButton1
             // 
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::IDE.Properties.Resources.play_button;
+            this.toolStripButton1.Image = global::IDE.Properties.Resources.playbutton;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
@@ -835,7 +835,7 @@ namespace IDE {
             // toolStripButton18
             // 
             this.toolStripButton18.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton18.Image = global::IDE.Properties.Resources.search_1;
+            this.toolStripButton18.Image = global::IDE.Properties.Resources.search1;
             this.toolStripButton18.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton18.Name = "toolStripButton18";
             this.toolStripButton18.Size = new System.Drawing.Size(23, 22);
@@ -922,7 +922,7 @@ namespace IDE {
             // 
             // logDasIntruçõesToolStripMenuItem
             // 
-            this.logDasIntruçõesToolStripMenuItem.Image = global::IDE.Properties.Resources._interface;
+            this.logDasIntruçõesToolStripMenuItem.Image = global::IDE.Properties.Resources.interface0;
             this.logDasIntruçõesToolStripMenuItem.Name = "logDasIntruçõesToolStripMenuItem";
             this.logDasIntruçõesToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.logDasIntruçõesToolStripMenuItem.Text = "Log das intruções";

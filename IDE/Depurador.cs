@@ -158,16 +158,21 @@ namespace IDE {
             scintilla.Margins[0].Type = MarginType.RightText;
             int i;
             int max = 0;
+            
             for (i = 0; i < scintilla.Lines.Count; i++) {
                 scintilla.Lines[i].MarginStyle = Style.LineNumber;
                 if (scintilla.Lines[i].Text != "") {
-                    scintilla.Lines[i].MarginText = LineToAddress[i].ToString();
+                    scintilla.Lines[i].MarginText = LineToAddress[i].ToString("X");
                     if (LineToAddress[i].ToString().Length > max)
                         max = LineToAddress[i].ToString().Length;
                 } else {
                     scintilla.Lines[i].MarginText = "";
                 }
             }
+            try {
+                scintilla.Lines[scintilla.Lines.Count - 1].MarginStyle = Style.LineNumber;
+                scintilla.Lines[scintilla.Lines.Count - 1].MarginText = (LineToAddress[scintilla.Lines.Count - 2] + UIStatics.Simulador.Program[LineToAddress[scintilla.Lines.Count - 2]].Size).ToString("X");
+            } catch (Exception) { }
             scintilla.Margins[0].Width = scintilla.TextWidth(Style.LineNumber, new string('9', max + 1)) + padding;
         }
         public void ZoomMore() {
@@ -357,17 +362,13 @@ namespace IDE {
 
         private void abrirMemoriaRam_Click(object sender, EventArgs e) {
             if (formRamMemory == null || !formRamMemory.Visible) {
-                formRamMemory = new FormRamMemory();
-                formRamMemory.Build(256, FormRamType.RAM);
-                formRamMemory.Show(this);
+                formRamMemory = SplashScreen.OpenRAM(this);
             }
         }
 
         private void abrirMemoriaPilha_Click(object sender, EventArgs e) {
             if (formStackMemory == null || !formStackMemory.Visible) {
-                formStackMemory = new FormRamMemory();
-                formStackMemory.Build(256, FormRamType.Stack);
-                formStackMemory.Show(this);
+                formStackMemory = SplashScreen.OpenStack(this);
             }
         }
 
@@ -418,8 +419,7 @@ namespace IDE {
 
         private void abrirMemoriaROM_Click(object sender, EventArgs e) {
             if (formRomMemory == null || !formRomMemory.Visible) {
-                formRomMemory = new FormRomMemory();
-                formRomMemory.Show(this);
+                formRomMemory = SplashScreen.OpenROM(this);
             }
         }
     }

@@ -81,3 +81,4 @@ D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\IDE.FormRomMemory.resou
 D:\M3PlusMicrocontrollerSimulator\IDE\obj\Release\IDE.InstructionLogForm.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\IDE.InstructionLogForm.resources
 D:\Desenvolvimento\M3PlusMicrocontroller\IDE\obj\Release\IDE.SplashScreen.resources
+D:\M3PlusMicrocontrollerSimulator\IDE\obj\Release\IDE.SplashScreen.resources

@@ -1,16 +1,72 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace IDE {
     public partial class SplashScreen : Form {
-        public SplashScreen() {
+        private SplashScreen() {
             InitializeComponent();
+        }
+
+        
+        public static FormularioPrincipal OpenMainForm(IWin32Window parent) {
+            SplashScreen splash = new SplashScreen();
+            splash.Show();
+            FormularioPrincipal form;
+            Application.DoEvents();
+            form = new FormularioPrincipal();
+            if (parent != null)
+                form.Show(parent);
+            else
+                form.Show();
+            splash.Close();
+            return form;
+        }
+        public static FormRamMemory OpenRAM(IWin32Window parent) {
+            SplashScreen splash = new SplashScreen();
+            splash.Show();
+            Application.DoEvents();
+            Thread.Sleep(10);
+            FormRamMemory form = new FormRamMemory();
+            form.Build(FormRamType.RAM);
+            if(parent != null)
+                form.Show(parent);
+            else
+                form.Show();
+            splash.Close();
+            return form;
+        }
+        public static FormRamMemory OpenStack(IWin32Window parent) {
+            SplashScreen splash = new SplashScreen();
+            splash.Show();
+            Application.DoEvents();
+            Thread.Sleep(10);
+            FormRamMemory form = new FormRamMemory();
+            form.Build(FormRamType.Stack);
+            if (parent != null)
+                form.Show(parent);
+            else
+                form.Show();
+            splash.Close();
+            return form;
+        }
+        public static FormRomMemory OpenROM(IWin32Window parent) {
+            SplashScreen splash = new SplashScreen();
+            splash.Show();
+            Application.DoEvents();
+            Thread.Sleep(10);
+            FormRomMemory form = new FormRomMemory();
+            if (parent != null)
+                form.Show(parent);
+            else
+                form.Show();
+            splash.Close();
+            return form;
+        }
+
+
+        private void label1_Click(object sender, EventArgs e) {
+
         }
     }
 }
