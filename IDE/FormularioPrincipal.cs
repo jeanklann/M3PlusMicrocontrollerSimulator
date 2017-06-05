@@ -13,6 +13,8 @@ namespace IDE {
     public partial class FormularioPrincipal : Form {
         private Thread loadThread;
         public FormularioPrincipal() {
+            SplashScreen splash = new SplashScreen();
+            splash.Show();
             InitializeComponent();
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             UIStatics.Codigo = (Codigo)codigo1;
@@ -237,7 +239,8 @@ namespace IDE {
         }
 
         private void New() {
-            if (UIStatics.Simulador != null) return;
+            if (UIStatics.Simulador != null && UIStatics.Simulador.Running) return;
+            UIStatics.Simulador = null;
             if (UIStatics.Codigo.Changed || UIStatics.Circuito.Changed) {
                 DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (dialogResult == DialogResult.Yes) {

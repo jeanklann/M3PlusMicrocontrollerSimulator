@@ -39,6 +39,7 @@
             this.cField = new IDE.Components.DataField();
             this.dField = new IDE.Components.DataField();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.ativarEdicao = new System.Windows.Forms.CheckBox();
             this.in1Field = new IDE.Components.DataField();
             this.in0Field = new IDE.Components.DataField();
             this.label7 = new System.Windows.Forms.Label();
@@ -66,12 +67,14 @@
             this.internalSimulation = new System.Windows.Forms.CheckBox();
             this.abrirMemoriaRam = new System.Windows.Forms.Button();
             this.abrirMemoriaPilha = new System.Windows.Forms.Button();
+            this.abrirMemoriaROM = new System.Windows.Forms.Button();
             this.programCounter = new IDE.Components.DataField();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.realFrequency = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.abrirMemoriaROM = new System.Windows.Forms.Button();
+            this.label15 = new System.Windows.Forms.Label();
+            this.stackPointer = new IDE.Components.DataField();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -165,7 +168,7 @@
             this.groupBox1.Controls.Add(this.eField);
             this.groupBox1.Controls.Add(this.cField);
             this.groupBox1.Controls.Add(this.dField);
-            this.groupBox1.Location = new System.Drawing.Point(3, 165);
+            this.groupBox1.Location = new System.Drawing.Point(3, 199);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(156, 191);
             this.groupBox1.TabIndex = 13;
@@ -235,6 +238,7 @@
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.ativarEdicao);
             this.groupBox2.Controls.Add(this.in1Field);
             this.groupBox2.Controls.Add(this.in0Field);
             this.groupBox2.Controls.Add(this.label7);
@@ -245,17 +249,29 @@
             this.groupBox2.Controls.Add(this.in3Field);
             this.groupBox2.Location = new System.Drawing.Point(309, 8);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(178, 153);
+            this.groupBox2.Size = new System.Drawing.Size(178, 178);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Entradas (somente leitura)";
+            this.groupBox2.Text = "Entradas";
+            // 
+            // ativarEdicao
+            // 
+            this.ativarEdicao.AutoSize = true;
+            this.ativarEdicao.Location = new System.Drawing.Point(7, 20);
+            this.ativarEdicao.Name = "ativarEdicao";
+            this.ativarEdicao.Size = new System.Drawing.Size(152, 17);
+            this.ativarEdicao.TabIndex = 12;
+            this.ativarEdicao.Text = "Ativar edição das entradas";
+            this.toolTip1.SetToolTip(this.ativarEdicao, "Isto ativa a edição das entradas do microcontrolador por esta tela, e não pela te" +
+        "la do circuito.");
+            this.ativarEdicao.UseVisualStyleBackColor = true;
             // 
             // in1Field
             // 
             this.in1Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.in1Field.ByteQuantity = ((byte)(1));
-            this.in1Field.Location = new System.Drawing.Point(40, 52);
+            this.in1Field.Location = new System.Drawing.Point(36, 76);
             this.in1Field.Name = "in1Field";
             this.in1Field.Selected = IDE.Components.DataFieldType.DEC;
             this.in1Field.Size = new System.Drawing.Size(128, 28);
@@ -269,7 +285,7 @@
             this.in0Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.in0Field.ByteQuantity = ((byte)(1));
-            this.in0Field.Location = new System.Drawing.Point(40, 19);
+            this.in0Field.Location = new System.Drawing.Point(36, 43);
             this.in0Field.Name = "in0Field";
             this.in0Field.Selected = IDE.Components.DataFieldType.DEC;
             this.in0Field.Size = new System.Drawing.Size(128, 28);
@@ -281,7 +297,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(10, 126);
+            this.label7.Location = new System.Drawing.Point(6, 150);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(24, 13);
             this.label7.TabIndex = 11;
@@ -291,7 +307,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(10, 25);
+            this.label8.Location = new System.Drawing.Point(6, 49);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(24, 13);
             this.label8.TabIndex = 4;
@@ -300,7 +316,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(10, 92);
+            this.label9.Location = new System.Drawing.Point(6, 116);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(24, 13);
             this.label9.TabIndex = 10;
@@ -310,7 +326,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(10, 59);
+            this.label10.Location = new System.Drawing.Point(6, 83);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(24, 13);
             this.label10.TabIndex = 5;
@@ -322,7 +338,7 @@
             this.in2Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.in2Field.ByteQuantity = ((byte)(1));
-            this.in2Field.Location = new System.Drawing.Point(40, 86);
+            this.in2Field.Location = new System.Drawing.Point(36, 110);
             this.in2Field.Name = "in2Field";
             this.in2Field.Selected = IDE.Components.DataFieldType.DEC;
             this.in2Field.Size = new System.Drawing.Size(128, 28);
@@ -336,7 +352,7 @@
             this.in3Field.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.in3Field.ByteQuantity = ((byte)(1));
-            this.in3Field.Location = new System.Drawing.Point(40, 120);
+            this.in3Field.Location = new System.Drawing.Point(36, 144);
             this.in3Field.Name = "in3Field";
             this.in3Field.Selected = IDE.Components.DataFieldType.DEC;
             this.in3Field.Size = new System.Drawing.Size(128, 28);
@@ -356,7 +372,7 @@
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Controls.Add(this.out2Field);
             this.groupBox3.Controls.Add(this.out3Field);
-            this.groupBox3.Location = new System.Drawing.Point(309, 168);
+            this.groupBox3.Location = new System.Drawing.Point(309, 192);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(178, 153);
             this.groupBox3.TabIndex = 15;
@@ -458,7 +474,7 @@
             // 
             this.groupBox4.Controls.Add(this.zCheck);
             this.groupBox4.Controls.Add(this.cCheck);
-            this.groupBox4.Location = new System.Drawing.Point(3, 362);
+            this.groupBox4.Location = new System.Drawing.Point(3, 396);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(156, 52);
             this.groupBox4.TabIndex = 14;
@@ -568,7 +584,7 @@
             // abrirMemoriaRam
             // 
             this.abrirMemoriaRam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.abrirMemoriaRam.Location = new System.Drawing.Point(309, 327);
+            this.abrirMemoriaRam.Location = new System.Drawing.Point(309, 351);
             this.abrirMemoriaRam.Name = "abrirMemoriaRam";
             this.abrirMemoriaRam.Size = new System.Drawing.Size(178, 23);
             this.abrirMemoriaRam.TabIndex = 23;
@@ -580,7 +596,7 @@
             // abrirMemoriaPilha
             // 
             this.abrirMemoriaPilha.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.abrirMemoriaPilha.Location = new System.Drawing.Point(309, 357);
+            this.abrirMemoriaPilha.Location = new System.Drawing.Point(309, 381);
             this.abrirMemoriaPilha.Name = "abrirMemoriaPilha";
             this.abrirMemoriaPilha.Size = new System.Drawing.Size(178, 23);
             this.abrirMemoriaPilha.TabIndex = 24;
@@ -588,6 +604,18 @@
             this.toolTip1.SetToolTip(this.abrirMemoriaPilha, "Abre a janela de visualização e edição da memória de pilha");
             this.abrirMemoriaPilha.UseVisualStyleBackColor = true;
             this.abrirMemoriaPilha.Click += new System.EventHandler(this.abrirMemoriaPilha_Click);
+            // 
+            // abrirMemoriaROM
+            // 
+            this.abrirMemoriaROM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.abrirMemoriaROM.Location = new System.Drawing.Point(309, 412);
+            this.abrirMemoriaROM.Name = "abrirMemoriaROM";
+            this.abrirMemoriaROM.Size = new System.Drawing.Size(178, 23);
+            this.abrirMemoriaROM.TabIndex = 27;
+            this.abrirMemoriaROM.Text = "Abrir memória ROM";
+            this.toolTip1.SetToolTip(this.abrirMemoriaROM, "Abre a janela de visualização e edição da memória RAM");
+            this.abrirMemoriaROM.UseVisualStyleBackColor = true;
+            this.abrirMemoriaROM.Click += new System.EventHandler(this.abrirMemoriaROM_Click);
             // 
             // programCounter
             // 
@@ -613,7 +641,7 @@
             this.groupBox5.Controls.Add(this.frequencyActive);
             this.groupBox5.Controls.Add(this.frequencyCombo);
             this.groupBox5.Controls.Add(this.frequencyNumeric);
-            this.groupBox5.Location = new System.Drawing.Point(3, 37);
+            this.groupBox5.Location = new System.Drawing.Point(3, 71);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(156, 122);
             this.groupBox5.TabIndex = 22;
@@ -638,22 +666,33 @@
             this.label14.TabIndex = 26;
             this.label14.Text = "PC: ";
             // 
-            // abrirMemoriaROM
+            // label15
             // 
-            this.abrirMemoriaROM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.abrirMemoriaROM.Location = new System.Drawing.Point(309, 388);
-            this.abrirMemoriaROM.Name = "abrirMemoriaROM";
-            this.abrirMemoriaROM.Size = new System.Drawing.Size(178, 23);
-            this.abrirMemoriaROM.TabIndex = 27;
-            this.abrirMemoriaROM.Text = "Abrir memória ROM";
-            this.toolTip1.SetToolTip(this.abrirMemoriaROM, "Abre a janela de visualização e edição da memória RAM");
-            this.abrirMemoriaROM.UseVisualStyleBackColor = true;
-            this.abrirMemoriaROM.Click += new System.EventHandler(this.abrirMemoriaROM_Click);
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(3, 42);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(27, 13);
+            this.label15.TabIndex = 29;
+            this.label15.Text = "SP: ";
+            // 
+            // stackPointer
+            // 
+            this.stackPointer.ByteQuantity = ((byte)(1));
+            this.stackPointer.Location = new System.Drawing.Point(36, 37);
+            this.stackPointer.Name = "stackPointer";
+            this.stackPointer.Selected = IDE.Components.DataFieldType.DEC;
+            this.stackPointer.Size = new System.Drawing.Size(125, 28);
+            this.stackPointer.TabIndex = 28;
+            this.toolTip1.SetToolTip(this.stackPointer, "Program Counter (Contador de Programa)");
+            this.stackPointer.UserInput = false;
+            this.stackPointer.Value = 0;
             // 
             // Depurador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.stackPointer);
             this.Controls.Add(this.abrirMemoriaROM);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.programCounter);
@@ -731,5 +770,8 @@
         private Components.DataField programCounter;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button abrirMemoriaROM;
+        public System.Windows.Forms.CheckBox ativarEdicao;
+        private System.Windows.Forms.Label label15;
+        private Components.DataField stackPointer;
     }
 }

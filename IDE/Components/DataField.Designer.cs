@@ -72,8 +72,7 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        public System.Windows.Forms.ComboBox comboBox1;
     }
 }

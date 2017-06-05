@@ -304,7 +304,8 @@ namespace IDE {
                                 if (UIStatics.Simulador != null) {
                                     Microcontroller microcontroller = (Microcontroller)item;
                                     for (int i = 0; i < 4; i++) {
-                                        UIStatics.Simulador.In[i] = microcontroller.PinValuesToByteValue(i);
+                                        if(!UIStatics.Depurador.ativarEdicao.Checked)
+                                            UIStatics.Simulador.In[i] = microcontroller.PinValuesToByteValue(i);
                                         microcontroller.SetOutput(UIStatics.Simulador.Out[i], i);
                                     }
                                 }
@@ -382,6 +383,8 @@ namespace IDE {
         private float controlModuleLastClock = Pin.LOW;
         private void ProcessControlModule(ControlModule module) {
             if (UIStatics.Simulador != null && UIStatics.Simulador.InternalSimulation) {
+                InternalComponents.Microcontroller.PreventUpdateInput =
+                    UIStatics.Depurador.ativarEdicao.Checked;
                 if (module.LowFrequencyIteraction != UIStatics.Simulador.LowFrequencyIteraction) {
 
                     if (InternalComponents.Microcontroller.PortBank == null) {
@@ -393,6 +396,7 @@ namespace IDE {
                         module.Clock.SetDigital(Pin.LOW);
                     module.LowFrequencyIteraction = UIStatics.Simulador.LowFrequencyIteraction;
                 }
+                
                 if (InternalComponents.ControlModule.NeedSet) {
                     GetValuesToSimulator();
                 }
@@ -660,13 +664,16 @@ namespace IDE {
                 UIStatics.Simulador.RAM.Length);
             UIStatics.Simulador.Reg[0] =
                 InternalComponents.Accumulator.InternalValue;
+            UIStatics.Simulador.PointerStack = InternalComponents.StackCounter.InternalValue;
             for (int i = 0; i < 4; i++) {
                 UIStatics.Simulador.Reg[i+1] =
                     InternalComponents.Registrers.Reg[i];
                 UIStatics.Simulador.Out[i] =
                     InternalComponents.PortBank.RegOut[i];
-                UIStatics.Simulador.In[i] = 
+                if (!UIStatics.Depurador.ativarEdicao.Checked) {
+                    UIStatics.Simulador.In[i] =
                     InternalComponents.PortBank.GetInput(i);
+                }
             }
             UIStatics.Simulador.Flag_C =
                 InternalComponents.ULA.Pins[29].Value >= Pin.HALFCUT;
@@ -695,9 +702,14 @@ namespace IDE {
                 UIStatics.Simulador.RAM.Length);
             InternalComponents.Accumulator.InternalValue =
                 UIStatics.Simulador.Reg[0];
+            InternalComponents.StackCounter.InternalValue =
+                UIStatics.Simulador.PointerStack;
             for (int i = 0; i < 4; i++) {
                 InternalComponents.Registrers.Reg[i] =
                 UIStatics.Simulador.Reg[i+1];
+                if (UIStatics.Depurador.ativarEdicao.Checked) {
+                    InternalComponents.PortBank.SetInput(i, UIStatics.Simulador.In[i]);
+                }
             }
             InternalComponents.ULA.Pins[29].Value =
                 UIStatics.Simulador.Flag_C ? Pin.HIGH : Pin.LOW;

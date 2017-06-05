@@ -185,6 +185,12 @@
     <Compile Include="Sobre.Designer.cs">
       <DependentUpon>Sobre.cs</DependentUpon>
     </Compile>
+    <Compile Include="SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIStatics.cs" />
     <EmbeddedResource Include="Ajuda.resx">
       <DependentUpon>Ajuda.cs</DependentUpon>
@@ -232,6 +238,9 @@
     <EmbeddedResource Include="Sobre.resx">
       <DependentUpon>Sobre.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="APIs\OpenTK\OpenTK.dll.config" />
     <None Include="APIs\SCINTILLANet\LICENSE" />
     <None Include="Default.m3mprj">
@@ -264,6 +273,7 @@
     <Content Include="chip.ico" />
     <Content Include="images\ico\chip.ico" />
     <Content Include="images\png\chip.png" />
+    <None Include="images\png\splash.png" />
     <None Include="images\png\clipboard-paste-button.png" />
     <None Include="images\png\upward.png" />
     <None Include="images\png\undo-arrow.png" />

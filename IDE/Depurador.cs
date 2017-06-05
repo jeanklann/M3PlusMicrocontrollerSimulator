@@ -31,6 +31,10 @@ namespace IDE {
             InitializeComponent();
             UIStatics.ScintillaSetStyle(scintilla, true);
             scintilla.CallTipSetPosition(true);
+            programCounter.comboBox1.SelectedIndex = 2;
+            programCounter.Selected = IDE.Components.DataFieldType.HEX;
+            stackPointer.comboBox1.SelectedIndex = 2;
+            stackPointer.Selected = IDE.Components.DataFieldType.HEX;
         }
 
         public void SetText(string text) {
@@ -198,6 +202,7 @@ namespace IDE {
             Components.Add(out1Field);
             Components.Add(out2Field);
             Components.Add(out3Field);
+            Components.Add(stackPointer);
             Components.Add(cCheck);
             Components.Add(zCheck);
             Components.Add(programCounter);
@@ -214,18 +219,19 @@ namespace IDE {
                             }
                         }
                         programCounter.Value = UIStatics.Simulador.NextInstruction;
+                        stackPointer.Value = UIStatics.Simulador.PointerStack;
 
                         aField.Value = UIStatics.Simulador.Reg[0];
                         bField.Value = UIStatics.Simulador.Reg[1];
                         cField.Value = UIStatics.Simulador.Reg[2];
                         dField.Value = UIStatics.Simulador.Reg[3];
                         eField.Value = UIStatics.Simulador.Reg[4];
-
-                        in0Field.Value = UIStatics.Simulador.In[0];
-                        in1Field.Value = UIStatics.Simulador.In[1];
-                        in2Field.Value = UIStatics.Simulador.In[2];
-                        in3Field.Value = UIStatics.Simulador.In[3];
-
+                        if (!ativarEdicao.Checked) {
+                            in0Field.Value = UIStatics.Simulador.In[0];
+                            in1Field.Value = UIStatics.Simulador.In[1];
+                            in2Field.Value = UIStatics.Simulador.In[2];
+                            in3Field.Value = UIStatics.Simulador.In[3];
+                        }
                         out0Field.Value = UIStatics.Simulador.Out[0];
                         out1Field.Value = UIStatics.Simulador.Out[1];
                         out2Field.Value = UIStatics.Simulador.Out[2];
@@ -275,18 +281,18 @@ namespace IDE {
                         if (dField.UserInput) UIStatics.Simulador.Reg[3] = (byte)dField.Value;
                         if (eField.UserInput) UIStatics.Simulador.Reg[4] = (byte)eField.Value;
 
+                        if (ativarEdicao.Checked) {
+                            UIStatics.Simulador.In[0] = (byte)in0Field.Value;
+                            UIStatics.Simulador.In[1] = (byte)in1Field.Value;
+                            UIStatics.Simulador.In[2] = (byte)in2Field.Value;
+                            UIStatics.Simulador.In[3] = (byte)in3Field.Value;
+                        }
                         /*
-                        if (in0Field.UserInput) UIStatics.Simulador.In[0] = (byte)in0Field.Value;
-                        if (in1Field.UserInput) UIStatics.Simulador.In[1] = (byte)in1Field.Value;
-                        if (in2Field.UserInput) UIStatics.Simulador.In[2] = (byte)in2Field.Value;
-                        if (in3Field.UserInput) UIStatics.Simulador.In[3] = (byte)in3Field.Value;
-                        */
-
                         if (out0Field.UserInput) UIStatics.Simulador.Out[0] = (byte)out0Field.Value;
                         if (out1Field.UserInput) UIStatics.Simulador.Out[1] = (byte)out1Field.Value;
                         if (out2Field.UserInput) UIStatics.Simulador.Out[2] = (byte)out2Field.Value;
                         if (out3Field.UserInput) UIStatics.Simulador.Out[3] = (byte)out3Field.Value;
-
+                        */
                         if (cCheck.UserInput) UIStatics.Simulador.Flag_C = cCheck.Value;
                         if (zCheck.UserInput) UIStatics.Simulador.Flag_Z = zCheck.Value;
 

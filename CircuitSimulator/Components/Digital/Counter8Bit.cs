@@ -5,7 +5,7 @@ using System.Text;
 namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class Counter8Bit : Chip {
 
-        private byte internalValue = 0;
+        public byte InternalValue = 0;
         private float lastClock = Pin.LOW;
         public Counter8Bit(string name = "Counter8Bit") : base(name, 12) {
 
@@ -34,16 +34,16 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
 
             if(lastClock <= Pin.HALFCUT && Pins[3].Value >= Pin.HALFCUT) {
                 if (Pins[1].Value <= Pin.HALFCUT)
-                    ++internalValue;
+                    ++InternalValue;
                 else
-                    --internalValue;
+                    --InternalValue;
             }
             lastClock = Pins[3].Value;
             if (Pins[2].Value >= Pin.HALFCUT) {
-                internalValue = 0;
+                InternalValue = 0;
             }
             if (Pins[0].Value >= Pin.HALFCUT) {
-                byte val = internalValue;
+                byte val = InternalValue;
                 for (int i = 4; i < Pins.Length; i++)
                     Pins[i].Value = Pin.LOW;
                 if (val >= 128) {

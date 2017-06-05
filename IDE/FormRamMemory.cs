@@ -72,6 +72,8 @@ namespace IDE {
                         for (int i = 0; i < Fields.Count; i++) {
                             Fields[i].Value = type == FormRamType.RAM ? UIStatics.Simulador.RAM[i] : UIStatics.Simulador.Stack[i];
                             Fields[i].Refresh();
+                            Fields[i].comboBox1.SelectedIndex = 2;
+                            Fields[i].Selected = Components.DataFieldType.HEX;
                         }
                         Thread.Sleep(SLEEP);
 
