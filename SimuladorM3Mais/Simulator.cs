@@ -20,7 +20,22 @@ namespace M3PlusMicrocontroller {
         public byte[] Out; //0: OUT4, 1: OUT1, 2: OUT2, 3: OUT3
         public byte[] RAM;
         public byte[] Stack;
-        public byte PointerStack;
+        private byte pointerStack;
+        public byte PointerStack{
+            get { return pointerStack; }
+            set {
+                if (pointerStack == 1 && value == 0) {
+                    MessageBox.Show("Ocorreu um estouro na memória de pilha (stack overflow).\r\nVerifique o seu código.", "Stack overflow", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Stop();
+                    throw new SimulationException();
+                } else if(pointerStack == 0 && value == 1) {
+                    MessageBox.Show("Foi tentado retirar um valor da pilha mas não havia nenhum valor (stack underflow).\r\nVerifique o seu código.", "Stack underflow", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Stop();
+                    throw new SimulationException();
+                }
+                pointerStack = value;
+            }
+        }
         public int LowFrequencyIteraction = 0;
         
         private int instructionsCountFrequency = 0;
@@ -56,7 +71,7 @@ namespace M3PlusMicrocontroller {
             Out = new byte[4];
             RAM = new byte[256];
             Stack = new byte[256];
-            PointerStack = 0;
+            pointerStack = 0;
             Stopped = true;
             instructionsCountFrequency = 0;
             stepOutInstruction = null;
@@ -112,7 +127,13 @@ namespace M3PlusMicrocontroller {
                 }
                 if (!FrequencyLimit || !internalSimulation) {
                     NextInstruction += instruction.Size;
-                    instruction.Function(this);
+                    try {
+                        instruction.Function(this);
+                    } catch (SimulationException) {
+                        Running = false;
+                        Stopped = true;
+                        break;
+                    }
                 } else {
                     ++LowFrequencyIteraction;
                 }
