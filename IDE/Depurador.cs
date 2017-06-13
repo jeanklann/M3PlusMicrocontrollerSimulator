@@ -35,6 +35,17 @@ namespace IDE {
             programCounter.Selected = IDE.Components.DataFieldType.HEX;
             stackPointer.comboBox1.SelectedIndex = 2;
             stackPointer.Selected = IDE.Components.DataFieldType.HEX;
+            
+            aField.comboBox1.SelectedIndex = 2;
+            aField.Selected = IDE.Components.DataFieldType.HEX;
+            bField.comboBox1.SelectedIndex = 2;
+            bField.Selected = IDE.Components.DataFieldType.HEX;
+            cField.comboBox1.SelectedIndex = 2;
+            cField.Selected = IDE.Components.DataFieldType.HEX;
+            dField.comboBox1.SelectedIndex = 2;
+            dField.Selected = IDE.Components.DataFieldType.HEX;
+            eField.comboBox1.SelectedIndex = 2;
+            eField.Selected = IDE.Components.DataFieldType.HEX;
         }
 
         public void SetText(string text) {

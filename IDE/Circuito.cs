@@ -378,6 +378,19 @@ namespace IDE {
             item.RGPB0 = InternalComponents.ControlModule.RGPBsel0.Value >= Pin.HALFCUT;
             item.RGPB1 = InternalComponents.ControlModule.RGPBsel1.Value >= Pin.HALFCUT;
             
+            if(InstructionLog.Items.Count == 0) {
+                item.Primeira = true;
+            } else {
+                if(InstructionLog.Items[InstructionLog.Items.Count-1].Instruction != item.Instruction) {
+                    item.Primeira = true;
+                } else {
+                    if(InstructionLog.Items[InstructionLog.Items.Count - 1].EOI) {
+                        item.Primeira = true;
+                    }
+                }
+            }
+
+
             InstructionLog.Add(item);
         }
         private float controlModuleLastClock = Pin.LOW;

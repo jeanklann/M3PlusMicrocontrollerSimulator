@@ -4,7 +4,7 @@ using M3PlusMicrocontroller;
 
 namespace IDE {
     public class InstructionLog {
-        private List<InstructionLogItem> Items;
+        public List<InstructionLogItem> Items;
         private Dictionary<Instruction, int> InstructionClockSize;
         public InstructionLog() {
             Items = new List<InstructionLogItem>();
@@ -21,9 +21,10 @@ namespace IDE {
                     int size = 0;
                     for (int i = Items.Count - 1; i >= 0; i--) {
                         if (Items[i].Instruction == null) continue;
-                        if (instruction == Items[i].Instruction)
+                        if (instruction == Items[i].Instruction) {
                             size++;
-                        else
+                            if (Items[i].Primeira) break;
+                        } else
                             break;
                     }
                     if (InstructionClockSize.ContainsKey(instruction)){
@@ -88,6 +89,7 @@ namespace IDE {
     }
     public class InstructionLogItem {
         public string Text = "";
+        public bool Primeira = false;
         public Instruction Instruction;
         public string bus = "00";
         public bool clock = false;
