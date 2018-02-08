@@ -4,6 +4,7 @@ using M3PlusMicrocontroller;
 
 namespace IDE {
     public class InstructionLog {
+        public int ClearCount = 0;
         public List<InstructionLogItem> Items;
         private Dictionary<Instruction, int> InstructionClockSize;
         public InstructionLog() {
@@ -13,6 +14,7 @@ namespace IDE {
         public void Clear() {
             Items.Clear();
             InstructionClockSize.Clear();
+            ++ClearCount;
         }
         public void Add(InstructionLogItem item) {
             if (item.EOI) {
@@ -57,6 +59,47 @@ namespace IDE {
         public void PassoFora() {
             Add("Passo fora");
         }
+        public List<Instrucao> ToList()
+        {
+            int clock = 0;
+            List<Instrucao> res = new List<Instrucao>();
+            Instrucao instrucaoAtual = null;
+            try
+            {
+                foreach (InstructionLogItem item in Items)
+                {
+                    if (item.Instruction != null)
+                    {
+                        if (clock == 0)
+                        {
+                            instrucaoAtual = new Instrucao();
+                            instrucaoAtual.Nome = item.Instruction.Text;
+                            instrucaoAtual.QuantidadeBytes = item.Instruction.Size;
+                            if (InstructionClockSize.ContainsKey(item.Instruction) && InstructionClockSize[item.Instruction] > 1)
+                                instrucaoAtual.ClocksNecessarios = InstructionClockSize[item.Instruction];
+                            else
+                                instrucaoAtual.ClocksNecessarios = null;
+                            res.Add(instrucaoAtual);
+                        }
+                        instrucaoAtual.Sinais.Add(item.ToList());
+                        ++clock;
+                        if (item.EOI && clock > 3) clock = 0;
+                    }
+                    else
+                    {
+                        instrucaoAtual = new Instrucao();
+                        instrucaoAtual.Texto = item.Text;
+                        res.Add(instrucaoAtual);
+                        //instrucaoAtual.Sinais.Add(item.ToList());
+                    }
+                    
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return res;
+        }
         public override string ToString() {
             int clock = 0;
             string res = "";
@@ -86,6 +129,19 @@ namespace IDE {
             }
             return res;
         }
+    }
+    public class Instrucao
+    {
+        public string Nome;
+        public int QuantidadeBytes;
+        public int? ClocksNecessarios;
+        public string Texto;
+        public List<List<CulunaValor>> Sinais = new List<List<CulunaValor>>();
+    }
+    public class CulunaValor
+    {
+        public string Coluna;
+        public string Valor;
     }
     public class InstructionLogItem {
         public string Text = "";
@@ -130,6 +186,47 @@ namespace IDE {
         }
         public InstructionLogItem(string text) {
             Text = text;
+        }
+        public List<CulunaValor> ToList()
+        {
+            var list = new List<CulunaValor>();
+            if (Instruction != null)
+            {
+                list.Add(new CulunaValor() { Coluna = "Bus", Valor = bus });
+                list.Add(new CulunaValor() { Coluna = "FlagC", Valor = flagC ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "FlagZ", Valor = flagZ ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "EOI", Valor = EOI ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "ROMrd", Valor = ROMrd ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "ROMcs", Valor = ROMcs ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "PCHbus", Valor = PCHbus ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "PCLbus", Valor = PCLbus ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "PCHclk", Valor = PCHclk ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "PCLclk", Valor = PCLclk ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "Data/PC sel", Valor = DataPCsel ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "DIRclk", Valor = DIRclk ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "SPclk", Valor = SPclk ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "SPInc/Dc", Valor = SPIncDec ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "SPsel", Valor = SPsel ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "SPen", Valor = SPen ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "Reset", Valor = Reset ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "ULAbus", Valor = ULAbus ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "BUFclk", Valor = BUFclk ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "ACbus", Valor = ACbus ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "ACclk", Valor = ACclk ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "RGbus", Valor = RGbus ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "RG/PCcl", Valor = RGPCclk ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "RAMrd", Valor = RAMrd ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "RAMwr", Valor = RAMwr ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "RAMcs", Valor = RAMcs ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "INbus", Valor = INbus ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "OUTclk", Valor = OUTclk ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "ULAop0", Valor = ULAop0 ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "ULAop1", Valor = ULAop1 ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "ULAop2", Valor = ULAop2 ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "RGPB0", Valor = RGPB0 ? "1" : "0" });
+                list.Add(new CulunaValor() { Coluna = "RGPB1", Valor = RGPB1 ? "1" : "0" });
+            }
+            return list;
         }
         public override string ToString() {
             string res = "";

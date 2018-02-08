@@ -24,5 +24,10 @@ namespace IDE {
         private void InstructionLogForm_FormClosing(object sender, FormClosingEventArgs e) {
             closing = true;
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

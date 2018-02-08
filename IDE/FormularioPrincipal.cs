@@ -508,7 +508,8 @@ namespace IDE {
         }
 
         private void logDasIntruçõesToolStripMenuItem_Click(object sender, EventArgs e) {
-            InstructionLogForm form = new InstructionLogForm();
+            //InstructionLogForm form = new InstructionLogForm();
+            InstructionLogTableForm form = new InstructionLogTableForm();
             form.Show(this);
         }
     }

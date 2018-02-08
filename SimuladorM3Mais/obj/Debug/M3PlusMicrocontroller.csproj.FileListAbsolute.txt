@@ -17,3 +17,9 @@ D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\bin\Debug\M3PlusMicroco
 D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.dll
 D:\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csprojResolveAssemblyReference.cache
 D:\Desenvolvimento\M3PlusMicrocontroller\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csprojResolveAssemblyReference.cache
+C:\Users\Klann\Source\Repos\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.dll
+C:\Users\Klann\Source\Repos\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\bin\Debug\M3PlusMicrocontroller.pdb
+C:\Users\Klann\Source\Repos\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csprojResolveAssemblyReference.cache
+C:\Users\Klann\Source\Repos\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.csproj.CoreCompileInputs.cache
+C:\Users\Klann\Source\Repos\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.dll
+C:\Users\Klann\Source\Repos\M3PlusMicrocontrollerSimulator\SimuladorM3Mais\obj\Debug\M3PlusMicrocontroller.pdb
