@@ -1,5 +1,0 @@
-c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\bin\Debug\M3PlusSimulator.dll
-c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\bin\Debug\M3PlusSimulator.pdb
-c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusSimulator.csprojResolveAssemblyReference.cache
-c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusSimulator.dll
-c:\users\jean.klann.sistemafiesc\documents\visual studio 2015\Projects\SimuladorM3Mais\SimuladorM3Mais\obj\Debug\M3PlusSimulator.pdb
