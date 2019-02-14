@@ -45,6 +45,7 @@
     <Compile Include="CompilerError.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="DirectionFactory.cs" />
+    <Compile Include="Functions.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Instruction.cs" />

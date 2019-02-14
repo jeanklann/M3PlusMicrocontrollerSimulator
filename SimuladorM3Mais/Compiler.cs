@@ -150,34 +150,22 @@ namespace M3PlusMicrocontroller {
         {
             Function function = null;
             var instructionDescription = string.Empty;
-            Function functionPop = (simulator, from, to, i) =>
-            {
-                to.Value = simulator.Stack[simulator.PointerStack];
-                ++simulator.PointerStack;
-                return 0;
-            };
-            Function functionPush = (simulator, from, to, i) =>
-            {
-                --simulator.PointerStack;
-                simulator.Stack[simulator.PointerStack] = to.Value;
-                return 0;
-            };
             switch (token.Value)
             {
                 case "PUSHA":
-                    function = functionPush;
+                    function = Functions.Push;
                     instructionDescription = "Coloca o registrador acumulador na pilha.";
                     break;
                 case "POPA":
-                    function = functionPop;
+                    function = Functions.Pop;
                     instructionDescription = "Tira um valor da pilha e coloca no acumulador.";
                     break;
                 case "PUSH":
-                    function = functionPush;
+                    function = Functions.Push;
                     instructionDescription = "Coloca o registrador na pilha.";
                     break;
                 case "POP":
-                    function = functionPop;
+                    function = Functions.Pop;
                     instructionDescription = "Tira um valor da pilha e coloca no registrador.";
                     break;
             }
@@ -243,30 +231,16 @@ namespace M3PlusMicrocontroller {
                         switch (name)
                         {
                             case "JMP":
-                                NewInstruction(new Instruction(instructionText, (simulator, from, to, i) =>
-                                    {
-                                        JmpFunction(simulator, i);
-                                        return 0;
-                                    },
+                                NewInstruction(new Instruction(instructionText, Functions.Jmp,
                                     $"Pula para o label {token.Value}") {Label = token.Value});
                                 break;
                             case "JMPC":
-                                NewInstruction(new Instruction(instructionText, (simulator, from, to, i) =>
-                                        {
-                                            if (simulator.FlagC)
-                                                JmpFunction(simulator, i);
-                                            return 0;
-                                        },
+                                NewInstruction(new Instruction(instructionText, Functions.Jmpc,
                                         $"Pula para o label {token.Value} caso a flag carry esteja ligada.")
                                     {Label = token.Value});
                                 break;
                             case "JMPZ":
-                                NewInstruction(new Instruction(instructionText, (simulator, from, to, i) =>
-                                        {
-                                            if (simulator.FlagZ)
-                                                JmpFunction(simulator, i);
-                                            return 0;
-                                        },
+                                NewInstruction(new Instruction(instructionText, Functions.Jmpz,
                                         $"Pula para o label {token.Value} caso a flag zero esteja ligada.")
                                     {Label = token.Value});
                                 break;
@@ -283,17 +257,6 @@ namespace M3PlusMicrocontroller {
             return token;
         }
 
-        private static void JmpFunction(Simulator simulator, Instruction i)
-        {
-            --simulator.PointerStack;
-            simulator.Stack[simulator.PointerStack] = (byte) (i.Address / 256);
-            --simulator.PointerStack;
-            simulator.Stack[simulator.PointerStack] = (byte) (i.Address % 256);
-            simulator.NextInstruction = i.Address;
-            ++simulator.PointerStack;
-            ++simulator.PointerStack;
-        }
-
         private Token OperationInstructions(string program, Token token)
         {
             Function function = null;
@@ -302,39 +265,39 @@ namespace M3PlusMicrocontroller {
             switch (token.Value)
             {
                 case "ADD":
-                    function = (simulator, from, to, i) => from.Value + simulator.Reg[0];
+                    function = Functions.Add;
                     instructionDescription = "Adiciona ";
                     break;
                 case "SUB":
-                    function = (simulator, from, to, i) => from.Value - simulator.Reg[0];
+                    function = Functions.Sub;
                     instructionDescription = "Subtrai ";
                     break;
                 case "MOV":
-                    function = (simulator, from, to, i) => from.Value;
+                    function = Functions.Mov;
                     instructionDescription = "Copia ";
                     descriptionStyle = 1;
                     break;
                 case "INC":
-                    function = (simulator, from, to, i) => from.Value + 1;
+                    function = Functions.Inc;
                     instructionDescription = "Incrementa ";
                     break;
                 case "AND":
-                    function = (simulator, from, to, i) => from.Value & simulator.Reg[0];
+                    function = Functions.And;
                     instructionDescription = "Faz a operação E n";
                     descriptionStyle = 1;
                     break;
                 case "OR":
-                    function = (simulator, from, to, i) => from.Value | simulator.Reg[0];
+                    function = Functions.Or;
                     instructionDescription = "Faz a operação OU n";
                     descriptionStyle = 1;
                     break;
                 case "XOR":
-                    function = (simulator, from, to, i) => from.Value ^ simulator.Reg[0];
+                    function = Functions.Xor;
                     instructionDescription = "Faz a operação XOU n";
                     descriptionStyle = 1;
                     break;
                 case "NOT":
-                    function = (simulator, from, to, i) => (from.Value * -1) & byte.MaxValue;
+                    function = Functions.Not;
                     instructionDescription = "Faz a operação NÃO n";
                     descriptionStyle = 1;
                     break;

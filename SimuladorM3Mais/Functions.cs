@@ -1,0 +1,57 @@
+namespace M3PlusMicrocontroller
+{
+    public static class Functions
+    {
+        public static readonly Function Add = (simulator, from, to, i) => from.Value + simulator.Reg[0];
+        public static readonly Function Sub = (simulator, from, to, i) => from.Value - simulator.Reg[0];
+        public static readonly Function Mov = (simulator, from, to, i) => from.Value - simulator.Reg[0];
+        public static readonly Function Inc = (simulator, from, to, i) => from.Value - simulator.Reg[0];
+        public static readonly Function And = (simulator, from, to, i) => from.Value - simulator.Reg[0];
+        public static readonly Function Or = (simulator, from, to, i) => from.Value - simulator.Reg[0];
+        public static readonly Function Xor = (simulator, from, to, i) => from.Value - simulator.Reg[0];
+        public static readonly Function Not = (simulator, from, to, i) => from.Value - simulator.Reg[0];
+        public static readonly Function Push = (simulator, from, to, i) =>
+        {
+            --simulator.PointerStack;
+            simulator.Stack[simulator.PointerStack] = to.Value;
+            return 0;
+        };
+        public static readonly Function Pop = (simulator, from, to, i) =>
+        {
+            to.Value = simulator.Stack[simulator.PointerStack];
+            ++simulator.PointerStack;
+            return 0;
+        };
+
+        public static readonly Function Jmp = (simulator, from, to, i) =>
+        {
+            JmpInternal(simulator, i);
+            return 0;
+        };
+        public static readonly Function Jmpz = (simulator, from, to, i) =>
+        {
+            if (simulator.FlagZ)
+                JmpInternal(simulator, i);
+            return 0;
+        };
+        public static readonly Function Jmpc = (simulator, from, to, i) =>
+        {
+            if (simulator.FlagC)
+                JmpInternal(simulator, i);
+            return 0;
+        };
+        
+        
+        
+        private static void JmpInternal(Simulator simulator, Instruction i)
+        {
+            --simulator.PointerStack;
+            simulator.Stack[simulator.PointerStack] = (byte) (i.Address / 256);
+            --simulator.PointerStack;
+            simulator.Stack[simulator.PointerStack] = (byte) (i.Address % 256);
+            simulator.NextInstruction = i.Address;
+            ++simulator.PointerStack;
+            ++simulator.PointerStack;
+        }
+    }
+}

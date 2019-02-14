@@ -2,7 +2,13 @@
     public delegate int Function(Simulator simulator, Direction from, Direction to, Instruction instruction);
     
     public class Instruction {
-        public readonly string Text;
+        public string _text;
+        public string _parameter;
+        public string Text
+        {
+            get => _text + _parameter;
+            private set => _text = value;
+        }
         public readonly string Description;
         private readonly Function _function;
         private readonly Direction _from;
@@ -18,7 +24,17 @@
         public bool HasBreakpoint = false;
 
         public int Address = 0; //JMP somewhere -> JMP #42
-        public string Label;
+        private string _label;
+
+        public string Label
+        {
+            get => _label;
+            set
+            {
+                _label = value;
+                _parameter = $" {_label}";
+            }
+        }
 
         private static readonly string[] Descricao = {
             "{0}o registrador A com {1} e envia para {2}",
