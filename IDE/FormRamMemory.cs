@@ -81,7 +81,7 @@ namespace IDE {
                     if(SimuladorLastStopped && (UIStatics.Simulador != null)) {
                         for (int i = 0; i < 256; i++) {
                             if (type == FormRamType.RAM) {
-                                UIStatics.Simulador.RAM[i] = RAMTemp[i];
+                                UIStatics.Simulador.Ram[i] = RAMTemp[i];
                             } else {
                                 UIStatics.Simulador.Stack[i] = StackTemp[i];
                             }
@@ -91,7 +91,7 @@ namespace IDE {
                     if (UIStatics.Simulador != null) {
                         if (UIStatics.Simulador.Running) {
                             for (int i = 0; i < Fields.Count; i++) {
-                                Fields[i].Value = type == FormRamType.RAM ? UIStatics.Simulador.RAM[i] : UIStatics.Simulador.Stack[i];
+                                Fields[i].Value = type == FormRamType.RAM ? UIStatics.Simulador.Ram[i] : UIStatics.Simulador.Stack[i];
                                 Fields[i].Refresh();
                             }
                         }
@@ -99,8 +99,8 @@ namespace IDE {
 
                         for (int i = 0; i < Fields.Count; i++) {
                             if (type == FormRamType.RAM) {
-                                if (Fields[i].UserInput) UIStatics.Simulador.RAM[i] = (byte)Fields[i].Value;
-                                RAMTemp[i] = UIStatics.Simulador.RAM[i];
+                                if (Fields[i].UserInput) UIStatics.Simulador.Ram[i] = (byte)Fields[i].Value;
+                                RAMTemp[i] = UIStatics.Simulador.Ram[i];
                             } else {
                                 if (Fields[i].UserInput) UIStatics.Simulador.Stack[i] = (byte)Fields[i].Value;
                                 StackTemp[i] = UIStatics.Simulador.Stack[i];

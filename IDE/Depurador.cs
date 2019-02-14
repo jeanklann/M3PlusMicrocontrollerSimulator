@@ -253,8 +253,8 @@ namespace IDE {
                         out2Field.Value = UIStatics.Simulador.Out[2];
                         out3Field.Value = UIStatics.Simulador.Out[3];
 
-                        cCheck.Value = UIStatics.Simulador.Flag_C;
-                        zCheck.Value = UIStatics.Simulador.Flag_Z;
+                        cCheck.Value = UIStatics.Simulador.FlagC;
+                        zCheck.Value = UIStatics.Simulador.FlagZ;
 
                         foreach (Components.Component item in Components) {
                             item.Refresh();
@@ -309,8 +309,8 @@ namespace IDE {
                         if (out2Field.UserInput) UIStatics.Simulador.Out[2] = (byte)out2Field.Value;
                         if (out3Field.UserInput) UIStatics.Simulador.Out[3] = (byte)out3Field.Value;
                         */
-                        if (cCheck.UserInput) UIStatics.Simulador.Flag_C = cCheck.Value;
-                        if (zCheck.UserInput) UIStatics.Simulador.Flag_Z = zCheck.Value;
+                        if (cCheck.UserInput) UIStatics.Simulador.FlagC = cCheck.Value;
+                        if (zCheck.UserInput) UIStatics.Simulador.FlagZ = zCheck.Value;
 
 
                         foreach (Components.Component item in Components) {

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -13,80 +11,83 @@ namespace M3PlusMicrocontroller {
         public int NextInstruction;
         public Instruction[] Program;
         public byte[] CompiledProgram;
-        public bool Flag_C = false;
-        public bool Flag_Z = false;
+        public bool FlagC;
+        public bool FlagZ;
         public byte[] Reg; //0:A, 1:B, 2:C, 3:D, 4:E
         public byte[] In; //0: IN4, 1: IN1, 2: IN2, 3: IN3
         public byte[] Out; //0: OUT4, 1: OUT1, 2: OUT2, 3: OUT3
-        public byte[] RAM;
+        public byte[] Ram;
         public byte[] Stack;
-        private byte pointerStack;
+        private byte _pointerStack;
         public byte PointerStack{
-            get { return pointerStack; }
+            get => _pointerStack;
             set {
-                if (pointerStack == 1 && value == 0) {
+                if (_pointerStack == 1 && value == 0) {
                     MessageBox.Show("Ocorreu um estouro na memória de pilha (stack overflow).\r\nVerifique o seu código.", "Stack overflow", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Stop();
                     throw new SimulationException();
-                } else if(pointerStack == 0 && value == 1) {
+                }
+
+                if(_pointerStack == 0 && value == 1) {
                     MessageBox.Show("Foi tentado retirar um valor da pilha mas não havia nenhum valor (stack underflow).\r\nVerifique o seu código.", "Stack underflow", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Stop();
                     throw new SimulationException();
                 }
-                pointerStack = value;
+                _pointerStack = value;
             }
         }
-        public int LowFrequencyIteraction = 0;
+        public int LowFrequencyIteraction;
         
-        private int instructionsCountFrequency = 0;
-        private int instructionsCount = 0;
-        private int currentFrequency = 0;
-        private bool frequencyReaded = false;
-        public int CurrentFrequency { get { return currentFrequency; } }
-        private bool internalSimulation = false;
-        public bool InternalSimulation { get { return internalSimulation; } set {
-                if (value == true) {
+        private int _instructionsCountFrequency;
+        private int _instructionsCount;
+        private bool _frequencyReaded;
+        public int CurrentFrequency { get; private set; }
+        private bool _internalSimulation;
+        public bool InternalSimulation { get => _internalSimulation;
+            set {
+                if (value) {
                     if (Frequency > 20) {
                         Frequency = 20;
                     }
                 }
-                internalSimulation = value;
+                _internalSimulation = value;
             } }
-        private Thread thread;
-        public bool Running = false;
+        private Thread _thread;
+        public bool Running;
         public bool Stopped = true;
 
-        private Instruction stepOutInstruction;
-        private Instruction lastBreakpointInstruction;
+        private Instruction _stepOutInstruction;
+        private Instruction _lastBreakpointInstruction;
         public Simulator() {
             Reset();
+            Direction.Simulador = this;
         }
 
         public void Reset() {
             NextInstruction = 0;
-            Flag_C = false;
-            Flag_Z = false;
+            FlagC = false;
+            FlagZ = false;
             Reg = new byte[5];
             In = new byte[4];
             Out = new byte[4];
-            RAM = new byte[256];
+            Ram = new byte[256];
             Stack = new byte[256];
-            pointerStack = 0;
+            _pointerStack = 0;
             Stopped = true;
-            instructionsCountFrequency = 0;
-            stepOutInstruction = null;
-            lastBreakpointInstruction = null;
+            _instructionsCountFrequency = 0;
+            _stepOutInstruction = null;
+            _lastBreakpointInstruction = null;
         }
         
         public void Run() {
             if (!Running) {
-                thread = new Thread(Run_thread);
+                _thread = new Thread(Run_thread);
                 if (Stopped) {
                     Reset();
                 }
                 Running = true;
                 Stopped = false;
-                thread.Start();
+                _thread.Start();
 
                 Thread currentFrequency = new Thread(Read_frequency);
                 currentFrequency.Start();
@@ -97,8 +98,8 @@ namespace M3PlusMicrocontroller {
             while (Running) {
                 Thread.Sleep(1000);
                 if (!Running) return;
-                currentFrequency = instructionsCount;
-                frequencyReaded = true;
+                CurrentFrequency = _instructionsCount;
+                _frequencyReaded = true;
             }
 
         }
@@ -114,21 +115,21 @@ namespace M3PlusMicrocontroller {
                     break;
                 }
                 if (instruction.HasBreakpoint) {
-                    if(instruction == stepOutInstruction) {
-                        stepOutInstruction.HasBreakpoint = false;
+                    if(instruction == _stepOutInstruction) {
+                        _stepOutInstruction.HasBreakpoint = false;
                     }
-                    if (lastBreakpointInstruction != instruction) {
-                        lastBreakpointInstruction = instruction;
+                    if (_lastBreakpointInstruction != instruction) {
+                        _lastBreakpointInstruction = instruction;
                         Running = false;
                         return;
                     } else {
-                        lastBreakpointInstruction = null;
+                        _lastBreakpointInstruction = null;
                     }
                 }
-                if (!FrequencyLimit || !internalSimulation) {
+                if (!FrequencyLimit || !_internalSimulation) {
                     NextInstruction += instruction.Size;
                     try {
-                        instruction.Function(this);
+                        instruction.Execute(this);
                     } catch (SimulationException) {
                         Running = false;
                         Stopped = true;
@@ -137,17 +138,17 @@ namespace M3PlusMicrocontroller {
                 } else {
                     ++LowFrequencyIteraction;
                 }
-                ++instructionsCountFrequency;
-                ++instructionsCount;
-                if (frequencyReaded) {
-                    frequencyReaded = false;
-                    instructionsCount = 0;
+                ++_instructionsCountFrequency;
+                ++_instructionsCount;
+                if (_frequencyReaded) {
+                    _frequencyReaded = false;
+                    _instructionsCount = 0;
                 }
                 if (FrequencyLimit) {
                     if (Frequency > 100) {
-                        if (instructionsCountFrequency > Frequency / 20) {
+                        if (_instructionsCountFrequency > Frequency / 20) {
                             Sleep(50, stopwatch);
-                            instructionsCountFrequency = 0;
+                            _instructionsCountFrequency = 0;
                         }
                     } else {
                         Thread.Sleep(1000 / Frequency);
@@ -171,9 +172,9 @@ namespace M3PlusMicrocontroller {
             stopwatch.Start();
         }
         public void Pause() {
-            if (stepOutInstruction != null && stepOutInstruction.HasBreakpoint) {
-                stepOutInstruction.HasBreakpoint = false;
-                stepOutInstruction = null;
+            if (_stepOutInstruction != null && _stepOutInstruction.HasBreakpoint) {
+                _stepOutInstruction.HasBreakpoint = false;
+                _stepOutInstruction = null;
             }
             Running = false;
         }
@@ -181,10 +182,10 @@ namespace M3PlusMicrocontroller {
         public void Debug_StepInto() {
             Stopped = false;
             if (!Running) {
-                if (!internalSimulation) {
+                if (!_internalSimulation) {
                     Instruction instruction = Program[NextInstruction];
                     NextInstruction += instruction.Size;
-                    instruction.Function(this);
+                    instruction.Execute(this);
                 } else {
                     ++LowFrequencyIteraction;
                 }
@@ -197,26 +198,24 @@ namespace M3PlusMicrocontroller {
                 Instruction instruction = Program[NextInstruction];
                 NextInstruction += instruction.Size;
                 Instruction newInstruction = Program[NextInstruction];
-                instruction.Function(this);
+                instruction.Execute(this);
                 if (newInstruction != null) {
                     newInstruction.HasBreakpoint = true;
                     Run();
-                    stepOutInstruction = newInstruction;
+                    _stepOutInstruction = newInstruction;
                 }
             }
         }
 
         public void Stop() {
-            if (stepOutInstruction != null && stepOutInstruction.HasBreakpoint) {
-                stepOutInstruction.HasBreakpoint = false;
-                stepOutInstruction = null;
+            if (_stepOutInstruction != null && _stepOutInstruction.HasBreakpoint) {
+                _stepOutInstruction.HasBreakpoint = false;
+                _stepOutInstruction = null;
             }
             Running = false;
             Stopped = true;
         }
     }
     public class SimulationException:Exception {
-        public SimulationException() : base() { }
-        public SimulationException(string message) : base(message) { }
     }
 }

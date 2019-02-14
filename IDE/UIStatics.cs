@@ -107,7 +107,8 @@ namespace IDE {
                 List<Instruction> InstructionList = new List<Instruction>();
                 while (index < bytes.Length) {
                     Instruction instruction;
-                    Instruction.Convert(bytes, index, out outIndex, out instruction);
+                    //Instruction.Convert(bytes, index, out outIndex, out instruction);
+                    throw new NotImplementedException();
                     InstructionList.Add(instruction);
                     index = outIndex;
                 }
@@ -166,7 +167,9 @@ namespace IDE {
                 List<Instruction> InstructionList = new List<Instruction>();
                 while (index < bytes.Length) {
                     Instruction instruction;
-                    Instruction.Convert(bytes, index, out outIndex, out instruction);
+                    //Instruction.Convert(bytes, index, out outIndex, out instruction);
+                    
+                    throw new NotImplementedException();
                     InstructionList.Add(instruction);
                     index = outIndex;
                 }
@@ -221,7 +224,9 @@ namespace IDE {
                 List<Instruction> InstructionList = new List<Instruction>();
                 while (index < bytes.Length) {
                     Instruction instruction;
-                    Instruction.Convert(bytes, index, out outIndex, out instruction);
+                    //Instruction.Convert(bytes, index, out outIndex, out instruction);
+                    
+                    throw new NotImplementedException();
                     InstructionList.Add(instruction);
                     index = outIndex;
                 }
@@ -257,7 +262,7 @@ namespace IDE {
                 Depurador.SetText("");
                 Depurador.RemoveAllLabels();
                 Depurador.RemoveAllBreakpoint();
-                bool[] breakpoints = new bool[Compiler.MEMORY_MAX_SIZE];
+                bool[] breakpoints = new bool[Compiler.MemoryMaxSize];
                 const uint maskBreakpoint = (1 << BREAKPOINT_MARKER);
                 for (int i = 0; i < Codigo.scintilla.Lines.Count; i++) {
                     if ((Codigo.scintilla.Lines[i].MarkerGet() & maskBreakpoint) > 0) {
@@ -280,8 +285,8 @@ namespace IDE {
                 }
                 Simulador.CompiledProgram = compiledProgram.ToArray();
                 StringBuilder text = new StringBuilder();
-                Depurador.AddressToLine = new int[Compiler.MEMORY_MAX_SIZE];
-                Depurador.LineToAddress = new int[Compiler.MEMORY_MAX_SIZE];
+                Depurador.AddressToLine = new int[Compiler.MemoryMaxSize];
+                Depurador.LineToAddress = new int[Compiler.MemoryMaxSize];
                 /*
                 for (int i = 0; i < Codigo.scintilla.Lines.Count; i++) {
                     if ((Codigo.scintilla.Lines[i].MarkerGet() & maskBreakpoint) > 0) {

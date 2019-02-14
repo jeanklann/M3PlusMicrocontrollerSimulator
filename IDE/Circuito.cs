@@ -670,11 +670,11 @@ namespace IDE {
         
         private void GetValuesToSimulator() {
             Array.Copy(InternalComponents.RamMemory.InternalValue,
-                UIStatics.Simulador.RAM,
-                UIStatics.Simulador.RAM.Length);
+                UIStatics.Simulador.Ram,
+                UIStatics.Simulador.Ram.Length);
             Array.Copy(InternalComponents.StackMemory.InternalValue,
                 UIStatics.Simulador.Stack,
-                UIStatics.Simulador.RAM.Length);
+                UIStatics.Simulador.Ram.Length);
             UIStatics.Simulador.Reg[0] =
                 InternalComponents.Accumulator.InternalValue;
             UIStatics.Simulador.PointerStack = InternalComponents.StackCounter.InternalValue;
@@ -688,9 +688,9 @@ namespace IDE {
                     InternalComponents.PortBank.GetInput(i);
                 }
             }
-            UIStatics.Simulador.Flag_C =
+            UIStatics.Simulador.FlagC =
                 InternalComponents.ULA.Pins[29].Value >= Pin.HALFCUT;
-            UIStatics.Simulador.Flag_Z =
+            UIStatics.Simulador.FlagZ =
                 InternalComponents.ULA.Pins[28].Value >= Pin.HALFCUT;
             int nextInstruction =
                 InternalComponents.RomAddresser.RegH * 256 +
@@ -707,12 +707,12 @@ namespace IDE {
                 InternalComponents.RomMemory.InternalValue, 
                 UIStatics.Simulador.CompiledProgram.Length);
             
-            Array.Copy(UIStatics.Simulador.RAM,
+            Array.Copy(UIStatics.Simulador.Ram,
                 InternalComponents.RamMemory.InternalValue,
-                UIStatics.Simulador.RAM.Length);
+                UIStatics.Simulador.Ram.Length);
             Array.Copy(UIStatics.Simulador.Stack,
                 InternalComponents.StackMemory.InternalValue,
-                UIStatics.Simulador.RAM.Length);
+                UIStatics.Simulador.Ram.Length);
             InternalComponents.Accumulator.InternalValue =
                 UIStatics.Simulador.Reg[0];
             InternalComponents.StackCounter.InternalValue =
@@ -725,9 +725,9 @@ namespace IDE {
                 }
             }
             InternalComponents.ULA.Pins[29].Value =
-                UIStatics.Simulador.Flag_C ? Pin.HIGH : Pin.LOW;
+                UIStatics.Simulador.FlagC ? Pin.HIGH : Pin.LOW;
             InternalComponents.ULA.Pins[28].Value =
-                UIStatics.Simulador.Flag_Z ? Pin.HIGH : Pin.LOW;
+                UIStatics.Simulador.FlagZ ? Pin.HIGH : Pin.LOW;
 
             InternalComponents.RomAddresser.RegH =
                 (byte)((UIStatics.Simulador.NextInstruction) / 256);
