@@ -4,7 +4,7 @@ namespace M3PlusMicrocontroller
 {
     public class Input : Register
     {
-        private static readonly string[] Registers = {"IN1", "IN2", "IN3", "IN4"};
+        private static readonly string[] Registers = {"IN0", "IN1", "IN2", "IN3"};
         public override string Description => $"a entrada {Registers[WitchOne]}";
         public override string Instruction => Registers[WitchOne];
 

@@ -63,6 +63,8 @@ namespace IDE {
                 tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, HEIGHT));
                 tableLayoutPanel1.Controls.Add(label, 0, tableLayoutPanel1.RowCount - 1);
                 tableLayoutPanel1.Controls.Add(field, 1, tableLayoutPanel1.RowCount - 1);
+                
+                Application.DoEvents();
             }
             Size = oldSize;
             loading.Hide();

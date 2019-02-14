@@ -4,12 +4,12 @@ namespace M3PlusMicrocontroller
     {
         public static readonly Function Add = (simulator, from, to, i) => from.Value + simulator.Reg[0];
         public static readonly Function Sub = (simulator, from, to, i) => from.Value - simulator.Reg[0];
-        public static readonly Function Mov = (simulator, from, to, i) => from.Value - simulator.Reg[0];
-        public static readonly Function Inc = (simulator, from, to, i) => from.Value - simulator.Reg[0];
-        public static readonly Function And = (simulator, from, to, i) => from.Value - simulator.Reg[0];
-        public static readonly Function Or = (simulator, from, to, i) => from.Value - simulator.Reg[0];
-        public static readonly Function Xor = (simulator, from, to, i) => from.Value - simulator.Reg[0];
-        public static readonly Function Not = (simulator, from, to, i) => from.Value - simulator.Reg[0];
+        public static readonly Function Mov = (simulator, from, to, i) => from.Value;
+        public static readonly Function Inc = (simulator, from, to, i) => from.Value+1;
+        public static readonly Function And = (simulator, from, to, i) => from.Value & simulator.Reg[0];
+        public static readonly Function Or = (simulator, from, to, i) => from.Value | simulator.Reg[0];
+        public static readonly Function Xor = (simulator, from, to, i) => from.Value ^ simulator.Reg[0];
+        public static readonly Function Not = (simulator, from, to, i) => (from.Value*-1) & byte.MaxValue;
         public static readonly Function Push = (simulator, from, to, i) =>
         {
             --simulator.PointerStack;
@@ -25,33 +25,35 @@ namespace M3PlusMicrocontroller
 
         public static readonly Function Jmp = (simulator, from, to, i) =>
         {
-            JmpInternal(simulator, i);
+            JmpInternal(simulator, to);
             return 0;
         };
         public static readonly Function Jmpz = (simulator, from, to, i) =>
         {
             if (simulator.FlagZ)
-                JmpInternal(simulator, i);
+                JmpInternal(simulator, to);
             return 0;
         };
         public static readonly Function Jmpc = (simulator, from, to, i) =>
         {
             if (simulator.FlagC)
-                JmpInternal(simulator, i);
+                JmpInternal(simulator, to);
             return 0;
         };
         
         
         
-        private static void JmpInternal(Simulator simulator, Instruction i)
+        private static void JmpInternal(Simulator simulator, Direction to)
         {
+            if (!(to is Address address))
+                throw new CompilerError("Erro na execução do comando.");
+            
             --simulator.PointerStack;
-            simulator.Stack[simulator.PointerStack] = (byte) (i.Address / 256);
+            simulator.Stack[simulator.PointerStack] = (byte) (address.ValueAddress/ 256);
             --simulator.PointerStack;
-            simulator.Stack[simulator.PointerStack] = (byte) (i.Address % 256);
-            simulator.NextInstruction = i.Address;
-            ++simulator.PointerStack;
-            ++simulator.PointerStack;
+            simulator.Stack[simulator.PointerStack] = (byte) (address.ValueAddress % 256);
+            simulator.NextInstruction = address.ValueAddress;
+            simulator.PointerStack += 2;
         }
     }
 }

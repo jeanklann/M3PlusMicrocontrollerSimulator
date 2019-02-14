@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Address.cs" />
     <Compile Include="AddressRam.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="CompilerError.cs" />

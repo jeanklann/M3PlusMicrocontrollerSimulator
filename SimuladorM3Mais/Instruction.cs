@@ -2,41 +2,25 @@
     public delegate int Function(Simulator simulator, Direction from, Direction to, Instruction instruction);
     
     public class Instruction {
-        public string _text;
-        public string _parameter;
-        public string Text
-        {
-            get => _text + _parameter;
-            private set => _text = value;
-        }
+        public string Text { get; }
         public readonly string Description;
         private readonly Function _function;
         private readonly Direction _from;
-        private readonly Direction _to;
+        public readonly Direction To;
         public void Execute(Simulator sim)
         {
-            var res = _function(sim, _from, _to, this);
-            _to.Value = (byte) res;
+            var res = _function(sim, _from, To, this);
+            To.Value = (byte) res;
             sim.FlagC = res > byte.MaxValue;
-            sim.FlagZ = _to.Value == 0;
+            sim.FlagZ = To.Value == 0;
         }
         public int Size = 1;
         public bool HasBreakpoint = false;
 
         public int Address = 0; //JMP somewhere -> JMP #42
-        private string _label;
+        public string Label { get; set; }
 
-        public string Label
-        {
-            get => _label;
-            set
-            {
-                _label = value;
-                _parameter = $" {_label}";
-            }
-        }
-
-        private static readonly string[] Descricao = {
+        private static readonly string[] descricao = {
             "{0}o registrador A com {1} e envia para {2}",
             "{0}{1} e envia para {2}"
         };
@@ -45,8 +29,8 @@
             Text = $"{text} {from.Instruction}, {to.Instruction}";
             _function = function;
             _from = from;
-            _to = to;
-            Description = string.Format(Descricao[descriptionStyle], description, _from.Description, _to.Description);
+            To = to;
+            Description = string.Format(descricao[descriptionStyle], description, _from.Description, To.Description);
             ValidaFluxosPadroes();
         }
         public Instruction(string text, Function function, Direction to, string description)
@@ -54,7 +38,7 @@
             Description = description;
             Text = $"{text} {to.Instruction}";
             _function = function;
-            _to = to;
+            To = to;
         }
         
         public Instruction(string text, Function function, string description)
@@ -86,7 +70,7 @@
         {
             if (!comparacaoExtra)
                 return false;
-            if (_from.GetType() == typeof(TE) && _to.GetType() == typeof(TD))
+            if (_from.GetType() == typeof(TE) && To.GetType() == typeof(TD))
                 return true;
             return false;
         }
@@ -96,7 +80,7 @@
         {
             if (direita)
             {
-                if ((_to as Register)?.WitchOne != 0)
+                if ((To as Register)?.WitchOne != 0)
                     return false;
             }
             else
@@ -104,7 +88,7 @@
                 if ((_from as Register)?.WitchOne != 0)
                     return false;
             }
-            if (_from.GetType() == typeof(TE) && _to.GetType() == typeof(TD))
+            if (_from.GetType() == typeof(TE) && To.GetType() == typeof(TD))
                 return true;
             return false;
         }

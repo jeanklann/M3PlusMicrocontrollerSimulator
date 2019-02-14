@@ -27,12 +27,12 @@ namespace M3PlusMicrocontroller {
             instruction.HasBreakpoint = _nextTokenHasBreakpoint;
             _nextTokenHasBreakpoint = false;
             Instructions.Add(new InstructionCompiler(instruction, _nextAddress));
-            if(instruction.Label != null) {
-                foreach (Label item in Labels) {
-                    if(instruction.Label == item.Name) {
-                        instruction.Address = item.Address;
-                        instruction.Label = null;
-                    }
+            if (instruction.To is Address label)
+            {
+                foreach (var item in Labels) {
+                    if (label.Label != item.Name) continue;
+                    label.ValueAddress = item.Address;
+                    label.Value = 1;
                 }
             }
             _nextAddress += instruction.Size;
@@ -43,16 +43,14 @@ namespace M3PlusMicrocontroller {
                     throw new CompilerError("Erro na linha " + Helpers.CountLines(program, token.Index) + ". O label já existe.");
                 }
             }
-            foreach (InstructionCompiler item in Instructions) {
-                if (item.Instruction.Label != null) {
-                    if (item.Instruction.Label == name) {
-                        item.Instruction.Address = _nextAddress;
-                        item.Instruction.Label = null;
-                    }
-                }
+            foreach (var item in Instructions)
+            {
+                if (!(item.Instruction.To is Address labelInstruction)) continue;
+                if (labelInstruction.Label != name) continue;
+                labelInstruction.ValueAddress = item.Address;
+                labelInstruction.Value = 1;
             }
-
-            Label label = new Label(name, _nextAddress);
+            var label = new Label(name, _nextAddress);
             Labels.Add(label);
         }
 
@@ -87,7 +85,8 @@ namespace M3PlusMicrocontroller {
             } while (token.Type != TokenType.EoF);
             Instruction[] instructionCompiled = new Instruction[MemoryMaxSize];
             foreach (InstructionCompiler item in Instructions) {
-                if(item.Instruction.Label != null) throw new CompilerError("Erro na instrução "+item.Instruction.Text+". Não foi encontrado o label "+ item.Instruction .Label+ ".");
+                if(item.Instruction.To is Address address && address.Value == 0)
+                    throw new CompilerError("Erro na instrução "+item.Instruction.Text+". Não foi encontrado o label "+ item.Instruction .Label+ ".");
                 instructionCompiled[item.Address] = item.Instruction;
             }
             return instructionCompiled;
@@ -228,20 +227,21 @@ namespace M3PlusMicrocontroller {
                     token = _tokenAnalyzer.NextToken();
                     if (token.Type == TokenType.Identificator)
                     {
+                        var to = DirectionFactory.Create(token);
                         switch (name)
                         {
                             case "JMP":
                                 NewInstruction(new Instruction(instructionText, Functions.Jmp,
-                                    $"Pula para o label {token.Value}") {Label = token.Value});
+                                    to, $"Pula para o label {token.Value}") {Label = token.Value});
                                 break;
                             case "JMPC":
                                 NewInstruction(new Instruction(instructionText, Functions.Jmpc,
-                                        $"Pula para o label {token.Value} caso a flag carry esteja ligada.")
+                                        to, $"Pula para o label {token.Value} caso a flag carry esteja ligada.")
                                     {Label = token.Value});
                                 break;
                             case "JMPZ":
                                 NewInstruction(new Instruction(instructionText, Functions.Jmpz,
-                                        $"Pula para o label {token.Value} caso a flag zero esteja ligada.")
+                                        to, $"Pula para o label {token.Value} caso a flag zero esteja ligada.")
                                     {Label = token.Value});
                                 break;
                         }

@@ -4,7 +4,7 @@ namespace M3PlusMicrocontroller
 {
     public class Output : Register
     {
-        private static readonly string[] Registers = new[] {"OUT1", "OUT2", "OUT3", "OUT4"};
+        private static readonly string[] Registers = new[] {"OUT0", "OUT1", "OUT2", "OUT3"};
         public override string Description => $"a saída {Registers[WitchOne]}";
         public override string Instruction => Registers[WitchOne];
 

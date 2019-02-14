@@ -18,6 +18,8 @@
                     return new Rom(byte.Parse(token.Value));
                 case TokenType.RamAddress:
                     return new Ram(byte.Parse(token.Value));
+                case TokenType.Identificator:
+                    return new Address(token.Value);
                 default:
                     throw new CompilerError($"O tipo {token.Type.ToString()} não pode ser identificado.");
             }

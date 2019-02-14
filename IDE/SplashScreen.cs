@@ -6,6 +6,7 @@ namespace IDE {
     public partial class SplashScreen : Form {
         private SplashScreen() {
             InitializeComponent();
+            label1.Text = string.Format(label1.Text, Application.ProductVersion);
         }
 
         

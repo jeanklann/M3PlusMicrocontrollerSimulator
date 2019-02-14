@@ -31,11 +31,11 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Location = new System.Drawing.Point(487, 216);
+            this.label1.Location = new System.Drawing.Point(457, 216);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.Size = new System.Drawing.Size(100, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Versão beta 13";
+            this.label1.Text = "Versão {0}";
             this.label1.TextAlign = System.Drawing.ContentAlignment.BottomRight;
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
