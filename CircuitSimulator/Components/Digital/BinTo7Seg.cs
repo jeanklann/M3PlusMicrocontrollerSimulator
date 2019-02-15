@@ -63,9 +63,9 @@
             }
         }
         internal override bool CanExecute() {
-            if(simulationId == circuit.SimulationId) return false;
+            if(SimulationIdInternal == circuit.SimulationId) return false;
             for(var i = 0; i < 4; i++) { //not needed to verify if Enable is connected
-                if(Pins[i].simulationId != circuit.SimulationId) {
+                if(Pins[i].SimulationIdInternal != circuit.SimulationId) {
                     return false;
                 }
             }
@@ -105,21 +105,21 @@
         private void ToOutput(int value) {
             if(value > 16 || value < 0) {
                 value = 16;
-                OutA.isOpen = true;
-                OutB.isOpen = true;
-                OutC.isOpen = true;
-                OutD.isOpen = true;
-                OutE.isOpen = true;
-                OutF.isOpen = true;
-                OutG.isOpen = true;
+                OutA.IsOpenInternal = true;
+                OutB.IsOpenInternal = true;
+                OutC.IsOpenInternal = true;
+                OutD.IsOpenInternal = true;
+                OutE.IsOpenInternal = true;
+                OutF.IsOpenInternal = true;
+                OutG.IsOpenInternal = true;
             } else {
-                OutA.isOpen = false;
-                OutB.isOpen = false;
-                OutC.isOpen = false;
-                OutD.isOpen = false;
-                OutE.isOpen = false;
-                OutF.isOpen = false;
-                OutG.isOpen = false;
+                OutA.IsOpenInternal = false;
+                OutB.IsOpenInternal = false;
+                OutC.IsOpenInternal = false;
+                OutD.IsOpenInternal = false;
+                OutE.IsOpenInternal = false;
+                OutF.IsOpenInternal = false;
+                OutG.IsOpenInternal = false;
             }
             OutA.Value = table[value, 0];
             OutB.Value = table[value, 1];

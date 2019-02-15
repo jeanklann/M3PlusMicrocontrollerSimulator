@@ -20,15 +20,15 @@
             }
         }
         internal override bool CanExecute() {
-            if (simulationId == circuit.SimulationId) return false;
+            if (SimulationIdInternal == circuit.SimulationId) return false;
             for (var i = 8; i <= 9; i++) {
-                if (Pins[i].simulationId != circuit.SimulationId) {
+                if (Pins[i].SimulationIdInternal != circuit.SimulationId) {
                     return false;
                 }
             }
             if (Pins[8].Value >= Pin.HALFCUT && lastClock <= Pin.HALFCUT) {
                 for (var i = 0; i < 8; i++) {
-                    if (Pins[i].simulationId != circuit.SimulationId) {
+                    if (Pins[i].SimulationIdInternal != circuit.SimulationId) {
                         return false;
                     }
                 }

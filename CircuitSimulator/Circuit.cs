@@ -71,7 +71,7 @@ namespace CircuitSimulator {
         /// </summary>
         private void Build() {
             foreach(var item in Components) {
-                if(item.canStart) starterComponents.Add(item);
+                if(item.CanStart) starterComponents.Add(item);
             }
             builtCircuit = true;
         }
@@ -106,7 +106,7 @@ namespace CircuitSimulator {
             while(executionQueue.Count > 0) {
                 var component = executionQueue.Dequeue();
                 if (component != null) { //Failsafe
-                    component.simulationId = simulationId;
+                    component.SimulationIdInternal = simulationId;
                     component.Execute();
                 }
             }

@@ -16,13 +16,13 @@
             }
         }
         internal override bool CanExecute() {
-            if (simulationId == circuit.SimulationId) return false;
+            if (SimulationIdInternal == circuit.SimulationId) return false;
             for (var i = 8; i <= 10; i++) {
-                if (Pins[i].simulationId != circuit.SimulationId) return false;
+                if (Pins[i].SimulationIdInternal != circuit.SimulationId) return false;
             }
             if(Pins[8].Value >= Pin.HALFCUT && _lastClock <= Pin.HALFCUT) {
                 for (var i = 0; i < 8; i++) {
-                    if (Pins[i].simulationId != circuit.SimulationId) {
+                    if (Pins[i].SimulationIdInternal != circuit.SimulationId) {
                         return false;
                     }
                 }
@@ -31,7 +31,7 @@
         }
 
         protected internal override void Execute() {
-            simulationId = circuit.SimulationId;
+            SimulationIdInternal = circuit.SimulationId;
 
             if (_lastClock <= Pin.HALFCUT && Pins[8].Value >= Pin.HALFCUT) {
                 InternalValue = 0;
@@ -87,7 +87,7 @@
                     val -= 1;
                 }
                 for (var i = 19; i < 27; i++) {
-                    Pins[i].simulationId = simulationId;
+                    Pins[i].SimulationIdInternal = SimulationIdInternal;
                     Pins[i].Propagate();
                 }
             }
@@ -127,7 +127,7 @@
                 val2 -= 1;
             }
             for (var i = 11; i < 19; i++) {
-                Pins[i].simulationId = simulationId;
+                Pins[i].SimulationIdInternal = SimulationIdInternal;
                 Pins[i].Propagate();
             }
 

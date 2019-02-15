@@ -4,18 +4,18 @@
         public bool PreventUpdateInput = false;
         public Microcontroller(string name = "Logic Input"):base(name, 64) {
             for (var i = 0; i < 32; i++) {
-                Pins[i].isOutput = false;
-                Pins[i].isOpen = false;
+                Pins[i].IsOutputInternal = false;
+                Pins[i].IsOpenInternal = false;
             }
             for (var i = 32; i < 64; i++) {
-                Pins[i].isOutput = true;
-                Pins[i].isOpen = false;
+                Pins[i].IsOutputInternal = true;
+                Pins[i].IsOpenInternal = false;
             }
-            canStart = true;
+            CanStart = true;
         }
 
         internal override bool CanExecute() {
-            if (simulationId == circuit.SimulationId) return false;
+            if (SimulationIdInternal == circuit.SimulationId) return false;
             /*
             for (int i = 0; i < 32; i++) {
                 if (Pins[i].simulationId != circuit.SimulationId) {

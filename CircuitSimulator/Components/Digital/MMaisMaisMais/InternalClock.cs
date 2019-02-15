@@ -8,8 +8,8 @@
             Pins[0] = new Pin(this, true, false);
         }
         internal override bool CanExecute() {
-            if (simulationId == circuit.SimulationId) return false;
-            if (Pins[0].simulationId != circuit.SimulationId) return false;
+            if (SimulationIdInternal == circuit.SimulationId) return false;
+            if (Pins[0].SimulationIdInternal != circuit.SimulationId) return false;
             return true;
         }
 

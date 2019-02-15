@@ -18,15 +18,15 @@
             }
         }
         internal override bool CanExecute() {
-            if (simulationId == circuit.SimulationId) return false;
+            if (SimulationIdInternal == circuit.SimulationId) return false;
             for (var i = 8; i < 14; i++) {
-                if (Pins[i].simulationId != circuit.SimulationId) {
+                if (Pins[i].SimulationIdInternal != circuit.SimulationId) {
                     return false;
                 }
             }
             if(Pins[8].Value >= Pin.HALFCUT) {
                 for (var i = 0; i < 8; i++) {
-                    if (Pins[i].simulationId != circuit.SimulationId) {
+                    if (Pins[i].SimulationIdInternal != circuit.SimulationId) {
                         return false;
                     }
                 }
@@ -35,7 +35,7 @@
         }
 
         protected internal override void Execute() {
-            simulationId = circuit.SimulationId;
+            SimulationIdInternal = circuit.SimulationId;
 
             if ((Pins[9].Value >= Pin.HALFCUT && _lastClockH < Pin.HALFCUT) ||
                 (Pins[10].Value >= Pin.HALFCUT && _lastClockL < Pin.HALFCUT)) {
@@ -140,7 +140,7 @@
                 }
             }
             for (var i = 14; i < 22; i++) {
-                Pins[i].simulationId = simulationId;
+                Pins[i].SimulationIdInternal = SimulationIdInternal;
                 Pins[i].Propagate();
             }
 
@@ -204,13 +204,13 @@
                 }
             }
             for (var i = 22; i < 30; i++) {
-                Pins[i].simulationId = simulationId;
+                Pins[i].SimulationIdInternal = SimulationIdInternal;
                 Pins[i].Propagate();
             }
             if(Pins[11].Value >= Pin.HALFCUT || Pins[12].Value >= Pin.HALFCUT &&
                 !(Pins[11].Value >= Pin.HALFCUT && Pins[12].Value >= Pin.HALFCUT)) {
                 for (var i = 30; i < 38; i++) {
-                    Pins[i].simulationId = simulationId;
+                    Pins[i].SimulationIdInternal = SimulationIdInternal;
                     Pins[i].Propagate();
                 }
             }

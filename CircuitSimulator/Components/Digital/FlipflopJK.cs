@@ -33,9 +33,9 @@
             Qnot.Value = Pin.HIGH;
         }
         internal override bool CanExecute() {
-            if(simulationId == circuit.SimulationId) return false;
+            if(SimulationIdInternal == circuit.SimulationId) return false;
             for(var i = 0; i < 3; i++) { //not needed to verify if S and R is connected
-                if(Pins[i].simulationId != circuit.SimulationId) {
+                if(Pins[i].SimulationIdInternal != circuit.SimulationId) {
                     return false;
                 }
             }

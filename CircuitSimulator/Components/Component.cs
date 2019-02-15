@@ -4,15 +4,15 @@ using System.Text;
 
 namespace CircuitSimulator {
     public abstract class Component {
-        protected internal int simulationId;
+        protected internal int SimulationIdInternal;
 
-        protected internal bool canStart = false;
+        protected internal bool CanStart = false;
         protected internal Circuit circuit;
 
         public long Id = -1;
         public string Name;
         public Pin[] Pins;
-        public int SimulationId => simulationId;
+        public int SimulationId => SimulationIdInternal;
 
 
         /// <summary>
@@ -41,9 +41,9 @@ namespace CircuitSimulator {
         /// </summary>
         /// <returns>true if is ready</returns>
         internal virtual bool CanExecute() {
-            if(simulationId == circuit.SimulationId) return false;
+            if(SimulationIdInternal == circuit.SimulationId) return false;
             for(var i = 0; i < Pins.Length; i++) {
-                if(Pins[i].simulationId != circuit.SimulationId) {
+                if(Pins[i].SimulationIdInternal != circuit.SimulationId) {
                     return false;
                 }
             }
@@ -53,9 +53,9 @@ namespace CircuitSimulator {
         /// Simulate this component
         /// </summary>
         protected internal virtual void Execute() {
-            simulationId = circuit.SimulationId;
+            SimulationIdInternal = circuit.SimulationId;
             for(var i = 0; i < Pins.Length; i++) {
-                Pins[i].simulationId = simulationId;
+                Pins[i].SimulationIdInternal = SimulationIdInternal;
             }
         }
         
@@ -80,16 +80,16 @@ namespace CircuitSimulator {
         public const float LOW = 0;
         public const float HALFCUT = (HIGH + LOW) / 2f;
         public float Value;
-        public int SimulationId => simulationId;
-        internal int simulationId;
-        internal bool isOpen;
-        internal bool isOutput;
+        public int SimulationId => SimulationIdInternal;
+        internal int SimulationIdInternal;
+        internal bool IsOpenInternal;
+        internal bool IsOutputInternal;
         internal Component component;
         internal Circuit Circuit => component.circuit;
 
         //public float Value { get { return value; } }
-        public bool IsOpen => isOpen;
-        public bool IsOutput => isOutput;
+        public bool IsOpen => IsOpenInternal;
+        public bool IsOutput => IsOutputInternal;
 
         public List<Pin> connectedPins;
         
@@ -103,17 +103,17 @@ namespace CircuitSimulator {
         internal Pin(Component component, bool isOutput = false, bool isOpen = false, float value = 0f) {
             if(component == null) throw new Exception("Component cannot be null");
             this.component = component;
-            this.isOutput = isOutput;
-            this.isOpen = isOpen;
+            this.IsOutputInternal = isOutput;
+            this.IsOpenInternal = isOpen;
             this.Value = value;
             connectedPins = new List<Pin>();
         }
 
         public bool CanExecute(bool cannotBeOpen = true) {
             if (cannotBeOpen) {
-                if (isOpen) return false;
+                if (IsOpenInternal) return false;
             }
-            if (component.simulationId == simulationId) return false;
+            if (component.SimulationIdInternal == SimulationIdInternal) return false;
             return true;
         }
 
@@ -148,10 +148,10 @@ namespace CircuitSimulator {
         /// </summary>
         internal void Propagate() {
             foreach(var pin in connectedPins) {
-                if(pin.simulationId != Circuit.SimulationId || pin.Value != Value || pin.isOpen != isOpen) {
-                    pin.simulationId = simulationId;
+                if(pin.SimulationIdInternal != Circuit.SimulationId || pin.Value != Value || pin.IsOpenInternal != IsOpenInternal) {
+                    pin.SimulationIdInternal = SimulationIdInternal;
                     pin.Value = Value;
-                    pin.isOpen = isOpen;
+                    pin.IsOpenInternal = IsOpenInternal;
                     if (pin.component.CanExecute()) {
                         Circuit.AddToExecution(pin.component);
                     }
@@ -197,7 +197,7 @@ namespace CircuitSimulator {
         /// <param name="pin">the pin to be compared</param>
         /// <returns>if both are equal</returns>
         protected internal bool IsEqualOthers(Pin pin) {
-            if(pin.isOpen != isOpen) return false;
+            if(pin.IsOpenInternal != IsOpenInternal) return false;
             return true;
         }
         /// <summary>

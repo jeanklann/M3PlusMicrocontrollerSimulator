@@ -6,10 +6,10 @@
         }
         
         public LogicInput(string name = "Logic Input"):base(name) {
-            Pins[0].isOutput = true;
-            Pins[0].isOpen = false;
+            Pins[0].IsOutputInternal = true;
+            Pins[0].IsOpenInternal = false;
             Pins[0].Value = Pin.LOW;
-            canStart = true;
+            CanStart = true;
         }
 
         public float Switch() {

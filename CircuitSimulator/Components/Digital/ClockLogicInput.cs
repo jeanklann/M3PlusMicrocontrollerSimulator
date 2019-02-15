@@ -10,8 +10,8 @@
         }
 
         public ClockLogicInput(string name = "Clock Logic Input") : base(name) {
-            Pins[0].isOutput = true;
-            canStart = true;
+            Pins[0].IsOutputInternal = true;
+            CanStart = true;
         }
 
         private float Switch() {

@@ -4,9 +4,9 @@
 
         }
         protected internal override void Execute() {
-            simulationId = circuit.SimulationId;
+            SimulationIdInternal = circuit.SimulationId;
             for (var i = 0; i < Pins.Length; i++) {
-                Pins[i].simulationId = simulationId;
+                Pins[i].SimulationIdInternal = SimulationIdInternal;
             }
             Output.SetDigital(Operation(Pins[0]));
             Output.Propagate();

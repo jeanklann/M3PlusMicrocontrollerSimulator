@@ -4,11 +4,11 @@
 
         public Keyboard(string name = "Keyboard Input"):base(name, 8) {
             for (var i = 0; i < Pins.Length; i++) {
-                Pins[i].isOutput = true;
-                Pins[i].isOpen = false;
+                Pins[i].IsOutputInternal = true;
+                Pins[i].IsOpenInternal = false;
                 Pins[i].Value = Pin.LOW;
             }
-            canStart = true;
+            CanStart = true;
         }
         
 

@@ -69,15 +69,15 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             }
         }
         internal override bool CanExecute() {
-            if (simulationId == circuit.SimulationId) return false;
+            if (SimulationIdInternal == circuit.SimulationId) return false;
             for (var i = 0; i < 5; i++) {
-                if (Pins[8 * 5 + i].simulationId != circuit.SimulationId) {
+                if (Pins[8 * 5 + i].SimulationIdInternal != circuit.SimulationId) {
                     return false;
                 }
             }
             if(Pins[8 * 5 + 3].Value >= Pin.HALFCUT) {
                 for (var i = 0; i < 8; i++) {
-                    if (Pins[8 * 4 + i].simulationId != circuit.SimulationId) {
+                    if (Pins[8 * 4 + i].SimulationIdInternal != circuit.SimulationId) {
                         return false;
                     }
                 }
@@ -86,7 +86,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
 
         protected internal override void Execute() {
-            simulationId = circuit.SimulationId;
+            SimulationIdInternal = circuit.SimulationId;
             if (Pins[8 * 5 + 4].Value >= Pin.HALFCUT) {
                 for (var i = 0; i < 4; i++) { //reseta
                     RegOut[i] = 0;
@@ -139,7 +139,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
 
 
                 for (var i = 0; i < 8; i++) {
-                    Pins[8 * 5 + 5 + i].simulationId = circuit.SimulationId;
+                    Pins[8 * 5 + 5 + i].SimulationIdInternal = circuit.SimulationId;
 
                     Pins[8 * 5 + 5 + i].Propagate();    //outbus
                 }
@@ -155,8 +155,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 Pins[(8 * 6 + 5) + port * 8 + 7].Value = (RegOut[port] & 0x80) == 0x00 ? Pin.LOW : Pin.HIGH;
             }
             for (var i = 0; i < 32; i++) {
-                Pins[i].simulationId = circuit.SimulationId;
-                Pins[8 * 6 + 5 + i].simulationId = circuit.SimulationId;
+                Pins[i].SimulationIdInternal = circuit.SimulationId;
+                Pins[8 * 6 + 5 + i].SimulationIdInternal = circuit.SimulationId;
 
                 Pins[i].Propagate();    //in
                 Pins[8 * 6 + 5 + i].Propagate();        //out

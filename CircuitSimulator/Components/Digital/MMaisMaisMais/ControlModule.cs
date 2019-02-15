@@ -61,7 +61,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         public int LowFrequencyIteraction = 0;
 
         public ControlModule(string name = "ControlModule") : base(name, 41) {
-            canStart = true;
+            CanStart = true;
             _internalMicroInstructions = new Dictionary<string, bool>();
         }
         protected override void AllocatePins() {
@@ -75,7 +75,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             }
         }
         internal override bool CanExecute() {
-            if (simulationId == circuit.SimulationId) return false;
+            if (SimulationIdInternal == circuit.SimulationId) return false;
             return true;
         }
         protected internal override void Execute() {

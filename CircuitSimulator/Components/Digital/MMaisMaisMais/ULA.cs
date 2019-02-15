@@ -14,9 +14,9 @@
             }
         }
         internal override bool CanExecute() {
-            if (simulationId == circuit.SimulationId) return false;
+            if (SimulationIdInternal == circuit.SimulationId) return false;
             for (var i = 8; i < 20; i++) {
-                if (Pins[i].simulationId != circuit.SimulationId) {
+                if (Pins[i].SimulationIdInternal != circuit.SimulationId) {
                     return false;
                 }
             }
@@ -24,7 +24,7 @@
         }
 
         protected internal override void Execute() {
-            simulationId = circuit.SimulationId;
+            SimulationIdInternal = circuit.SimulationId;
             
             byte resByte;
             var res = 0;
@@ -106,7 +106,7 @@
                     Pins[29].Value = Pin.HIGH;
             }
             for (var i = 28; i <= 29; i++) {
-                Pins[i].simulationId = simulationId;
+                Pins[i].SimulationIdInternal = SimulationIdInternal;
                 Pins[i].Propagate();
             }
             if (Pins[19].Value >= Pin.HALFCUT) {
@@ -143,7 +143,7 @@
                     resByte -= 1;
                 }
                 for (var i = 20; i < 28; i++) {
-                    Pins[i].simulationId = simulationId;
+                    Pins[i].SimulationIdInternal = SimulationIdInternal;
                     Pins[i].Propagate();
                 }
             }
