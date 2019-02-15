@@ -47,7 +47,7 @@ namespace M3PlusMicrocontroller {
             {
                 if (!(item.Instruction.To is Address labelInstruction)) continue;
                 if (labelInstruction.Label != name) continue;
-                labelInstruction.ValueAddress = item.Address;
+                labelInstruction.ValueAddress = _nextAddress;
                 labelInstruction.Value = 1;
             }
             var label = new Label(name, _nextAddress);
@@ -99,47 +99,13 @@ namespace M3PlusMicrocontroller {
             {
                 case "CALL":
                     token = _tokenAnalyzer.NextToken();
-                    function = (simulator, from, to, i) =>
-                    {
-                        var next = simulator.NextInstruction;
-
-                        --simulator.PointerStack;
-                        simulator.Stack[simulator.PointerStack] = (byte)(next / 256);
-                        --simulator.PointerStack;
-                        simulator.Stack[simulator.PointerStack] = (byte)(next % 256);
-
-                        --simulator.PointerStack;
-                        simulator.Stack[simulator.PointerStack] = (byte)(i.Address / 256);
-                        --simulator.PointerStack;
-                        simulator.Stack[simulator.PointerStack] = (byte)(i.Address % 256);
-
-                        simulator.NextInstruction = i.Address;
-
-                        ++simulator.PointerStack;
-                        ++simulator.PointerStack;
-                        
-                        return 0;
-                    };
-                    NewInstruction(new Instruction("CALL", function, $"Chama o procedimento no label {token.Value}.")
-                        {Label = token.Value});
+                    function = Functions.Call;
+                    NewInstruction(new Instruction("CALL", function, DirectionFactory.Create(token), $"Chama o procedimento no label {token.Value}."));
                     break;
                 case "RET":
                     token = _tokenAnalyzer.NextToken();
-                    function = (simulator, from, to, i) =>
-                    {
-                        int next;
-
-                        next = simulator.Stack[simulator.PointerStack] % 256;
-                        ++simulator.PointerStack;
-                        next += simulator.Stack[simulator.PointerStack] * 256;
-                        ++simulator.PointerStack;
-
-                        simulator.NextInstruction = next;
-                        
-                        return 0;
-                    };
-                    NewInstruction(new Instruction("RET", function, "Retorno do procedimento.")
-                        {Label = token.Value});
+                    function = Functions.Ret;
+                    NewInstruction(new Instruction("RET", function, "Retorno do procedimento."));
                     break;
             }
             return token;

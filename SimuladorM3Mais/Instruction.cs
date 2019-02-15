@@ -10,14 +10,13 @@
         public void Execute(Simulator sim)
         {
             var res = _function(sim, _from, To, this);
-            To.Value = (byte) res;
+            if(To != null)
+                To.Value = (byte) res;
             sim.FlagC = res > byte.MaxValue;
-            sim.FlagZ = To.Value == 0;
+            sim.FlagZ = (To?.Value ?? 0) == 0;
         }
         public int Size = 1;
         public bool HasBreakpoint = false;
-
-        public int Address = 0; //JMP somewhere -> JMP #42
         public string Label { get; set; }
 
         private static readonly string[] descricao = {

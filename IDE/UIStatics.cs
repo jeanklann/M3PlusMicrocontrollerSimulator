@@ -118,7 +118,7 @@ namespace IDE {
                 foreach (Instruction item in InstructionList) {
                     foreach (Instruction itemLabel in InstructionList) {
                         if (itemLabel.Label != null && itemLabel.Label != "" && itemLabel.Label.StartsWith("Byte_")) {
-                            if (itemLabel.Address == pos)
+                            if ((itemLabel.To as Address)?.ValueAddress == pos)
                                 Codigo.scintilla.Text += itemLabel.Label + ":\r\n";
                         }
                     }
@@ -178,7 +178,7 @@ namespace IDE {
                 foreach (Instruction item in InstructionList) {
                     foreach (Instruction itemLabel in InstructionList) {
                         if(itemLabel.Label != null && itemLabel.Label != "" && itemLabel.Label.StartsWith("Byte_")) {
-                            if(itemLabel.Address == pos)
+                            if ((itemLabel.To as Address)?.ValueAddress == pos)
                                 Codigo.scintilla.Text += itemLabel.Label+":\r\n";
                         }
                     }
@@ -236,7 +236,7 @@ namespace IDE {
                 foreach (Instruction item in InstructionList) {
                     foreach (Instruction itemLabel in InstructionList) {
                         if (itemLabel.Label != null && itemLabel.Label != "" && itemLabel.Label.StartsWith("Byte_")) {
-                            if (itemLabel.Address == pos)
+                            if ((itemLabel.To as Address)?.ValueAddress == pos)
                                 Codigo.scintilla.Text += itemLabel.Label + ":\r\n";
                         }
                     }

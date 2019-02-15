@@ -41,6 +41,43 @@ namespace M3PlusMicrocontroller
             return 0;
         };
         
+        public static readonly Function Call = (simulator, from, to, i) =>
+        {
+            if (!(to is Address address))
+                throw new CompilerError("Erro na execução do comando.");
+            var next = simulator.NextInstruction;
+
+            --simulator.PointerStack;
+            simulator.Stack[simulator.PointerStack] = (byte)(next / 256);
+            --simulator.PointerStack;
+            simulator.Stack[simulator.PointerStack] = (byte)(next % 256);
+
+            --simulator.PointerStack;
+            simulator.Stack[simulator.PointerStack] = (byte)(address.ValueAddress / 256);
+            --simulator.PointerStack;
+            simulator.Stack[simulator.PointerStack] = (byte)(address.ValueAddress % 256);
+
+            simulator.NextInstruction = address.ValueAddress;
+
+            simulator.PointerStack += 2;
+                        
+            return 0;
+        };
+        
+        public static readonly Function Ret = (simulator, from, to, i) =>
+        {
+            int next;
+
+            next = simulator.Stack[simulator.PointerStack] % 256;
+            ++simulator.PointerStack;
+            next += simulator.Stack[simulator.PointerStack] * 256;
+            ++simulator.PointerStack;
+
+            simulator.NextInstruction = next;
+                        
+            return 0;
+        };
+        
         
         
         private static void JmpInternal(Simulator simulator, Direction to)
