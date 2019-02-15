@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 
 namespace M3PlusMicrocontroller {
     public delegate int Function(Simulator simulator, Direction from, Direction to, Instruction instruction);
@@ -8,11 +7,11 @@ namespace M3PlusMicrocontroller {
         public string Text { get; }
         public readonly string Description;
         private readonly Function _function;
-        private readonly Direction From;
+        private readonly Direction _from;
         public readonly Direction To;
         public void Execute(Simulator sim)
         {
-            var res = _function(sim, From, To, this);
+            var res = _function(sim, _from, To, this);
             if(To != null)
                 To.Value = (byte) res;
             sim.FlagC = res > byte.MaxValue;
@@ -32,9 +31,9 @@ namespace M3PlusMicrocontroller {
         public Instruction(string text, Function function, Direction from, Direction to, string description, int descriptionStyle = 0) {
             Text = $"{text} {from.Instruction}, {to.Instruction}";
             _function = function;
-            From = from;
+            _from = from;
             To = to;
-            Description = string.Format(descricao[descriptionStyle], description, From.Description, To.Description);
+            Description = string.Format(descricao[descriptionStyle], description, _from.Description, To.Description);
             ValidaFluxosPadroes();
         }
         public Instruction(string text, Function function, Direction to, string description)
@@ -77,7 +76,7 @@ namespace M3PlusMicrocontroller {
         {
             if (!comparacaoExtra)
                 return false;
-            if (From?.GetType() == typeof(TE) && To?.GetType() == typeof(TD))
+            if (_from?.GetType() == typeof(TE) && To?.GetType() == typeof(TD))
                 return true;
             return false;
         }
@@ -320,9 +319,9 @@ namespace M3PlusMicrocontroller {
                 return (byte) (toReg.WitchOne-1 << 3); 
             if (To is Output toOut)
                 return (byte) (toOut.WitchOne-1 << 3);
-            if (From is Register fromReg)
+            if (_from is Register fromReg)
                 return (byte) (fromReg.WitchOne-1 << 3);
-            if (From is Input fromIn)
+            if (_from is Input fromIn)
                 return (byte) (fromIn.WitchOne-1 << 3);
             return 0;
         }
@@ -342,7 +341,7 @@ namespace M3PlusMicrocontroller {
                 return 0b000_00_100;
             if (ValidaFluxo<Ram, Acumulator>())
             {
-                extraBytes = new []{(From as Ram)?.Address ?? 0};
+                extraBytes = new []{(_from as Ram)?.Address ?? 0};
                 return 0b000_00_101;
             }
 
@@ -351,13 +350,13 @@ namespace M3PlusMicrocontroller {
             codePage++;
             if (ValidaFluxo<Rom, Acumulator>())
             {
-                extraBytes = new []{(From as Rom)?.Value?? 0};
+                extraBytes = new []{(_from as Rom)?.Value?? 0};
                 return 0b000_00_000;
             }
 
             if (ValidaFluxo<Rom, Register>())
             {
-                extraBytes = new []{(From as Rom)?.Value?? 0};
+                extraBytes = new []{(_from as Rom)?.Value?? 0};
                 return 0b000_00_001;
             }
 
@@ -365,7 +364,7 @@ namespace M3PlusMicrocontroller {
             {
                 extraBytes = new []
                 {
-                    (From as Rom)?.Value ?? 0,
+                    (_from as Rom)?.Value ?? 0,
                     (To as Ram)?.Address ?? 0
                 };
                 return 0b000_00_010;

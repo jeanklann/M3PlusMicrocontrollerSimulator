@@ -37,11 +37,11 @@ namespace IDE {
         }
 
         private void ThreadUpdate() {
-            while (!UIStatics.WantExit && !exitForm) {
+            while (!UiStatics.WantExit && !exitForm) {
 
                 try {
                     dataGridView1.ClearSelection();
-                    if (UIStatics.Simulador == null) {
+                    if (UiStatics.Simulador == null) {
                         if (lastHashSimulator != 0) {
                             for (int linha = 0; linha < 4096; linha++) {
                                 for (int coluna = 1; coluna < 17; coluna++) {
@@ -51,21 +51,21 @@ namespace IDE {
                         }
                         lastHashSimulator = 0;
                     }
-                    if (UIStatics.Simulador != null && lastHashSimulator != UIStatics.Simulador.GetHashCode()) {
-                        if (UIStatics.Simulador.CompiledProgram != null) {
-                            lastHashSimulator = UIStatics.Simulador.GetHashCode();
-                            for (int i = 0; i < UIStatics.Simulador.CompiledProgram.Length; i++) {
+                    if (UiStatics.Simulador != null && lastHashSimulator != UiStatics.Simulador.GetHashCode()) {
+                        if (UiStatics.Simulador.CompiledProgram != null) {
+                            lastHashSimulator = UiStatics.Simulador.GetHashCode();
+                            for (int i = 0; i < UiStatics.Simulador.CompiledProgram.Length; i++) {
                                 int linha;
                                 int coluna;
                                 getLineAndColumn(i, out linha, out coluna);
-                                dataGridView1.Rows[linha].Cells[coluna].Value = UIStatics.Simulador.CompiledProgram[i].ToString("X2");
+                                dataGridView1.Rows[linha].Cells[coluna].Value = UiStatics.Simulador.CompiledProgram[i].ToString("X2");
                             }
                         }
                     }
-                    if (UIStatics.Simulador != null) {
-                        int pc = UIStatics.Simulador.NextInstruction;
-                        if (UIStatics.Simulador.Program != null && UIStatics.Simulador.Program[pc] != null) {
-                            M3PlusMicrocontroller.Instruction Instruction = UIStatics.Simulador.Program[pc];
+                    if (UiStatics.Simulador != null) {
+                        int pc = UiStatics.Simulador.NextInstruction;
+                        if (UiStatics.Simulador.Program != null && UiStatics.Simulador.Program[pc] != null) {
+                            M3PlusMicrocontroller.Instruction Instruction = UiStatics.Simulador.Program[pc];
                             for (int i = 0; i < Instruction.Size; i++) {
                                 int linha;
                                 int coluna;

@@ -15,7 +15,7 @@ namespace IDE {
             try {
                 Application.Run(SplashScreen.OpenMainForm(null));
             } catch(Exception e) {
-                UIStatics.ShowExceptionMessage(e);
+                UiStatics.ShowExceptionMessage(e);
             }
             
         }

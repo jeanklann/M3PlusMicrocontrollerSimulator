@@ -97,12 +97,12 @@ namespace IDE {
             //ControlModule.TerminalsString[39] = "RG/PB sel 0";
             //ControlModule.TerminalsString[40] = "RG/PB sel 1";
             
-            while (!UIStatics.WantExit) {
+            while (!UiStatics.WantExit) {
                 try {
                     Thread.Sleep(20);
-                    if (UIStatics.Simulador == null || InternalComponents.ControlModule == null || 
+                    if (UiStatics.Simulador == null || InternalComponents.ControlModule == null || 
                         InsideComponent == null || InsideComponent.Draw.DisplayListHandle != Draws.Microcontroller.DisplayListHandle ||
-                        UIStatics.Simulador.InternalSimulation == false ) {
+                        UiStatics.Simulador.InternalSimulation == false ) {
                         controlModuleStatesPanel.Visible = false;
                         continue;
                     } else {
@@ -144,7 +144,7 @@ namespace IDE {
                     RGPB0.Checked = InternalComponents.ControlModule.RGPBsel0.Value >= Pin.HALFCUT;
                     RGPB1.Checked = InternalComponents.ControlModule.RGPBsel1.Value >= Pin.HALFCUT;
                 } catch (Exception e) {
-                    UIStatics.ShowExceptionMessage(e);
+                    UiStatics.ShowExceptionMessage(e);
                 }
             }
         }
@@ -225,7 +225,7 @@ namespace IDE {
         }
 
         private void ThreadRun() {
-            while (Circuit != null && !UIStatics.WantExit) {
+            while (Circuit != null && !UiStatics.WantExit) {
                 List<CircuitSimulator.Component> copy;
                 try {
                     copy = Circuit.Components;
@@ -301,12 +301,12 @@ namespace IDE {
                             } else if (item is CircuitSimulator.Components.Digital.Keyboard) {
                                 ((CircuitSimulator.Components.Digital.Keyboard)item).Value = KeyDown_byte;
                             } else if (item is Microcontroller) {
-                                if (UIStatics.Simulador != null) {
+                                if (UiStatics.Simulador != null) {
                                     Microcontroller microcontroller = (Microcontroller)item;
                                     for (int i = 0; i < 4; i++) {
-                                        if(!UIStatics.Depurador.ativarEdicao.Checked)
-                                            UIStatics.Simulador.In[i] = microcontroller.PinValuesToByteValue(i);
-                                        microcontroller.SetOutput(UIStatics.Simulador.Out[i], i);
+                                        if(!UiStatics.Depurador.ativarEdicao.Checked)
+                                            UiStatics.Simulador.In[i] = microcontroller.PinValuesToByteValue(i);
+                                        microcontroller.SetOutput(UiStatics.Simulador.Out[i], i);
                                     }
                                 }
                             } else if (item is Display7Seg) {
@@ -324,7 +324,7 @@ namespace IDE {
                     }
                 } catch (InvalidOperationException) {
                 } catch (Exception e) {
-                    UIStatics.ShowExceptionMessage(e);
+                    UiStatics.ShowExceptionMessage(e);
                     break;
                 }
                 try {
@@ -340,7 +340,7 @@ namespace IDE {
             }
         }
         private void UpdateInstructionLog() {
-            InstructionLogItem item = new InstructionLogItem(UIStatics.Simulador.Program[UIStatics.Simulador.NextInstruction]);
+            InstructionLogItem item = new InstructionLogItem(UiStatics.Simulador.Program[UiStatics.Simulador.NextInstruction]);
             
             item.bus = GetBUSHexa();
             item.clock = InternalComponents.ControlModule.Clock.Value >= Pin.HALFCUT;
@@ -395,10 +395,10 @@ namespace IDE {
         }
         private float controlModuleLastClock = Pin.LOW;
         private void ProcessControlModule(ControlModule module) {
-            if (UIStatics.Simulador != null && UIStatics.Simulador.InternalSimulation) {
+            if (UiStatics.Simulador != null && UiStatics.Simulador.InternalSimulation) {
                 InternalComponents.Microcontroller.PreventUpdateInput =
-                    UIStatics.Depurador.ativarEdicao.Checked;
-                if (module.LowFrequencyIteraction != UIStatics.Simulador.LowFrequencyIteraction) {
+                    UiStatics.Depurador.ativarEdicao.Checked;
+                if (module.LowFrequencyIteraction != UiStatics.Simulador.LowFrequencyIteraction) {
 
                     if (InternalComponents.Microcontroller.PortBank == null) {
                         InternalComponents.Microcontroller.PortBank = InternalComponents.PortBank;
@@ -407,7 +407,7 @@ namespace IDE {
                         module.Clock.SetDigital(Pin.HIGH);
                     } else
                         module.Clock.SetDigital(Pin.LOW);
-                    module.LowFrequencyIteraction = UIStatics.Simulador.LowFrequencyIteraction;
+                    module.LowFrequencyIteraction = UiStatics.Simulador.LowFrequencyIteraction;
                 }
                 
                 if (InternalComponents.ControlModule.NeedSet) {
@@ -664,75 +664,75 @@ namespace IDE {
                     }
                 }
             } catch (Exception e) {
-                UIStatics.ShowExceptionMessage(e);
+                UiStatics.ShowExceptionMessage(e);
             }
         }
         
         private void GetValuesToSimulator() {
             Array.Copy(InternalComponents.RamMemory.InternalValue,
-                UIStatics.Simulador.Ram,
-                UIStatics.Simulador.Ram.Length);
+                UiStatics.Simulador.Ram,
+                UiStatics.Simulador.Ram.Length);
             Array.Copy(InternalComponents.StackMemory.InternalValue,
-                UIStatics.Simulador.Stack,
-                UIStatics.Simulador.Ram.Length);
-            UIStatics.Simulador.Reg[0] =
+                UiStatics.Simulador.Stack,
+                UiStatics.Simulador.Ram.Length);
+            UiStatics.Simulador.Reg[0] =
                 InternalComponents.Accumulator.InternalValue;
-            UIStatics.Simulador.PointerStack = InternalComponents.StackCounter.InternalValue;
+            UiStatics.Simulador.PointerStack = InternalComponents.StackCounter.InternalValue;
             for (int i = 0; i < 4; i++) {
-                UIStatics.Simulador.Reg[i+1] =
+                UiStatics.Simulador.Reg[i+1] =
                     InternalComponents.Registrers.Reg[i];
-                UIStatics.Simulador.Out[i] =
+                UiStatics.Simulador.Out[i] =
                     InternalComponents.PortBank.RegOut[i];
-                if (!UIStatics.Depurador.ativarEdicao.Checked) {
-                    UIStatics.Simulador.In[i] =
+                if (!UiStatics.Depurador.ativarEdicao.Checked) {
+                    UiStatics.Simulador.In[i] =
                     InternalComponents.PortBank.GetInput(i);
                 }
             }
-            UIStatics.Simulador.FlagC =
+            UiStatics.Simulador.FlagC =
                 InternalComponents.ULA.Pins[29].Value >= Pin.HALFCUT;
-            UIStatics.Simulador.FlagZ =
+            UiStatics.Simulador.FlagZ =
                 InternalComponents.ULA.Pins[28].Value >= Pin.HALFCUT;
             int nextInstruction =
                 InternalComponents.RomAddresser.RegH * 256 +
                 InternalComponents.RomAddresser.RegL;
-            if(UIStatics.Simulador.Program[nextInstruction] != null) {
-                UIStatics.Simulador.NextInstruction = nextInstruction;
+            if(UiStatics.Simulador.Program[nextInstruction] != null) {
+                UiStatics.Simulador.NextInstruction = nextInstruction;
             } else {
-                UIStatics.ShowExceptionMessage(new Exception("ERRO NO PC: "+nextInstruction));
+                UiStatics.ShowExceptionMessage(new Exception("ERRO NO PC: "+nextInstruction));
         }
             
         }
         private void SetValuesFromSimulator() {
-            Array.Copy(UIStatics.Simulador.CompiledProgram, 
+            Array.Copy(UiStatics.Simulador.CompiledProgram, 
                 InternalComponents.RomMemory.InternalValue, 
-                UIStatics.Simulador.CompiledProgram.Length);
+                UiStatics.Simulador.CompiledProgram.Length);
             
-            Array.Copy(UIStatics.Simulador.Ram,
+            Array.Copy(UiStatics.Simulador.Ram,
                 InternalComponents.RamMemory.InternalValue,
-                UIStatics.Simulador.Ram.Length);
-            Array.Copy(UIStatics.Simulador.Stack,
+                UiStatics.Simulador.Ram.Length);
+            Array.Copy(UiStatics.Simulador.Stack,
                 InternalComponents.StackMemory.InternalValue,
-                UIStatics.Simulador.Ram.Length);
+                UiStatics.Simulador.Ram.Length);
             InternalComponents.Accumulator.InternalValue =
-                UIStatics.Simulador.Reg[0];
+                UiStatics.Simulador.Reg[0];
             InternalComponents.StackCounter.InternalValue =
-                UIStatics.Simulador.PointerStack;
+                UiStatics.Simulador.PointerStack;
             for (int i = 0; i < 4; i++) {
                 InternalComponents.Registrers.Reg[i] =
-                UIStatics.Simulador.Reg[i+1];
-                if (UIStatics.Depurador.ativarEdicao.Checked) {
-                    InternalComponents.PortBank.SetInput(i, UIStatics.Simulador.In[i]);
+                UiStatics.Simulador.Reg[i+1];
+                if (UiStatics.Depurador.ativarEdicao.Checked) {
+                    InternalComponents.PortBank.SetInput(i, UiStatics.Simulador.In[i]);
                 }
             }
             InternalComponents.ULA.Pins[29].Value =
-                UIStatics.Simulador.FlagC ? Pin.HIGH : Pin.LOW;
+                UiStatics.Simulador.FlagC ? Pin.HIGH : Pin.LOW;
             InternalComponents.ULA.Pins[28].Value =
-                UIStatics.Simulador.FlagZ ? Pin.HIGH : Pin.LOW;
+                UiStatics.Simulador.FlagZ ? Pin.HIGH : Pin.LOW;
 
             InternalComponents.RomAddresser.RegH =
-                (byte)((UIStatics.Simulador.NextInstruction) / 256);
+                (byte)((UiStatics.Simulador.NextInstruction) / 256);
             InternalComponents.RomAddresser.RegL =
-                (byte)((UIStatics.Simulador.NextInstruction) % 256);
+                (byte)((UiStatics.Simulador.NextInstruction) % 256);
             InternalComponents.ControlModule.NeedSet = false;
         }
 
@@ -934,7 +934,7 @@ namespace IDE {
                 }
                 for (int i = 0; i < item.Draw.Terminals.Length; i++) {
                     GL.Translate(item.Draw.Terminals[i].X, item.Draw.Terminals[i].Y, 0);
-                    if (UIStatics.Simulador != null && (UIStatics.Simulador.Running || !UIStatics.Simulador.Stopped) && CircuitComponentToDrawComponents.ContainsKey(item)) {
+                    if (UiStatics.Simulador != null && (UiStatics.Simulador.Running || !UiStatics.Simulador.Stopped) && CircuitComponentToDrawComponents.ContainsKey(item)) {
                         if(CircuitComponentToDrawComponents[item].Pins[i].SimulationId != Circuit.SimulationId) {
                             GL.Color3(Color.Gray);
                         } else if(CircuitComponentToDrawComponents[item].Pins[i].Value >= Pin.HALFCUT) {
@@ -988,7 +988,7 @@ namespace IDE {
             threadStatesPanel.Start();
         }
         void ThreadDraw() {
-            while (!UIStatics.WantExit) {
+            while (!UiStatics.WantExit) {
                 Invalidate();
                 Thread.Sleep(10);
             }
@@ -1704,7 +1704,7 @@ namespace IDE {
                 height = GetPowerOfTwo(renderer.textSize.Height);
                 renderer.bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 renderer.gfx = Graphics.FromImage(renderer.bmp);
-                renderer.gfx.Clear(UIStatics.Circuito.ClearColor);
+                renderer.gfx.Clear(UiStatics.Circuito.ClearColor);
                 renderer.gfx.DrawString(text, font, brush, 0, 0);
                 renderer.dirty_region = new Rectangle(0, 0, renderer.bmp.Width, renderer.bmp.Height);
                 GL.Enable(EnableCap.Texture2D);
@@ -3586,7 +3586,7 @@ namespace IDE {
             Draw = draw;
             Center = center;
             if (rootComponent == null)
-                RootComponent = UIStatics.Circuito.InsideComponent;
+                RootComponent = UiStatics.Circuito.InsideComponent;
             else
                 RootComponent = rootComponent;
 
@@ -3727,7 +3727,7 @@ namespace IDE {
             From = from;
             To = to;
             if (rootComponent == null)
-                RootComponent = UIStatics.Circuito.InsideComponent;
+                RootComponent = UiStatics.Circuito.InsideComponent;
             else
                 RootComponent = rootComponent;
         }
@@ -3743,7 +3743,7 @@ namespace IDE {
             To.X += to.Center.X;
             To.Y += to.Center.Y;
             if (rootComponent == null)
-                RootComponent = UIStatics.Circuito.InsideComponent;
+                RootComponent = UiStatics.Circuito.InsideComponent;
             else
                 RootComponent = rootComponent;
         }
@@ -3755,7 +3755,7 @@ namespace IDE {
             From.Y += from.Center.Y;
             To = to;
             if (rootComponent == null)
-                RootComponent = UIStatics.Circuito.InsideComponent;
+                RootComponent = UiStatics.Circuito.InsideComponent;
             else
                 RootComponent = rootComponent;
         }
@@ -3767,7 +3767,7 @@ namespace IDE {
             To.X += to.Center.X;
             To.Y += to.Center.Y;
             if (rootComponent == null)
-                RootComponent = UIStatics.Circuito.InsideComponent;
+                RootComponent = UiStatics.Circuito.InsideComponent;
             else
                 RootComponent = rootComponent;
         }

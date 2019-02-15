@@ -48,7 +48,7 @@ namespace IDE {
                 field.Anchor = AnchorStyles.Left | AnchorStyles.Right;
                 field.comboBox1.SelectedIndex = 2;
                 field.Selected = Components.DataFieldType.HEX;
-                if (UIStatics.Simulador == null) {
+                if (UiStatics.Simulador == null) {
                     if (type == FormRamType.RAM) {
                         field.Value = RAMTemp[i];
                     } else {
@@ -73,27 +73,27 @@ namespace IDE {
             thread = new Thread(Run_thread);
             thread.Start();
         }
-        private bool SimuladorLastStopped = (UIStatics.Simulador == null || UIStatics.Simulador.Stopped);
+        private bool SimuladorLastStopped = (UiStatics.Simulador == null || UiStatics.Simulador.Stopped);
         private static byte[] RAMTemp = new byte[256];
         private static byte[] StackTemp = new byte[256];
 
         private void Run_thread() {
             while (!wantClose) {
                 try {
-                    if(SimuladorLastStopped && (UIStatics.Simulador != null)) {
+                    if(SimuladorLastStopped && (UiStatics.Simulador != null)) {
                         for (int i = 0; i < 256; i++) {
                             if (type == FormRamType.RAM) {
-                                UIStatics.Simulador.Ram[i] = RAMTemp[i];
+                                UiStatics.Simulador.Ram[i] = RAMTemp[i];
                             } else {
-                                UIStatics.Simulador.Stack[i] = StackTemp[i];
+                                UiStatics.Simulador.Stack[i] = StackTemp[i];
                             }
                         }
                     }
-                    SimuladorLastStopped = (UIStatics.Simulador == null || UIStatics.Simulador.Stopped);
-                    if (UIStatics.Simulador != null) {
-                        if (UIStatics.Simulador.Running) {
+                    SimuladorLastStopped = (UiStatics.Simulador == null || UiStatics.Simulador.Stopped);
+                    if (UiStatics.Simulador != null) {
+                        if (UiStatics.Simulador.Running) {
                             for (int i = 0; i < Fields.Count; i++) {
-                                Fields[i].Value = type == FormRamType.RAM ? UIStatics.Simulador.Ram[i] : UIStatics.Simulador.Stack[i];
+                                Fields[i].Value = type == FormRamType.RAM ? UiStatics.Simulador.Ram[i] : UiStatics.Simulador.Stack[i];
                                 Fields[i].Refresh();
                             }
                         }
@@ -101,11 +101,11 @@ namespace IDE {
 
                         for (int i = 0; i < Fields.Count; i++) {
                             if (type == FormRamType.RAM) {
-                                if (Fields[i].UserInput) UIStatics.Simulador.Ram[i] = (byte)Fields[i].Value;
-                                RAMTemp[i] = UIStatics.Simulador.Ram[i];
+                                if (Fields[i].UserInput) UiStatics.Simulador.Ram[i] = (byte)Fields[i].Value;
+                                RAMTemp[i] = UiStatics.Simulador.Ram[i];
                             } else {
-                                if (Fields[i].UserInput) UIStatics.Simulador.Stack[i] = (byte)Fields[i].Value;
-                                StackTemp[i] = UIStatics.Simulador.Stack[i];
+                                if (Fields[i].UserInput) UiStatics.Simulador.Stack[i] = (byte)Fields[i].Value;
+                                StackTemp[i] = UiStatics.Simulador.Stack[i];
                             }
                             Fields[i].UserInput = false;
                         }

@@ -15,13 +15,13 @@ namespace IDE {
         public FormularioPrincipal() {
             InitializeComponent();
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            UIStatics.Codigo = (Codigo)codigo1;
-            UIStatics.Depurador = (Depurador)depurador1;
-            UIStatics.Circuito = (Circuito)circuito1;
-            UIStatics.MainForm = this;
+            UiStatics.Codigo = (Codigo)codigo1;
+            UiStatics.Depurador = (Depurador)depurador1;
+            UiStatics.Circuito = (Circuito)circuito1;
+            UiStatics.MainForm = this;
 
-            UIStatics.threadDepurador = new Thread(UIStatics.Depurador.UpdateAll);
-            UIStatics.threadDepurador.Start();
+            UiStatics.ThreadDepurador = new Thread(UiStatics.Depurador.UpdateAll);
+            UiStatics.ThreadDepurador.Start();
 
         }
         private void LoadThread() {
@@ -45,28 +45,28 @@ namespace IDE {
             exceptionLog.Show(this);
         }
         private void verPróximoToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.GotoNextBreakpoint();
+            UiStatics.Codigo.GotoNextBreakpoint();
         }
 
         private void verAnteriorToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.GotoPreviousBreakpoint();
+            UiStatics.Codigo.GotoPreviousBreakpoint();
         }
 
         private void removerTodosToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.RemoveAllBreakpoint();
+            UiStatics.Codigo.RemoveAllBreakpoint();
         }
 
         private void adicionarNaLinhaToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.AddBreakpoint();
+            UiStatics.Codigo.AddBreakpoint();
         }
 
         private void removerNaLinhaToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.RemoveBreakpoint();
+            UiStatics.Codigo.RemoveBreakpoint();
         }
 
         private void Form1_Load(object sender, EventArgs e) {
             tabControl1.SelectTab(1);
-            while (!UIStatics.Circuito.Loaded) {
+            while (!UiStatics.Circuito.Loaded) {
                 Thread.Sleep(10);
             }
             tabControl1.SelectTab(0);
@@ -87,85 +87,85 @@ namespace IDE {
 
         private void zoomToolStripMenuItem_Click(object sender, EventArgs e) {
             if (tabControl1.SelectedIndex == 0) {
-                UIStatics.Codigo.ZoomMore();
-                UIStatics.Depurador.ZoomMore();
+                UiStatics.Codigo.ZoomMore();
+                UiStatics.Depurador.ZoomMore();
             } else if (tabControl1.SelectedIndex == 1) {
-                UIStatics.Circuito.ZoomMore();
+                UiStatics.Circuito.ZoomMore();
             }
         }
 
         private void zoomToolStripMenuItem1_Click(object sender, EventArgs e) {
             if (tabControl1.SelectedIndex == 0) {
-                UIStatics.Codigo.ZoomLess();
-                UIStatics.Depurador.ZoomLess();
+                UiStatics.Codigo.ZoomLess();
+                UiStatics.Depurador.ZoomLess();
             } else if (tabControl1.SelectedIndex == 1) {
-                UIStatics.Circuito.ZoomLess();
+                UiStatics.Circuito.ZoomLess();
 
             }
         }
 
         private void zoomOriginalToolStripMenuItem_Click(object sender, EventArgs e) {
             if (tabControl1.SelectedIndex == 0) {
-                UIStatics.Codigo.ZoomReset();
-                UIStatics.Depurador.ZoomReset();
+                UiStatics.Codigo.ZoomReset();
+                UiStatics.Depurador.ZoomReset();
             } else if (tabControl1.SelectedIndex == 1) {
-                UIStatics.Circuito.ZoomReset();
+                UiStatics.Circuito.ZoomReset();
             }
         }
 
         private void analisarEConstruirToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Compile();
+            UiStatics.Compile();
         }
 
         private void rodarToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Run();
+            UiStatics.Run();
         }
 
         private void pausarToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Pause();
+            UiStatics.Pause();
         }
 
         private void pularParaDentroToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.StepIn();
+            UiStatics.StepIn();
         }
 
         private void pularParaForaToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.StepOut();
+            UiStatics.StepOut();
         }
 
         private void pararToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Stop();
+            UiStatics.Stop();
         }
 
         private void FormularioPrincipal_Leave(object sender, EventArgs e) {
-            UIStatics.WantExit = true;
+            UiStatics.WantExit = true;
         }
 
         private void piscaLedToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Text = "apagado:\nmov IN3,a\nand 20,a\njmpz apagado\npisca:\nmov 01,a\nmov a,out0\nmov 00,a\nmov a,out0\njmp pisca";
+            UiStatics.Codigo.scintilla.Text = "apagado:\nmov IN3,a\nand 20,a\njmpz apagado\npisca:\nmov 01,a\nmov a,out0\nmov 00,a\nmov a,out0\njmp pisca";
         }
 
         private void FormularioPrincipal_FormClosed(object sender, FormClosedEventArgs e) {
-            if(UIStatics.Simulador != null) {
-                UIStatics.Simulador.Stop();
+            if(UiStatics.Simulador != null) {
+                UiStatics.Simulador.Stop();
             }
-            UIStatics.WantExit = true;
+            UiStatics.WantExit = true;
         }
 
         private void FormularioPrincipal_FormClosing(object sender, FormClosingEventArgs e) {
-            if (UIStatics.Codigo.Changed || UIStatics.Circuito.Changed) {
+            if (UiStatics.Codigo.Changed || UiStatics.Circuito.Changed) {
                 DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if(dialogResult == DialogResult.Cancel) {
                     e.Cancel = true;
                     return;
                 } else if(dialogResult == DialogResult.Yes) {
-                    if(UIStatics.FilePath != null) {
-                        if(UIStatics.Save() == false) {
+                    if(UiStatics.FilePath != null) {
+                        if(UiStatics.Save() == false) {
                             if (!TrySave()) {
                                 e.Cancel = true;
                                 return;
                             }
-                            UIStatics.WantExit = true;
+                            UiStatics.WantExit = true;
                         } else {
                             return;
                         }
@@ -178,11 +178,11 @@ namespace IDE {
                         }
                     }
                 } else if(dialogResult == DialogResult.No) {
-                    UIStatics.WantExit = true;
+                    UiStatics.WantExit = true;
                     return;
                 }
             } else {
-                UIStatics.WantExit = true;
+                UiStatics.WantExit = true;
                 return;
             }
         }
@@ -195,13 +195,13 @@ namespace IDE {
                 fileDialogResult == DialogResult.None) {
                 return false;
             } else {
-                UIStatics.FilePath = fileDialog.FileName;
-                if (UIStatics.Save() == false) {
+                UiStatics.FilePath = fileDialog.FileName;
+                if (UiStatics.Save() == false) {
                     MessageBox.Show(this, "Ocorreu um erro ao salvar o projeto.", "Erro ao salvar o projeto", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 } else {
-                    UIStatics.Codigo.Changed = false;
-                    UIStatics.Circuito.Changed = false;
+                    UiStatics.Codigo.Changed = false;
+                    UiStatics.Circuito.Changed = false;
                 }
             }
             return true;
@@ -209,27 +209,27 @@ namespace IDE {
         
 
         private void desfazerToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Undo();
+            UiStatics.Codigo.scintilla.Undo();
         }
 
         private void refazerToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Redo();
+            UiStatics.Codigo.scintilla.Redo();
         }
 
         private void cortarToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Cut();
+            UiStatics.Codigo.scintilla.Cut();
         }
 
         private void copierToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Copy();
+            UiStatics.Codigo.scintilla.Copy();
         }
 
         private void colarToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Paste();
+            UiStatics.Codigo.scintilla.Paste();
         }
 
         private void selecionarTudoToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.SelectAll();
+            UiStatics.Codigo.scintilla.SelectAll();
         }
 
         private void novoToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -237,43 +237,43 @@ namespace IDE {
         }
 
         private void New() {
-            if (UIStatics.Simulador != null && UIStatics.Simulador.Running) return;
-            UIStatics.Simulador = null;
-            if (UIStatics.Codigo.Changed || UIStatics.Circuito.Changed) {
+            if (UiStatics.Simulador != null && UiStatics.Simulador.Running) return;
+            UiStatics.Simulador = null;
+            if (UiStatics.Codigo.Changed || UiStatics.Circuito.Changed) {
                 DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (dialogResult == DialogResult.Yes) {
-                    if (UIStatics.FilePath != null) {
-                        if (UIStatics.Save() == false) {
+                    if (UiStatics.FilePath != null) {
+                        if (UiStatics.Save() == false) {
                             if (TrySave()) {
-                                UIStatics.Codigo.scintilla.Text = "";
+                                UiStatics.Codigo.scintilla.Text = "";
                                 FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
-                                UIStatics.Codigo.Changed = false;
-                                UIStatics.Circuito.Changed = false;
-                                UIStatics.FilePath = null;
+                                UiStatics.Codigo.Changed = false;
+                                UiStatics.Circuito.Changed = false;
+                                UiStatics.FilePath = null;
                             }
                         }
                     } else {
                         if (TrySave()) {
-                            UIStatics.Codigo.scintilla.Text = "";
+                            UiStatics.Codigo.scintilla.Text = "";
                             FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
-                            UIStatics.Codigo.Changed = false;
-                            UIStatics.Circuito.Changed = false;
-                            UIStatics.FilePath = null;
+                            UiStatics.Codigo.Changed = false;
+                            UiStatics.Circuito.Changed = false;
+                            UiStatics.FilePath = null;
                         }
                     }
                 } else if (dialogResult == DialogResult.No) {
-                    UIStatics.Codigo.scintilla.Text = "";
+                    UiStatics.Codigo.scintilla.Text = "";
                     FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
-                    UIStatics.Codigo.Changed = false;
-                    UIStatics.Circuito.Changed = false;
-                    UIStatics.FilePath = null;
+                    UiStatics.Codigo.Changed = false;
+                    UiStatics.Circuito.Changed = false;
+                    UiStatics.FilePath = null;
                 }
             } else {
-                UIStatics.Codigo.scintilla.Text = "";
+                UiStatics.Codigo.scintilla.Text = "";
                 FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
-                UIStatics.Codigo.Changed = false;
-                UIStatics.Circuito.Changed = false;
-                UIStatics.FilePath = null;
+                UiStatics.Codigo.Changed = false;
+                UiStatics.Circuito.Changed = false;
+                UiStatics.FilePath = null;
             }
         }
 
@@ -282,11 +282,11 @@ namespace IDE {
         }
 
         private void Open() {
-            if (UIStatics.Codigo.Changed) {
+            if (UiStatics.Codigo.Changed) {
                 DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (dialogResult == DialogResult.Yes) {
-                    if (UIStatics.FilePath != null) {
-                        if (UIStatics.Save() == false) {
+                    if (UiStatics.FilePath != null) {
+                        if (UiStatics.Save() == false) {
                             if (TrySave()) {
                                 TryOpen();
                             }
@@ -313,21 +313,21 @@ namespace IDE {
                 fileDialogResult == DialogResult.None) {
                 return false;
             } else {
-                UIStatics.FilePath = fileDialog.FileName;
-                if (UIStatics.Open() == false) {
+                UiStatics.FilePath = fileDialog.FileName;
+                if (UiStatics.Open() == false) {
                     MessageBox.Show(this, "Ocorreu um erro ao carregar o projeto.", "Erro ao carregar o projeto", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 } else {
-                    UIStatics.Codigo.Changed = false;
-                    UIStatics.Circuito.Changed = false;
+                    UiStatics.Codigo.Changed = false;
+                    UiStatics.Circuito.Changed = false;
                 }
             }
             return true;
         }
 
         private void salvarToolStripMenuItem_Click(object sender, EventArgs e) {
-            if (UIStatics.FilePath != null) {
-                if (UIStatics.Save() == false) {
+            if (UiStatics.FilePath != null) {
+                if (UiStatics.Save() == false) {
                     TrySave();
                 }
             } else {
@@ -358,7 +358,7 @@ namespace IDE {
         }
 
         private void somaRegistradoresToolStripMenuItem_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Text = "MOV 00, A\nSOMA_A:\nADD 01, A\nJMPC SOMA_B\nJMP SOMA_A\nSOMA_B:\nMOV B, A\nADD 01, B\nJMPC SOMA_C\nMOV 00, A\nJMP SOMA_A\nSOMA_C:\nMOV C, A\nADD 01, C\nJMPC SOMA_D\nMOV 00, A\nJMP SOMA_A\nSOMA_D:\nMOV D, A\nADD 01, D\nJMPC SOMA_E\nMOV 00, A\nJMP SOMA_A\nSOMA_E:\nMOV E, A\nADD 01, E\nMOV 00, A\nJMP SOMA_A";
+            UiStatics.Codigo.scintilla.Text = "MOV 00, A\nSOMA_A:\nADD 01, A\nJMPC SOMA_B\nJMP SOMA_A\nSOMA_B:\nMOV B, A\nADD 01, B\nJMPC SOMA_C\nMOV 00, A\nJMP SOMA_A\nSOMA_C:\nMOV C, A\nADD 01, C\nJMPC SOMA_D\nMOV 00, A\nJMP SOMA_A\nSOMA_D:\nMOV D, A\nADD 01, D\nJMPC SOMA_E\nMOV 00, A\nJMP SOMA_A\nSOMA_E:\nMOV E, A\nADD 01, E\nMOV 00, A\nJMP SOMA_A";
         }
 
         private void exportarToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -371,13 +371,13 @@ namespace IDE {
                 return;
             } else {
                 if (fileDialog.FileName.EndsWith(".bin")){
-                    if (UIStatics.ExportBinary(fileDialog.FileName) == false)
+                    if (UiStatics.ExportBinary(fileDialog.FileName) == false)
                         MessageBox.Show(this, "Ocorreu um erro ao exportar.", "Erro ao exportar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 } else if (fileDialog.FileName.EndsWith(".hex")) {
-                    if (UIStatics.ExportHex(fileDialog.FileName) == false)
+                    if (UiStatics.ExportHex(fileDialog.FileName) == false)
                         MessageBox.Show(this, "Ocorreu um erro ao exportar.", "Erro ao exportar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 } else if (fileDialog.FileName.EndsWith(".mmmp")) {
-                    if (UIStatics.ExportLogiSim(fileDialog.FileName) == false)
+                    if (UiStatics.ExportLogiSim(fileDialog.FileName) == false)
                         MessageBox.Show(this, "Ocorreu um erro ao exportar.", "Erro ao exportar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -393,36 +393,36 @@ namespace IDE {
                 return;
             } else {
                 if (dialog.FileName.EndsWith(".bin")) {
-                    if (UIStatics.ImportBinary(dialog.FileName) == false)
+                    if (UiStatics.ImportBinary(dialog.FileName) == false)
                         MessageBox.Show(this, "Ocorreu um erro ao importar.", "Erro ao importar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 } else if (dialog.FileName.EndsWith(".hex")) {
-                    if (UIStatics.ImportHex(dialog.FileName) == false)
+                    if (UiStatics.ImportHex(dialog.FileName) == false)
                         MessageBox.Show(this, "Ocorreu um erro ao importar.", "Erro ao importar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 } else if (dialog.FileName.EndsWith(".mmmp")) {
-                    if (UIStatics.ImportLogiSim(dialog.FileName) == false)
+                    if (UiStatics.ImportLogiSim(dialog.FileName) == false)
                         MessageBox.Show(this, "Ocorreu um erro ao importar.", "Erro ao importar", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e) {
-            UIStatics.Run();
+            UiStatics.Run();
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e) {
-            UIStatics.Pause();
+            UiStatics.Pause();
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e) {
-            UIStatics.Stop();
+            UiStatics.Stop();
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e) {
-            UIStatics.StepIn();
+            UiStatics.StepIn();
         }
 
         private void toolStripButton5_Click(object sender, EventArgs e) {
-            UIStatics.StepOut();
+            UiStatics.StepOut();
         }
 
         private void label1_Click(object sender, EventArgs e) {
@@ -430,7 +430,7 @@ namespace IDE {
         }
 
         private void toolStripButton6_Click(object sender, EventArgs e) {
-            UIStatics.Compile();
+            UiStatics.Compile();
         }
 
         private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e) {
@@ -438,23 +438,23 @@ namespace IDE {
         }
 
         private void toolStripButton8_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Undo();
+            UiStatics.Codigo.scintilla.Undo();
         }
 
         private void toolStripButton9_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Redo();
+            UiStatics.Codigo.scintilla.Redo();
         }
 
         private void toolStripButton14_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Copy();
+            UiStatics.Codigo.scintilla.Copy();
         }
 
         private void toolStripButton15_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Cut();
+            UiStatics.Codigo.scintilla.Cut();
         }
 
         private void toolStripButton7_Click(object sender, EventArgs e) {
-            UIStatics.Codigo.scintilla.Paste();
+            UiStatics.Codigo.scintilla.Paste();
         }
 
         private void toolStripButton10_Click(object sender, EventArgs e) {
@@ -466,8 +466,8 @@ namespace IDE {
         }
 
         private void toolStripButton12_Click(object sender, EventArgs e) {
-            if (UIStatics.FilePath != null) {
-                if (UIStatics.Save() == false) {
+            if (UiStatics.FilePath != null) {
+                if (UiStatics.Save() == false) {
                     TrySave();
                 }
             } else {
@@ -481,29 +481,29 @@ namespace IDE {
 
         private void toolStripButton16_Click(object sender, EventArgs e) {
             if (tabControl1.SelectedIndex == 0) {
-                UIStatics.Codigo.ZoomMore();
-                UIStatics.Depurador.ZoomMore();
+                UiStatics.Codigo.ZoomMore();
+                UiStatics.Depurador.ZoomMore();
             } else if (tabControl1.SelectedIndex == 1) {
-                UIStatics.Circuito.ZoomMore();
+                UiStatics.Circuito.ZoomMore();
             }
         }
 
         private void toolStripButton17_Click(object sender, EventArgs e) {
             if (tabControl1.SelectedIndex == 0) {
-                UIStatics.Codigo.ZoomLess();
-                UIStatics.Depurador.ZoomLess();
+                UiStatics.Codigo.ZoomLess();
+                UiStatics.Depurador.ZoomLess();
             } else if (tabControl1.SelectedIndex == 1) {
-                UIStatics.Circuito.ZoomLess();
+                UiStatics.Circuito.ZoomLess();
 
             }
         }
 
         private void toolStripButton18_Click(object sender, EventArgs e) {
             if (tabControl1.SelectedIndex == 0) {
-                UIStatics.Codigo.ZoomReset();
-                UIStatics.Depurador.ZoomReset();
+                UiStatics.Codigo.ZoomReset();
+                UiStatics.Depurador.ZoomReset();
             } else if (tabControl1.SelectedIndex == 1) {
-                UIStatics.Circuito.ZoomReset();
+                UiStatics.Circuito.ZoomReset();
             }
         }
 

@@ -15,8 +15,8 @@ namespace IDE {
         }
 
         private void UpdateThread() {
-            while(!UIStatics.WantExit && !closing) {
-                textBox1.Text = UIStatics.Circuito.InstructionLog.ToString();
+            while(!UiStatics.WantExit && !closing) {
+                textBox1.Text = UiStatics.Circuito.InstructionLog.ToString();
                 Thread.Sleep(20);
             }
         }

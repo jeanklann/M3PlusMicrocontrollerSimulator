@@ -118,11 +118,11 @@ namespace M3PlusMicrocontroller {
             switch (token.Value)
             {
                 case "PUSHA":
-                    function = Functions.Push;
+                    function = Functions.Pusha;
                     instructionDescription = "Coloca o registrador acumulador na pilha.";
                     break;
                 case "POPA":
-                    function = Functions.Pop;
+                    function = Functions.Popa;
                     instructionDescription = "Tira um valor da pilha e coloca no acumulador.";
                     break;
                 case "PUSH":

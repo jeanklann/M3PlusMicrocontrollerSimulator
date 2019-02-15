@@ -14,26 +14,26 @@ namespace IDE {
             InitializeComponent();
             try {
                 textBox1.Text = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + "\r\n";
-                textBox1.Text += "Código-fonte digitado: \r\n========================\r\n" + UIStatics.Codigo.scintilla.Text.Replace("\n", "\r\n") + "\r\n========================\r\n";
-                if (UIStatics.Simulador != null) {
-                    textBox1.Text += "Programa compilado: \r\n========================\r\n" + UIStatics.Depurador.scintilla.Text + "\r\n========================\r\n";
+                textBox1.Text += "Código-fonte digitado: \r\n========================\r\n" + UiStatics.Codigo.scintilla.Text.Replace("\n", "\r\n") + "\r\n========================\r\n";
+                if (UiStatics.Simulador != null) {
+                    textBox1.Text += "Programa compilado: \r\n========================\r\n" + UiStatics.Depurador.scintilla.Text + "\r\n========================\r\n";
                     textBox1.Text += "Dados da simulação:\r\n";
-                    textBox1.Text += "Simulação rodando: " + (UIStatics.Simulador.Running ? "sim" : "não") + "\r\n";
-                    textBox1.Text += "PC: " + (UIStatics.Simulador.NextInstruction) + "\r\n";
-                    textBox1.Text += "Simulação interna: " + (UIStatics.Simulador.InternalSimulation ? "sim" : "não") + "\r\n";
-                    textBox1.Text += "Registrador A: " + (UIStatics.Simulador.Reg[0]) + "\r\n";
-                    textBox1.Text += "Registrador B: " + (UIStatics.Simulador.Reg[1]) + "\r\n";
-                    textBox1.Text += "Registrador C: " + (UIStatics.Simulador.Reg[2]) + "\r\n";
-                    textBox1.Text += "Registrador D: " + (UIStatics.Simulador.Reg[3]) + "\r\n";
-                    textBox1.Text += "Registrador E: " + (UIStatics.Simulador.Reg[4]) + "\r\n";
-                    textBox1.Text += "IN0: " + (UIStatics.Simulador.In[0]) + "\r\n";
-                    textBox1.Text += "IN1: " + (UIStatics.Simulador.In[1]) + "\r\n";
-                    textBox1.Text += "IN2: " + (UIStatics.Simulador.In[2]) + "\r\n";
-                    textBox1.Text += "IN3: " + (UIStatics.Simulador.In[3]) + "\r\n";
-                    textBox1.Text += "Out0: " + (UIStatics.Simulador.Out[0]) + "\r\n";
-                    textBox1.Text += "Out1: " + (UIStatics.Simulador.Out[1]) + "\r\n";
-                    textBox1.Text += "Out2: " + (UIStatics.Simulador.Out[2]) + "\r\n";
-                    textBox1.Text += "Out3: " + (UIStatics.Simulador.Out[3]) + "\r\n";
+                    textBox1.Text += "Simulação rodando: " + (UiStatics.Simulador.Running ? "sim" : "não") + "\r\n";
+                    textBox1.Text += "PC: " + (UiStatics.Simulador.NextInstruction) + "\r\n";
+                    textBox1.Text += "Simulação interna: " + (UiStatics.Simulador.InternalSimulation ? "sim" : "não") + "\r\n";
+                    textBox1.Text += "Registrador A: " + (UiStatics.Simulador.Reg[0]) + "\r\n";
+                    textBox1.Text += "Registrador B: " + (UiStatics.Simulador.Reg[1]) + "\r\n";
+                    textBox1.Text += "Registrador C: " + (UiStatics.Simulador.Reg[2]) + "\r\n";
+                    textBox1.Text += "Registrador D: " + (UiStatics.Simulador.Reg[3]) + "\r\n";
+                    textBox1.Text += "Registrador E: " + (UiStatics.Simulador.Reg[4]) + "\r\n";
+                    textBox1.Text += "IN0: " + (UiStatics.Simulador.In[0]) + "\r\n";
+                    textBox1.Text += "IN1: " + (UiStatics.Simulador.In[1]) + "\r\n";
+                    textBox1.Text += "IN2: " + (UiStatics.Simulador.In[2]) + "\r\n";
+                    textBox1.Text += "IN3: " + (UiStatics.Simulador.In[3]) + "\r\n";
+                    textBox1.Text += "Out0: " + (UiStatics.Simulador.Out[0]) + "\r\n";
+                    textBox1.Text += "Out1: " + (UiStatics.Simulador.Out[1]) + "\r\n";
+                    textBox1.Text += "Out2: " + (UiStatics.Simulador.Out[2]) + "\r\n";
+                    textBox1.Text += "Out3: " + (UiStatics.Simulador.Out[3]) + "\r\n";
                 }
                 if (e != null) {
                     textBox1.Text += "\r\n========================\r\n";

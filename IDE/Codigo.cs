@@ -13,7 +13,7 @@ namespace IDE {
 
         public Codigo() {
             InitializeComponent();
-            UIStatics.ScintillaSetStyle(scintilla);
+            UiStatics.ScintillaSetStyle(scintilla);
         }
 
         public void AddBreakpoint(Line line = null) {
@@ -21,9 +21,9 @@ namespace IDE {
                 if (line == null) {
                     line = scintilla.Lines[scintilla.CurrentLine];
                 }
-                line.MarkerAdd(UIStatics.BREAKPOINT_MARKER);
+                line.MarkerAdd(UiStatics.BreakpointMarker);
             } catch (Exception e) {
-                UIStatics.ShowExceptionMessage(e);
+                UiStatics.ShowExceptionMessage(e);
             }
         }
         public void RemoveBreakpoint(Line line = null) {
@@ -31,9 +31,9 @@ namespace IDE {
                 if (line == null) {
                     line = scintilla.Lines[scintilla.CurrentLine];
                 }
-                line.MarkerDelete(UIStatics.BREAKPOINT_MARKER);
+                line.MarkerDelete(UiStatics.BreakpointMarker);
             } catch (Exception e) {
-                UIStatics.ShowExceptionMessage(e);
+                UiStatics.ShowExceptionMessage(e);
             }
         }
         public void RemoveAllBreakpoint() {
@@ -43,9 +43,9 @@ namespace IDE {
         }
 
         private void scintilla_MarginClick(object sender, MarginClickEventArgs e) {
-            if(e.Margin == UIStatics.BREAKPOINT_INDEX_MARGIN) {
+            if(e.Margin == UiStatics.BreakpointIndexMargin) {
                 // Do we have a marker for this line?
-                const uint mask = (1 << UIStatics.BREAKPOINT_MARKER);
+                const uint mask = (1 << UiStatics.BreakpointMarker);
                 Line line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];
 
                 if((line.MarkerGet() & mask) > 0) {
@@ -60,26 +60,26 @@ namespace IDE {
         private void scintilla_TextChanged(object sender, EventArgs e) {
             updateLineNumber();
             Changed = true;
-            UIStatics.Depurador.ChangedToCompile = true;
+            UiStatics.Depurador.ChangedToCompile = true;
         }
         public void GotoNextBreakpoint() {
             try {
                 var line = scintilla.LineFromPosition(scintilla.CurrentPosition);
-                var nextLine = scintilla.Lines[++line].MarkerNext(1 << UIStatics.BREAKPOINT_MARKER);
+                var nextLine = scintilla.Lines[++line].MarkerNext(1 << UiStatics.BreakpointMarker);
                 if (nextLine != -1)
                     scintilla.Lines[nextLine].Goto();
             } catch (Exception e) {
-                UIStatics.ShowExceptionMessage(e);
+                UiStatics.ShowExceptionMessage(e);
             }
         }
         public void GotoPreviousBreakpoint() {
             try {
                 var line = scintilla.LineFromPosition(scintilla.CurrentPosition);
-                var prevLine = scintilla.Lines[--line].MarkerPrevious(1 << UIStatics.BREAKPOINT_MARKER);
+                var prevLine = scintilla.Lines[--line].MarkerPrevious(1 << UiStatics.BreakpointMarker);
                 if (prevLine != -1)
                     scintilla.Lines[prevLine].Goto();
             } catch (Exception e) {
-                UIStatics.ShowExceptionMessage(e);
+                UiStatics.ShowExceptionMessage(e);
             }
         }
 

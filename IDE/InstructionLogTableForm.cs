@@ -77,16 +77,16 @@ namespace IDE
         {
             DataGridViewCellStyle style = new DataGridViewCellStyle();
             style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            int lastClear = UIStatics.Circuito.InstructionLog.ClearCount;
-            while (!UIStatics.WantExit && !closing)
+            int lastClear = UiStatics.Circuito.InstructionLog.ClearCount;
+            while (!UiStatics.WantExit && !closing)
             {
                 try
                 {
                     lock (dataGridView1)
                     {
-                        if (UIStatics.Circuito.InstructionLog.ClearCount != lastClear)
+                        if (UiStatics.Circuito.InstructionLog.ClearCount != lastClear)
                             Clear();
-                        var instrucoes = UIStatics.Circuito.InstructionLog.ToList();
+                        var instrucoes = UiStatics.Circuito.InstructionLog.ToList();
                         var linha = 0;
                         foreach (var instrucao in instrucoes)
                         {

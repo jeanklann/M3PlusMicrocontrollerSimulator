@@ -27,10 +27,10 @@ namespace IDE {
         
         public static bool Save(string dir) {
             FileProject project = new FileProject();
-            if (UIStatics.Simulador != null) {
-                project.Frequency = UIStatics.Simulador.Frequency;
+            if (UiStatics.Simulador != null) {
+                project.Frequency = UiStatics.Simulador.Frequency;
             }
-            project.Code = UIStatics.Codigo.scintilla.Text;
+            project.Code = UiStatics.Codigo.scintilla.Text;
             project.Instructions = new byte[5];
             project.Instructions[0] = 13;
             project.Instructions[1] = 45;
@@ -38,37 +38,37 @@ namespace IDE {
             project.Instructions[3] = 67;
             project.Instructions[4] = 154;
 
-            project.Components = new Component_Project[UIStatics.Circuito.Components.Count];
-            project.Wires = new Wire_Project[UIStatics.Circuito.Wires.Count];
+            project.Components = new Component_Project[UiStatics.Circuito.Components.Count];
+            project.Wires = new Wire_Project[UiStatics.Circuito.Wires.Count];
 
             for (int i = 0; i < project.Components.Length; i++) {
-                project.Components[i] = new Component_Project(UIStatics.Circuito.Components[i]);
+                project.Components[i] = new Component_Project(UiStatics.Circuito.Components[i]);
             }
             for (int i = 0; i < project.Wires.Length; i++) {
-                project.Wires[i] = new Wire_Project(UIStatics.Circuito.Wires[i], project);
+                project.Wires[i] = new Wire_Project(UiStatics.Circuito.Wires[i], project);
             }
             
-            return SerializeObject(project, UIStatics.FilePath);
+            return SerializeObject(project, UiStatics.FilePath);
         }
         public static bool Load(string dir) {
             FileProject project = DeSerializeObject(dir);
             if (project == null) return false;
-            UIStatics.Depurador.SetText("");
-            UIStatics.Simulador = null;
+            UiStatics.Depurador.SetText("");
+            UiStatics.Simulador = null;
             if (project.Code != null && project.Code != "") {
-                UIStatics.Codigo.scintilla.Text = project.Code;
+                UiStatics.Codigo.scintilla.Text = project.Code;
             } else {
                 
             }
             
-            UIStatics.Circuito.Wires.Clear();
-            UIStatics.Circuito.Components.Clear();
+            UiStatics.Circuito.Wires.Clear();
+            UiStatics.Circuito.Components.Clear();
 
             for (int i = 0; i < project.Components.Length; i++) {
-                UIStatics.Circuito.Components.Add(project.Components[i]);
+                UiStatics.Circuito.Components.Add(project.Components[i]);
             }
             for (int i = 0; i < project.Wires.Length; i++) {
-                UIStatics.Circuito.Wires.Add(project.Wires[i].ToWire(project));
+                UiStatics.Circuito.Wires.Add(project.Wires[i].ToWire(project));
             }
             
             return true;
@@ -152,7 +152,7 @@ namespace IDE {
             Center = c.Center;
             Rotation = c.Rotation;
             Type = c.Type;
-            RootComponent = UIStatics.Circuito.Components.IndexOf(c.RootComponent);
+            RootComponent = UiStatics.Circuito.Components.IndexOf(c.RootComponent);
         }
         public static implicit operator Component(Component_Project c) {
             ComponentDraw draw = null;
@@ -273,7 +273,7 @@ namespace IDE {
             component.Rotation = c.Rotation;
             component.Type = c.Type;
             if(c.RootComponent != -1)
-                component.RootComponent = UIStatics.Circuito.Components[c.RootComponent];
+                component.RootComponent = UiStatics.Circuito.Components[c.RootComponent];
 
             return component;
         }
@@ -290,9 +290,9 @@ namespace IDE {
         
         public Wire_Project(Wire wire, FileProject project) {
             From = wire.From;
-            RootComponent = UIStatics.Circuito.Components.IndexOf(wire.RootComponent);
+            RootComponent = UiStatics.Circuito.Components.IndexOf(wire.RootComponent);
             if (wire.FromComponent != null) {
-                FromComponent = UIStatics.Circuito.Components.IndexOf(wire.FromComponent);
+                FromComponent = UiStatics.Circuito.Components.IndexOf(wire.FromComponent);
                 FromIndex = wire.FromIndex;
             } else {
                 FromIndex = -1;
@@ -300,7 +300,7 @@ namespace IDE {
             }
             To = wire.To;
             if (wire.ToComponent != null) {
-                ToComponent = UIStatics.Circuito.Components.IndexOf(wire.ToComponent);
+                ToComponent = UiStatics.Circuito.Components.IndexOf(wire.ToComponent);
                 ToIndex = wire.ToIndex;
             } else {
                 ToIndex = -1;
@@ -310,15 +310,15 @@ namespace IDE {
         public Wire ToWire(FileProject project) {
             Wire wire = new Wire(From, To);
             if (RootComponent != -1)
-                wire.RootComponent = UIStatics.Circuito.Components[RootComponent];
+                wire.RootComponent = UiStatics.Circuito.Components[RootComponent];
             if (FromComponent != -1) {
-                wire.FromComponent = UIStatics.Circuito.Components[FromComponent];
+                wire.FromComponent = UiStatics.Circuito.Components[FromComponent];
                 wire.FromIndex = FromIndex;
             } else {
                 FromIndex = -1;
             }
             if (ToComponent != -1) {
-                wire.ToComponent = UIStatics.Circuito.Components[ToComponent];
+                wire.ToComponent = UiStatics.Circuito.Components[ToComponent];
                 wire.ToIndex = ToIndex;
             } else {
                 FromIndex = -1;
