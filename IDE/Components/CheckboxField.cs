@@ -1,23 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
 using System.Windows.Forms;
 
 namespace IDE.Components {
     public class CheckboxField:CheckBox, Component {
         private bool needRefresh = true;
-        private bool userInput = false;
-        private bool refreshing = false;
+        private bool userInput;
+        private bool refreshing;
 
-        public bool UserInput { get { return userInput; } set { userInput = value; } }
-        private bool value = false;
+        public bool UserInput { get => userInput;
+            set => userInput = value;
+        }
+        private bool value;
         public bool Value
         {
-            get
-            {
-                return value;
-            }
+            get => value;
             set
             {
                 if (value != this.value) {

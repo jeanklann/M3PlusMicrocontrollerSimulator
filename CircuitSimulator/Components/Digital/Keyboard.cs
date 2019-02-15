@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator.Components.Digital {
+﻿namespace CircuitSimulator.Components.Digital {
     public class Keyboard : Component {
         public byte Value = 0;
 
         public Keyboard(string name = "Keyboard Input"):base(name, 8) {
-            for (int i = 0; i < Pins.Length; i++) {
+            for (var i = 0; i < Pins.Length; i++) {
                 Pins[i].isOutput = true;
                 Pins[i].isOpen = false;
                 Pins[i].Value = Pin.LOW;
@@ -20,7 +16,7 @@ namespace CircuitSimulator.Components.Digital {
         protected internal override void Execute() {
             base.Execute();
             
-            byte valueTemp = Value;
+            var valueTemp = Value;
             if (valueTemp >= 128) {
                 Pins[7].SetDigital(Pin.HIGH);
                 valueTemp -= 128;
@@ -69,7 +65,7 @@ namespace CircuitSimulator.Components.Digital {
                 Pins[0].SetDigital(Pin.LOW);
             }
 
-            for (int i = 0; i < Pins.Length; i++) {
+            for (var i = 0; i < Pins.Length; i++) {
                 Pins[i].Propagate();
             }
         }

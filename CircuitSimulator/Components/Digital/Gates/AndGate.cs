@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CircuitSimulator {
+﻿namespace CircuitSimulator {
     public class AndGate : Gate {
         public AndGate(int inputQuantity = 2, string name = "And Gate") : base(name, inputQuantity+1) {
         }

@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
+﻿namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class Counter8Bit : Chip {
 
-        public byte InternalValue = 0;
+        public byte InternalValue;
         private float lastClock = Pin.LOW;
         public Counter8Bit(string name = "Counter8Bit") : base(name, 12) {
 
         }
 
         protected override void AllocatePins() {
-            for (int i = 0; i < 4; i++) {
+            for (var i = 0; i < 4; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for (int i = 4; i < 12; i++) {
+            for (var i = 4; i < 12; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
         }
         internal override bool CanExecute() {
             if (simulationId == circuit.SimulationId) return false;
-            for (int i = 0; i < 4; i++) {
+            for (var i = 0; i < 4; i++) {
                 if (Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }
@@ -43,8 +39,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 InternalValue = 0;
             }
             if (Pins[0].Value >= Pin.HALFCUT) {
-                byte val = InternalValue;
-                for (int i = 4; i < Pins.Length; i++)
+                var val = InternalValue;
+                for (var i = 4; i < Pins.Length; i++)
                     Pins[i].Value = Pin.LOW;
                 if (val >= 128) {
                     Pins[11].Value = Pin.HIGH;
@@ -78,7 +74,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     Pins[4].Value = Pin.HIGH;
                     val -= 1;
                 }
-                for (int i = 4; i < Pins.Length; i++) {
+                for (var i = 4; i < Pins.Length; i++) {
                     Pins[i].simulationId = simulationId;
                     Pins[i].Propagate();
                 }

@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -15,17 +10,17 @@ namespace IDE {
         }
         private List<Label> Labels = new List<Label>();
         private Thread threadUpdate;
-        private bool exitForm = false;
-        private int lastHashSimulator = 0;
+        private bool exitForm;
+        private int lastHashSimulator;
         private void FormRomMemory_Load(object sender, EventArgs e) {
-            DataGridViewCellStyle style = new DataGridViewCellStyle();
+            var style = new DataGridViewCellStyle();
             style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            for (int linha = 0; linha < 4096; linha++) {
+            for (var linha = 0; linha < 4096; linha++) {
                 dataGridView1.Rows.Add();
                 dataGridView1.Rows[linha].Cells[0].Value = (linha * 16).ToString("X4");
                 dataGridView1.Rows[linha].Cells[0].Style = style;
 
-                for (int coluna = 1; coluna < 17; coluna++) {
+                for (var coluna = 1; coluna < 17; coluna++) {
                     dataGridView1.Rows[linha].Cells[coluna].Value = "00";
                 }
             }
@@ -43,8 +38,8 @@ namespace IDE {
                     dataGridView1.ClearSelection();
                     if (UiStatics.Simulador == null) {
                         if (lastHashSimulator != 0) {
-                            for (int linha = 0; linha < 4096; linha++) {
-                                for (int coluna = 1; coluna < 17; coluna++) {
+                            for (var linha = 0; linha < 4096; linha++) {
+                                for (var coluna = 1; coluna < 17; coluna++) {
                                     dataGridView1.Rows[linha].Cells[coluna].Value = "00";
                                 }
                             }
@@ -54,7 +49,7 @@ namespace IDE {
                     if (UiStatics.Simulador != null && lastHashSimulator != UiStatics.Simulador.GetHashCode()) {
                         if (UiStatics.Simulador.CompiledProgram != null) {
                             lastHashSimulator = UiStatics.Simulador.GetHashCode();
-                            for (int i = 0; i < UiStatics.Simulador.CompiledProgram.Length; i++) {
+                            for (var i = 0; i < UiStatics.Simulador.CompiledProgram.Length; i++) {
                                 int linha;
                                 int coluna;
                                 getLineAndColumn(i, out linha, out coluna);
@@ -63,10 +58,10 @@ namespace IDE {
                         }
                     }
                     if (UiStatics.Simulador != null) {
-                        int pc = UiStatics.Simulador.NextInstruction;
+                        var pc = UiStatics.Simulador.NextInstruction;
                         if (UiStatics.Simulador.Program != null && UiStatics.Simulador.Program[pc] != null) {
-                            M3PlusMicrocontroller.Instruction Instruction = UiStatics.Simulador.Program[pc];
-                            for (int i = 0; i < Instruction.Size; i++) {
+                            var Instruction = UiStatics.Simulador.Program[pc];
+                            for (var i = 0; i < Instruction.Size; i++) {
                                 int linha;
                                 int coluna;
                                 getLineAndColumn(pc + i, out linha, out coluna);

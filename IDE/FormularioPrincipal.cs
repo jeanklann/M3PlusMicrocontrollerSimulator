@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using ScintillaNET;
-using M3PlusMicrocontroller;
 using System.Threading;
 
 namespace IDE {
@@ -40,7 +34,7 @@ namespace IDE {
 
 
         private void reportarToolStripMenuItem_Click(object sender, EventArgs e) {
-            ExceptionLog exceptionLog = new ExceptionLog();
+            var exceptionLog = new ExceptionLog();
             exceptionLog.Text = "Reportar um problema";
             exceptionLog.Show(this);
         }
@@ -154,7 +148,7 @@ namespace IDE {
 
         private void FormularioPrincipal_FormClosing(object sender, FormClosingEventArgs e) {
             if (UiStatics.Codigo.Changed || UiStatics.Circuito.Changed) {
-                DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                var dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if(dialogResult == DialogResult.Cancel) {
                     e.Cancel = true;
                     return;
@@ -187,9 +181,9 @@ namespace IDE {
             }
         }
         private bool TrySave() {
-            SaveFileDialog fileDialog = new SaveFileDialog();
+            var fileDialog = new SaveFileDialog();
             fileDialog.Filter = "Projeto do simulador (*.m3mprj)|*.m3mprj|Todos os arquivos (*.*)|*.*";
-            DialogResult fileDialogResult = fileDialog.ShowDialog(this);
+            var fileDialogResult = fileDialog.ShowDialog(this);
             if (fileDialogResult == DialogResult.Cancel ||
                 fileDialogResult == DialogResult.Abort ||
                 fileDialogResult == DialogResult.None) {
@@ -240,7 +234,7 @@ namespace IDE {
             if (UiStatics.Simulador != null && UiStatics.Simulador.Running) return;
             UiStatics.Simulador = null;
             if (UiStatics.Codigo.Changed || UiStatics.Circuito.Changed) {
-                DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                var dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (dialogResult == DialogResult.Yes) {
                     if (UiStatics.FilePath != null) {
                         if (UiStatics.Save() == false) {
@@ -283,7 +277,7 @@ namespace IDE {
 
         private void Open() {
             if (UiStatics.Codigo.Changed) {
-                DialogResult dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+                var dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (dialogResult == DialogResult.Yes) {
                     if (UiStatics.FilePath != null) {
                         if (UiStatics.Save() == false) {
@@ -305,9 +299,9 @@ namespace IDE {
         }
 
         private bool TryOpen() {
-            OpenFileDialog fileDialog = new OpenFileDialog();
+            var fileDialog = new OpenFileDialog();
             fileDialog.Filter = "Projeto do simulador (*.m3mprj)|*.m3mprj|Todos os arquivos (*.*)|*.*";
-            DialogResult fileDialogResult = fileDialog.ShowDialog(this);
+            var fileDialogResult = fileDialog.ShowDialog(this);
             if (fileDialogResult == DialogResult.Cancel ||
                 fileDialogResult == DialogResult.Abort ||
                 fileDialogResult == DialogResult.None) {
@@ -348,12 +342,12 @@ namespace IDE {
         }
 
         private void ajudaToolStripMenuItem1_Click(object sender, EventArgs e) {
-            Ajuda ajuda = new Ajuda();
+            var ajuda = new Ajuda();
             ajuda.Show(this);
         }
 
         private void sobreToolStripMenuItem_Click(object sender, EventArgs e) {
-            Sobre sobre = new Sobre();
+            var sobre = new Sobre();
             sobre.ShowDialog(this);
         }
 
@@ -362,9 +356,9 @@ namespace IDE {
         }
 
         private void exportarToolStripMenuItem_Click(object sender, EventArgs e) {
-            SaveFileDialog fileDialog = new SaveFileDialog();
+            var fileDialog = new SaveFileDialog();
             fileDialog.Filter = "Arquivo binário (*.bin)|*.bin|Arquivo hexadecimal (*.hex)|*.hex|Arquivo do logisim (*.mmmp)|*.mmmp|Todos os arquivos (*.*)|*.*";
-            DialogResult fileDialogResult = fileDialog.ShowDialog(this);
+            var fileDialogResult = fileDialog.ShowDialog(this);
             if (fileDialogResult == DialogResult.Cancel ||
                 fileDialogResult == DialogResult.Abort ||
                 fileDialogResult == DialogResult.None) {
@@ -384,9 +378,9 @@ namespace IDE {
         }
 
         private void importarToolStripMenuItem_Click(object sender, EventArgs e) {
-            OpenFileDialog dialog = new OpenFileDialog();
+            var dialog = new OpenFileDialog();
             dialog.Filter = "Arquivo binário (*.bin)|*.bin|Arquivo hexadecimal (*.hex)|*.hex|Arquivo do logisim (*.mmmp)|*.mmmp|Todos os arquivos (*.*)|*.*";
-            DialogResult fileDialogResult = dialog.ShowDialog(this);
+            var fileDialogResult = dialog.ShowDialog(this);
             if (fileDialogResult == DialogResult.Cancel ||
                 fileDialogResult == DialogResult.Abort ||
                 fileDialogResult == DialogResult.None) {
@@ -509,7 +503,7 @@ namespace IDE {
 
         private void logDasIntruçõesToolStripMenuItem_Click(object sender, EventArgs e) {
             //InstructionLogForm form = new InstructionLogForm();
-            InstructionLogTableForm form = new InstructionLogTableForm();
+            var form = new InstructionLogTableForm();
             form.Show(this);
         }
     }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator {
+﻿namespace CircuitSimulator {
     /// <summary>
     /// Flipflop JK: <para />
     /// J: pin 0,<para />
@@ -15,29 +11,29 @@ namespace CircuitSimulator {
     public class FlipflopD : Chip {
         private float lastClk = Pin.LOW;
 
-        public Pin D { get { return Pins[0]; } }
-        public Pin CLK { get { return Pins[1]; } }
-        public Pin S { get { return Pins[2]; } }
-        public Pin R { get { return Pins[3]; } }
-        public Pin Q { get { return Pins[4]; } }
-        public Pin Qnot { get { return Pins[5]; } }
+        public Pin D => Pins[0];
+        public Pin CLK => Pins[1];
+        public Pin S => Pins[2];
+        public Pin R => Pins[3];
+        public Pin Q => Pins[4];
+        public Pin Qnot => Pins[5];
 
         public FlipflopD(string name = "Flipflop component") : base(name, 6) {
 
         }
 
         protected override void AllocatePins() {
-            for(int i = 0; i < 4; i++) {
+            for(var i = 0; i < 4; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for(int i = 4; i < 6; i++) {
+            for(var i = 4; i < 6; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
             Qnot.Value = Pin.HIGH;
         }
         internal override bool CanExecute() {
             if(simulationId == circuit.SimulationId) return false;
-            for(int i = 0; i < 2; i++) { //not needed to verify if S and R is connected
+            for(var i = 0; i < 2; i++) { //not needed to verify if S and R is connected
                 if(Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }

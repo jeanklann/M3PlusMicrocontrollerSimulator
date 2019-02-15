@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
+﻿namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class InternalClock : Chip {
         public InternalClock(string name = "InternalClock") : base(name, 1) {
 

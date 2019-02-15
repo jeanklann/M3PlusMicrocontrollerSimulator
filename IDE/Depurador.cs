@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using ScintillaNET;
@@ -14,11 +10,11 @@ namespace IDE {
         public int[] LineToAddress;
         public int Frequency = 1;
         public bool FrequencyLimiter = true;
-        public bool InternalSimulation = false;
+        public bool InternalSimulation;
         public bool ChangedToCompile = false;
 
         private double freq = 1;
-        private int power = 0;
+        private int power;
         private FormRomMemory formRomMemory;
         private FormRamMemory formRamMemory;
         private FormRamMemory formStackMemory;
@@ -61,7 +57,7 @@ namespace IDE {
                 }
                 if (UiStatics.Simulador != null) {
                     if (UiStatics.Simulador.Program != null) {
-                        for (int i = 0; i < AddressToLine.Length; i++) {
+                        for (var i = 0; i < AddressToLine.Length; i++) {
                             if(AddressToLine[i] == line.Index) {
                                 if(UiStatics.Simulador.Program[i] != null)
                                     UiStatics.Simulador.Program[i].HasBreakpoint = true;
@@ -81,7 +77,7 @@ namespace IDE {
                 }
                 if (UiStatics.Simulador != null) {
                     if (UiStatics.Simulador.Program != null) {
-                        for (int i = 0; i < AddressToLine.Length; i++) {
+                        for (var i = 0; i < AddressToLine.Length; i++) {
                             if (AddressToLine[i] == line.Index) {
                                 if (UiStatics.Simulador.Program[i] != null)
                                     UiStatics.Simulador.Program[i].HasBreakpoint = false;
@@ -95,17 +91,17 @@ namespace IDE {
             }
         }
         public void RemoveAllBreakpoint() {
-            foreach(Line line in scintilla.Lines) {
+            foreach(var line in scintilla.Lines) {
                 RemoveBreakpoint(line);
             }
         }
 
         public void AddLabel(int lineNumber) {
-            Line line = scintilla.Lines[lineNumber];
+            var line = scintilla.Lines[lineNumber];
             line.MarkerAdd(UiStatics.LabelMarker);
         }
         public void RemoveAllLabels() {
-            foreach (Line line in scintilla.Lines) {
+            foreach (var line in scintilla.Lines) {
                 line.MarkerDelete(UiStatics.LabelMarker);
             }
         }
@@ -116,7 +112,7 @@ namespace IDE {
 
                 const uint mask = (1 << UiStatics.BreakpointMarker);
 
-                Line line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];
+                var line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];
 
                 if((line.MarkerGet() & mask) > 0) {
                     RemoveBreakpoint(line);
@@ -128,13 +124,13 @@ namespace IDE {
                 
                 const uint mask = (1 << UiStatics.LabelMarker);
                 
-                Line line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];
+                var line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];
                 if ((line.MarkerGet() & mask) > 0) {
-                    int linePos = scintilla.LineFromPosition(e.Position);
-                    for (int i = 0; i < AddressToLine.Length; i++) {
+                    var linePos = scintilla.LineFromPosition(e.Position);
+                    for (var i = 0; i < AddressToLine.Length; i++) {
                         if(AddressToLine[i] == linePos) {
                             string text = null;
-                            foreach (M3PlusMicrocontroller.Label item in UiStatics.Compilador.Labels) {
+                            foreach (var item in UiStatics.Compilador.Labels) {
                                 if(item.Address == i) {
                                     if (text != null)
                                         text = text += "\n";
@@ -168,7 +164,7 @@ namespace IDE {
         private void updateLineNumber(int padding = 2) {
             scintilla.Margins[0].Type = MarginType.RightText;
             int i;
-            int max = 0;
+            var max = 0;
             
             for (i = 0; i < scintilla.Lines.Count; i++) {
                 scintilla.Lines[i].MarginStyle = Style.LineNumber;
@@ -256,13 +252,13 @@ namespace IDE {
                         cCheck.Value = UiStatics.Simulador.FlagC;
                         zCheck.Value = UiStatics.Simulador.FlagZ;
 
-                        foreach (Components.Component item in Components) {
+                        foreach (var item in Components) {
                             item.Refresh();
                         }
 
                         {
-                            string inicio = "Frequência real: ";
-                            string mod = " Hz";
+                            var inicio = "Frequência real: ";
+                            var mod = " Hz";
                             float frequencia = UiStatics.Simulador.CurrentFrequency;
                             if (!internalSimulation.Checked) {
                                 inicio = "IPS real:";
@@ -281,8 +277,8 @@ namespace IDE {
                             realFrequency.Text = inicio + frequencia + mod;
                         }
 
-                        int nextLine = scintilla.Lines[0].MarkerNext(1 << UiStatics.IndexMarker);
-                        int markerLine = AddressToLine[UiStatics.Simulador.NextInstruction];
+                        var nextLine = scintilla.Lines[0].MarkerNext(1 << UiStatics.IndexMarker);
+                        var markerLine = AddressToLine[UiStatics.Simulador.NextInstruction];
                         if (nextLine != markerLine) {
                             if (nextLine != -1)
                                 scintilla.Lines[nextLine].MarkerDelete(UiStatics.IndexMarker);
@@ -313,7 +309,7 @@ namespace IDE {
                         if (zCheck.UserInput) UiStatics.Simulador.FlagZ = zCheck.Value;
 
 
-                        foreach (Components.Component item in Components) {
+                        foreach (var item in Components) {
                             item.UserInput = false;
                         }
 
@@ -422,7 +418,7 @@ namespace IDE {
         }
 
         private void scintilla_Click(object sender, EventArgs e) {
-            int line = scintilla.LineFromPosition(scintilla.CurrentPosition);
+            var line = scintilla.LineFromPosition(scintilla.CurrentPosition);
             if (UiStatics.Simulador != null) {
                 UiStatics.MainForm.ToolStripStatusLabel.Text = UiStatics.Simulador.Program[LineToAddress[line]].Description;
             }

@@ -1,32 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
+﻿namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class Registrers : Chip {
         public byte[] Reg = new byte[4];
-        private float lastClock = Pin.LOW;
+        private float _lastClock = Pin.LOW;
         public Registrers(string name = "Registrers") : base(name, 21) {
 
         }
 
         protected override void AllocatePins() {
-            for (int i = 0; i < 13; i++) {
+            for (var i = 0; i < 13; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for (int i = 13; i < 21; i++) {
+            for (var i = 13; i < 21; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
         }
         internal override bool CanExecute() {
             if (simulationId == circuit.SimulationId) return false;
-            for (int i = 8; i < 13; i++) {
+            for (var i = 8; i < 13; i++) {
                 if (Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }
             }
-            if(Pins[9].Value >= Pin.HALFCUT && lastClock <= Pin.HALFCUT) {
-                for (int i = 0; i < 8; i++) {
+            if(Pins[9].Value >= Pin.HALFCUT && _lastClock <= Pin.HALFCUT) {
+                for (var i = 0; i < 8; i++) {
                     if (Pins[i].simulationId != circuit.SimulationId) {
                         return false;
                     }
@@ -38,7 +34,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         protected internal override void Execute() {
             simulationId = circuit.SimulationId;
 
-            if (lastClock <= Pin.HALFCUT && Pins[9].Value >= Pin.HALFCUT) {
+            if (_lastClock <= Pin.HALFCUT && Pins[9].Value >= Pin.HALFCUT) {
                 byte val = 0;
                 val += (byte)(Pins[0].Value >= Pin.HALFCUT ? 1 : 0);
                 val += (byte)(Pins[1].Value >= Pin.HALFCUT ? 2 : 0);
@@ -53,10 +49,10 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 if (Pins[11].Value < Pin.HALFCUT && Pins[12].Value >= Pin.HALFCUT) Reg[2] = val;
                 if (Pins[11].Value >= Pin.HALFCUT && Pins[12].Value >= Pin.HALFCUT) Reg[3] = val;
             }
-            lastClock = Pins[9].Value;
+            _lastClock = Pins[9].Value;
 
             if (Pins[10].Value >= Pin.HALFCUT) {
-                for (int i = 0; i < 4; i++) {
+                for (var i = 0; i < 4; i++) {
                     Reg[i] = 0;
                 }
             }
@@ -67,7 +63,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 if (Pins[11].Value < Pin.HALFCUT && Pins[12].Value >= Pin.HALFCUT) val = Reg[2];
                 if (Pins[11].Value >= Pin.HALFCUT && Pins[12].Value >= Pin.HALFCUT) val = Reg[3];
                 
-                for (int i = 13; i < 21; i++)
+                for (var i = 13; i < 21; i++)
                     Pins[i].Value = Pin.LOW;
                 if (val >= 128) {
                     Pins[20].Value = Pin.HIGH;
@@ -101,7 +97,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     Pins[13].Value = Pin.HIGH;
                     val -= 1;
                 }
-                for (int i = 13; i < 21; i++) {
+                for (var i = 13; i < 21; i++) {
                     Pins[i].simulationId = simulationId;
                     Pins[i].Propagate();
                 }

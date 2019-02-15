@@ -19,15 +19,15 @@ namespace CircuitSimulator {
         /// <param name="type">If its normal, like, 1V, or 144V or extended, like, 1 volt, or 144 volts.</param>
         /// <returns>The converted value</returns>
         public static string ToString(float value, Greatness greatness, ConvertionType type = ConvertionType.Normal) {
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             if(value < 0) {
                 res.Append("-");
                 value = -value;
             }
-            int greatnessIndex = 0;
+            var greatnessIndex = 0;
             if(value > 0f) {
-                int index = getIndex(value);
-                float finalValue = value * multiplyValues[index];
+                var index = getIndex(value);
+                var finalValue = value * multiplyValues[index];
                 res.Append(finalValue);
                 if(type == ConvertionType.Extended) {
                     greatnessIndex = finalValue == 1f ? 1 : 2;
@@ -53,7 +53,7 @@ namespace CircuitSimulator {
         }
         private static int getIndex(float value) {
             if(value < values[0]) return 0;
-            for(int i = 1; i < values.Length; i++) {
+            for(var i = 1; i < values.Length; i++) {
                 if(value < values[i]) {
                     return value < 0f ? i - 2 : i - 1;
                 }

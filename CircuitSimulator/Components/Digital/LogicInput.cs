@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator {
+﻿namespace CircuitSimulator {
     public class LogicInput : Component {
         public float Value {
-            get {
-                return Pins[0].Value;
-            }
-            set {
-                Pins[0].SetDigital(value);
-            }
+            get => Pins[0].Value;
+            set => Pins[0].SetDigital(value);
         }
         
         public LogicInput(string name = "Logic Input"):base(name) {

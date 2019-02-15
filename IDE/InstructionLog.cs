@@ -4,7 +4,7 @@ using M3PlusMicrocontroller;
 
 namespace IDE {
     public class InstructionLog {
-        public int ClearCount = 0;
+        public int ClearCount;
         public List<InstructionLogItem> Items;
         private Dictionary<Instruction, int> InstructionClockSize;
         public InstructionLog() {
@@ -18,10 +18,10 @@ namespace IDE {
         }
         public void Add(InstructionLogItem item) {
             if (item.EOI) {
-                Instruction instruction = Items[Items.Count - 1].Instruction;
+                var instruction = Items[Items.Count - 1].Instruction;
                 if (instruction != null) {
-                    int size = 0;
-                    for (int i = Items.Count - 1; i >= 0; i--) {
+                    var size = 0;
+                    for (var i = Items.Count - 1; i >= 0; i--) {
                         if (Items[i].Instruction == null) continue;
                         if (instruction == Items[i].Instruction) {
                             size++;
@@ -61,12 +61,12 @@ namespace IDE {
         }
         public List<Instrucao> ToList()
         {
-            int clock = 0;
-            List<Instrucao> res = new List<Instrucao>();
+            var clock = 0;
+            var res = new List<Instrucao>();
             Instrucao instrucaoAtual = null;
             try
             {
-                foreach (InstructionLogItem item in Items)
+                foreach (var item in Items)
                 {
                     if (item.Instruction != null)
                     {
@@ -101,10 +101,10 @@ namespace IDE {
             return res;
         }
         public override string ToString() {
-            int clock = 0;
-            string res = "";
+            var clock = 0;
+            var res = "";
             try {
-                foreach (InstructionLogItem item in Items) {
+                foreach (var item in Items) {
                     if (item.Instruction != null) {
                         if (clock == 0) {
                             res += "\r\nInstrução: " + item.Instruction.Text + "\r\n";
@@ -229,7 +229,7 @@ namespace IDE {
             return list;
         }
         public override string ToString() {
-            string res = "";
+            var res = "";
             if (Instruction != null) {
                 res += "Bus: " + bus + ", ";
                 res += "FlagC: " + (flagC ? "1" : "0") + ", ";

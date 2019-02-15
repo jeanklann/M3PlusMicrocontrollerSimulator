@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
+﻿namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class RomMemory : Chip {
         public byte[] InternalValue = new byte[65536];
         public RomMemory(string name = "RomMemory") : base(name, 25) {
         }
 
         protected override void AllocatePins() {
-            for (int i = 0; i < 17; i++) {
+            for (var i = 0; i < 17; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for (int i = 17; i < 25; i++) {
+            for (var i = 17; i < 25; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
         }
@@ -23,7 +19,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             }
 
             if (Pins[16].Value >= Pin.HALFCUT) {
-                for (int i = 0; i < 16; i++) {
+                for (var i = 0; i < 16; i++) {
                     if (Pins[i].simulationId != circuit.SimulationId) {
                         return false;
                     }
@@ -35,7 +31,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         protected internal override void Execute() {
             simulationId = circuit.SimulationId;
             if (Pins[16].Value >= Pin.HALFCUT) {
-                int address = 0;
+                var address = 0;
                 address += (byte)(Pins[0].Value >= Pin.HALFCUT ? 1 : 0);
                 address += (byte)(Pins[1].Value >= Pin.HALFCUT ? 2 : 0);
                 address += (byte)(Pins[2].Value >= Pin.HALFCUT ? 4 : 0);
@@ -53,8 +49,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 address += (byte)(Pins[14].Value >= Pin.HALFCUT ? 16384 : 0);
                 address += (byte)(Pins[15].Value >= Pin.HALFCUT ? 32768 : 0);
 
-                byte val = InternalValue[address];
-                for (int i = 17; i < 25; i++)
+                var val = InternalValue[address];
+                for (var i = 17; i < 25; i++)
                     Pins[i].Value = Pin.LOW;
                 if (val >= 128) {
                     Pins[24].Value = Pin.HIGH;
@@ -88,7 +84,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     Pins[17].Value = Pin.HIGH;
                     val -= 1;
                 }
-                for (int i = 17; i < 25; i++) {
+                for (var i = 17; i < 25; i++) {
                     Pins[i].simulationId = simulationId;
                     Pins[i].Propagate();
                 }

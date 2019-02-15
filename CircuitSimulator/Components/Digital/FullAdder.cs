@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator {
+﻿namespace CircuitSimulator {
     /// <summary>
     /// Flipflop JK: <para />
     /// J: pin 0,<para />
@@ -13,27 +9,27 @@ namespace CircuitSimulator {
     /// Q: pin 5,<para />
     /// </summary>
     public class FullAdder : Chip {
-        public Pin A { get { return Pins[0]; } }
-        public Pin B { get { return Pins[1]; } }
-        public Pin Cin { get { return Pins[2]; } }
-        public Pin S { get { return Pins[3]; } }
-        public Pin Cout { get { return Pins[4]; } }
+        public Pin A => Pins[0];
+        public Pin B => Pins[1];
+        public Pin Cin => Pins[2];
+        public Pin S => Pins[3];
+        public Pin Cout => Pins[4];
 
         public FullAdder(string name = "Full Adder") : base(name, 5) {
 
         }
 
         protected override void AllocatePins() {
-            for(int i = 0; i < 3; i++) {
+            for(var i = 0; i < 3; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for(int i = 3; i < 5; i++) {
+            for(var i = 3; i < 5; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
         }
         internal override bool CanExecute() {
             if(simulationId == circuit.SimulationId) return false;
-            for(int i = 0; i < 3; i++) {
+            for(var i = 0; i < 3; i++) {
                 if(Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }
@@ -80,7 +76,7 @@ namespace CircuitSimulator {
                     }
                 }
             }
-            for(int i = 0; i < 3; i++) {
+            for(var i = 0; i < 3; i++) {
                 Pins[i].Propagate();
             }
         }

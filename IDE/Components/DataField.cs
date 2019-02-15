@@ -1,30 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
 
 namespace IDE.Components {
     public partial class DataField : UserControl, Component {
         private bool needRefresh = true;
-        private bool userInput = false;
-        public bool UserInput { get { return userInput; } set { userInput = value; } }
+        private bool userInput;
+        public bool UserInput { get => userInput;
+            set => userInput = value;
+        }
 
         public DataField() {
             InitializeComponent();
             comboBox1.SelectedIndex = 0;
             Value = 0;
         }
-        private int value = 0;
+        private int value;
         public int Value
         {
-            get
-            {
-                return value;
-            }
+            get => value;
             set
             {
                 if(value != this.value) {
@@ -50,9 +43,7 @@ namespace IDE.Components {
         }
         private DataFieldType selected = DataFieldType.DEC;
         public DataFieldType Selected {
-            get {
-                return selected;
-            }
+            get => selected;
             set {
                 switch (value) {
                     case DataFieldType.DEC: //DEC
@@ -95,7 +86,7 @@ namespace IDE.Components {
         private byte byteQuantity = 1;
         public byte ByteQuantity
         {
-            get { return byteQuantity; }
+            get => byteQuantity;
             set
             {
                 if (value > 4)
@@ -109,8 +100,8 @@ namespace IDE.Components {
         }
 
         private bool InputDec(string value) {
-            int temp = -1;
-            bool parsed = int.TryParse(value, out temp);
+            var temp = -1;
+            var parsed = int.TryParse(value, out temp);
             if (!parsed) return false;
             if (temp < 0) return false;
             if (temp >= (byte.MaxValue + 1) * byteQuantity) return false;
@@ -120,7 +111,7 @@ namespace IDE.Components {
         }
         private bool InputBin(string value) {
             if (value.Length > 8 * byteQuantity) return false;
-            int temp = -1;
+            var temp = -1;
             try { temp = Convert.ToInt32(value, 2); } catch (Exception) { };
             if (temp < 0) return false;
             
@@ -128,7 +119,7 @@ namespace IDE.Components {
         }
         private bool InputHex(string value) {
             if (value.Length > 2 * byteQuantity) return false;
-            int temp = -1;
+            var temp = -1;
             try { temp = Convert.ToInt32(value, 16); } catch (Exception) { };
             if (temp < 0) return false;
 
@@ -136,16 +127,16 @@ namespace IDE.Components {
         }
         
         private string ToBIN() {
-            string res = Convert.ToString(value, 2);
-            int charQuant = 8 * byteQuantity;
+            var res = Convert.ToString(value, 2);
+            var charQuant = 8 * byteQuantity;
             while(res.Length < charQuant) {
                 res = "0" + res;
             }
             return res;
         }
         private string ToHEX() {
-            string res = Convert.ToString(value, 16);
-            int charQuant = 2 * byteQuantity;
+            var res = Convert.ToString(value, 16);
+            var charQuant = 2 * byteQuantity;
             while (res.Length < charQuant) {
                 res = "0" + res;
             }

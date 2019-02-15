@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CircuitSimulator.Components {
     public class Wire:Component {
@@ -20,8 +18,8 @@ namespace CircuitSimulator.Components {
         }
 
         protected internal override void Execute() {
-            int index = -1;
-            for (int i = 0; i < Pins.Length; i++) {
+            var index = -1;
+            for (var i = 0; i < Pins.Length; i++) {
                 if (Pins[i].simulationId == circuit.SimulationId) {
                     index = i;
                     break;
@@ -31,7 +29,7 @@ namespace CircuitSimulator.Components {
 
             base.Execute();
             
-            for(int i = 0; i < Pins.Length; i++) {
+            for(var i = 0; i < Pins.Length; i++) {
                 if (i == index) continue;
                 Pins[i].Value = Pins[index].Value;
                 Pins[i].isOpen = Pins[index].isOpen;

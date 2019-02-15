@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
 using System.Drawing;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -26,7 +22,7 @@ namespace IDE {
         public Component_Project[] Components;
         
         public static bool Save(string dir) {
-            FileProject project = new FileProject();
+            var project = new FileProject();
             if (UiStatics.Simulador != null) {
                 project.Frequency = UiStatics.Simulador.Frequency;
             }
@@ -41,17 +37,17 @@ namespace IDE {
             project.Components = new Component_Project[UiStatics.Circuito.Components.Count];
             project.Wires = new Wire_Project[UiStatics.Circuito.Wires.Count];
 
-            for (int i = 0; i < project.Components.Length; i++) {
+            for (var i = 0; i < project.Components.Length; i++) {
                 project.Components[i] = new Component_Project(UiStatics.Circuito.Components[i]);
             }
-            for (int i = 0; i < project.Wires.Length; i++) {
+            for (var i = 0; i < project.Wires.Length; i++) {
                 project.Wires[i] = new Wire_Project(UiStatics.Circuito.Wires[i], project);
             }
             
             return SerializeObject(project, UiStatics.FilePath);
         }
         public static bool Load(string dir) {
-            FileProject project = DeSerializeObject(dir);
+            var project = DeSerializeObject(dir);
             if (project == null) return false;
             UiStatics.Depurador.SetText("");
             UiStatics.Simulador = null;
@@ -64,10 +60,10 @@ namespace IDE {
             UiStatics.Circuito.Wires.Clear();
             UiStatics.Circuito.Components.Clear();
 
-            for (int i = 0; i < project.Components.Length; i++) {
+            for (var i = 0; i < project.Components.Length; i++) {
                 UiStatics.Circuito.Components.Add(project.Components[i]);
             }
-            for (int i = 0; i < project.Wires.Length; i++) {
+            for (var i = 0; i < project.Wires.Length; i++) {
                 UiStatics.Circuito.Wires.Add(project.Wires[i].ToWire(project));
             }
             
@@ -269,7 +265,7 @@ namespace IDE {
                     break;
             }
 
-            Component component = new Component(draw, c.Center);
+            var component = new Component(draw, c.Center);
             component.Rotation = c.Rotation;
             component.Type = c.Type;
             if(c.RootComponent != -1)
@@ -308,7 +304,7 @@ namespace IDE {
             }
         }
         public Wire ToWire(FileProject project) {
-            Wire wire = new Wire(From, To);
+            var wire = new Wire(From, To);
             if (RootComponent != -1)
                 wire.RootComponent = UiStatics.Circuito.Components[RootComponent];
             if (FromComponent != -1) {

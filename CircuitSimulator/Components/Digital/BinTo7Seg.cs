@@ -1,30 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator.Components.Digital {
+﻿namespace CircuitSimulator.Components.Digital {
     public class BinTo7Seg:Chip {
         /// <summary>
         /// Less dignificant bit
         /// </summary>
-        public Pin A { get { return Pins[0]; } }
-        public Pin B { get { return Pins[1]; } }
-        public Pin C { get { return Pins[2]; } }
+        public Pin A => Pins[0];
+
+        public Pin B => Pins[1];
+        public Pin C => Pins[2];
+
         /// <summary>
         /// Most significant bit
         /// </summary>
-        public Pin D { get { return Pins[3]; } }
+        public Pin D => Pins[3];
+
         /// <summary>
         /// The enable pin
         /// </summary>
-        public Pin Enable { get { return Pins[4]; } }
-        public Pin a { get { return Pins[5]; } }
-        public Pin b { get { return Pins[6]; } }
-        public Pin c { get { return Pins[7]; } }
-        public Pin d { get { return Pins[8]; } }
-        public Pin e { get { return Pins[9]; } }
-        public Pin f { get { return Pins[10]; } }
-        public Pin g { get { return Pins[11]; } }
+        public Pin Enable => Pins[4];
+
+        public Pin OutA => Pins[5];
+        public Pin OutB => Pins[6];
+        public Pin OutC => Pins[7];
+        public Pin OutD => Pins[8];
+        public Pin OutE => Pins[9];
+        public Pin OutF => Pins[10];
+        public Pin OutG => Pins[11];
         public bool IsHexadecimalValid = true;
 
         private static readonly float[,] table = new float[,] {
@@ -53,7 +53,7 @@ namespace CircuitSimulator.Components.Digital {
 
         }
         protected override void AllocatePins() {
-            for(int i = 0; i < Pins.Length; i++) {
+            for(var i = 0; i < Pins.Length; i++) {
                 if(i<4)
                     Pins[i] = new Pin(this, false, false); //inputs
                 else if(i == 4)
@@ -64,7 +64,7 @@ namespace CircuitSimulator.Components.Digital {
         }
         internal override bool CanExecute() {
             if(simulationId == circuit.SimulationId) return false;
-            for(int i = 0; i < 4; i++) { //not needed to verify if Enable is connected
+            for(var i = 0; i < 4; i++) { //not needed to verify if Enable is connected
                 if(Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }
@@ -76,7 +76,7 @@ namespace CircuitSimulator.Components.Digital {
             if(Enable.GetDigital() == Pin.LOW) {
                 ToOutput(16);
             } else {
-                int value = 0;
+                var value = 0;
                 if(D.GetDigital() == Pin.HIGH)
                     value += 8;
                 if(C.GetDigital() == Pin.HIGH)
@@ -93,7 +93,7 @@ namespace CircuitSimulator.Components.Digital {
                 ToOutput(value);
             }
             
-            for(int i = 5; i < Pins.Length; i++) {
+            for(var i = 5; i < Pins.Length; i++) {
                 Pins[i].Propagate();
             }
         }
@@ -105,29 +105,29 @@ namespace CircuitSimulator.Components.Digital {
         private void ToOutput(int value) {
             if(value > 16 || value < 0) {
                 value = 16;
-                a.isOpen = true;
-                b.isOpen = true;
-                c.isOpen = true;
-                d.isOpen = true;
-                e.isOpen = true;
-                f.isOpen = true;
-                g.isOpen = true;
+                OutA.isOpen = true;
+                OutB.isOpen = true;
+                OutC.isOpen = true;
+                OutD.isOpen = true;
+                OutE.isOpen = true;
+                OutF.isOpen = true;
+                OutG.isOpen = true;
             } else {
-                a.isOpen = false;
-                b.isOpen = false;
-                c.isOpen = false;
-                d.isOpen = false;
-                e.isOpen = false;
-                f.isOpen = false;
-                g.isOpen = false;
+                OutA.isOpen = false;
+                OutB.isOpen = false;
+                OutC.isOpen = false;
+                OutD.isOpen = false;
+                OutE.isOpen = false;
+                OutF.isOpen = false;
+                OutG.isOpen = false;
             }
-            a.Value = table[value, 0];
-            b.Value = table[value, 1];
-            c.Value = table[value, 2];
-            d.Value = table[value, 3];
-            e.Value = table[value, 4];
-            f.Value = table[value, 5];
-            g.Value = table[value, 6];
+            OutA.Value = table[value, 0];
+            OutB.Value = table[value, 1];
+            OutC.Value = table[value, 2];
+            OutD.Value = table[value, 3];
+            OutE.Value = table[value, 4];
+            OutF.Value = table[value, 5];
+            OutG.Value = table[value, 6];
         }
 
     }

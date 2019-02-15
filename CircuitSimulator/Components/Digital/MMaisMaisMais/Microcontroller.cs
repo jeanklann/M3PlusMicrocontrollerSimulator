@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
+﻿namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class Microcontroller:Component {
         public PortBank PortBank;
         public bool PreventUpdateInput = false;
         public Microcontroller(string name = "Logic Input"):base(name, 64) {
-            for (int i = 0; i < 32; i++) {
+            for (var i = 0; i < 32; i++) {
                 Pins[i].isOutput = false;
                 Pins[i].isOpen = false;
             }
-            for (int i = 32; i < 64; i++) {
+            for (var i = 32; i < 64; i++) {
                 Pins[i].isOutput = true;
                 Pins[i].isOpen = false;
             }
@@ -39,12 +35,12 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
 
         public byte PinValuesToByteValue(int index) {
-            float[] pins = new float[8];
-            for (int i = 7; i >= 0; i--) {
+            var pins = new float[8];
+            for (var i = 7; i >= 0; i--) {
                 pins[i] = Pins[8 * index+i].Value;
             }
             byte value = 0;
-            float valSup = (Pin.HIGH + Pin.LOW) / 2;
+            var valSup = (Pin.HIGH + Pin.LOW) / 2;
             if (pins[0] >= valSup) value += 1;
             if (pins[1] >= valSup) value += 2;
             if (pins[2] >= valSup) value += 4;
@@ -125,18 +121,18 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         protected internal override void Execute() {
             base.Execute();
             if (PortBank != null) {
-                for (int i = 0; i < 4; i++) {
+                for (var i = 0; i < 4; i++) {
                     SetOutput(PortBank.GetOutput(i), i);
                     if (PreventUpdateInput) {
                         SetInput(PortBank.GetInput(i), i);
                     } else {
-                        for (int j = 0; j < 8; j++) {
+                        for (var j = 0; j < 8; j++) {
                             PortBank.SetInput(i, j, Pins[i * 8 + j].Value);
                         }
                     }
                 }
             }
-            for (int i = 32; i < 64; i++) {
+            for (var i = 32; i < 64; i++) {
                 Pins[i].Propagate();
             }
         }

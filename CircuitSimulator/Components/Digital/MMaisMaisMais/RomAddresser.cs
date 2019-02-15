@@ -1,35 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
+﻿namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class RomAddresser : Chip {
-        private float lastClockL = Pin.LOW;
-        private float lastClockH = Pin.LOW;
-        public byte RegL = 0;
-        public byte RegH = 0;
+        private float _lastClockL = Pin.LOW;
+        private float _lastClockH = Pin.LOW;
+        public byte RegL;
+        public byte RegH;
 
         public RomAddresser(string name = "RomAddresser") : base(name, 38) {
 
         }
 
         protected override void AllocatePins() {
-            for (int i = 0; i < 14; i++) {
+            for (var i = 0; i < 14; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for (int i = 14; i < 38; i++) {
+            for (var i = 14; i < 38; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
         }
         internal override bool CanExecute() {
             if (simulationId == circuit.SimulationId) return false;
-            for (int i = 8; i < 14; i++) {
+            for (var i = 8; i < 14; i++) {
                 if (Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }
             }
             if(Pins[8].Value >= Pin.HALFCUT) {
-                for (int i = 0; i < 8; i++) {
+                for (var i = 0; i < 8; i++) {
                     if (Pins[i].simulationId != circuit.SimulationId) {
                         return false;
                     }
@@ -41,10 +37,10 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         protected internal override void Execute() {
             simulationId = circuit.SimulationId;
 
-            if ((Pins[9].Value >= Pin.HALFCUT && lastClockH < Pin.HALFCUT) ||
-                (Pins[10].Value >= Pin.HALFCUT && lastClockL < Pin.HALFCUT)) {
+            if ((Pins[9].Value >= Pin.HALFCUT && _lastClockH < Pin.HALFCUT) ||
+                (Pins[10].Value >= Pin.HALFCUT && _lastClockL < Pin.HALFCUT)) {
                 if (Pins[8].Value < Pin.HALFCUT) {
-                    int address = RegH * 256 + RegL;
+                    var address = RegH * 256 + RegL;
                     ++address;
                     RegH = (byte) (address / 256);
                     RegL = (byte) (address % 256);
@@ -58,10 +54,10 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     val += (byte)(Pins[5].Value >= Pin.HALFCUT ? 32 : 0);
                     val += (byte)(Pins[6].Value >= Pin.HALFCUT ? 64 : 0);
                     val += (byte)(Pins[7].Value >= Pin.HALFCUT ? 128 : 0);
-                    if (Pins[9].Value >= Pin.HALFCUT && lastClockH < Pin.HALFCUT) {
+                    if (Pins[9].Value >= Pin.HALFCUT && _lastClockH < Pin.HALFCUT) {
                         RegH = val;
                     }
-                    if (Pins[10].Value >= Pin.HALFCUT && lastClockH < Pin.HALFCUT) {
+                    if (Pins[10].Value >= Pin.HALFCUT && _lastClockH < Pin.HALFCUT) {
                         RegL = val;
                     }
                 }
@@ -72,18 +68,18 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 RegL = 0;
             }
             
-            lastClockH = Pins[9].Value;
-            lastClockL = Pins[10].Value;
+            _lastClockH = Pins[9].Value;
+            _lastClockL = Pins[10].Value;
             ToOutput();
 
         }
 
         private void ToOutput() {
-            byte val = RegL;
-            for (int i = 14; i < 22; i++) 
+            var val = RegL;
+            for (var i = 14; i < 22; i++) 
                 Pins[i].Value = Pin.LOW;
             if (Pins[12].Value >= Pin.HALFCUT || Pins[11].Value >= Pin.HALFCUT) {
-                for (int i = 30; i < 38; i++) {
+                for (var i = 30; i < 38; i++) {
                     Pins[i].Value = Pin.LOW;
                 }
             }
@@ -143,13 +139,13 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     Pins[30].Value = Pin.HIGH;
                 }
             }
-            for (int i = 14; i < 22; i++) {
+            for (var i = 14; i < 22; i++) {
                 Pins[i].simulationId = simulationId;
                 Pins[i].Propagate();
             }
 
             val = RegH;
-            for (int i = 22; i < 30; i++)
+            for (var i = 22; i < 30; i++)
                 Pins[i].Value = Pin.LOW;
             if (val >= 128) {
                 Pins[29].Value = Pin.HIGH;
@@ -207,13 +203,13 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     Pins[30].Value = Pin.HIGH;
                 }
             }
-            for (int i = 22; i < 30; i++) {
+            for (var i = 22; i < 30; i++) {
                 Pins[i].simulationId = simulationId;
                 Pins[i].Propagate();
             }
             if(Pins[11].Value >= Pin.HALFCUT || Pins[12].Value >= Pin.HALFCUT &&
                 !(Pins[11].Value >= Pin.HALFCUT && Pins[12].Value >= Pin.HALFCUT)) {
-                for (int i = 30; i < 38; i++) {
+                for (var i = 30; i < 38; i++) {
                     Pins[i].simulationId = simulationId;
                     Pins[i].Propagate();
                 }

@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CircuitSimulator{
     public class ShiftRegister:Component {
-        private ulong storedValue = 0;
+        private ulong storedValue;
         private byte bits = 8;
         private float lastClock = Pin.LOW;
         /// <summary>
         /// Input value
         /// </summary>
-        public Pin Input { get { return Pins[0]; } }
+        public Pin Input => Pins[0];
+
         /// <summary>
         /// Clock (desc)
         /// </summary>
-        public Pin Clock { get { return Pins[1]; } }
-        
+        public Pin Clock => Pins[1];
+
         public ShiftRegister(string name = "Shift Register", byte bits = 8):base(name, bits+2) {
             if(bits >= 1 && bits <= 64)
                 this.bits = bits;
@@ -26,17 +25,17 @@ namespace CircuitSimulator{
         }
 
         protected override void AllocatePins() {
-            for(int i = 0; i < 2; i++) {
+            for(var i = 0; i < 2; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for(int i = 2; i < bits+2; i++) {
+            for(var i = 2; i < bits+2; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
         }
 
         internal override bool CanExecute() {
             if(simulationId == circuit.SimulationId) return false;
-            for(int i = 0; i < 2; i++) {
+            for(var i = 0; i < 2; i++) {
                 if(Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }
@@ -50,8 +49,8 @@ namespace CircuitSimulator{
                 storedValue *= 2;
                 storedValue += Input.GetDigital() == Pin.HIGH ? 1u : 0u;
                 ulong temp = 1;
-                for(int i = 0; i < bits; i++) {
-                    ulong val = storedValue & temp;
+                for(var i = 0; i < bits; i++) {
+                    var val = storedValue & temp;
                     if(val > 0) {
                         Pins[i + 2].Value = Pin.HIGH;
                     } else {
@@ -61,7 +60,7 @@ namespace CircuitSimulator{
                 }
             }
             lastClock = Clock.Value;
-            for(int i = 2; i < bits + 2; i++) {
+            for(var i = 2; i < bits + 2; i++) {
                 Pins[i].Propagate();
             }
         }

@@ -8,7 +8,7 @@ namespace IDE {
             InitializeComponent();
         }
         private Thread thread;
-        private bool closing = false;
+        private bool closing;
         private void InstructionLogForm_Load(object sender, EventArgs e) {
             thread = new Thread(UpdateThread);
             thread.Start();

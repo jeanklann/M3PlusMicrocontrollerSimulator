@@ -63,7 +63,7 @@ namespace M3PlusMicrocontroller {
             Token token;
             do {
                 token = _tokenAnalyzer.NextToken();
-                int lineToken = Helpers.CountLines(program, token.Index)-1;
+                var lineToken = Helpers.CountLines(program, token.Index)-1;
                 if (breakpoints[lineToken]) {
                     _nextTokenHasBreakpoint = true;
                 }
@@ -83,8 +83,8 @@ namespace M3PlusMicrocontroller {
                     throw new CompilerError("Erro na linha " + Helpers.CountLines(program, token.Index) + ". Deve-se iniciar com uma instrução ou com um label.");
                 }
             } while (token.Type != TokenType.EoF);
-            Instruction[] instructionCompiled = new Instruction[MemoryMaxSize];
-            foreach (InstructionCompiler item in Instructions) {
+            var instructionCompiled = new Instruction[MemoryMaxSize];
+            foreach (var item in Instructions) {
                 if(item.Instruction.To is Address address && address.Value == 0)
                     throw new CompilerError("Erro na instrução "+item.Instruction.Text+". Não foi encontrado o label "+ item.Instruction .Label+ ".");
                 instructionCompiled[item.Address] = item.Instruction;

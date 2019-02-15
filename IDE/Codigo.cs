@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using ScintillaNET;
 
 namespace IDE {
     public partial class Codigo : UserControl {
-        public bool Changed = false;
+        public bool Changed;
 
         public Codigo() {
             InitializeComponent();
@@ -37,7 +32,7 @@ namespace IDE {
             }
         }
         public void RemoveAllBreakpoint() {
-            foreach(Line line in scintilla.Lines) {
+            foreach(var line in scintilla.Lines) {
                 RemoveBreakpoint(line);
             }
         }
@@ -46,7 +41,7 @@ namespace IDE {
             if(e.Margin == UiStatics.BreakpointIndexMargin) {
                 // Do we have a marker for this line?
                 const uint mask = (1 << UiStatics.BreakpointMarker);
-                Line line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];
+                var line = scintilla.Lines[scintilla.LineFromPosition(e.Position)];
 
                 if((line.MarkerGet() & mask) > 0) {
                     // Remove existing bookmark

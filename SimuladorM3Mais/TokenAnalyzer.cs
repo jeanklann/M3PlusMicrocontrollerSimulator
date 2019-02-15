@@ -137,22 +137,22 @@ namespace M3PlusMicrocontroller
                 return new Token(TokenType.EoF, "", beginIndex);
             }
 
-            foreach (string item in Token.Registrers) {
+            foreach (var item in Token.Registrers) {
                 if (item == value) {
                     return new Token(TokenType.Registrer, value, beginIndex);
                 }
             }
-            foreach (string item in Token.Inputs) {
+            foreach (var item in Token.Inputs) {
                 if (item == value) {
                     return new Token(TokenType.Input, value, beginIndex);
                 }
             }
-            foreach (string item in Token.CpuInstructions) {
+            foreach (var item in Token.CpuInstructions) {
                 if (item == value) {
                     return new Token(TokenType.CpuInstruction, value, beginIndex);
                 }
             }
-            foreach (string item in Token.Outputs) {
+            foreach (var item in Token.Outputs) {
                 if (item == value) {
                     return new Token(TokenType.Output, value, beginIndex);
                 }

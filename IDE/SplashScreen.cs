@@ -11,7 +11,7 @@ namespace IDE {
 
         
         public static FormularioPrincipal OpenMainForm(IWin32Window parent) {
-            SplashScreen splash = new SplashScreen();
+            var splash = new SplashScreen();
             splash.Show();
             FormularioPrincipal form;
             Application.DoEvents();
@@ -24,11 +24,11 @@ namespace IDE {
             return form;
         }
         public static FormRamMemory OpenRAM(IWin32Window parent) {
-            SplashScreen splash = new SplashScreen();
+            var splash = new SplashScreen();
             splash.Show();
             Application.DoEvents();
             Thread.Sleep(10);
-            FormRamMemory form = new FormRamMemory();
+            var form = new FormRamMemory();
             form.Build(FormRamType.RAM);
             if(parent != null)
                 form.Show(parent);
@@ -38,11 +38,11 @@ namespace IDE {
             return form;
         }
         public static FormRamMemory OpenStack(IWin32Window parent) {
-            SplashScreen splash = new SplashScreen();
+            var splash = new SplashScreen();
             splash.Show();
             Application.DoEvents();
             Thread.Sleep(10);
-            FormRamMemory form = new FormRamMemory();
+            var form = new FormRamMemory();
             form.Build(FormRamType.Stack);
             if (parent != null)
                 form.Show(parent);
@@ -52,11 +52,11 @@ namespace IDE {
             return form;
         }
         public static FormRomMemory OpenROM(IWin32Window parent) {
-            SplashScreen splash = new SplashScreen();
+            var splash = new SplashScreen();
             splash.Show();
             Application.DoEvents();
             Thread.Sleep(10);
-            FormRomMemory form = new FormRomMemory();
+            var form = new FormRomMemory();
             if (parent != null)
                 form.Show(parent);
             else

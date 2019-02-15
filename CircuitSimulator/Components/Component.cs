@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CircuitSimulator {
     public abstract class Component {
-        protected internal int simulationId = 0;
+        protected internal int simulationId;
 
         protected internal bool canStart = false;
         protected internal Circuit circuit;
@@ -12,8 +12,8 @@ namespace CircuitSimulator {
         public long Id = -1;
         public string Name;
         public Pin[] Pins;
-        public int SimulationId { get { return simulationId; } }
-        
+        public int SimulationId => simulationId;
+
 
         /// <summary>
         /// Electronic component
@@ -31,7 +31,7 @@ namespace CircuitSimulator {
         /// Allocate the pins of the component
         /// </summary>
         protected virtual void AllocatePins() {
-            for(int i = 0; i < Pins.Length; i++) {
+            for(var i = 0; i < Pins.Length; i++) {
                 Pins[i] = new Pin(this);
             }
         }
@@ -42,7 +42,7 @@ namespace CircuitSimulator {
         /// <returns>true if is ready</returns>
         internal virtual bool CanExecute() {
             if(simulationId == circuit.SimulationId) return false;
-            for(int i = 0; i < Pins.Length; i++) {
+            for(var i = 0; i < Pins.Length; i++) {
                 if(Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }
@@ -54,17 +54,17 @@ namespace CircuitSimulator {
         /// </summary>
         protected internal virtual void Execute() {
             simulationId = circuit.SimulationId;
-            for(int i = 0; i < Pins.Length; i++) {
+            for(var i = 0; i < Pins.Length; i++) {
                 Pins[i].simulationId = simulationId;
             }
         }
         
         public override string ToString() {
-            StringBuilder res = new StringBuilder();
+            var res = new StringBuilder();
             res.Append(Name);
             res.Append("[");
             res.Append(Pins[0]);
-            for(int i = 1; i < Pins.Length; i++) {
+            for(var i = 1; i < Pins.Length; i++) {
                 res.Append(", ");
                 res.Append(Pins[i]);
             }
@@ -80,16 +80,16 @@ namespace CircuitSimulator {
         public const float LOW = 0;
         public const float HALFCUT = (HIGH + LOW) / 2f;
         public float Value;
-        public int SimulationId { get { return simulationId; } }
-        internal int simulationId = 0;
+        public int SimulationId => simulationId;
+        internal int simulationId;
         internal bool isOpen;
         internal bool isOutput;
         internal Component component;
-        internal Circuit Circuit { get { return component.circuit; } }
+        internal Circuit Circuit => component.circuit;
 
         //public float Value { get { return value; } }
-        public bool IsOpen { get { return isOpen; } }
-        public bool IsOutput { get { return isOutput; } }
+        public bool IsOpen => isOpen;
+        public bool IsOutput => isOutput;
 
         public List<Pin> connectedPins;
         
@@ -123,7 +123,7 @@ namespace CircuitSimulator {
         /// </summary>
         /// <param name="value">The voltage value</param>
         public void SetDigital(float value) {
-            float med = (HIGH + LOW) / 2f;
+            var med = (HIGH + LOW) / 2f;
             if(value > med)
                 this.Value = HIGH;
             else
@@ -135,7 +135,7 @@ namespace CircuitSimulator {
         /// </summary>
         /// <returns>HIGH value or LOW value</returns>
         public float GetDigital() {
-            float med = (HIGH + LOW) / 2f;
+            var med = (HIGH + LOW) / 2f;
             if(Value > med)
                 return HIGH;
             return LOW;
@@ -147,7 +147,7 @@ namespace CircuitSimulator {
         /// And recursively the valid connected pins propagate to others.
         /// </summary>
         internal void Propagate() {
-            foreach(Pin pin in connectedPins) {
+            foreach(var pin in connectedPins) {
                 if(pin.simulationId != Circuit.SimulationId || pin.Value != Value || pin.isOpen != isOpen) {
                     pin.simulationId = simulationId;
                     pin.Value = Value;

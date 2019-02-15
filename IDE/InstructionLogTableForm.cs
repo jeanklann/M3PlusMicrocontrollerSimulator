@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -20,7 +15,7 @@ namespace IDE
             InitializeComponent();
         }
         private Thread thread;
-        private bool closing = false;
+        private bool closing;
         public List<string> GetColumns()
         {
             var list = new List<string>();
@@ -75,9 +70,9 @@ namespace IDE
         }
         private void UpdateThread()
         {
-            DataGridViewCellStyle style = new DataGridViewCellStyle();
+            var style = new DataGridViewCellStyle();
             style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            int lastClear = UiStatics.Circuito.InstructionLog.ClearCount;
+            var lastClear = UiStatics.Circuito.InstructionLog.ClearCount;
             while (!UiStatics.WantExit && !closing)
             {
                 try
@@ -92,7 +87,7 @@ namespace IDE
                         {
                             if (dataGridView1.Rows.Count <= linha)
                                 dataGridView1.Rows.Add();
-                            string valor = string.Empty;
+                            var valor = string.Empty;
                             if (!string.IsNullOrEmpty(instrucao.Nome))
                                 valor = $"Nome: {instrucao.Nome}, Quantidade de bytes: {instrucao.QuantidadeBytes}";
                             if (instrucao.ClocksNecessarios.HasValue) valor += $", Clocks necessários: {instrucao.ClocksNecessarios}";
@@ -106,7 +101,7 @@ namespace IDE
                             {
                                 if (dataGridView1.Rows.Count <= linha)
                                     dataGridView1.Rows.Add();
-                                for (int i = 0; i < sinal.Count; i++)
+                                for (var i = 0; i < sinal.Count; i++)
                                 {
                                     if (dataGridView1.Rows[linha].Cells[i].Style == null)
                                         dataGridView1.Rows[linha].Cells[i].Style = style;
@@ -144,7 +139,7 @@ namespace IDE
 
         private void InstructionLogTableForm_Load(object sender, EventArgs e)
         {
-            DataGridViewCellStyle style = new DataGridViewCellStyle();
+            var style = new DataGridViewCellStyle();
             style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             var columns = GetColumns();
             foreach (var item in columns)
@@ -160,10 +155,10 @@ namespace IDE
                     ToolTipText = item,
                 });
             }
-            for (int i = 0; i < 150; i++)
+            for (var i = 0; i < 150; i++)
             {
                 dataGridView1.Rows.Add();
-                for (int j = 0; j < columns.Count; j++)
+                for (var j = 0; j < columns.Count; j++)
                 {
                     dataGridView1.Rows[i].Cells[j].ToolTipText = columns[j];
                 }

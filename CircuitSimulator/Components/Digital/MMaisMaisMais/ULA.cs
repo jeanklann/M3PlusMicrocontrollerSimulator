@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
-    public class ULA : Chip {
-        private float lastEnable = Pin.LOW;
-        public ULA(string name = "ULA") : base(name, 30) {
+﻿namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
+    public class Ula : Chip {
+        private float _lastEnable = Pin.LOW;
+        public Ula(string name = "ULA") : base(name, 30) {
 
         }
 
         protected override void AllocatePins() {
-            for (int i = 0; i < 20; i++) {
+            for (var i = 0; i < 20; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for (int i = 20; i < 30; i++) {
+            for (var i = 20; i < 30; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
         }
         internal override bool CanExecute() {
             if (simulationId == circuit.SimulationId) return false;
-            for (int i = 8; i < 20; i++) {
+            for (var i = 8; i < 20; i++) {
                 if (Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }
@@ -30,10 +26,10 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         protected internal override void Execute() {
             simulationId = circuit.SimulationId;
             
-            byte res_byte = 0;
-            int res = 0;
-            bool fz = false;
-            bool fc = false;
+            byte resByte;
+            var res = 0;
+            var fz = false;
+            var fc = false;
 
             byte a = 0;
             a += (byte)(Pins[0].Value >= Pin.HALFCUT ? 1 : 0);
@@ -55,10 +51,10 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             b += (byte)(Pins[14].Value >= Pin.HALFCUT ? 64 : 0);
             b += (byte)(Pins[15].Value >= Pin.HALFCUT ? 128 : 0);
 
-            bool s0 = Pins[16].Value >= Pin.HALFCUT;
-            bool s1 = Pins[17].Value >= Pin.HALFCUT;
-            bool s2 = Pins[18].Value >= Pin.HALFCUT;
-            int s = 0;
+            var s0 = Pins[16].Value >= Pin.HALFCUT;
+            var s1 = Pins[17].Value >= Pin.HALFCUT;
+            var s2 = Pins[18].Value >= Pin.HALFCUT;
+            var s = 0;
 
             s += s0 ? 1 : 0;
             s += s1 ? 2 : 0;
@@ -91,17 +87,17 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                     break;
             }
 
-            res_byte = (byte)res;
+            resByte = (byte)res;
             if (res >= 256) {
                 fc = true;
             }
-            if(res_byte == 0) {
+            if(resByte == 0) {
                 fz = true;
             }
-            for (int i = 20; i < 28; i++)
+            for (var i = 20; i < 28; i++)
                 Pins[i].Value = Pin.LOW;
-            if (Pins[19].Value >= Pin.HALFCUT && lastEnable < Pin.HALFCUT) {
-                for (int i = 28; i < 30; i++) {
+            if (Pins[19].Value >= Pin.HALFCUT && _lastEnable < Pin.HALFCUT) {
+                for (var i = 28; i < 30; i++) {
                     Pins[i].Value = Pin.LOW;
                 }
                 if (fz)
@@ -109,49 +105,49 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 if (fc)
                     Pins[29].Value = Pin.HIGH;
             }
-            for (int i = 28; i <= 29; i++) {
+            for (var i = 28; i <= 29; i++) {
                 Pins[i].simulationId = simulationId;
                 Pins[i].Propagate();
             }
             if (Pins[19].Value >= Pin.HALFCUT) {
-                if (res_byte >= 128) {
+                if (resByte >= 128) {
                     Pins[27].Value = Pin.HIGH;
-                    res_byte -= 128;
+                    resByte -= 128;
                 }
-                if (res_byte >= 64) {
+                if (resByte >= 64) {
                     Pins[26].Value = Pin.HIGH;
-                    res_byte -= 64;
+                    resByte -= 64;
                 }
-                if (res_byte >= 32) {
+                if (resByte >= 32) {
                     Pins[25].Value = Pin.HIGH;
-                    res_byte -= 32;
+                    resByte -= 32;
                 }
-                if (res_byte >= 16) {
+                if (resByte >= 16) {
                     Pins[24].Value = Pin.HIGH;
-                    res_byte -= 16;
+                    resByte -= 16;
                 }
-                if (res_byte >= 8) {
+                if (resByte >= 8) {
                     Pins[23].Value = Pin.HIGH;
-                    res_byte -= 8;
+                    resByte -= 8;
                 }
-                if (res_byte >= 4) {
+                if (resByte >= 4) {
                     Pins[22].Value = Pin.HIGH;
-                    res_byte -= 4;
+                    resByte -= 4;
                 }
-                if (res_byte >= 2) {
+                if (resByte >= 2) {
                     Pins[21].Value = Pin.HIGH;
-                    res_byte -= 2;
+                    resByte -= 2;
                 }
-                if (res_byte >= 1) {
+                if (resByte >= 1) {
                     Pins[20].Value = Pin.HIGH;
-                    res_byte -= 1;
+                    resByte -= 1;
                 }
-                for (int i = 20; i < 28; i++) {
+                for (var i = 20; i < 28; i++) {
                     Pins[i].simulationId = simulationId;
                     Pins[i].Propagate();
                 }
             }
-            lastEnable = Pins[19].Value;
+            _lastEnable = Pins[19].Value;
 
 
 

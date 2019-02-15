@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CircuitSimulator {
     public class Circuit {
-        private bool builtCircuit = false;
-        private int simulationId = 0;
+        private bool builtCircuit;
+        private int simulationId;
         private List<Component> starterComponents;
         private Queue<Component> executionQueue;
         private float timePerTick;
-        private float time = 0f;
+        private float time;
         private int lastId = -1;
 
-        public int SimulationId { get { return simulationId; } }
+        public int SimulationId => simulationId;
 
         public List<Component> Components;
-        public float TimePerTick { get { return timePerTick; } }
-        public float Time { get { return time; } }
+        public float TimePerTick => timePerTick;
+        public float Time => time;
 
 
         public Circuit(float timePerTick = 0.01666666666666666666f) {
@@ -61,7 +60,7 @@ namespace CircuitSimulator {
         /// <param name="name">The name of the component</param>
         /// <returns>The component</returns>
         public Component Find(string name) {
-            foreach(Component item in Components) {
+            foreach(var item in Components) {
                 if(item.Name.Equals(name)) return item;
             }
             return null;
@@ -71,7 +70,7 @@ namespace CircuitSimulator {
         /// Build the circuit, need to be before the first Tick()
         /// </summary>
         private void Build() {
-            foreach(Component item in Components) {
+            foreach(var item in Components) {
                 if(item.canStart) starterComponents.Add(item);
             }
             builtCircuit = true;
@@ -81,7 +80,7 @@ namespace CircuitSimulator {
         /// </summary>
         private void PrepareTick() {
             executionQueue.Clear();
-            foreach(Component item in starterComponents) {
+            foreach(var item in starterComponents) {
                 executionQueue.Enqueue(item);
             }
             if(executionQueue.Count == 0)
@@ -93,7 +92,7 @@ namespace CircuitSimulator {
         /// </summary>
         /// <param name="ticks">The quantity of Tick()</param>
         public void Ticks(int ticks) {
-            for(int i = 0; i < ticks; i++) {
+            for(var i = 0; i < ticks; i++) {
                 Tick();
             }
         }
@@ -105,7 +104,7 @@ namespace CircuitSimulator {
                 Build();
             PrepareTick();
             while(executionQueue.Count > 0) {
-                Component component = executionQueue.Dequeue();
+                var component = executionQueue.Dequeue();
                 if (component != null) { //Failsafe
                     component.simulationId = simulationId;
                     component.Execute();

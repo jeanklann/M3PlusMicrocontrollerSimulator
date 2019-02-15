@@ -1,11 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace IDE {
@@ -56,15 +50,15 @@ namespace IDE {
             save();
         }
         private bool save() {
-            SaveFileDialog fileDialog = new SaveFileDialog();
+            var fileDialog = new SaveFileDialog();
             fileDialog.Filter = "Log de erro (*.log)|*.log|Todos os arquivos (*.*)|*.*";
-            DialogResult fileDialogResult = fileDialog.ShowDialog(this);
+            var fileDialogResult = fileDialog.ShowDialog(this);
             if (fileDialogResult == DialogResult.Cancel ||
                 fileDialogResult == DialogResult.Abort ||
                 fileDialogResult == DialogResult.None) {
                 return false;
             } else {
-                string res = textBox1.Text;
+                var res = textBox1.Text;
                 res += "Mensagem do usuário:\r\n";
                 res += textBox2.Text;
                 res += "\r\n========================\r\n";

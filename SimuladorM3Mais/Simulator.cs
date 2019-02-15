@@ -88,7 +88,7 @@ namespace M3PlusMicrocontroller {
                 Stopped = false;
                 _thread.Start();
 
-                Thread currentFrequency = new Thread(Read_frequency);
+                var currentFrequency = new Thread(Read_frequency);
                 currentFrequency.Start();
             }
         }
@@ -103,9 +103,9 @@ namespace M3PlusMicrocontroller {
 
         }
         private void Run_thread() {
-            Stopwatch stopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
             while (Running) {
-                Instruction instruction = Program[NextInstruction];
+                var instruction = Program[NextInstruction];
                 if(instruction == null) {
                     Running = false;
                     MessageBox.Show("O simulador tentou executar uma instrução no endereço " + NextInstruction + ", porém neste endereço não há nenhuma instrução. " +
@@ -182,7 +182,7 @@ namespace M3PlusMicrocontroller {
             Stopped = false;
             if (!Running) {
                 if (!_internalSimulation) {
-                    Instruction instruction = Program[NextInstruction];
+                    var instruction = Program[NextInstruction];
                     NextInstruction += instruction.Size;
                     instruction.Execute(this);
                 } else {
@@ -194,9 +194,9 @@ namespace M3PlusMicrocontroller {
         public void Debug_StepOut() {
             Stopped = false;
             if (!Running) {
-                Instruction instruction = Program[NextInstruction];
+                var instruction = Program[NextInstruction];
                 NextInstruction += instruction.Size;
-                Instruction newInstruction = Program[NextInstruction];
+                var newInstruction = Program[NextInstruction];
                 instruction.Execute(this);
                 if (newInstruction != null) {
                     newInstruction.HasBreakpoint = true;

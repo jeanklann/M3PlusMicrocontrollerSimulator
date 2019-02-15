@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
 using CircuitSimulator;
 using System.Threading;
 using CircuitSimulator.Components.Digital;
@@ -17,22 +13,22 @@ using System.Diagnostics;
 
 namespace IDE {
     public partial class Circuito : GLControl {
-        public InternalComponents InternalComponents = new InternalComponents();
-        public MouseProps MouseProps = new MouseProps();
-        public Terminals Terminals = new Terminals();
+        public InternalComponents InternalComponents;
+        public MouseProps MouseProps;
+        public Terminals Terminals;
         public List<Wire> Wires = new List<Wire>();
-        public byte KeyDown_byte = 0;
+        public byte KeyDown_byte;
         public Wire HoverWire;
         public Wire SelectedWire;
         public Component Over;
         public Component Selected;
-        private bool canDrag = false;
+        private bool canDrag;
         private Circuit Circuit;
         private Thread thread;
         private Thread threadDraw;
         private Thread threadStatesPanel;
-        public PointF Position = new PointF();
-        public PointF PositionCreatingComponent = new PointF();
+        public PointF Position;
+        public PointF PositionCreatingComponent;
         public Component InsideComponent;
         public List<Component> Components = new List<Component>();
         public Dictionary<Component, CircuitSimulator.Component> CircuitComponentToDrawComponents = new Dictionary<Component, CircuitSimulator.Component>();
@@ -41,10 +37,10 @@ namespace IDE {
         public Dictionary<CircuitSimulator.Components.Wire, Wire> DrawWireToCircuitWire = new Dictionary<CircuitSimulator.Components.Wire, Wire>();
         public Color ClearColor;
         public List<ExtraTerminal> ExtraTerminals;
-        public bool Loaded = false;
-        public bool Changed = false;
+        public bool Loaded;
+        public bool Changed;
         public InstructionLog InstructionLog = new InstructionLog();
-        private bool IsDebugMode = false;
+        private bool IsDebugMode;
         private Queue<Keys> KonamiCode = new Queue<Keys>();
         private Stopwatch Syncronizer = new Stopwatch();
         private Keys[] konamiCodeCorrect = new Keys[] { Keys.NumPad8, Keys.NumPad8, Keys.NumPad2, Keys.NumPad2, Keys.NumPad4, Keys.NumPad6, Keys.NumPad4, Keys.NumPad6, Keys.B, Keys.A };
@@ -112,44 +108,44 @@ namespace IDE {
                     clock.Checked = InternalComponents.ControlModule.Clock.Value >= Pin.HALFCUT;
                     flagC.Checked = InternalComponents.ControlModule.FlagInCarry.Value >= Pin.HALFCUT;
                     flagZ.Checked = InternalComponents.ControlModule.FlagInZero.Value >= Pin.HALFCUT;
-                    EOI.Checked = InternalComponents.ControlModule.EOI.Value >= Pin.HALFCUT;
-                    ROMrd.Checked = InternalComponents.ControlModule.ROMrd.Value >= Pin.HALFCUT;
-                    ROMcs.Checked = InternalComponents.ControlModule.ROMcs.Value >= Pin.HALFCUT;
-                    PCHbus.Checked = InternalComponents.ControlModule.PCHbus.Value >= Pin.HALFCUT;
-                    PCLbus.Checked = InternalComponents.ControlModule.PCLbus.Value >= Pin.HALFCUT;
-                    PCHclk.Checked = InternalComponents.ControlModule.PCHclock.Value >= Pin.HALFCUT;
-                    PCLclk.Checked = InternalComponents.ControlModule.PCLclock.Value >= Pin.HALFCUT;
+                    EOI.Checked = InternalComponents.ControlModule.Eoi.Value >= Pin.HALFCUT;
+                    ROMrd.Checked = InternalComponents.ControlModule.RoMrd.Value >= Pin.HALFCUT;
+                    ROMcs.Checked = InternalComponents.ControlModule.RoMcs.Value >= Pin.HALFCUT;
+                    PCHbus.Checked = InternalComponents.ControlModule.PcHbus.Value >= Pin.HALFCUT;
+                    PCLbus.Checked = InternalComponents.ControlModule.PcLbus.Value >= Pin.HALFCUT;
+                    PCHclk.Checked = InternalComponents.ControlModule.PcHclock.Value >= Pin.HALFCUT;
+                    PCLclk.Checked = InternalComponents.ControlModule.PcLclock.Value >= Pin.HALFCUT;
                     DataPCsel.Checked = InternalComponents.ControlModule.DataPCsel.Value >= Pin.HALFCUT;
-                    DIRclk.Checked = InternalComponents.ControlModule.DIRclock.Value >= Pin.HALFCUT;
+                    DIRclk.Checked = InternalComponents.ControlModule.DiRclock.Value >= Pin.HALFCUT;
                     SPclk.Checked = InternalComponents.ControlModule.SPclock.Value >= Pin.HALFCUT;
                     SPen.Checked = InternalComponents.ControlModule.SPen.Value >= Pin.HALFCUT;
-                    SPIncDec.Checked = InternalComponents.ControlModule.SPIncDec.Value >= Pin.HALFCUT;
+                    SPIncDec.Checked = InternalComponents.ControlModule.SpIncDec.Value >= Pin.HALFCUT;
                     SPsel.Checked = InternalComponents.ControlModule.SPsel.Value >= Pin.HALFCUT;
                     SPen.Checked = InternalComponents.ControlModule.SPen.Value >= Pin.HALFCUT;
                     Reset.Checked = InternalComponents.ControlModule.Reset.Value >= Pin.HALFCUT;
-                    ULAbus.Checked = InternalComponents.ControlModule.ULAbus.Value >= Pin.HALFCUT;
-                    BUFclk.Checked = InternalComponents.ControlModule.BUFclock.Value >= Pin.HALFCUT;
+                    ULAbus.Checked = InternalComponents.ControlModule.UlAbus.Value >= Pin.HALFCUT;
+                    BUFclk.Checked = InternalComponents.ControlModule.BuFclock.Value >= Pin.HALFCUT;
                     ACbus.Checked = InternalComponents.ControlModule.ACbus.Value >= Pin.HALFCUT;
                     ACclk.Checked = InternalComponents.ControlModule.ACclock.Value >= Pin.HALFCUT;
                     RGbus.Checked = InternalComponents.ControlModule.RGbus.Value >= Pin.HALFCUT;
-                    RGPCclk.Checked = InternalComponents.ControlModule.RGPCclock.Value >= Pin.HALFCUT;
-                    RAMrd.Checked = InternalComponents.ControlModule.RAMrd.Value >= Pin.HALFCUT;
-                    RAMwr.Checked = InternalComponents.ControlModule.RAMwr.Value >= Pin.HALFCUT;
-                    RAMcs.Checked = InternalComponents.ControlModule.RAMcs.Value >= Pin.HALFCUT;
-                    INbus.Checked = InternalComponents.ControlModule.INbus.Value >= Pin.HALFCUT;
-                    OUTclk.Checked = InternalComponents.ControlModule.OUTclock.Value >= Pin.HALFCUT;
-                    ULAop0.Checked = InternalComponents.ControlModule.ULAOPsel0.Value >= Pin.HALFCUT;
-                    ULAop1.Checked = InternalComponents.ControlModule.ULAOPsel1.Value >= Pin.HALFCUT;
-                    ULAop2.Checked = InternalComponents.ControlModule.ULAOPsel2.Value >= Pin.HALFCUT;
-                    RGPB0.Checked = InternalComponents.ControlModule.RGPBsel0.Value >= Pin.HALFCUT;
-                    RGPB1.Checked = InternalComponents.ControlModule.RGPBsel1.Value >= Pin.HALFCUT;
+                    RGPCclk.Checked = InternalComponents.ControlModule.RgpCclock.Value >= Pin.HALFCUT;
+                    RAMrd.Checked = InternalComponents.ControlModule.RaMrd.Value >= Pin.HALFCUT;
+                    RAMwr.Checked = InternalComponents.ControlModule.RaMwr.Value >= Pin.HALFCUT;
+                    RAMcs.Checked = InternalComponents.ControlModule.RaMcs.Value >= Pin.HALFCUT;
+                    INbus.Checked = InternalComponents.ControlModule.Nbus.Value >= Pin.HALFCUT;
+                    OUTclk.Checked = InternalComponents.ControlModule.OuTclock.Value >= Pin.HALFCUT;
+                    ULAop0.Checked = InternalComponents.ControlModule.UlaoPsel0.Value >= Pin.HALFCUT;
+                    ULAop1.Checked = InternalComponents.ControlModule.UlaoPsel1.Value >= Pin.HALFCUT;
+                    ULAop2.Checked = InternalComponents.ControlModule.UlaoPsel2.Value >= Pin.HALFCUT;
+                    RGPB0.Checked = InternalComponents.ControlModule.RgpBsel0.Value >= Pin.HALFCUT;
+                    RGPB1.Checked = InternalComponents.ControlModule.RgpBsel1.Value >= Pin.HALFCUT;
                 } catch (Exception e) {
                     UiStatics.ShowExceptionMessage(e);
                 }
             }
         }
         private string GetBUSHexa() {
-            int val = 0;
+            var val = 0;
             val += InternalComponents.ControlModule.In0.Value >= Pin.HALFCUT ? 1 : 0;
             val += InternalComponents.ControlModule.In1.Value >= Pin.HALFCUT ? 2 : 0;
             val += InternalComponents.ControlModule.In2.Value >= Pin.HALFCUT ? 4 : 0;
@@ -166,7 +162,7 @@ namespace IDE {
         }
         private void RefreshExtraTerminals() {
             ExtraTerminals = new List<ExtraTerminal>();
-            for (int i = 0; i < Wires.Count; i++) {
+            for (var i = 0; i < Wires.Count; i++) {
                 if(Wires[i].FromComponent == null) {
                     RefreshExtraTerminals_internal(Wires[i].From, Wires[i].RootComponent);
                 }
@@ -176,8 +172,8 @@ namespace IDE {
             }
         }
         private void RefreshExtraTerminals_internal(PointF point, Component root) {
-            int count = 0;
-            for (int i = 0; i < Wires.Count; i++) {
+            var count = 0;
+            for (var i = 0; i < Wires.Count; i++) {
                 if (Wires[i].RootComponent != root) continue;
                 if(Wires[i].FromComponent == null) {
                     if (Wires[i].From == point)
@@ -198,10 +194,10 @@ namespace IDE {
 
         }
         private void ResetColors() {
-            foreach (Wire item in Wires) {
+            foreach (var item in Wires) {
                 item.Color = Draws.Color_off;
             }
-            foreach (Component item in Components) {
+            foreach (var item in Components) {
                 if(item.Draw.DisplayListHandle == Draws.And[1].DisplayListHandle) {
                     item.Draw = Draws.And[0];
                 } else if (item.Draw.DisplayListHandle == Draws.Nand[1].DisplayListHandle) {
@@ -229,10 +225,10 @@ namespace IDE {
                 List<CircuitSimulator.Component> copy;
                 try {
                     copy = Circuit.Components;
-                    float halfCut = Pin.HIGH + Pin.LOW / 2f;
-                    foreach (CircuitSimulator.Component item in copy) {
+                    var halfCut = Pin.HIGH + Pin.LOW / 2f;
+                    foreach (var item in copy) {
                         if (item is CircuitSimulator.Components.Wire) {
-                            Wire DrawComponent = DrawWireToCircuitWire[(CircuitSimulator.Components.Wire)item];
+                            var DrawComponent = DrawWireToCircuitWire[(CircuitSimulator.Components.Wire)item];
                             if (item.Pins[0].IsOpen || item.SimulationId != Circuit.SimulationId) {
                                 DrawComponent.Color = Draws.Color_3rd;
                             } else if (item.Pins[0].Value >= halfCut) {
@@ -241,7 +237,7 @@ namespace IDE {
                                 DrawComponent.Color = Draws.Color_off;
                             }
                         } else {
-                            Component DrawComponent = DrawComponentsToCircuitComponent[item];
+                            var DrawComponent = DrawComponentsToCircuitComponent[item];
                             if (item is AndGate) {
                                 if (((AndGate)item).Output.Value >= halfCut) {
                                     DrawComponent.Draw = Draws.And[1];
@@ -302,20 +298,20 @@ namespace IDE {
                                 ((CircuitSimulator.Components.Digital.Keyboard)item).Value = KeyDown_byte;
                             } else if (item is Microcontroller) {
                                 if (UiStatics.Simulador != null) {
-                                    Microcontroller microcontroller = (Microcontroller)item;
-                                    for (int i = 0; i < 4; i++) {
+                                    var microcontroller = (Microcontroller)item;
+                                    for (var i = 0; i < 4; i++) {
                                         if(!UiStatics.Depurador.ativarEdicao.Checked)
                                             UiStatics.Simulador.In[i] = microcontroller.PinValuesToByteValue(i);
                                         microcontroller.SetOutput(UiStatics.Simulador.Out[i], i);
                                     }
                                 }
                             } else if (item is Display7Seg) {
-                                Display7Seg display = ((Display7Seg)item);
-                                for (int i = 0; i < 8; i++) {
+                                var display = ((Display7Seg)item);
+                                for (var i = 0; i < 8; i++) {
                                     DrawComponent.ActiveExtraHandlers[i] = display.Pins[i].Value >= halfCut;
                                 }
                             } else if (item is ControlModule) {
-                                ControlModule module = ((ControlModule)item);
+                                var module = ((ControlModule)item);
                                 ProcessControlModule(module);
                             } else {
                                 //throw new NotImplementedException();
@@ -340,43 +336,43 @@ namespace IDE {
             }
         }
         private void UpdateInstructionLog() {
-            InstructionLogItem item = new InstructionLogItem(UiStatics.Simulador.Program[UiStatics.Simulador.NextInstruction]);
+            var item = new InstructionLogItem(UiStatics.Simulador.Program[UiStatics.Simulador.NextInstruction]);
             
             item.bus = GetBUSHexa();
             item.clock = InternalComponents.ControlModule.Clock.Value >= Pin.HALFCUT;
             item.flagC = InternalComponents.ControlModule.FlagInCarry.Value >= Pin.HALFCUT;
             item.flagZ = InternalComponents.ControlModule.FlagInZero.Value >= Pin.HALFCUT;
-            item.EOI = InternalComponents.ControlModule.EOI.Value >= Pin.HALFCUT;
-            item.ROMrd = InternalComponents.ControlModule.ROMrd.Value >= Pin.HALFCUT;
-            item.ROMcs = InternalComponents.ControlModule.ROMcs.Value >= Pin.HALFCUT;
-            item.PCHbus = InternalComponents.ControlModule.PCHbus.Value >= Pin.HALFCUT;
-            item.PCLbus = InternalComponents.ControlModule.PCLbus.Value >= Pin.HALFCUT;
-            item.PCHclk = InternalComponents.ControlModule.PCHclock.Value >= Pin.HALFCUT;
-            item.PCLclk = InternalComponents.ControlModule.PCLclock.Value >= Pin.HALFCUT;
+            item.EOI = InternalComponents.ControlModule.Eoi.Value >= Pin.HALFCUT;
+            item.ROMrd = InternalComponents.ControlModule.RoMrd.Value >= Pin.HALFCUT;
+            item.ROMcs = InternalComponents.ControlModule.RoMcs.Value >= Pin.HALFCUT;
+            item.PCHbus = InternalComponents.ControlModule.PcHbus.Value >= Pin.HALFCUT;
+            item.PCLbus = InternalComponents.ControlModule.PcLbus.Value >= Pin.HALFCUT;
+            item.PCHclk = InternalComponents.ControlModule.PcHclock.Value >= Pin.HALFCUT;
+            item.PCLclk = InternalComponents.ControlModule.PcLclock.Value >= Pin.HALFCUT;
             item.DataPCsel = InternalComponents.ControlModule.DataPCsel.Value >= Pin.HALFCUT;
-            item.DIRclk = InternalComponents.ControlModule.DIRclock.Value >= Pin.HALFCUT;
+            item.DIRclk = InternalComponents.ControlModule.DiRclock.Value >= Pin.HALFCUT;
             item.SPclk = InternalComponents.ControlModule.SPclock.Value >= Pin.HALFCUT;
             item.SPen = InternalComponents.ControlModule.SPen.Value >= Pin.HALFCUT;
-            item.SPIncDec = InternalComponents.ControlModule.SPIncDec.Value >= Pin.HALFCUT;
+            item.SPIncDec = InternalComponents.ControlModule.SpIncDec.Value >= Pin.HALFCUT;
             item.SPsel = InternalComponents.ControlModule.SPsel.Value >= Pin.HALFCUT;
             item.SPen = InternalComponents.ControlModule.SPen.Value >= Pin.HALFCUT;
             item.Reset = InternalComponents.ControlModule.Reset.Value >= Pin.HALFCUT;
-            item.ULAbus = InternalComponents.ControlModule.ULAbus.Value >= Pin.HALFCUT;
-            item.BUFclk = InternalComponents.ControlModule.BUFclock.Value >= Pin.HALFCUT;
+            item.ULAbus = InternalComponents.ControlModule.UlAbus.Value >= Pin.HALFCUT;
+            item.BUFclk = InternalComponents.ControlModule.BuFclock.Value >= Pin.HALFCUT;
             item.ACbus = InternalComponents.ControlModule.ACbus.Value >= Pin.HALFCUT;
             item.ACclk = InternalComponents.ControlModule.ACclock.Value >= Pin.HALFCUT;
             item.RGbus = InternalComponents.ControlModule.RGbus.Value >= Pin.HALFCUT;
-            item.RGPCclk = InternalComponents.ControlModule.RGPCclock.Value >= Pin.HALFCUT;
-            item.RAMrd = InternalComponents.ControlModule.RAMrd.Value >= Pin.HALFCUT;
-            item.RAMwr = InternalComponents.ControlModule.RAMwr.Value >= Pin.HALFCUT;
-            item.RAMcs = InternalComponents.ControlModule.RAMcs.Value >= Pin.HALFCUT;
-            item.INbus = InternalComponents.ControlModule.INbus.Value >= Pin.HALFCUT;
-            item.OUTclk = InternalComponents.ControlModule.OUTclock.Value >= Pin.HALFCUT;
-            item.ULAop0 = InternalComponents.ControlModule.ULAOPsel0.Value >= Pin.HALFCUT;
-            item.ULAop1 = InternalComponents.ControlModule.ULAOPsel1.Value >= Pin.HALFCUT;
-            item.ULAop2 = InternalComponents.ControlModule.ULAOPsel2.Value >= Pin.HALFCUT;
-            item.RGPB0 = InternalComponents.ControlModule.RGPBsel0.Value >= Pin.HALFCUT;
-            item.RGPB1 = InternalComponents.ControlModule.RGPBsel1.Value >= Pin.HALFCUT;
+            item.RGPCclk = InternalComponents.ControlModule.RgpCclock.Value >= Pin.HALFCUT;
+            item.RAMrd = InternalComponents.ControlModule.RaMrd.Value >= Pin.HALFCUT;
+            item.RAMwr = InternalComponents.ControlModule.RaMwr.Value >= Pin.HALFCUT;
+            item.RAMcs = InternalComponents.ControlModule.RaMcs.Value >= Pin.HALFCUT;
+            item.INbus = InternalComponents.ControlModule.Nbus.Value >= Pin.HALFCUT;
+            item.OUTclk = InternalComponents.ControlModule.OuTclock.Value >= Pin.HALFCUT;
+            item.ULAop0 = InternalComponents.ControlModule.UlaoPsel0.Value >= Pin.HALFCUT;
+            item.ULAop1 = InternalComponents.ControlModule.UlaoPsel1.Value >= Pin.HALFCUT;
+            item.ULAop2 = InternalComponents.ControlModule.UlaoPsel2.Value >= Pin.HALFCUT;
+            item.RGPB0 = InternalComponents.ControlModule.RgpBsel0.Value >= Pin.HALFCUT;
+            item.RGPB1 = InternalComponents.ControlModule.RgpBsel1.Value >= Pin.HALFCUT;
             
             if(InstructionLog.Items.Count == 0) {
                 item.Primeira = true;
@@ -426,7 +422,7 @@ namespace IDE {
                 CircuitWireToDrawWire.Clear();
                 DrawComponentsToCircuitComponent.Clear();
                 DrawWireToCircuitWire.Clear();
-                foreach (Component item in Components) {
+                foreach (var item in Components) {
                     if (item.Draw.DisplayListHandle == Draws.And[0].DisplayListHandle ||
                         item.Draw.DisplayListHandle == Draws.And[1].DisplayListHandle) {
                         CircuitSimulator.Component component = Circuit.AddComponent(new AndGate());
@@ -521,7 +517,7 @@ namespace IDE {
                         CircuitComponentToDrawComponents.Add(item, component);
                         DrawComponentsToCircuitComponent.Add(component, item);
                     } else if (item.Draw.DisplayListHandle == Draws.ULA.DisplayListHandle) {
-                        CircuitSimulator.Component component = Circuit.AddComponent(new ULA());
+                        CircuitSimulator.Component component = Circuit.AddComponent(new Ula());
                         CircuitComponentToDrawComponents.Add(item, component);
                         DrawComponentsToCircuitComponent.Add(component, item);
                     } else if (item.Draw.DisplayListHandle == Draws.Registrer8BitSG.DisplayListHandle) {
@@ -560,13 +556,13 @@ namespace IDE {
                     }
                 }
             
-                foreach (CircuitSimulator.Component component in Circuit.Components) {
+                foreach (var component in Circuit.Components) {
                     if (component is ControlModule)
                         InternalComponents.ControlModule = (ControlModule)component;
                     else if (component is RomMemory)
                         InternalComponents.RomMemory = (RomMemory)component;
-                    else if (component is ULA)
-                        InternalComponents.ULA = (ULA)component;
+                    else if (component is Ula)
+                        InternalComponents.ULA = (Ula)component;
                     else if (component is Registrers)
                         InternalComponents.Registrers = (Registrers)component;
                     else if (component is Registrer8BitCBuffer)
@@ -588,25 +584,25 @@ namespace IDE {
                     }
                 }
 
-                foreach (Wire item in Wires) {
-                    CircuitSimulator.Components.Wire wire = Circuit.AddComponent(new CircuitSimulator.Components.Wire());
+                foreach (var item in Wires) {
+                    var wire = Circuit.AddComponent(new CircuitSimulator.Components.Wire());
                     CircuitWireToDrawWire.Add(item, wire);
                     DrawWireToCircuitWire.Add(wire, item);
                 }
 
 
-                foreach (Wire item in Wires) {
+                foreach (var item in Wires) {
                     if(item.FromComponent != null && item.ToComponent != null) {//from and to is component
-                        CircuitSimulator.Component From = CircuitComponentToDrawComponents[item.FromComponent];
-                        CircuitSimulator.Component To = CircuitComponentToDrawComponents[item.ToComponent];
-                        CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
+                        var From = CircuitComponentToDrawComponents[item.FromComponent];
+                        var To = CircuitComponentToDrawComponents[item.ToComponent];
+                        var Wire = CircuitWireToDrawWire[item];
                         Wire.Pins[0].Connect(From.Pins[item.FromIndex]);
                         Wire.Pins[1].Connect(To.Pins[item.ToIndex]);
                     } else if (item.FromComponent != null && item.ToComponent == null) {// from is and to is not a component
-                        CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
-                        CircuitSimulator.Component From = CircuitComponentToDrawComponents[item.FromComponent];
-                        List<Pin> TempPins = new List<Pin>();
-                        foreach (Wire item2 in Wires) {
+                        var Wire = CircuitWireToDrawWire[item];
+                        var From = CircuitComponentToDrawComponents[item.FromComponent];
+                        var TempPins = new List<Pin>();
+                        foreach (var item2 in Wires) {
                             if(item.To == item2.From) {
                                 if (item != item2)
                                     TempPins.Add(CircuitWireToDrawWire[item2].Pins[0]);
@@ -616,14 +612,14 @@ namespace IDE {
                             }
                         }
                         Wire.Pins[0].Connect(From.Pins[item.FromIndex]);
-                        foreach (Pin pin in TempPins) {
+                        foreach (var pin in TempPins) {
                             Wire.Pins[1].Connect(pin);
                         }
                     } else if (item.FromComponent == null && item.ToComponent != null) {//from is not and to is a component
-                        CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
-                        CircuitSimulator.Component To = CircuitComponentToDrawComponents[item.ToComponent];
-                        List<Pin> TempPins = new List<Pin>();
-                        foreach (Wire item2 in Wires) {
+                        var Wire = CircuitWireToDrawWire[item];
+                        var To = CircuitComponentToDrawComponents[item.ToComponent];
+                        var TempPins = new List<Pin>();
+                        foreach (var item2 in Wires) {
                             if (item.From == item2.From) {
                                 if (item != item2)
                                     TempPins.Add(CircuitWireToDrawWire[item2].Pins[0]);
@@ -633,14 +629,14 @@ namespace IDE {
                             }
                         }
                         Wire.Pins[1].Connect(To.Pins[item.ToIndex]);
-                        foreach (Pin pin in TempPins) {
+                        foreach (var pin in TempPins) {
                             Wire.Pins[0].Connect(pin);
                         }
                     } else if (item.FromComponent == null && item.ToComponent == null) {//from and to is not a component
-                        CircuitSimulator.Components.Wire Wire = CircuitWireToDrawWire[item];
-                        List<Pin> TempPinsFrom = new List<Pin>();
-                        List<Pin> TempPinsTo = new List<Pin>();
-                        foreach (Wire item2 in Wires) {
+                        var Wire = CircuitWireToDrawWire[item];
+                        var TempPinsFrom = new List<Pin>();
+                        var TempPinsTo = new List<Pin>();
+                        foreach (var item2 in Wires) {
                             if (item.From == item2.From) {
                                 if (item != item2)
                                     TempPinsFrom.Add(CircuitWireToDrawWire[item2].Pins[0]);
@@ -655,10 +651,10 @@ namespace IDE {
                                     TempPinsTo.Add(CircuitWireToDrawWire[item2].Pins[1]);
                             }
                         }
-                        foreach (Pin pin in TempPinsFrom) {
+                        foreach (var pin in TempPinsFrom) {
                             Wire.Pins[0].Connect(pin);
                         }
-                        foreach (Pin pin in TempPinsTo) {
+                        foreach (var pin in TempPinsTo) {
                             Wire.Pins[1].Connect(pin);
                         }
                     }
@@ -678,7 +674,7 @@ namespace IDE {
             UiStatics.Simulador.Reg[0] =
                 InternalComponents.Accumulator.InternalValue;
             UiStatics.Simulador.PointerStack = InternalComponents.StackCounter.InternalValue;
-            for (int i = 0; i < 4; i++) {
+            for (var i = 0; i < 4; i++) {
                 UiStatics.Simulador.Reg[i+1] =
                     InternalComponents.Registrers.Reg[i];
                 UiStatics.Simulador.Out[i] =
@@ -692,7 +688,7 @@ namespace IDE {
                 InternalComponents.ULA.Pins[29].Value >= Pin.HALFCUT;
             UiStatics.Simulador.FlagZ =
                 InternalComponents.ULA.Pins[28].Value >= Pin.HALFCUT;
-            int nextInstruction =
+            var nextInstruction =
                 InternalComponents.RomAddresser.RegH * 256 +
                 InternalComponents.RomAddresser.RegL;
             if(UiStatics.Simulador.Program[nextInstruction] != null) {
@@ -717,7 +713,7 @@ namespace IDE {
                 UiStatics.Simulador.Reg[0];
             InternalComponents.StackCounter.InternalValue =
                 UiStatics.Simulador.PointerStack;
-            for (int i = 0; i < 4; i++) {
+            for (var i = 0; i < 4; i++) {
                 InternalComponents.Registrers.Reg[i] =
                 UiStatics.Simulador.Reg[i+1];
                 if (UiStatics.Depurador.ativarEdicao.Checked) {
@@ -769,14 +765,14 @@ namespace IDE {
             if (MouseProps.Button2Pressed) {
                 Position = new PointF(Position.X+((MouseProps.LastPosition.X - MouseProps.CurrentPosition.X)/zoom), Position.Y-((MouseProps.LastPosition.Y - MouseProps.CurrentPosition.Y)/zoom));
             }
-            bool foundComponent = false;
-            bool foundTerminal = false;
+            var foundComponent = false;
+            var foundTerminal = false;
 
-            PointF worldMousePos = MouseProps.ToWorld(MouseProps.CurrentPosition, ClientSize, Position, zoom);
-            foreach (Component item in Components) {
+            var worldMousePos = MouseProps.ToWorld(MouseProps.CurrentPosition, ClientSize, Position, zoom);
+            foreach (var item in Components) {
                 if (item.RootComponent != InsideComponent)
                     continue;
-                int index = item.IsOnTerminal(worldMousePos);
+                var index = item.IsOnTerminal(worldMousePos);
                 if (index >= 0) {
                     Terminals.HoverIndex = index;
                     Terminals.HoverComponent = item;
@@ -802,7 +798,7 @@ namespace IDE {
                 }
                 */
                 Terminals.HoverNotComponent = false;
-                foreach (Wire item in Wires) {
+                foreach (var item in Wires) {
                     if (item.RootComponent != InsideComponent)
                         continue;
                     float distance;
@@ -871,9 +867,9 @@ namespace IDE {
             } else {
                 canDrag = false;
             }
-            bool foundWire = false;
+            var foundWire = false;
             
-            foreach (Wire item in Wires) {
+            foreach (var item in Wires) {
                 if (item.RootComponent != InsideComponent)
                     continue;
                 if (item.FromComponent != null) {
@@ -902,7 +898,7 @@ namespace IDE {
         private PointF terminalFromVertex;
         private PointF terminalToVertex;
         private void Render() {
-            Matrix4 lookat = Matrix4.LookAt(Position.X, Position.Y, 1, Position.X, Position.Y, 0, 0, 1, 0);
+            var lookat = Matrix4.LookAt(Position.X, Position.Y, 1, Position.X, Position.Y, 0, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadMatrix(ref lookat);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -914,25 +910,25 @@ namespace IDE {
             }
             if (ExtraTerminals != null) {
                 GL.Color3(Color.Black);
-                foreach (ExtraTerminal item in ExtraTerminals) {
+                foreach (var item in ExtraTerminals) {
                     if (item.Root != InsideComponent) continue;
                     GL.Translate(item.Point.X, item.Point.Y, 0);
                     GL.CallList(Draws.TerminalHandle);
                     GL.Translate(-item.Point.X, -item.Point.Y, 0);
                 }
             }
-            foreach (Component item in Components) {
+            foreach (var item in Components) {
                 if (item.RootComponent != InsideComponent)
                     continue;
                 GL.Translate(item.Center.X, item.Center.Y, 0);
                 GL.Rotate(item.Rotation, 0, 0, 1);
                 GL.CallList(item.Draw.DisplayListHandle);
                 if (item.ActiveExtraHandlers != null) {
-                    for (int i = 0; i < item.ActiveExtraHandlers.Length; i++) {
+                    for (var i = 0; i < item.ActiveExtraHandlers.Length; i++) {
                         if(item.ActiveExtraHandlers[i]) GL.CallList(item.ExtraHandlers[i]);
                     }
                 }
-                for (int i = 0; i < item.Draw.Terminals.Length; i++) {
+                for (var i = 0; i < item.Draw.Terminals.Length; i++) {
                     GL.Translate(item.Draw.Terminals[i].X, item.Draw.Terminals[i].Y, 0);
                     if (UiStatics.Simulador != null && (UiStatics.Simulador.Running || !UiStatics.Simulador.Stopped) && CircuitComponentToDrawComponents.ContainsKey(item)) {
                         if(CircuitComponentToDrawComponents[item].Pins[i].SimulationId != Circuit.SimulationId) {
@@ -995,13 +991,13 @@ namespace IDE {
         }
         
         private void Circuito_Resize(object sender, EventArgs e) {
-            GLControl c = sender as GLControl;
+            var c = sender as GLControl;
 
             if (c.ClientSize.Height == 0)
                 c.ClientSize = new Size(c.ClientSize.Width, 1);
 
             GL.Viewport(0, 0, c.ClientSize.Width, c.ClientSize.Height);
-            Matrix4 orthographic = Matrix4.CreateOrthographic(c.ClientSize.Width/zoom, c.ClientSize.Height/zoom, 1, 10);
+            var orthographic = Matrix4.CreateOrthographic(c.ClientSize.Width/zoom, c.ClientSize.Height/zoom, 1, 10);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref orthographic);
         }
@@ -1033,7 +1029,7 @@ namespace IDE {
                 } else if (Over.Draw.DisplayListHandle == Draws.Input[1].DisplayListHandle) {
                     Over.Draw = Draws.Input[0];
                 } else if (Over.Draw.DisplayListHandle == Draws.Microcontroller.DisplayListHandle) {
-                    Component Mic = Over;
+                    var Mic = Over;
                     Selected = null;
                     SelectedWire = null;
                     Over = null;
@@ -1126,7 +1122,7 @@ namespace IDE {
                             Wires.Add(new Wire(Terminals.FromComponent, Terminals.FromIndex, Terminals.HoverComponent, Terminals.HoverIndex));
                         }
                     } else {
-                        PointF point = MouseProps.ToWorld(MouseProps.LastUpPosition, ClientSize, Position, zoom);
+                        var point = MouseProps.ToWorld(MouseProps.LastUpPosition, ClientSize, Position, zoom);
                         point.X = (float)Math.Round(point.X / 5) * 5;
                         point.Y = (float)Math.Round(point.Y / 5) * 5;
                         Wires.Add(new Wire(Terminals.FromComponent, Terminals.FromIndex, point));
@@ -1135,7 +1131,7 @@ namespace IDE {
                     if (Terminals.HoverComponent != null) {
                         Wires.Add(new Wire(Terminals.From, Terminals.HoverComponent, Terminals.HoverIndex));
                     } else {
-                        PointF point = MouseProps.ToWorld(MouseProps.LastUpPosition, ClientSize, Position, zoom);
+                        var point = MouseProps.ToWorld(MouseProps.LastUpPosition, ClientSize, Position, zoom);
                         point.X = (float)Math.Round(point.X / 5) * 5;
                         point.Y = (float)Math.Round(point.Y / 5) * 5;
                         if ((Terminals.From.X - point.X) * (Terminals.From.X - point.X) + (Terminals.From.Y - point.Y) * (Terminals.From.Y - point.Y) >= 10 * 10) {
@@ -1160,7 +1156,7 @@ namespace IDE {
         }
 
         private void DrawWires() {
-            foreach (Wire item in Wires) {
+            foreach (var item in Wires) {
                 if (item.RootComponent != InsideComponent)
                     continue;
                 if (item == HoverWire) {
@@ -1180,13 +1176,13 @@ namespace IDE {
         private void DrawBoxes() {
             if (Terminals.HoverComponent != null) {
                 GL.Color3(Color.Green);
-                Vector3 pos = new Vector3(Terminals.HoverComponent.Center.X, Terminals.HoverComponent.Center.Y, 0);
-                PointF transform = Terminals.HoverComponent.TransformTerminal(Terminals.HoverIndex);
+                var pos = new Vector3(Terminals.HoverComponent.Center.X, Terminals.HoverComponent.Center.Y, 0);
+                var transform = Terminals.HoverComponent.TransformTerminal(Terminals.HoverIndex);
                 pos.X += transform.X;
                 pos.Y += transform.Y;
                 GL.Translate(pos);
                 GL.CallList(Draws.TerminalHandle);
-                string tmp = Terminals.HoverComponent.Draw.TerminalsString[Terminals.HoverIndex];
+                var tmp = Terminals.HoverComponent.Draw.TerminalsString[Terminals.HoverIndex];
                 if (tmp != null && tmp != "") {
                     GL.Translate(0, 20, 0);
                     TextRenderer.DrawText(tmp, Color.Red, new PointF(0, 0));
@@ -1196,7 +1192,7 @@ namespace IDE {
                 GL.Translate(-pos);
             } else if (Terminals.HoverNotComponent) {
                 GL.Color3(Color.Green);
-                Vector3 pos = new Vector3(Terminals.Hover.X, Terminals.Hover.Y, 0);
+                var pos = new Vector3(Terminals.Hover.X, Terminals.Hover.Y, 0);
                 GL.Translate(pos);
                 GL.CallList(Draws.TerminalHandle);
                 GL.Translate(-pos);
@@ -1240,10 +1236,10 @@ namespace IDE {
         */
         private static bool OnWire(PointF point1, PointF point2, PointF point) {
             //pegando os valores máximos
-            float maxX = point1.X > point2.X ? point1.X : point2.X;
-            float minX = point1.X > point2.X ? point2.X : point1.X;
-            float maxY = point1.Y > point2.Y ? point1.Y : point2.Y;
-            float minY = point1.Y > point2.Y ? point2.Y : point1.Y;
+            var maxX = point1.X > point2.X ? point1.X : point2.X;
+            var minX = point1.X > point2.X ? point2.X : point1.X;
+            var maxY = point1.Y > point2.Y ? point1.Y : point2.Y;
+            var minY = point1.Y > point2.Y ? point2.Y : point1.Y;
             float x, y, coefAng, coefLin, coefAngPar, coefLinPar;
 
             //Equacao linear = ax - by + c = 0
@@ -1316,10 +1312,10 @@ namespace IDE {
                 y = point.Y > maxY ? maxY : (point.Y < minY ? minY : point.Y);
             }
 
-            float maiorX = x > point.X ? x : point.X;
-            float menorX = x > point.X ? point.X : x;
-            float maiorY = y > point.Y ? y : point.Y;
-            float menorY = y > point.Y ? point.Y : y;
+            var maiorX = x > point.X ? x : point.X;
+            var menorX = x > point.X ? point.X : x;
+            var maiorY = y > point.Y ? y : point.Y;
+            var menorY = y > point.Y ? point.Y : y;
             
             //calcula a distancia
             if ((maiorX - menorX) * (maiorX - menorX) + (maiorY - menorY) * (maiorY - menorY) < 5 * 5) {
@@ -1333,10 +1329,10 @@ namespace IDE {
             {   //KONAMI CODE
                 KonamiCode.Enqueue(e.KeyCode);
                 if (KonamiCode.Count > 10) KonamiCode.Dequeue();
-                Keys[] arr = KonamiCode.ToArray();
+                var arr = KonamiCode.ToArray();
                 if (arr.Length == konamiCodeCorrect.Length) {
-                    bool isCorrect = true;
-                    for (int i = 0; i < arr.Length; i++) {
+                    var isCorrect = true;
+                    for (var i = 0; i < arr.Length; i++) {
                         if (arr[i] != konamiCodeCorrect[i]) {
                             isCorrect = false;
                             break;
@@ -1372,8 +1368,8 @@ namespace IDE {
                         if (Selected.Draw.DisplayListHandle == Draws.Microcontroller.DisplayListHandle) return;
                         SelectedWire = null;
                         HoverWire = null;
-                        int length = Wires.Count;
-                        for (int i = 0; i < length; i++) {
+                        var length = Wires.Count;
+                        for (var i = 0; i < length; i++) {
                             if (Wires[i].FromComponent == Selected || Wires[i].ToComponent == Selected) {
                                 Wires.Remove(Wires[i]);
                                 --i;
@@ -1390,7 +1386,7 @@ namespace IDE {
                     }
                 } else if (e.KeyCode == Keys.Enter) { //DebugMode
                 } else if(e.KeyCode == Keys.C && IsDebugMode) {
-                    string r = Microsoft.VisualBasic.Interaction.InputBox("Nome do componente a ser criado:", "Criar componente [DEBUG]", "");
+                    var r = Microsoft.VisualBasic.Interaction.InputBox("Nome do componente a ser criado:", "Criar componente [DEBUG]", "");
                     if (r != null && r != "") {
                         switch (r) {
 
@@ -1577,19 +1573,17 @@ namespace IDE {
                 }
                 return Circuit[input, output];
             }
-            set {
-                Circuit[input, output] = value;
-            }
+            set => Circuit[input, output] = value;
         }
         private static ComponentDraw GenCircuit(int inputs, int outputs) {
-            int maxValue = inputs > outputs ? inputs : outputs;
-            int width = maxValue * 20 / 8 + 20;
-            int height = maxValue * 10;
-            ComponentDraw componentDraw = new ComponentDraw(GL.GenLists(1), width, height, inputs + outputs);
-            for (int i = 0; i < inputs; i++) {
+            var maxValue = inputs > outputs ? inputs : outputs;
+            var width = maxValue * 20 / 8 + 20;
+            var height = maxValue * 10;
+            var componentDraw = new ComponentDraw(GL.GenLists(1), width, height, inputs + outputs);
+            for (var i = 0; i < inputs; i++) {
                 componentDraw.Terminals[i] = new Point(-width / 2, height / 2 - (5 + i * 10));
             }
-            for (int i = inputs; i < inputs + outputs; i++) {
+            for (var i = inputs; i < inputs + outputs; i++) {
                 componentDraw.Terminals[i] = new Point(width / 2, height / 2 - (5 + (i - inputs) * 10));
             }
             GL.NewList(componentDraw.DisplayListHandle, ListMode.Compile);
@@ -1601,11 +1595,11 @@ namespace IDE {
             GL.Vertex2(-width / 2f + 10, height / 2f);
             GL.End();
             GL.Begin(PrimitiveType.Lines);
-            for (int i = 0; i < inputs; i++) {
+            for (var i = 0; i < inputs; i++) {
                 GL.Vertex2(-width / 2, height / 2 - (5 + i * 10));
                 GL.Vertex2(-width / 2 + 10f, height / 2 - (5 + i * 10));
             }
-            for (int i = inputs; i < inputs + outputs; i++) {
+            for (var i = inputs; i < inputs + outputs; i++) {
                 GL.Vertex2(width / 2, height / 2 - (5 + (i - inputs) * 10));
                 GL.Vertex2(width / 2 - 10f, height / 2 - (5 + (i - inputs) * 10));
             }
@@ -1688,14 +1682,14 @@ namespace IDE {
             TextRenderer renderer;
             int width;
             int height;
-            int hash = text.GetHashCode() + color.GetHashCode() + font.GetHashCode();
+            var hash = text.GetHashCode() + color.GetHashCode() + font.GetHashCode();
             if (!textRenderers.ContainsKey(hash)) { 
                 renderer = new TextRenderer();
                 renderer.bmp = new Bitmap(1, 1, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 renderer.gfx = Graphics.FromImage(renderer.bmp);
                 Brush brush = new SolidBrush(color);
                 renderer.gfx.DrawString(text, font, brush, 0, 0);
-                SizeF textSize = renderer.gfx.MeasureString(text, font);
+                var textSize = renderer.gfx.MeasureString(text, font);
                 renderer.textSize = new Size((int)(textSize.Width + 0.5f), (int)(textSize.Height + 0.5f));
 
                 renderer.gfx.Dispose();
@@ -1719,7 +1713,7 @@ namespace IDE {
                 GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
                     PixelFormat.Rgba, PixelType.UnsignedByte, IntPtr.Zero);
 
-                System.Drawing.Imaging.BitmapData data = renderer.bmp.LockBits(renderer.dirty_region,
+                var data = renderer.bmp.LockBits(renderer.dirty_region,
                         System.Drawing.Imaging.ImageLockMode.ReadOnly,
                         System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
@@ -1734,8 +1728,8 @@ namespace IDE {
                 width = renderer.textSize.Width;
                 height = renderer.textSize.Height;
 
-                float wmax = width / (float)renderer.bmp.Width;
-                float hmax = height / (float)renderer.bmp.Height;
+                var wmax = width / (float)renderer.bmp.Width;
+                var hmax = height / (float)renderer.bmp.Height;
 
                 GL.Color3(Color.White);
                 GL.Begin(PrimitiveType.Quads);
@@ -1860,13 +1854,13 @@ namespace IDE {
             GL.EndList();
         }
         private static void GenRomAddresser() {
-            ComponentDraw DrawCircuit = Circuit[14, 24];
+            var DrawCircuit = Circuit[14, 24];
             TextRenderer.DrawText("ROM\nAddr", Color.Black, new PointF(0, 0));
             RomAddresser = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 RomAddresser.Terminals[i] = DrawCircuit.Terminals[i];
             }
-            for (int i = 0; i < 8; i++) {
+            for (var i = 0; i < 8; i++) {
                 RomAddresser.TerminalsString[i] = "in" + i;
             }
             RomAddresser.TerminalsString[8] = "S";
@@ -1875,10 +1869,10 @@ namespace IDE {
             RomAddresser.TerminalsString[11] = "PCH";
             RomAddresser.TerminalsString[12] = "PCL";
             RomAddresser.TerminalsString[13] = "R";
-            for (int i = 14; i < 30; i++) {
+            for (var i = 14; i < 30; i++) {
                 RomAddresser.TerminalsString[i] = "outAddr" + (i - 14);
             }
-            for (int i = 30; i < 38; i++) {
+            for (var i = 30; i < 38; i++) {
                 RomAddresser.TerminalsString[i] = "outBus" + (i - 30);
             }
 
@@ -1888,10 +1882,10 @@ namespace IDE {
             GL.EndList();
         }
         private static void GenCounter8Bit() {
-            ComponentDraw DrawCircuit = Circuit[4, 8];
+            var DrawCircuit = Circuit[4, 8];
             TextRenderer.DrawText("C\nn\nt", Color.Black, new PointF(0, 0));
             Counter8Bit = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 Counter8Bit.Terminals[i] = DrawCircuit.Terminals[i];
                 if (i >= 4) {
                     Counter8Bit.TerminalsString[i] = "out" + (i - 4);
@@ -1909,9 +1903,9 @@ namespace IDE {
         }
         private static void GenPortBank() {
             TextRenderer.DrawText("Port\nBank", Color.Black, new PointF(0, 0));
-            ComponentDraw DrawCircuit = Circuit[45, 40];
+            var DrawCircuit = Circuit[45, 40];
             PortBank = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 PortBank.Terminals[i] = DrawCircuit.Terminals[i];
                 if (i < 8 * 4) {
                     PortBank.TerminalsString[i] = ("in" + (i / 8) + "[" + (i % 8) + "]");
@@ -1937,12 +1931,12 @@ namespace IDE {
         }
         private static void GenControlModule() {
             TextRenderer.DrawText("Control\nModule", Color.Black, new PointF(0, 0));
-            ComponentDraw DrawCircuit = Circuit[11, 30];
+            var DrawCircuit = Circuit[11, 30];
             ControlModule = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 ControlModule.Terminals[i] = DrawCircuit.Terminals[i];
             }
-            for (int i = 0; i < 8; i++) {
+            for (var i = 0; i < 8; i++) {
                 ControlModule.TerminalsString[i] = "In"+i;
             }
             ControlModule.TerminalsString[8] = "Clock";
@@ -2004,7 +1998,7 @@ namespace IDE {
             GL.End();
 
             GL.Begin(PrimitiveType.Lines);
-            for (int i = 0; i < 8; i++) {
+            for (var i = 0; i < 8; i++) {
                 GL.Vertex2(i * 10 - 95, 40);
                 GL.Vertex2(i * 10 - 95, 50);
 
@@ -2062,9 +2056,9 @@ namespace IDE {
             TextRenderer.DrawText("R\ne\ng\nS\nG", Color.Black, new PointF(0, 0));
             TextRenderer.DrawText("R\ne\ng\ns", Color.Black, new PointF(0, 0));
             TextRenderer.DrawText("R\ne\ng\nC\n/\nB\nu\nf", Color.Black, new PointF(0, 0));
-            ComponentDraw DrawCircuit = Circuit[11, 8];
+            var DrawCircuit = Circuit[11, 8];
             Registrer8Bit = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 Registrer8Bit.Terminals[i] = DrawCircuit.Terminals[i];
                 if (i < 8) {
                     Registrer8Bit.TerminalsString[i] = ("In" + (i % 8));
@@ -2092,7 +2086,7 @@ namespace IDE {
 
             DrawCircuit = Circuit[10, 8];
             Registrer8BitSG = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 Registrer8BitSG.Terminals[i] = DrawCircuit.Terminals[i];
                 if (i < 8) {
                     Registrer8BitSG.TerminalsString[i] = ("In" + (i % 8));
@@ -2117,7 +2111,7 @@ namespace IDE {
 
             DrawCircuit = Circuit[11, 16];
             Registrer8BitCBuffer = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 Registrer8BitCBuffer.Terminals[i] = DrawCircuit.Terminals[i];
                 if (i < 8) {
                     Registrer8BitCBuffer.TerminalsString[i] = ("In" + (i % 8));
@@ -2147,7 +2141,7 @@ namespace IDE {
 
             DrawCircuit = Circuit[13, 8];
             Registrers = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 Registrers.Terminals[i] = DrawCircuit.Terminals[i];
                 if (i < 8) {
                     Registrers.TerminalsString[i] = ("In" + i);
@@ -2182,9 +2176,9 @@ namespace IDE {
         private static void GenMemories() {
             TextRenderer.DrawText("R\na\nm", Color.Black, new PointF(0, 0));
             TextRenderer.DrawText("R\no\nm", Color.Black, new PointF(0, 0));
-            ComponentDraw DrawCircuit = Circuit[11, 8];
+            var DrawCircuit = Circuit[11, 8];
             RamMemory = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 RamMemory.Terminals[i] = DrawCircuit.Terminals[i];
                 if (i < 8) {
                     RamMemory.TerminalsString[i] = ("A" + (i % 8));
@@ -2213,7 +2207,7 @@ namespace IDE {
 
             DrawCircuit = Circuit[17, 8];
             RomMemory = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 RomMemory.Terminals[i] = DrawCircuit.Terminals[i];
                 if (i < 16) {
                     RomMemory.TerminalsString[i] = ("A" + (i % 16));
@@ -2316,9 +2310,9 @@ namespace IDE {
         }
         private static void GenDisable8Bit() {
             TextRenderer.DrawText("T\nr\ni", Color.Black, new PointF(0, 0));
-            ComponentDraw DrawCircuit = Circuit[9, 8];
+            var DrawCircuit = Circuit[9, 8];
             Disable8Bit = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 Disable8Bit.Terminals[i] = DrawCircuit.Terminals[i];
                 if (i < 8) {
                     Disable8Bit.TerminalsString[i] = ("in" + (i % 8));
@@ -2663,7 +2657,7 @@ namespace IDE {
             GL.EndList();
             
             Display7SegBase = new ComponentDraw(GL.GenLists(1), 60, 80, 8);
-            for (int i = 0; i < 8; i++) {
+            for (var i = 0; i < 8; i++) {
                 Display7SegBase.Terminals[i] = new Point(-30, -i * 10 + 35);
                 if(i < 7)
                     Display7SegBase.TerminalsString[i] = ((char)('a' + i)).ToString();
@@ -2673,7 +2667,7 @@ namespace IDE {
             GL.NewList(Display7SegBase.DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
             GL.Begin(PrimitiveType.Lines);
-            for (int i = 0; i < 8; i++) {
+            for (var i = 0; i < 8; i++) {
                 GL.Vertex2(-30, -i * 10 + 35);
                 GL.Vertex2(-20, -i * 10 + 35);
             }
@@ -2688,9 +2682,9 @@ namespace IDE {
 
 
             TextRenderer.DrawText("B\nC\nD", Color.Black, new PointF(0, 0));
-            ComponentDraw DrawCircuit = Circuit[5, 7];
+            var DrawCircuit = Circuit[5, 7];
             BinTo7Seg = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 BinTo7Seg.Terminals[i] = DrawCircuit.Terminals[i];
                 if (i < 4) {
                     BinTo7Seg.TerminalsString[i] = ("" + (char)('A' + i));
@@ -2712,9 +2706,9 @@ namespace IDE {
         }
         private static void GenMicrocontroller() {
             TextRenderer.DrawText("M+++", Color.Black, new PointF(0, 0));
-            ComponentDraw DrawCircuit = Circuit[32, 32];
+            var DrawCircuit = Circuit[32, 32];
             Microcontroller = new ComponentDraw(GL.GenLists(1), DrawCircuit.Width, DrawCircuit.Height, DrawCircuit.Terminals.Length);
-            for (int i = 0; i < DrawCircuit.Terminals.Length; i++) {
+            for (var i = 0; i < DrawCircuit.Terminals.Length; i++) {
                 Microcontroller.Terminals[i] = DrawCircuit.Terminals[i];
                 if(i < 8 * 4) {
                     Microcontroller.TerminalsString[i] = ("in" + (i / 8) + "[" + (i % 8) + "]");
@@ -2730,7 +2724,7 @@ namespace IDE {
         }
         private static void GenKeyboard() {
             Keyboard = new ComponentDraw(GL.GenLists(1), 90, 50, 8);
-            for (int i = 0; i < Keyboard.Terminals.Length; i++) {
+            for (var i = 0; i < Keyboard.Terminals.Length; i++) {
                 Keyboard.Terminals[i] = new Point(-Keyboard.Width / 2+i*10+10, Keyboard.Height / 2);
             }
 
@@ -2744,15 +2738,15 @@ namespace IDE {
             GL.End();
 
             GL.Begin(PrimitiveType.Lines);
-            for (int i = 0; i < Keyboard.Terminals.Length; i++) {
+            for (var i = 0; i < Keyboard.Terminals.Length; i++) {
                 GL.Vertex2(-Keyboard.Width / 2 + i * 10 + 10, Keyboard.Height / 2);
                 GL.Vertex2(-Keyboard.Width / 2 + i * 10 + 10, Keyboard.Height / 2-10);
             }
             GL.End();
 
             GL.Begin(PrimitiveType.Quads);
-            for (int y = 0; y < 3; y++) {
-                for (int x = 0; x < 8; x++) {
+            for (var y = 0; y < 3; y++) {
+                for (var x = 0; x < 8; x++) {
                     if (y % 2 == 0) {
                         GL.Vertex2(-40 + 10 * x, 10 - 10 * y); GL.Vertex2(-35 + 10 * x, 10 - 10 * y); GL.Vertex2(-35 + 10 * x, 5 - 10 * y); GL.Vertex2(-40 + 10 * x, 5 - 10 * y);
                     } else {
@@ -2769,14 +2763,14 @@ namespace IDE {
             GL.EndList();
         }
         private static void GenXnor() {
-            int total = 8;
-            Vector2[] halfCircle1 = new Vector2[total];
-            Vector2[] halfCircle2 = new Vector2[total];
-            Vector2[] halfCircle3 = new Vector2[total];
-            Vector2[] circle = new Vector2[total];
-            for (int i = 0; i < total; i++) {
-                double RotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i + 1)) / 180.0;
-                double RotDegree2 = Math.PI * ((360d / total) * i) / 180.0;
+            var total = 8;
+            var halfCircle1 = new Vector2[total];
+            var halfCircle2 = new Vector2[total];
+            var halfCircle3 = new Vector2[total];
+            var circle = new Vector2[total];
+            for (var i = 0; i < total; i++) {
+                var RotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i + 1)) / 180.0;
+                var RotDegree2 = Math.PI * ((360d / total) * i) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
@@ -2805,24 +2799,24 @@ namespace IDE {
             GL.NewList(Xnor[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (int i = total - 1; i >= 0; i--) {
+            for (var i = total - 1; i >= 0; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineStrip);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle3[i]);
             }
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
@@ -2843,24 +2837,24 @@ namespace IDE {
             GL.NewList(Xnor[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_on);
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (int i = total - 1; i >= 0; i--) {
+            for (var i = total - 1; i >= 0; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineStrip);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle3[i]);
             }
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
@@ -2876,12 +2870,12 @@ namespace IDE {
         }
         private static void GenXor() {
 
-            int total = 8;
-            Vector2[] halfCircle1 = new Vector2[total];
-            Vector2[] halfCircle2 = new Vector2[total];
-            Vector2[] halfCircle3 = new Vector2[total];
-            for (int i = 0; i < total; i++) {
-                double RotDegree = Math.PI * ((360d / ((total+1) * 2d)) * (i+1)) / 180.0;
+            var total = 8;
+            var halfCircle1 = new Vector2[total];
+            var halfCircle2 = new Vector2[total];
+            var halfCircle3 = new Vector2[total];
+            for (var i = 0; i < total; i++) {
+                var RotDegree = Math.PI * ((360d / ((total+1) * 2d)) * (i+1)) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
@@ -2905,19 +2899,19 @@ namespace IDE {
             GL.NewList(Xor[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (int i = total - 1; i >= 0; i--) {
+            for (var i = total - 1; i >= 0; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineStrip);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle3[i]);
             }
             GL.End();
@@ -2938,19 +2932,19 @@ namespace IDE {
             GL.NewList(Xor[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_on);
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (int i = total - 1; i >= 0; i--) {
+            for (var i = total - 1; i >= 0; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineStrip);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle3[i]);
             }
             GL.End();
@@ -2965,12 +2959,12 @@ namespace IDE {
             GL.EndList();
         }
         private static void GenNand() {
-            int total = 8;
-            Vector2[] halfCircle1 = new Vector2[total];
-            Vector2[] circle = new Vector2[total];
-            for (int i = 0; i < total; i++) {
-                double RotDegree = Math.PI * ((360d / ((total+1) * 2d)) * (i + 1)) / 180.0;
-                double RotDegree2 = Math.PI * ((360d / total) * i) / 180.0;
+            var total = 8;
+            var halfCircle1 = new Vector2[total];
+            var circle = new Vector2[total];
+            for (var i = 0; i < total; i++) {
+                var RotDegree = Math.PI * ((360d / ((total+1) * 2d)) * (i + 1)) / 180.0;
+                var RotDegree2 = Math.PI * ((360d / total) * i) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
@@ -2992,14 +2986,14 @@ namespace IDE {
             GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(0, 10);
-            for (int i = total - 1; i >= 0; i--) {
+            for (var i = total - 1; i >= 0; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(0, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
@@ -3022,14 +3016,14 @@ namespace IDE {
             GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (int i = total - 1; i >= 0; i--) {
+            for (var i = total - 1; i >= 0; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
@@ -3044,10 +3038,10 @@ namespace IDE {
             GL.EndList();
         }
         private static void GenAnd() {
-            int total = 8;
-            Vector2[] halfCircle1 = new Vector2[total];
-            for (int i = 0; i < total; i++) {
-                double RotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i + 1)) / 180.0;
+            var total = 8;
+            var halfCircle1 = new Vector2[total];
+            for (var i = 0; i < total; i++) {
+                var RotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i + 1)) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
@@ -3064,7 +3058,7 @@ namespace IDE {
             GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(0, 10);
-            for (int i = total - 1; i >= 0; i--) {
+            for (var i = total - 1; i >= 0; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(0, -10);
@@ -3089,7 +3083,7 @@ namespace IDE {
             GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (int i = total - 1; i >= 0; i--) {
+            for (var i = total - 1; i >= 0; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(-10, -10);
@@ -3106,13 +3100,13 @@ namespace IDE {
             GL.EndList();
         }
         private static void GenNor() {
-            int total = 8;
-            Vector2[] halfCircle1 = new Vector2[total];
-            Vector2[] halfCircle2 = new Vector2[total];
-            Vector2[] circle = new Vector2[total];
-            for (int i = 0; i < total; i++) {
-                double RotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i + 1)) / 180.0;
-                double RotDegree2 = Math.PI * ((360d / total) * i) / 180.0;
+            var total = 8;
+            var halfCircle1 = new Vector2[total];
+            var halfCircle2 = new Vector2[total];
+            var circle = new Vector2[total];
+            for (var i = 0; i < total; i++) {
+                var RotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i + 1)) / 180.0;
+                var RotDegree2 = Math.PI * ((360d / total) * i) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
@@ -3137,19 +3131,19 @@ namespace IDE {
             GL.NewList(Nor[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (int i = total - 1; i >= 0; i--) {
+            for (var i = total - 1; i >= 0; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
@@ -3170,19 +3164,19 @@ namespace IDE {
             GL.NewList(Nor[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_on);
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (int i = total - 1; i >= 0; i--) {
+            for (var i = total - 1; i >= 0; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
@@ -3197,11 +3191,11 @@ namespace IDE {
             GL.EndList();
         }
         private static void GenOr() {
-            int total = 8;
-            Vector2[] halfCircle1 = new Vector2[total];
-            Vector2[] halfCircle2 = new Vector2[total];
-            for (int i = 0; i < total; i++) {
-                double RotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i+1)) / 180.0;
+            var total = 8;
+            var halfCircle1 = new Vector2[total];
+            var halfCircle2 = new Vector2[total];
+            for (var i = 0; i < total; i++) {
+                var RotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i+1)) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
@@ -3221,12 +3215,12 @@ namespace IDE {
             GL.NewList(Or[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (int i = total-1; i >= 0 ; i--) {
+            for (var i = total-1; i >= 0 ; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(-10, -10);
@@ -3249,12 +3243,12 @@ namespace IDE {
             GL.NewList(Or[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_on);
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(halfCircle2[i]);
             }
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (int i = total - 1; i >= 0; i--) {
+            for (var i = total - 1; i >= 0; i--) {
                 GL.Vertex2(halfCircle1[i]);
             }
             GL.Vertex2(-10, -10);
@@ -3271,10 +3265,10 @@ namespace IDE {
             GL.EndList();
         }
         private static void GenNot() {
-            int total = 8;
-            Vector2[] circle = new Vector2[total];
-            for (int i = 0; i < total; i++) {
-                double RotDegree = Math.PI * ((360d / total) * i) / 180.0;
+            var total = 8;
+            var circle = new Vector2[total];
+            for (var i = 0; i < total; i++) {
+                var RotDegree = Math.PI * ((360d / total) * i) / 180.0;
                 double x = 3;
                 double y = 0;
                 circle[i] = new Vector2();
@@ -3302,7 +3296,7 @@ namespace IDE {
             GL.Vertex2(20, 0);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
@@ -3328,7 +3322,7 @@ namespace IDE {
             GL.Vertex2(20, 0);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(circle[i]);
             }
             GL.End();
@@ -3424,11 +3418,11 @@ namespace IDE {
             GL.EndList();
         }
         private static void GenOutput() {
-            int total = 8;
-            Vector2[] outerVertexes = new Vector2[total];
-            Vector2[] innerVertexes = new Vector2[total];
-            for (int i = 0; i < total; i++) {
-                double RotDegree = Math.PI * ((360d / total) * i) / 180.0;
+            var total = 8;
+            var outerVertexes = new Vector2[total];
+            var innerVertexes = new Vector2[total];
+            for (var i = 0; i < total; i++) {
+                var RotDegree = Math.PI * ((360d / total) * i) / 180.0;
                 double x = 5;
                 double y = 0;
                 outerVertexes[i] = new Vector2();
@@ -3446,14 +3440,14 @@ namespace IDE {
             GL.NewList(Output[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(outerVertexes[i]);
             }
             GL.End();
 
             GL.Begin(PrimitiveType.TriangleFan);
             GL.Color3(Color_off);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(innerVertexes[i]);
             }
             GL.End();
@@ -3469,13 +3463,13 @@ namespace IDE {
             GL.NewList(Output[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(Color_off);
             GL.Begin(PrimitiveType.LineLoop);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(outerVertexes[i]);
             }
             GL.End();
             GL.Color3(Color_on);
             GL.Begin(PrimitiveType.TriangleFan);
-            for (int i = 0; i < total; i++) {
+            for (var i = 0; i < total; i++) {
                 GL.Vertex2(innerVertexes[i]);
             }
             GL.End();
@@ -3566,15 +3560,15 @@ namespace IDE {
     public class Component {
         public ComponentDraw Draw;
         public PointF Center;
-        public float Rotation = 0;
+        public float Rotation;
         public ComponentType Type = ComponentType.None;
         public Component RootComponent;
         public int[] ExtraHandlers; //Used to display things on the component
         public bool[] ActiveExtraHandlers;
 
         public override string ToString() {
-            string roots = "";
-            Component root = RootComponent;
+            var roots = "";
+            var root = RootComponent;
             while(root != null) {
                 roots += root.Type.ToString() + ".";
                 root = root.RootComponent;
@@ -3678,15 +3672,15 @@ namespace IDE {
         }
 
         public bool IsInside(PointF Point) {
-            RectangleF rectangle = new RectangleF(new PointF(Center.X- Draw.Width/2f, Center.Y - Draw.Height / 2f), new SizeF(Draw.Width, Draw.Height));
+            var rectangle = new RectangleF(new PointF(Center.X- Draw.Width/2f, Center.Y - Draw.Height / 2f), new SizeF(Draw.Width, Draw.Height));
             rectangle.Inflate(2, 2);
             return rectangle.Contains(Point);
         }
 
         public int IsOnTerminal(PointF Point) {
-            for (int i = 0; i < Draw.Terminals.Length; i++) {
-                PointF terminal = TransformTerminal(i);
-                float distance = (Center.X + terminal.X - Point.X) * (Center.X + terminal.X - Point.X) + (Center.Y + terminal.Y - Point.Y) * (Center.Y + terminal.Y - Point.Y);
+            for (var i = 0; i < Draw.Terminals.Length; i++) {
+                var terminal = TransformTerminal(i);
+                var distance = (Center.X + terminal.X - Point.X) * (Center.X + terminal.X - Point.X) + (Center.Y + terminal.Y - Point.Y) * (Center.Y + terminal.Y - Point.Y);
                 if(distance <= 4*4) {
                     return i;
                 }
@@ -3696,8 +3690,8 @@ namespace IDE {
         }
 
         public PointF TransformTerminal(int i) {
-            double RotDegree = Math.PI * Rotation / 180.0;
-            PointF point = new PointF(
+            var RotDegree = Math.PI * Rotation / 180.0;
+            var point = new PointF(
                 (float)(Draw.Terminals[i].X * Math.Cos(RotDegree) - Draw.Terminals[i].Y * Math.Sin(RotDegree)),
                 (float)(Draw.Terminals[i].X * Math.Sin(RotDegree) + Draw.Terminals[i].Y * Math.Cos(RotDegree))
             );
@@ -3798,7 +3792,7 @@ namespace IDE {
         public bool Button2Pressed;
 
         public static PointF ToWorld(Point Point, Size ClientSize, PointF Position, float Zoom) {
-            PointF worldPos = new PointF();
+            var worldPos = new PointF();
 
             worldPos.X = Point.X - ClientSize.Width / 2f;
             worldPos.Y = - Point.Y + ClientSize.Height/ 2f;
@@ -3823,7 +3817,7 @@ namespace IDE {
     public struct InternalComponents {
         public ControlModule ControlModule;
         public RomMemory RomMemory;
-        public ULA ULA;
+        public Ula ULA;
         public Registrers Registrers;
         public Registrer8BitCBuffer Accumulator;
         public RamMemory RamMemory;

@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator {
+﻿namespace CircuitSimulator {
     public class ClockLogicInput : Component {
         public bool IsOn = true;
-        private float timeElapsed = 0f;
-        private float time { get { return 1f / Frequency; } }
+        private float timeElapsed;
+        private float time => 1f / Frequency;
         public float Frequency = 1f;
         public float Value {
-            get {
-                return Pins[0].Value;
-            }
-            set {
-                Pins[0].SetDigital(value);
-            }
+            get => Pins[0].Value;
+            set => Pins[0].SetDigital(value);
         }
 
         public ClockLogicInput(string name = "Clock Logic Input") : base(name) {

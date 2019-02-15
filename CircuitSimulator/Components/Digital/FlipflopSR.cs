@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator {
+﻿namespace CircuitSimulator {
     /// <summary>
     /// Flipflop JK: <para />
     /// J: pin 0,<para />
@@ -15,30 +11,30 @@ namespace CircuitSimulator {
     public class FlipflopSR : Chip {
         private float lastClk = Pin.LOW;
 
-        public Pin Set { get { return Pins[0]; } }
-        public Pin Reset { get { return Pins[1]; } }
-        public Pin CLK { get { return Pins[2]; } }
-        public Pin S { get { return Pins[3]; } }
-        public Pin R { get { return Pins[4]; } }
-        public Pin Q { get { return Pins[5]; } }
-        public Pin Qnot { get { return Pins[6]; } }
+        public Pin Set => Pins[0];
+        public Pin Reset => Pins[1];
+        public Pin CLK => Pins[2];
+        public Pin S => Pins[3];
+        public Pin R => Pins[4];
+        public Pin Q => Pins[5];
+        public Pin Qnot => Pins[6];
 
         public FlipflopSR(string name = "Flipflop component") : base(name, 7) {
 
         }
 
         protected override void AllocatePins() {
-            for(int i = 0; i < 5; i++) {
+            for(var i = 0; i < 5; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for(int i = 5; i < 7; i++) {
+            for(var i = 5; i < 7; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
             Qnot.Value = Pin.HIGH;
         }
         internal override bool CanExecute() {
             if(simulationId == circuit.SimulationId) return false;
-            for(int i = 0; i < 3; i++) { //not needed to verify if S and R is connected
+            for(var i = 0; i < 3; i++) { //not needed to verify if S and R is connected
                 if(Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }

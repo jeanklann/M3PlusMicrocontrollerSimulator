@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class PortBank:Chip {
         public byte[] RegOut = new byte[4];
-        private float lastClock = Pin.LOW;
+        private float _lastClock = Pin.LOW;
 
         public void SetInput(int port, int pin, float value) {
             if (port < 0 || port > 3) throw new Exception("Porta inválida.");
@@ -60,25 +58,25 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
 
         protected override void AllocatePins() {
-            for (int i = 0; i < 32; i++) {
+            for (var i = 0; i < 32; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
-            for (int i = 32; i < 45; i++) {
+            for (var i = 32; i < 45; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for (int i = 45; i < 85; i++) {
+            for (var i = 45; i < 85; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
         }
         internal override bool CanExecute() {
             if (simulationId == circuit.SimulationId) return false;
-            for (int i = 0; i < 5; i++) {
+            for (var i = 0; i < 5; i++) {
                 if (Pins[8 * 5 + i].simulationId != circuit.SimulationId) {
                     return false;
                 }
             }
             if(Pins[8 * 5 + 3].Value >= Pin.HALFCUT) {
-                for (int i = 0; i < 8; i++) {
+                for (var i = 0; i < 8; i++) {
                     if (Pins[8 * 4 + i].simulationId != circuit.SimulationId) {
                         return false;
                     }
@@ -90,11 +88,11 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         protected internal override void Execute() {
             simulationId = circuit.SimulationId;
             if (Pins[8 * 5 + 4].Value >= Pin.HALFCUT) {
-                for (int i = 0; i < 4; i++) { //reseta
+                for (var i = 0; i < 4; i++) { //reseta
                     RegOut[i] = 0;
                 }
             }
-            if (Pins[8 * 5 + 3].Value >= Pin.HALFCUT && lastClock < Pin.HALFCUT) { //clock para output
+            if (Pins[8 * 5 + 3].Value >= Pin.HALFCUT && _lastClock < Pin.HALFCUT) { //clock para output
                 byte val = 0;
                 val += (byte)(Pins[8 * 4 + 0].Value >= Pin.HALFCUT ? 1 : 0);
                 val += (byte)(Pins[8 * 4 + 1].Value >= Pin.HALFCUT ? 2 : 0);
@@ -109,7 +107,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 if (Pins[8 * 5 + 1].Value < Pin.HALFCUT && Pins[8 * 5 + 0].Value >= Pin.HALFCUT) RegOut[2] = val;
                 if (Pins[8 * 5 + 1].Value >= Pin.HALFCUT && Pins[8 * 5 + 0].Value >= Pin.HALFCUT) RegOut[3] = val;
             }
-            lastClock = Pins[8 * 5 + 3].Value;
+            _lastClock = Pins[8 * 5 + 3].Value;
             if (Pins[8 * 5 + 2].Value >= Pin.HALFCUT) { //joga input pro bus
 
                 byte val = 0;
@@ -127,7 +125,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 Pins[8 * 5 + 5 + 6].Value = (val & 0x40) == 0x00 ? Pin.LOW : Pin.HIGH;
                 Pins[8 * 5 + 5 + 7].Value = (val & 0x80) == 0x00 ? Pin.LOW : Pin.HIGH;
 
-                for (int i = 0; i < 8; i++) {
+                for (var i = 0; i < 8; i++) {
                     if (Pins[8 * 5 + 1].Value < Pin.HALFCUT && Pins[8 * 5 + 0].Value < Pin.HALFCUT) {
                         Pins[8 * 5 + 5 + i].Value = Pins[8 * 0 + i].Value;
                     } else if (Pins[8 * 5 + 1].Value >= Pin.HALFCUT && Pins[8 * 5 + 0].Value < Pin.HALFCUT) {
@@ -140,13 +138,13 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 }
 
 
-                for (int i = 0; i < 8; i++) {
+                for (var i = 0; i < 8; i++) {
                     Pins[8 * 5 + 5 + i].simulationId = circuit.SimulationId;
 
                     Pins[8 * 5 + 5 + i].Propagate();    //outbus
                 }
             }
-            for (int port = 0; port < 4; port++) {
+            for (var port = 0; port < 4; port++) {
                 Pins[(8 * 6 + 5) + port * 8 + 0].Value = (RegOut[port] & 0x01) == 0x00 ? Pin.LOW : Pin.HIGH;
                 Pins[(8 * 6 + 5) + port * 8 + 1].Value = (RegOut[port] & 0x02) == 0x00 ? Pin.LOW : Pin.HIGH;
                 Pins[(8 * 6 + 5) + port * 8 + 2].Value = (RegOut[port] & 0x04) == 0x00 ? Pin.LOW : Pin.HIGH;
@@ -156,7 +154,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 Pins[(8 * 6 + 5) + port * 8 + 6].Value = (RegOut[port] & 0x40) == 0x00 ? Pin.LOW : Pin.HIGH;
                 Pins[(8 * 6 + 5) + port * 8 + 7].Value = (RegOut[port] & 0x80) == 0x00 ? Pin.LOW : Pin.HIGH;
             }
-            for (int i = 0; i < 32; i++) {
+            for (var i = 0; i < 32; i++) {
                 Pins[i].simulationId = circuit.SimulationId;
                 Pins[8 * 6 + 5 + i].simulationId = circuit.SimulationId;
 

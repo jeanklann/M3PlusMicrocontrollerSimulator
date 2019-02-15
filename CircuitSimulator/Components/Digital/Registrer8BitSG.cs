@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
+﻿namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
     public class Registrer8BitSG : Chip {
-        public Pin Clock { get { return Pins[8]; } }
-        public Pin Reset { get { return Pins[9]; } }
-        
+        public Pin Clock => Pins[8];
+        public Pin Reset => Pins[9];
 
-        private byte internalValue = 0;
+
+        private byte internalValue;
         private float lastClock = Pin.LOW;
 
         public Registrer8BitSG(string name = "Registrer8BitSG") : base(name, 18) {
@@ -16,22 +12,22 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
 
         protected override void AllocatePins() {
-            for (int i = 0; i < 10; i++) {
+            for (var i = 0; i < 10; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for (int i = 10; i < 18; i++) {
+            for (var i = 10; i < 18; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
         }
         internal override bool CanExecute() {
             if (simulationId == circuit.SimulationId) return false;
-            for (int i = 8; i <= 9; i++) {
+            for (var i = 8; i <= 9; i++) {
                 if (Pins[i].simulationId != circuit.SimulationId) {
                     return false;
                 }
             }
             if (Pins[8].Value >= Pin.HALFCUT && lastClock <= Pin.HALFCUT) {
-                for (int i = 0; i < 8; i++) {
+                for (var i = 0; i < 8; i++) {
                     if (Pins[i].simulationId != circuit.SimulationId) {
                         return false;
                     }
@@ -42,7 +38,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
 
         protected internal override void Execute() {
             base.Execute();
-            float halfCut = (Pin.HIGH + Pin.LOW) / 2f;
+            var halfCut = (Pin.HIGH + Pin.LOW) / 2f;
             if(Reset.Value >= halfCut) {
                 internalValue = 0;
             } else {
@@ -60,8 +56,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             }
             lastClock = Clock.Value;
 
-            byte tempVal = internalValue;
-            for (int i = 10; i < 18; i++) {
+            var tempVal = internalValue;
+            for (var i = 10; i < 18; i++) {
                 Pins[i].SetDigital(Pin.LOW);
             }
             if ((tempVal & 0x01) == 0x01) Pins[10].SetDigital(Pin.HIGH);
@@ -73,7 +69,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             if ((tempVal & 0x40) == 0x40) Pins[16].SetDigital(Pin.HIGH);
             if ((tempVal & 0x80) == 0x80) Pins[17].SetDigital(Pin.HIGH);
             
-            for (int i = 10; i < 18; i++) {
+            for (var i = 10; i < 18; i++) {
                 Pins[i].Propagate();
             }
         }
