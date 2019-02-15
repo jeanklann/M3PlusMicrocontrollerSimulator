@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -215,7 +214,5 @@ namespace M3PlusMicrocontroller {
             Running = false;
             Stopped = true;
         }
-    }
-    public class SimulationException:Exception {
     }
 }

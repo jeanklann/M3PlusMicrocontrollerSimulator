@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 namespace M3PlusMicrocontroller {
-    public delegate int Function(Simulator simulator, Direction from, Direction to, Instruction instruction);
     public class Instruction {
         public string Text { get; }
         public readonly string Description;
