@@ -135,22 +135,20 @@ namespace M3PlusMicrocontroller {
                     break;
             }
 
-            if (function != null)
+            if (function == null) return token;
+            var instruction = token.Value;
+            switch (instruction)
             {
-                Direction to = null;
-                var instruction = token.Value;
-                token = _tokenAnalyzer.NextToken();
-                switch (instruction)
-                {
-                    case "PUSHA":
-                    case "POPA":
-                        to = DirectionFactory.Create(token);
-                        break;
-                }
-
-                NewInstruction(to != null
-                    ? new Instruction(instruction, function, to, instructionDescription)
-                    : new Instruction(instruction, function, instructionDescription));
+                case "PUSH":
+                case "POP":
+                    token = _tokenAnalyzer.NextToken();
+                    var to = DirectionFactory.Create(token);
+                    NewInstruction(new Instruction(instruction, function, to, instructionDescription));
+                    break;
+                case "PUSHA":
+                case "POPA":
+                    NewInstruction(new Instruction(instruction, function, new Register(0), instructionDescription));
+                    break;
             }
             return token;
         }
@@ -184,17 +182,16 @@ namespace M3PlusMicrocontroller {
         private Token JmpInstructions(string program, Token token)
         {
             var instructionText = token.Value;
-            switch (token.Value)
+            switch (instructionText)
             {
                 case "JMP":
                 case "JMPC":
                 case "JMPZ":
-                    var name = token.Value;
                     token = _tokenAnalyzer.NextToken();
                     if (token.Type == TokenType.Identificator)
                     {
                         var to = DirectionFactory.Create(token);
-                        switch (name)
+                        switch (instructionText)
                         {
                             case "JMP":
                                 NewInstruction(new Instruction(instructionText, Functions.Jmp,

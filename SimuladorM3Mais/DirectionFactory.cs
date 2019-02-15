@@ -7,7 +7,17 @@
             switch (token.Type)
             {
                 case TokenType.Registrer:
-                    return new Register(token.Value[0]);
+                {
+                    try
+                    {
+                        return new Register(token.Value[0]);
+                    }
+                    catch (CompilerError)
+                    {
+                        return new Acumulator();
+                    }
+                }
+                
                 case TokenType.Input:
                     return new Input(token.Value);
                 case TokenType.Output:

@@ -102,30 +102,7 @@ namespace IDE {
                     if (hexes[i] == "") continue;
                     bytes[i] = byte.Parse(hexes[i], System.Globalization.NumberStyles.HexNumber);
                 }
-                int index = 0;
-                int outIndex;
-                List<Instruction> InstructionList = new List<Instruction>();
-                while (index < bytes.Length) {
-                    Instruction instruction;
-                    //Instruction.Convert(bytes, index, out outIndex, out instruction);
-                    throw new NotImplementedException();
-                    InstructionList.Add(instruction);
-                    index = outIndex;
-                }
-
-                Codigo.scintilla.Text = "";
-                int pos = 0;
-                foreach (Instruction item in InstructionList) {
-                    foreach (Instruction itemLabel in InstructionList) {
-                        if (itemLabel.Label != null && itemLabel.Label != "" && itemLabel.Label.StartsWith("Byte_")) {
-                            if ((itemLabel.To as Address)?.ValueAddress == pos)
-                                Codigo.scintilla.Text += itemLabel.Label + ":\r\n";
-                        }
-                    }
-                    Codigo.scintilla.Text += item.Text + "\r\n";
-                    pos += item.Size;
-                }
-
+                ImportFromBytes(bytes);
                 sr.Close();
                 return true;
             } catch (Exception) {
@@ -162,29 +139,7 @@ namespace IDE {
                 while (BaseStream.Position < BaseStream.Length) {
                     bytes[BaseStream.Position/2] = byte.Parse(((char)br.ReadByte()) + "" + ((char)br.ReadByte()), System.Globalization.NumberStyles.HexNumber);
                 }
-                int index = 0;
-                int outIndex;
-                List<Instruction> InstructionList = new List<Instruction>();
-                while (index < bytes.Length) {
-                    Instruction instruction;
-                    //Instruction.Convert(bytes, index, out outIndex, out instruction);
-                    
-                    throw new NotImplementedException();
-                    InstructionList.Add(instruction);
-                    index = outIndex;
-                }
-                Codigo.scintilla.Text = "";
-                int pos = 0;
-                foreach (Instruction item in InstructionList) {
-                    foreach (Instruction itemLabel in InstructionList) {
-                        if(itemLabel.Label != null && itemLabel.Label != "" && itemLabel.Label.StartsWith("Byte_")) {
-                            if ((itemLabel.To as Address)?.ValueAddress == pos)
-                                Codigo.scintilla.Text += itemLabel.Label+":\r\n";
-                        }
-                    }
-                    Codigo.scintilla.Text += item.Text + "\r\n";
-                    pos += item.Size;
-                }
+                ImportFromBytes(bytes);
                 br.Close();
                 return true;
             } catch (Exception) {
@@ -209,6 +164,23 @@ namespace IDE {
                 return false;
             }
         }
+
+        private class Instructions
+        {
+            public int Address { get; set; }
+            public string Text { get; set; }
+
+            public int PointAddress => PointAddressBytes != null && PointAddressBytes.Length == 2
+                ? PointAddressBytes[0] * 256 + PointAddressBytes[1]
+                : -1;
+            public byte[] PointAddressBytes { get; set; }
+
+            public string PointAddressLabel => PointAddressBytes != null && PointAddressBytes.Length == 2
+                ? $"E_{PointAddressBytes[0]:X2}{PointAddressBytes[1]:X2}"
+                : string.Empty;
+            public int TotalBytes { get; set; }
+            public List<string> Labels = new List<string>();
+        }
         public static bool ImportBinary(string path) {
             try {
                 StreamReader sr = new StreamReader(path);
@@ -219,34 +191,48 @@ namespace IDE {
                 while (BaseStream.Position < BaseStream.Length) {
                     bytes[BaseStream.Position] = br.ReadByte();
                 }
-                int index = 0;
-                int outIndex;
-                List<Instruction> InstructionList = new List<Instruction>();
-                while (index < bytes.Length) {
-                    Instruction instruction;
-                    //Instruction.Convert(bytes, index, out outIndex, out instruction);
-                    
-                    throw new NotImplementedException();
-                    InstructionList.Add(instruction);
-                    index = outIndex;
-                }
-
-                Codigo.scintilla.Text = "";
-                int pos = 0;
-                foreach (Instruction item in InstructionList) {
-                    foreach (Instruction itemLabel in InstructionList) {
-                        if (itemLabel.Label != null && itemLabel.Label != "" && itemLabel.Label.StartsWith("Byte_")) {
-                            if ((itemLabel.To as Address)?.ValueAddress == pos)
-                                Codigo.scintilla.Text += itemLabel.Label + ":\r\n";
-                        }
-                    }
-                    Codigo.scintilla.Text += item.Text + "\r\n";
-                    pos += item.Size;
-                }
+                ImportFromBytes(bytes);
                 br.Close();
                 return true;
             } catch (Exception) {
                 return false;
+            }
+        }
+
+        private static void ImportFromBytes(byte[] bytes)
+        {
+            int index = 0;
+            int outIndex;
+            var instructionList = new List<Instructions>();
+            while (index < bytes.Length)
+            {
+                var text = Instruction.FromBytes(bytes, index, out var totalBytes, out var address);
+                var ni = new Instructions
+                {
+                    Text = text,
+                    Address = index,
+                    PointAddressBytes = address,
+                    TotalBytes = totalBytes
+                };
+                instructionList.Add(ni);
+
+                index += totalBytes;
+            }
+
+            Codigo.scintilla.Text = "";
+            var pos = 0;
+            foreach (var item in instructionList)
+            {
+                foreach (var itemLabel in instructionList)
+                {
+                    if (itemLabel.PointAddress != pos) continue;
+                    if (item.Labels.Contains(itemLabel.PointAddressLabel)) continue;
+                    Codigo.scintilla.Text += itemLabel.PointAddressLabel + ":\r\n";
+                    item.Labels.Add(itemLabel.PointAddressLabel);
+                }
+
+                Codigo.scintilla.Text += item.Text + "\r\n";
+                pos += item.TotalBytes;
             }
         }
 
@@ -278,7 +264,7 @@ namespace IDE {
                 List<byte> compiledProgram = new List<byte>();
                 for (int i = 0; i < Simulador.Program.Length; i++) {
                     if (Simulador.Program[i] == null) continue;
-                    byte[] bytes = Simulador.Program[i].Convert();
+                    byte[] bytes = Simulador.Program[i].Bytes;
                     for (int j = 0; j < bytes.Length; j++) {
                         compiledProgram.Add(bytes[j]);
                     }
