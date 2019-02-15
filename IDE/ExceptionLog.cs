@@ -47,9 +47,9 @@ namespace IDE {
         }
 
         private void button2_Click(object sender, EventArgs e) {
-            save();
+            Save();
         }
-        private bool save() {
+        private bool Save() {
             var fileDialog = new SaveFileDialog();
             fileDialog.Filter = "Log de erro (*.log)|*.log|Todos os arquivos (*.*)|*.*";
             var fileDialogResult = fileDialog.ShowDialog(this);
@@ -65,7 +65,7 @@ namespace IDE {
                 try {
                     File.AppendAllText(fileDialog.FileName, res);
                 } catch (Exception e) {
-                    MessageBox.Show(this, "Ocorreu um erro ao salvar o log.", "Erro ao salvar o log", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(this, $"Ocorreu um erro ao salvar o log: {e.Message}.", "Erro ao salvar o log", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
             }

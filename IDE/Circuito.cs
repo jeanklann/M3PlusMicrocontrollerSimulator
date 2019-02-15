@@ -329,8 +329,7 @@ namespace IDE {
                         UpdateInstructionLog();
                     }
                     controlModuleLastClock = InternalComponents.ControlModule.Clock.Value;
-                } catch (Exception e) {
-                    //UIStatics.ShowExceptionMessage(e);
+                } catch (Exception) {
                 }
                 Thread.Sleep(16);
             }

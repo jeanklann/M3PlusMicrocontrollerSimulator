@@ -5,7 +5,6 @@ using System.Threading;
 
 namespace IDE {
     public partial class FormularioPrincipal : Form {
-        private Thread loadThread;
         public FormularioPrincipal() {
             InitializeComponent();
             Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
@@ -18,19 +17,6 @@ namespace IDE {
             UiStatics.ThreadDepurador.Start();
 
         }
-        private void LoadThread() {
-            
-        }
-
-        private void richTextBox1_KeyDown(object sender, KeyEventArgs e) {
-
-        }
-
-
-        private void scintilla_Click(object sender, EventArgs e) {
-
-        }
-
 
 
         private void reportarToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -64,19 +50,6 @@ namespace IDE {
                 Thread.Sleep(10);
             }
             tabControl1.SelectTab(0);
-        }
-
-        private void codigo1_Load(object sender, EventArgs e) {
-
-        }
-
-        private void códigoToolStripMenuItem_Click(object sender, EventArgs e) {
-        }
-
-        private void depuraçãoToolStripMenuItem_Click(object sender, EventArgs e) {
-        }
-
-        private void circuitoToolStripMenuItem_Click(object sender, EventArgs e) {
         }
 
         private void zoomToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -237,23 +210,20 @@ namespace IDE {
                 var dialogResult = MessageBox.Show(this, "Você tem alterações não salvas neste projeto, deseja salvar?", "Salvar projeto", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
                 if (dialogResult == DialogResult.Yes) {
                     if (UiStatics.FilePath != null) {
-                        if (UiStatics.Save() == false) {
-                            if (TrySave()) {
-                                UiStatics.Codigo.scintilla.Text = "";
-                                FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
-                                UiStatics.Codigo.Changed = false;
-                                UiStatics.Circuito.Changed = false;
-                                UiStatics.FilePath = null;
-                            }
-                        }
+                        if (UiStatics.Save() != false) return;
+                        if (!TrySave()) return;
+                        UiStatics.Codigo.scintilla.Text = "";
+                        FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
+                        UiStatics.Codigo.Changed = false;
+                        UiStatics.Circuito.Changed = false;
+                        UiStatics.FilePath = null;
                     } else {
-                        if (TrySave()) {
-                            UiStatics.Codigo.scintilla.Text = "";
-                            FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
-                            UiStatics.Codigo.Changed = false;
-                            UiStatics.Circuito.Changed = false;
-                            UiStatics.FilePath = null;
-                        }
+                        if (!TrySave()) return;
+                        UiStatics.Codigo.scintilla.Text = "";
+                        FileProject.Load(Application.StartupPath + "\\Default.m3mprj");
+                        UiStatics.Codigo.Changed = false;
+                        UiStatics.Circuito.Changed = false;
+                        UiStatics.FilePath = null;
                     }
                 } else if (dialogResult == DialogResult.No) {
                     UiStatics.Codigo.scintilla.Text = "";
