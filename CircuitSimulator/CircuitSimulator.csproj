@@ -74,8 +74,11 @@
     <Compile Include="Components\Digital\RomMemory.cs" />
     <Compile Include="Components\Digital\ShiftRegister.cs" />
     <Compile Include="Components\Macro.cs" />
+    <Compile Include="Components\Pin.cs" />
     <Compile Include="Components\Wire.cs" />
     <Compile Include="Converters.cs" />
+    <Compile Include="ConvertionType.cs" />
+    <Compile Include="Greatness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -127,7 +127,4 @@ namespace IDE {
             _wantClose = true;
         }
     }
-    public enum FormRamType {
-        Ram, Stack
-    }
 }

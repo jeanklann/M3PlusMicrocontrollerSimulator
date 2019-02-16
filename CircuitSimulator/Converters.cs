@@ -47,7 +47,6 @@ namespace CircuitSimulator {
                 case Greatness.Resistance: res.Append(resistance[greatnessIndex]); break;
                 case Greatness.Time: res.Append(time[greatnessIndex]); break;
                 case Greatness.Volt: res.Append(volt[greatnessIndex]); break;
-                default: break;
             }
             return res.ToString();
         }
@@ -60,11 +59,5 @@ namespace CircuitSimulator {
             }
             return values.Length - 1;
         }
-    }
-    public enum Greatness {
-        Volt, Resistance, Current, Frequency, Time
-    }
-    public enum ConvertionType {
-        Normal, Extended
     }
 }

@@ -112,6 +112,7 @@
     <Compile Include="Ajuda.Designer.cs">
       <DependentUpon>Ajuda.cs</DependentUpon>
     </Compile>
+    <Compile Include="CircuitDraw.cs" />
     <Compile Include="Circuito.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -124,34 +125,45 @@
     <Compile Include="Codigo.Designer.cs">
       <DependentUpon>Codigo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Component.cs" />
+    <Compile Include="ComponentDraw.cs" />
+    <Compile Include="ComponentNotImplementedException.cs" />
+    <Compile Include="ComponentProject.cs" />
     <Compile Include="Components\CheckboxField.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Components\Component.cs" />
+    <Compile Include="Components\IComponent.cs" />
     <Compile Include="Components\DataField.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Components\DataField.Designer.cs">
       <DependentUpon>DataField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Components\DataFieldType.cs" />
+    <Compile Include="ComponentType.cs" />
+    <Compile Include="CulunaValor.cs" />
     <Compile Include="Depurador.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Depurador.Designer.cs">
       <DependentUpon>Depurador.cs</DependentUpon>
     </Compile>
+    <Compile Include="Draws.cs" />
     <Compile Include="ExceptionLog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ExceptionLog.Designer.cs">
       <DependentUpon>ExceptionLog.cs</DependentUpon>
     </Compile>
+    <Compile Include="ExtraTerminal.cs" />
+    <Compile Include="FileProject.cs" />
     <Compile Include="FormRamMemory.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormRamMemory.Designer.cs">
       <DependentUpon>FormRamMemory.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormRamType.cs" />
     <Compile Include="FormRomMemory.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,6 +176,7 @@
     <Compile Include="FormularioPrincipal.Designer.cs">
       <DependentUpon>FormularioPrincipal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Instrucao.cs" />
     <Compile Include="InstructionLog.cs" />
     <Compile Include="InstructionLogForm.cs">
       <SubType>Form</SubType>
@@ -171,12 +184,17 @@
     <Compile Include="InstructionLogForm.Designer.cs">
       <DependentUpon>InstructionLogForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="InstructionLogItem.cs" />
     <Compile Include="InstructionLogTableForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="InstructionLogTableForm.Designer.cs">
       <DependentUpon>InstructionLogTableForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="InternalComponents.cs" />
+    <Compile Include="MMaisMaisLexer.cs" />
+    <Compile Include="MouseProps.cs" />
+    <Compile Include="PointProject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -198,7 +216,11 @@
     <Compile Include="SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Terminals.cs" />
+    <Compile Include="TextRenderer.cs" />
     <Compile Include="UIStatics.cs" />
+    <Compile Include="Wire.cs" />
+    <Compile Include="WireProject.cs" />
     <EmbeddedResource Include="Ajuda.resx">
       <DependentUpon>Ajuda.cs</DependentUpon>
     </EmbeddedResource>
