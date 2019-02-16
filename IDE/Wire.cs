@@ -2,17 +2,19 @@ using System.Drawing;
 
 namespace IDE
 {
-    public class Wire {
+    public class Wire
+    {
+        public Color Color = Color.Black;
         public PointF From;
         public Component FromComponent;
         public int FromIndex;
-        public Color Color = Color.Black;
+        public Component RootComponent;
         public PointF To;
         public Component ToComponent;
         public int ToIndex;
-        public Component RootComponent;
 
-        public Wire(PointF from, PointF to, Component rootComponent = null) {
+        public Wire(PointF from, PointF to, Component rootComponent = null)
+        {
             From = from;
             To = to;
             if (rootComponent == null)
@@ -20,7 +22,9 @@ namespace IDE
             else
                 RootComponent = rootComponent;
         }
-        public Wire(Component from, int indexFrom, Component to, int indexTo, Component rootComponent = null) {
+
+        public Wire(Component from, int indexFrom, Component to, int indexTo, Component rootComponent = null)
+        {
             FromComponent = from;
             FromIndex = indexFrom;
             ToComponent = to;
@@ -36,7 +40,9 @@ namespace IDE
             else
                 RootComponent = rootComponent;
         }
-        public Wire(Component from, int indexFrom, PointF to, Component rootComponent = null) {
+
+        public Wire(Component from, int indexFrom, PointF to, Component rootComponent = null)
+        {
             FromComponent = from;
             FromIndex = indexFrom;
             From = from.TransformTerminal(indexFrom);
@@ -48,7 +54,9 @@ namespace IDE
             else
                 RootComponent = rootComponent;
         }
-        public Wire(PointF from, Component to, int indexTo, Component rootComponent = null) {
+
+        public Wire(PointF from, Component to, int indexTo, Component rootComponent = null)
+        {
             From = from;
             ToComponent = to;
             ToIndex = indexTo;

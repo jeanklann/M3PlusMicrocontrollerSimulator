@@ -2,6 +2,11 @@
 {
     public class Ram : Direction
     {
+        public Ram(byte address)
+        {
+            Address = address;
+        }
+
         public override string Description => $"o endereço {Helpers.ToHex(Address)} da memória RAM";
         public override string Instruction => $"#{Helpers.ToHex(Address)}";
 
@@ -12,10 +17,5 @@
         }
 
         public byte Address { get; set; }
-
-        public Ram(byte address)
-        {
-            Address = address;
-        }
     }
 }

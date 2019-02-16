@@ -2,6 +2,7 @@ using System;
 
 namespace M3PlusMicrocontroller
 {
-    public class SimulationException:Exception {
+    public class SimulationException : Exception
+    {
     }
 }

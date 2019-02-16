@@ -17,7 +17,7 @@
                         return new Acumulator();
                     }
                 }
-                
+
                 case TokenType.Input:
                     return new Input(token.Value);
                 case TokenType.Output:

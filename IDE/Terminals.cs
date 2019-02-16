@@ -2,7 +2,8 @@ using System.Drawing;
 
 namespace IDE
 {
-    public struct Terminals {
+    public struct Terminals
+    {
         public int FromIndex;
         public Component FromComponent;
         public int ToIndex;

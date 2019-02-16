@@ -3,7 +3,8 @@ using ScintillaNET;
 
 namespace IDE
 {
-    public class MMaisMaisLexer {
+    public class MMaisMaisLexer
+    {
         private const int StyleDefault = 0;
         public const int CpuInstruction = 1;
         public const int Register = 2;
@@ -21,119 +22,164 @@ namespace IDE
         private readonly HashSet<string> _cpuInstructions;
         private readonly HashSet<string> _registrers;
 
-        public MMaisMaisLexer(string cpuInstructions = "", string registrers = "") {
+        public MMaisMaisLexer(string cpuInstructions = "", string registrers = "")
+        {
             cpuInstructions = cpuInstructions.ToLower();
             registrers = registrers.ToLower();
-            var cpuInstructionsList = cpuInstructions != string.Empty? cpuInstructions.Split(' '):new string[] { };
+            var cpuInstructionsList = cpuInstructions != string.Empty ? cpuInstructions.Split(' ') : new string[] { };
             var registrersList = registrers != string.Empty ? registrers.Split(' ') : new string[] { };
             _cpuInstructions = new HashSet<string>(cpuInstructionsList);
             _registrers = new HashSet<string>(registrersList);
         }
 
-        public void Style(Scintilla scintilla, int startPos, int endPos) {
+        public void Style(Scintilla scintilla, int startPos, int endPos)
+        {
             var line = scintilla.LineFromPosition(startPos);
             startPos = scintilla.Lines[line].Position;
             var currentPos = startPos;
             var length = 0;
             var state = StateDefault;
-            var text = (scintilla.Text + '\0');
+            var text = scintilla.Text + '\0';
 
             scintilla.StartStyling(startPos);
-            while (currentPos < endPos+1) {
+            while (currentPos < endPos + 1)
+            {
                 var c = char.ToLower(text[currentPos]);
                 var reprocess = true;
-                while (reprocess) {
+                while (reprocess)
+                {
                     reprocess = false;
-                    switch (state) {
+                    switch (state)
+                    {
                         case StateDefault:
-                            if (c == ';') {
+                            if (c == ';')
+                            {
                                 scintilla.SetStyling(1, Comment);
                                 state = StateComment;
-                            } else if (c == '/' && char.ToLower(text[currentPos+1]) == '/') {
+                            }
+                            else if (c == '/' && char.ToLower(text[currentPos + 1]) == '/')
+                            {
                                 scintilla.SetStyling(1, Comment);
                                 state = StateComment;
-                            } else if (char.IsDigit(c) || (c >= 'a' && c <= 'f')) {
+                            }
+                            else if (char.IsDigit(c) || c >= 'a' && c <= 'f')
+                            {
                                 state = StateNumber;
                                 reprocess = true;
-                            } else if (c == '#') {
+                            }
+                            else if (c == '#')
+                            {
                                 length++;
                                 state = StateAddress;
-                            } else if (char.IsLetterOrDigit(c) || c == '_') {
+                            }
+                            else if (char.IsLetterOrDigit(c) || c == '_')
+                            {
                                 state = StateIdentifier;
                                 reprocess = true;
-                            } else {
-                                if(currentPos < endPos)
+                            }
+                            else
+                            {
+                                if (currentPos < endPos)
                                     scintilla.SetStyling(1, StyleDefault);
                             }
+
                             break;
                         case StateComment:
-                            if(c!='\0')
+                            if (c != '\0')
                                 scintilla.SetStyling(1, Comment);
-                            if (c == '\n' || c == '\r') {
-                                state = StateDefault;
-                            }
+                            if (c == '\n' || c == '\r') state = StateDefault;
                             break;
                         case StateNumber:
-                            if (char.IsDigit(c) || (c >= 'a' && c <= 'f') || c == 'd' || c == 'h') {
+                            if (char.IsDigit(c) || c >= 'a' && c <= 'f' || c == 'd' || c == 'h')
+                            {
                                 length++;
-                                if(length < 3 && c == 'h') {
-                                    state = StateIdentifier;
-                                }
-                                if (length > 2) {
-                                    if (length == 3 && c == 'h') {
-                                    } else if (char.IsDigit(c)) {
-                                    } else if (c == 'd') {
+                                if (length < 3 && c == 'h') state = StateIdentifier;
+                                if (length > 2)
+                                {
+                                    if (length == 3 && c == 'h')
+                                    {
+                                    }
+                                    else if (char.IsDigit(c))
+                                    {
+                                    }
+                                    else if (c == 'd')
+                                    {
                                         var valid = true;
-                                        for (var i = currentPos-1; i >= currentPos-(length-1); i--) {
+                                        for (var i = currentPos - 1; i >= currentPos - (length - 1); i--)
+                                        {
                                             var c2 = char.ToLower(text[i]);
                                             if (!char.IsDigit(c2)) valid = false;
                                         }
-                                        if(!valid) state = StateIdentifier;
-                                    } else {
+
+                                        if (!valid) state = StateIdentifier;
+                                    }
+                                    else
+                                    {
                                         state = StateIdentifier;
                                     }
                                 }
-                            } else {
-                                if (char.IsLetterOrDigit(c) || c == '_') {
+                            }
+                            else
+                            {
+                                if (char.IsLetterOrDigit(c) || c == '_')
+                                {
                                     state = StateIdentifier;
                                     reprocess = true;
-                                } else if (length < 2) {
+                                }
+                                else if (length < 2)
+                                {
                                     state = StateIdentifier;
                                     reprocess = true;
-                                } else {
+                                }
+                                else
+                                {
                                     scintilla.SetStyling(length, Number);
                                     length = 0;
                                     state = StateDefault;
                                     reprocess = true;
                                 }
                             }
-                            
+
                             break;
                         case StateAddress:
-                            if (char.IsDigit(c) || (c >= 'a' && c <= 'f') || c == 'd' || c == 'h') {
+                            if (char.IsDigit(c) || c >= 'a' && c <= 'f' || c == 'd' || c == 'h')
+                            {
                                 length++;
-                                if (length < 4 && c == 'h') {
-                                    state = StateIdentifier;
-                                }
-                                if (length > 3) {
-                                    if (length == 4 && c == 'h') {
-                                    } else if (char.IsDigit(c)) {
-                                    } else if (c == 'd') {
+                                if (length < 4 && c == 'h') state = StateIdentifier;
+                                if (length > 3)
+                                {
+                                    if (length == 4 && c == 'h')
+                                    {
+                                    }
+                                    else if (char.IsDigit(c))
+                                    {
+                                    }
+                                    else if (c == 'd')
+                                    {
                                         var valid = true;
-                                        for (var i = currentPos - 1; i >= currentPos - (length - 2); i--) {
+                                        for (var i = currentPos - 1; i >= currentPos - (length - 2); i--)
+                                        {
                                             var c2 = char.ToLower(text[i]);
                                             if (!char.IsDigit(c2)) valid = false;
                                         }
+
                                         if (!valid) state = StateIdentifier;
-                                    } else {
+                                    }
+                                    else
+                                    {
                                         state = StateIdentifier;
                                     }
                                 }
-                            } else {
-                                if (char.IsLetterOrDigit(c) || c == '_') {
+                            }
+                            else
+                            {
+                                if (char.IsLetterOrDigit(c) || c == '_')
+                                {
                                     state = StateIdentifier;
                                     reprocess = true;
-                                } else {
+                                }
+                                else
+                                {
                                     scintilla.SetStyling(length, Number);
                                     length = 0;
                                     state = StateDefault;
@@ -143,9 +189,12 @@ namespace IDE
 
                             break;
                         case StateIdentifier:
-                            if (char.IsLetterOrDigit(c) || c == '_') {
+                            if (char.IsLetterOrDigit(c) || c == '_')
+                            {
                                 length++;
-                            } else {
+                            }
+                            else
+                            {
                                 var style = Identifier;
                                 var identifier = scintilla.GetTextRange(currentPos - length, length).ToLower();
                                 if (_cpuInstructions.Contains(identifier))
@@ -157,12 +206,13 @@ namespace IDE
                                 state = StateDefault;
                                 reprocess = true;
                             }
+
                             break;
                     }
                 }
+
                 currentPos++;
             }
-
         }
     }
 }

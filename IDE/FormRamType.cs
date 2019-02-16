@@ -1,6 +1,8 @@
 namespace IDE
 {
-    public enum FormRamType {
-        Ram, Stack
+    public enum FormRamType
+    {
+        Ram,
+        Stack
     }
 }

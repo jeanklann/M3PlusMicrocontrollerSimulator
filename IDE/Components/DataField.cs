@@ -1,51 +1,43 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace IDE.Components {
-    public partial class DataField : UserControl, IComponent {
+namespace IDE.Components
+{
+    public partial class DataField : UserControl, IComponent
+    {
+        private byte _byteQuantity = 1;
         private bool _needRefresh = true;
-        private bool _userInput;
-        public bool UserInput { get => _userInput;
-            set => _userInput = value;
-        }
+        private DataFieldType _selected = DataFieldType.Dec;
+        private int _value;
 
-        public DataField() {
+        public DataField()
+        {
             InitializeComponent();
             comboBox1.SelectedIndex = 0;
             Value = 0;
         }
-        private int _value;
+
         public int Value
         {
             get => _value;
             set
             {
-                if(value != this._value) {
-                    if(InputDec(value.ToString())) //if the new value is a valid value
-                        this._value = value;
+                if (value != _value)
+                {
+                    if (InputDec(value.ToString())) //if the new value is a valid value
+                        _value = value;
                     _needRefresh = true;
                 }
-                
             }
         }
-        public override void Refresh() {
-            if (_needRefresh) {
-                if (_selected == DataFieldType.Dec) {
-                    maskedTextBox1.Text = _value.ToString();
-                } else if (_selected == DataFieldType.Bin) {
-                    maskedTextBox1.Text = ToBin();
-                } else if (_selected == DataFieldType.Hex) {
-                    maskedTextBox1.Text = ToHex();
-                }
-                base.Refresh();
-                _needRefresh = false;
-            }
-        }
-        private DataFieldType _selected = DataFieldType.Dec;
-        public DataFieldType Selected {
+
+        public DataFieldType Selected
+        {
             get => _selected;
-            set {
-                switch (value) {
+            set
+            {
+                switch (value)
+                {
                     case DataFieldType.Dec: //DEC
                         if (_byteQuantity == 1)
                             maskedTextBox1.Mask = "990";
@@ -80,10 +72,11 @@ namespace IDE.Components {
                         _needRefresh = true;
                         break;
                 }
+
                 _selected = value;
             }
         }
-        private byte _byteQuantity = 1;
+
         public byte ByteQuantity
         {
             get => _byteQuantity;
@@ -95,56 +88,93 @@ namespace IDE.Components {
                     _byteQuantity = 1;
                 else
                     _byteQuantity = value;
-
             }
         }
 
-        private bool InputDec(string value) {
+        public bool UserInput { get; set; }
+
+        public override void Refresh()
+        {
+            if (_needRefresh)
+            {
+                if (_selected == DataFieldType.Dec)
+                    maskedTextBox1.Text = _value.ToString();
+                else if (_selected == DataFieldType.Bin)
+                    maskedTextBox1.Text = ToBin();
+                else if (_selected == DataFieldType.Hex) maskedTextBox1.Text = ToHex();
+                base.Refresh();
+                _needRefresh = false;
+            }
+        }
+
+        private bool InputDec(string value)
+        {
             var temp = -1;
             var parsed = int.TryParse(value, out temp);
             if (!parsed) return false;
             if (temp < 0) return false;
             if (temp >= (byte.MaxValue + 1) * _byteQuantity) return false;
-            
+
             return true;
-            
         }
-        private bool InputBin(string value) {
+
+        private bool InputBin(string value)
+        {
             if (value.Length > 8 * _byteQuantity) return false;
             var temp = -1;
-            try { temp = Convert.ToInt32(value, 2); } catch (Exception) { };
-            if (temp < 0) return false;
-            
-            return true;
-        }
-        private bool InputHex(string value) {
-            if (value.Length > 2 * _byteQuantity) return false;
-            var temp = -1;
-            try { temp = Convert.ToInt32(value, 16); } catch (Exception) { };
+            try
+            {
+                temp = Convert.ToInt32(value, 2);
+            }
+            catch (Exception)
+            {
+            }
+
+            ;
             if (temp < 0) return false;
 
             return true;
         }
-        
-        private string ToBin() {
+
+        private bool InputHex(string value)
+        {
+            if (value.Length > 2 * _byteQuantity) return false;
+            var temp = -1;
+            try
+            {
+                temp = Convert.ToInt32(value, 16);
+            }
+            catch (Exception)
+            {
+            }
+
+            ;
+            if (temp < 0) return false;
+
+            return true;
+        }
+
+        private string ToBin()
+        {
             var res = Convert.ToString(_value, 2);
             var charQuant = 8 * _byteQuantity;
-            while(res.Length < charQuant) {
-                res = "0" + res;
-            }
+            while (res.Length < charQuant) res = "0" + res;
             return res;
         }
-        private string ToHex() {
+
+        private string ToHex()
+        {
             var res = Convert.ToString(_value, 16);
             var charQuant = 2 * _byteQuantity;
-            while (res.Length < charQuant) {
-                res = "0" + res;
-            }
+            while (res.Length < charQuant) res = "0" + res;
             res = res.ToUpper();
             return res;
         }
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
-            switch (comboBox1.SelectedIndex) {
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (comboBox1.SelectedIndex)
+            {
                 case 0: //DEC
                     Selected = DataFieldType.Dec;
                     break;
@@ -157,36 +187,49 @@ namespace IDE.Components {
             }
         }
 
-        private void maskedTextBox1_Validated(object sender, EventArgs e) {
-            if(_selected == DataFieldType.Dec) {
-                if (InputDec(maskedTextBox1.Text)) {
+        private void maskedTextBox1_Validated(object sender, EventArgs e)
+        {
+            if (_selected == DataFieldType.Dec)
+            {
+                if (InputDec(maskedTextBox1.Text))
+                {
                     Value = int.Parse(maskedTextBox1.Text);
-                    _userInput = true;
-                } else {
-                    _needRefresh = true;
+                    UserInput = true;
                 }
-            } else if(_selected == DataFieldType.Bin) {
-                if (InputBin(maskedTextBox1.Text)) {
-                    Value = Convert.ToInt32(maskedTextBox1.Text, 2);
-                    _userInput = true;
-                } else {
-                    _needRefresh = true;
-                }
-            } else if(_selected == DataFieldType.Hex) {
-                if (InputHex(maskedTextBox1.Text)) {
-                    Value = Convert.ToInt32(maskedTextBox1.Text, 16);
-                    _userInput = true;
-                } else {
+                else
+                {
                     _needRefresh = true;
                 }
             }
-            
+            else if (_selected == DataFieldType.Bin)
+            {
+                if (InputBin(maskedTextBox1.Text))
+                {
+                    Value = Convert.ToInt32(maskedTextBox1.Text, 2);
+                    UserInput = true;
+                }
+                else
+                {
+                    _needRefresh = true;
+                }
+            }
+            else if (_selected == DataFieldType.Hex)
+            {
+                if (InputHex(maskedTextBox1.Text))
+                {
+                    Value = Convert.ToInt32(maskedTextBox1.Text, 16);
+                    UserInput = true;
+                }
+                else
+                {
+                    _needRefresh = true;
+                }
+            }
         }
 
-        private void maskedTextBox1_KeyPress(object sender, KeyPressEventArgs e) {
-            if(e.KeyChar == (char)13) { //Enter
-                comboBox1.Focus();
-            }
+        private void maskedTextBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char) 13) comboBox1.Focus();
         }
     }
 }

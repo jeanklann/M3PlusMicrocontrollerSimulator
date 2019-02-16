@@ -2,15 +2,19 @@
 using System.Threading;
 using System.Windows.Forms;
 
-namespace IDE {
-    public partial class SplashScreen : Form {
-        private SplashScreen() {
+namespace IDE
+{
+    public partial class SplashScreen : Form
+    {
+        private SplashScreen()
+        {
             InitializeComponent();
             label1.Text = string.Format(label1.Text, Application.ProductVersion);
         }
 
-        
-        public static FormularioPrincipal OpenMainForm(IWin32Window parent) {
+
+        public static FormularioPrincipal OpenMainForm(IWin32Window parent)
+        {
             var splash = new SplashScreen();
             splash.Show();
             FormularioPrincipal form;
@@ -23,21 +27,25 @@ namespace IDE {
             splash.Close();
             return form;
         }
-        public static FormRamMemory OpenRam(IWin32Window parent) {
+
+        public static FormRamMemory OpenRam(IWin32Window parent)
+        {
             var splash = new SplashScreen();
             splash.Show();
             Application.DoEvents();
             Thread.Sleep(10);
             var form = new FormRamMemory();
             form.Build(FormRamType.Ram);
-            if(parent != null)
+            if (parent != null)
                 form.Show(parent);
             else
                 form.Show();
             splash.Close();
             return form;
         }
-        public static FormRamMemory OpenStack(IWin32Window parent) {
+
+        public static FormRamMemory OpenStack(IWin32Window parent)
+        {
             var splash = new SplashScreen();
             splash.Show();
             Application.DoEvents();
@@ -51,7 +59,9 @@ namespace IDE {
             splash.Close();
             return form;
         }
-        public static FormRomMemory OpenRom(IWin32Window parent) {
+
+        public static FormRomMemory OpenRom(IWin32Window parent)
+        {
             var splash = new SplashScreen();
             splash.Show();
             Application.DoEvents();
@@ -66,8 +76,8 @@ namespace IDE {
         }
 
 
-        private void label1_Click(object sender, EventArgs e) {
-
+        private void label1_Click(object sender, EventArgs e)
+        {
         }
     }
 }

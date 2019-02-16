@@ -1,6 +1,8 @@
 namespace CircuitSimulator
 {
-    public enum ConvertionType {
-        Normal, Extended
+    public enum ConvertionType
+    {
+        Normal,
+        Extended
     }
 }

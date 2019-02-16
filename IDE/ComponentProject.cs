@@ -3,22 +3,27 @@ using System;
 namespace IDE
 {
     [Serializable]
-    public class ComponentProject {
+    public class ComponentProject
+    {
         public PointProject Center;
+        public int RootComponent;
         public float Rotation;
         public ComponentType Type;
-        public int RootComponent;
 
-        public ComponentProject(Component c) {
+        public ComponentProject(Component c)
+        {
             Center = c.Center;
             Rotation = c.Rotation;
             Type = c.Type;
             RootComponent = UiStatics.Circuito.Components.IndexOf(c.RootComponent);
         }
-        public static implicit operator Component(ComponentProject c) {
+
+        public static implicit operator Component(ComponentProject c)
+        {
             ComponentDraw draw = null;
 
-            switch (c.Type) {
+            switch (c.Type)
+            {
                 case ComponentType.None:
                     break;
                 case ComponentType.Input:
@@ -126,14 +131,12 @@ namespace IDE
                 case ComponentType.Clock:
                     draw = Draws.Clock;
                     break;
-                default:
-                    break;
             }
 
             var component = new Component(draw, c.Center);
             component.Rotation = c.Rotation;
             component.Type = c.Type;
-            if(c.RootComponent != -1)
+            if (c.RootComponent != -1)
                 component.RootComponent = UiStatics.Circuito.Components[c.RootComponent];
 
             return component;

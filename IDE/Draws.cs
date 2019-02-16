@@ -5,7 +5,8 @@ using OpenTK.Graphics.OpenGL;
 
 namespace IDE
 {
-    public static class Draws {
+    public static class Draws
+    {
         public static int TerminalHandle;
 
         public static ComponentDraw[] Input;
@@ -46,8 +47,6 @@ namespace IDE
         public static ComponentDraw Clock;
 
 
-
-
         public static CircuitDraw Circuit;
 
 
@@ -55,7 +54,8 @@ namespace IDE
         public static Color ColorOff = Color.Black;
         public static Color Color_3Rd = Color.Gray;
 
-        public static void Load() {
+        public static void Load()
+        {
             Circuit = new CircuitDraw();
             GenInput();
             GenOutput();
@@ -88,9 +88,17 @@ namespace IDE
             GenRomAddresser();
             GenClock();
         }
-        private static void GenLedMatrix() { }
-        private static void GenBlackTerminal() { }
-        private static void GenClock() {
+
+        private static void GenLedMatrix()
+        {
+        }
+
+        private static void GenBlackTerminal()
+        {
+        }
+
+        private static void GenClock()
+        {
             Clock = new ComponentDraw(GL.GenLists(1), 30, 20);
             Clock.Terminals[0] = new Point(-15, 0);
             GL.NewList(Clock.DisplayListHandle, ListMode.Compile);
@@ -114,44 +122,42 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void GenRomAddresser() {
+
+        private static void GenRomAddresser()
+        {
             var drawCircuit = Circuit[14, 24];
             TextRenderer.DrawText("ROM\nAddr", Color.Black, new PointF(0, 0));
-            RomAddresser = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
-                RomAddresser.Terminals[i] = drawCircuit.Terminals[i];
-            }
-            for (var i = 0; i < 8; i++) {
-                RomAddresser.TerminalsString[i] = "in" + i;
-            }
+            RomAddresser = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++) RomAddresser.Terminals[i] = drawCircuit.Terminals[i];
+            for (var i = 0; i < 8; i++) RomAddresser.TerminalsString[i] = "in" + i;
             RomAddresser.TerminalsString[8] = "S";
             RomAddresser.TerminalsString[9] = "CH";
             RomAddresser.TerminalsString[10] = "CL";
             RomAddresser.TerminalsString[11] = "PCH";
             RomAddresser.TerminalsString[12] = "PCL";
             RomAddresser.TerminalsString[13] = "R";
-            for (var i = 14; i < 30; i++) {
-                RomAddresser.TerminalsString[i] = "outAddr" + (i - 14);
-            }
-            for (var i = 30; i < 38; i++) {
-                RomAddresser.TerminalsString[i] = "outBus" + (i - 30);
-            }
+            for (var i = 14; i < 30; i++) RomAddresser.TerminalsString[i] = "outAddr" + (i - 14);
+            for (var i = 30; i < 38; i++) RomAddresser.TerminalsString[i] = "outBus" + (i - 30);
 
             GL.NewList(RomAddresser.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("ROM\nAddr", Color.Black, new PointF(0, 0));
             GL.CallList(drawCircuit.DisplayListHandle);
             GL.EndList();
         }
-        private static void GenCounter8Bit() {
+
+        private static void GenCounter8Bit()
+        {
             var drawCircuit = Circuit[4, 8];
             TextRenderer.DrawText("C\nn\nt", Color.Black, new PointF(0, 0));
-            Counter8Bit = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            Counter8Bit = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
+            {
                 Counter8Bit.Terminals[i] = drawCircuit.Terminals[i];
-                if (i >= 4) {
-                    Counter8Bit.TerminalsString[i] = "out" + (i - 4);
-                }
+                if (i >= 4) Counter8Bit.TerminalsString[i] = "out" + (i - 4);
             }
+
             Counter8Bit.TerminalsString[0] = "E";
             Counter8Bit.TerminalsString[1] = "+/-";
             Counter8Bit.TerminalsString[2] = "R";
@@ -162,27 +168,31 @@ namespace IDE
             GL.CallList(drawCircuit.DisplayListHandle);
             GL.EndList();
         }
-        private static void GenPortBank() {
+
+        private static void GenPortBank()
+        {
             TextRenderer.DrawText("Port\nBank", Color.Black, new PointF(0, 0));
             var drawCircuit = Circuit[45, 40];
-            PortBank = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            PortBank = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
+            {
                 PortBank.Terminals[i] = drawCircuit.Terminals[i];
-                if (i < 8 * 4) {
-                    PortBank.TerminalsString[i] = ("in" + (i / 8) + "[" + (i % 8) + "]");
-                } else if (i < 8 * 5 ) {
-                    PortBank.TerminalsString[i] = ("inBus" + (i % 8));
-                } else if (i < 8 * 6 + 5) {
-                    PortBank.TerminalsString[i] = ("outBus" + ((i-5) % 8));
-                } else {
-                    PortBank.TerminalsString[i] = ("out" + (((i-5) / 8) - 6) + "[" + ((i-5) % 8) + "]");
-                }
+                if (i < 8 * 4)
+                    PortBank.TerminalsString[i] = "in" + i / 8 + "[" + i % 8 + "]";
+                else if (i < 8 * 5)
+                    PortBank.TerminalsString[i] = "inBus" + i % 8;
+                else if (i < 8 * 6 + 5)
+                    PortBank.TerminalsString[i] = "outBus" + (i - 5) % 8;
+                else
+                    PortBank.TerminalsString[i] = "out" + ((i - 5) / 8 - 6) + "[" + (i - 5) % 8 + "]";
             }
-            PortBank.TerminalsString[8 * 5 + 0] = ("S2");
-            PortBank.TerminalsString[8 * 5 + 1] = ("S1");
-            PortBank.TerminalsString[8 * 5 + 2] = ("I");
-            PortBank.TerminalsString[8 * 5 + 3] = ("O");
-            PortBank.TerminalsString[8 * 5 + 4] = ("R");
+
+            PortBank.TerminalsString[8 * 5 + 0] = "S2";
+            PortBank.TerminalsString[8 * 5 + 1] = "S1";
+            PortBank.TerminalsString[8 * 5 + 2] = "I";
+            PortBank.TerminalsString[8 * 5 + 3] = "O";
+            PortBank.TerminalsString[8 * 5 + 4] = "R";
 
             GL.NewList(PortBank.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("Port\nBank", Color.Black, new PointF(0, 0));
@@ -190,16 +200,16 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void GenControlModule() {
+
+        private static void GenControlModule()
+        {
             TextRenderer.DrawText("Control\nModule", Color.Black, new PointF(0, 0));
             var drawCircuit = Circuit[11, 30];
-            ControlModule = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            ControlModule = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
                 ControlModule.Terminals[i] = drawCircuit.Terminals[i];
-            }
-            for (var i = 0; i < 8; i++) {
-                ControlModule.TerminalsString[i] = "In"+i;
-            }
+            for (var i = 0; i < 8; i++) ControlModule.TerminalsString[i] = "In" + i;
             ControlModule.TerminalsString[8] = "Clock";
             ControlModule.TerminalsString[9] = "Flag IN carry";
             ControlModule.TerminalsString[10] = "Flag IN zero";
@@ -241,7 +251,9 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void GenUla() {
+
+        private static void GenUla()
+        {
             TextRenderer.DrawText("ULA", Color.Black, new PointF(0, 0));
             Ula = new ComponentDraw(GL.GenLists(1), 220, 100, 30);
             GL.NewList(Ula.DisplayListHandle, ListMode.Compile);
@@ -259,7 +271,8 @@ namespace IDE
             GL.End();
 
             GL.Begin(PrimitiveType.Lines);
-            for (var i = 0; i < 8; i++) {
+            for (var i = 0; i < 8; i++)
+            {
                 GL.Vertex2(i * 10 - 95, 40);
                 GL.Vertex2(i * 10 - 95, 50);
 
@@ -268,14 +281,13 @@ namespace IDE
                 GL.Vertex2(i * 10 + 25, 40);
                 GL.Vertex2(i * 10 + 25, 50);
 
-                Ula.Terminals[i+8] = new Point(i * 10 + 25, 50);
-                Ula.TerminalsString[i+8] = "B[" + (i) + "]";
+                Ula.Terminals[i + 8] = new Point(i * 10 + 25, 50);
+                Ula.TerminalsString[i + 8] = "B[" + i + "]";
                 GL.Vertex2(i * 10 - 35, -40);
                 GL.Vertex2(i * 10 - 35, -50);
 
                 Ula.Terminals[i + 20] = new Point(i * 10 - 35, -50);
-                Ula.TerminalsString[i + 20] = "O[" + (i) + "]";
-
+                Ula.TerminalsString[i + 20] = "O[" + i + "]";
             }
 
             GL.Vertex2(-90, 20);
@@ -297,7 +309,7 @@ namespace IDE
             GL.Vertex2(-110, -20);
             Ula.Terminals[19] = new Point(-110, -20);
             Ula.TerminalsString[19] = "Enable";
-            
+
             GL.Vertex2(90, 20);
             GL.Vertex2(110, 20);
             Ula.Terminals[28] = new Point(110, 20);
@@ -312,21 +324,26 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void GenRegistrers() {
+
+        private static void GenRegistrers()
+        {
             TextRenderer.DrawText("R\ne\ng", Color.Black, new PointF(0, 0));
             TextRenderer.DrawText("R\ne\ng\nS\nG", Color.Black, new PointF(0, 0));
             TextRenderer.DrawText("R\ne\ng\ns", Color.Black, new PointF(0, 0));
             TextRenderer.DrawText("R\ne\ng\nC\n/\nB\nu\nf", Color.Black, new PointF(0, 0));
             var drawCircuit = Circuit[11, 8];
-            Registrer8Bit = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            Registrer8Bit = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
+            {
                 Registrer8Bit.Terminals[i] = drawCircuit.Terminals[i];
-                if (i < 8) {
-                    Registrer8Bit.TerminalsString[i] = ("In" + (i % 8));
-                } else if (i > 10) {
-                    Registrer8Bit.TerminalsString[i] = ("Out" + ((i - 3) % 8));
-                } else {
-                    switch (i) {
+                if (i < 8)
+                    Registrer8Bit.TerminalsString[i] = "In" + i % 8;
+                else if (i > 10)
+                    Registrer8Bit.TerminalsString[i] = "Out" + (i - 3) % 8;
+                else
+                    switch (i)
+                    {
                         case 8:
                             Registrer8Bit.TerminalsString[i] = "Enable";
                             break;
@@ -337,24 +354,26 @@ namespace IDE
                             Registrer8Bit.TerminalsString[i] = "Reset";
                             break;
                     }
-
-                }
             }
+
             GL.NewList(Registrer8Bit.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("R\ne\ng", Color.Black, new PointF(0, 0));
             GL.CallList(drawCircuit.DisplayListHandle);
             GL.EndList();
 
             drawCircuit = Circuit[10, 8];
-            Registrer8BitSg = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            Registrer8BitSg = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
+            {
                 Registrer8BitSg.Terminals[i] = drawCircuit.Terminals[i];
-                if (i < 8) {
-                    Registrer8BitSg.TerminalsString[i] = ("In" + (i % 8));
-                } else if (i > 9) {
-                    Registrer8BitSg.TerminalsString[i] = ("Out" + ((i - 2) % 8));
-                } else {
-                    switch (i) {
+                if (i < 8)
+                    Registrer8BitSg.TerminalsString[i] = "In" + i % 8;
+                else if (i > 9)
+                    Registrer8BitSg.TerminalsString[i] = "Out" + (i - 2) % 8;
+                else
+                    switch (i)
+                    {
                         case 8:
                             Registrer8BitSg.TerminalsString[i] = "Clock";
                             break;
@@ -362,26 +381,28 @@ namespace IDE
                             Registrer8BitSg.TerminalsString[i] = "Reset";
                             break;
                     }
-
-                }
             }
+
             GL.NewList(Registrer8BitSg.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("R\ne\ng\nS\nG", Color.Black, new PointF(0, 0));
             GL.CallList(drawCircuit.DisplayListHandle);
             GL.EndList();
 
             drawCircuit = Circuit[11, 16];
-            Registrer8BitCBuffer = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            Registrer8BitCBuffer = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
+            {
                 Registrer8BitCBuffer.Terminals[i] = drawCircuit.Terminals[i];
-                if (i < 8) {
-                    Registrer8BitCBuffer.TerminalsString[i] = ("In" + (i % 8));
-                } else if (i > 18) {
-                    Registrer8BitCBuffer.TerminalsString[i] = ("OutBus" + ((i - 3) % 8));
-                } else if (i > 10) {
-                    Registrer8BitCBuffer.TerminalsString[i] = ("OutAcc" + ((i - 3) % 8));
-                } else {
-                    switch (i) {
+                if (i < 8)
+                    Registrer8BitCBuffer.TerminalsString[i] = "In" + i % 8;
+                else if (i > 18)
+                    Registrer8BitCBuffer.TerminalsString[i] = "OutBus" + (i - 3) % 8;
+                else if (i > 10)
+                    Registrer8BitCBuffer.TerminalsString[i] = "OutAcc" + (i - 3) % 8;
+                else
+                    switch (i)
+                    {
                         case 8:
                             Registrer8BitCBuffer.TerminalsString[i] = "C";
                             break;
@@ -392,24 +413,26 @@ namespace IDE
                             Registrer8BitCBuffer.TerminalsString[i] = "R";
                             break;
                     }
-
-                }
             }
+
             GL.NewList(Registrer8BitCBuffer.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("R\ne\ng\nC\n/\nB\nu\nf", Color.Black, new PointF(0, 0));
             GL.CallList(drawCircuit.DisplayListHandle);
             GL.EndList();
 
             drawCircuit = Circuit[13, 8];
-            Registrers = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            Registrers = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
+            {
                 Registrers.Terminals[i] = drawCircuit.Terminals[i];
-                if (i < 8) {
-                    Registrers.TerminalsString[i] = ("In" + i);
-                } else if (i >= 13) {
-                    Registrers.TerminalsString[i] = ("Out" + ((i - 5) % 8));
-                } else {
-                    switch (i) {
+                if (i < 8)
+                    Registrers.TerminalsString[i] = "In" + i;
+                else if (i >= 13)
+                    Registrers.TerminalsString[i] = "Out" + (i - 5) % 8;
+                else
+                    switch (i)
+                    {
                         case 8:
                             Registrers.TerminalsString[i] = "E";
                             break;
@@ -426,27 +449,31 @@ namespace IDE
                             Registrers.TerminalsString[i] = "S1";
                             break;
                     }
-
-                }
             }
+
             GL.NewList(Registrers.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("R\ne\ng\ns", Color.Black, new PointF(0, 0));
             GL.CallList(drawCircuit.DisplayListHandle);
             GL.EndList();
         }
-        private static void GenMemories() {
+
+        private static void GenMemories()
+        {
             TextRenderer.DrawText("R\na\nm", Color.Black, new PointF(0, 0));
             TextRenderer.DrawText("R\no\nm", Color.Black, new PointF(0, 0));
             var drawCircuit = Circuit[11, 8];
-            RamMemory = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            RamMemory = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
+            {
                 RamMemory.Terminals[i] = drawCircuit.Terminals[i];
-                if (i < 8) {
-                    RamMemory.TerminalsString[i] = ("A" + (i % 8));
-                } else if (i > 10) {
-                    RamMemory.TerminalsString[i] = ("D" + ((i - 3) % 8));
-                } else {
-                    switch (i) {
+                if (i < 8)
+                    RamMemory.TerminalsString[i] = "A" + i % 8;
+                else if (i > 10)
+                    RamMemory.TerminalsString[i] = "D" + (i - 3) % 8;
+                else
+                    switch (i)
+                    {
                         case 8:
                             RamMemory.TerminalsString[i] = "sel";
                             break;
@@ -457,9 +484,8 @@ namespace IDE
                             RamMemory.TerminalsString[i] = "clr";
                             break;
                     }
-                    
-                }
             }
+
             GL.NewList(RamMemory.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("R\na\nm", Color.Black, new PointF(0, 0));
             GL.CallList(drawCircuit.DisplayListHandle);
@@ -467,24 +493,27 @@ namespace IDE
 
 
             drawCircuit = Circuit[17, 8];
-            RomMemory = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            RomMemory = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
+            {
                 RomMemory.Terminals[i] = drawCircuit.Terminals[i];
-                if (i < 16) {
-                    RomMemory.TerminalsString[i] = ("A" + (i % 16));
-                } else if (i > 16) {
-                    RomMemory.TerminalsString[i] = ("D" + ((i - 1) % 8));
-                } else {
+                if (i < 16)
+                    RomMemory.TerminalsString[i] = "A" + i % 16;
+                else if (i > 16)
+                    RomMemory.TerminalsString[i] = "D" + (i - 1) % 8;
+                else
                     RomMemory.TerminalsString[i] = "sel";
-
-                }
             }
+
             GL.NewList(RomMemory.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("R\no\nm", Color.Black, new PointF(0, 0));
             GL.CallList(drawCircuit.DisplayListHandle);
             GL.EndList();
         }
-        private static void GenAdders() {
+
+        private static void GenAdders()
+        {
             TextRenderer.DrawText("Full", Color.Black, new PointF(0, 0));
             TextRenderer.DrawText("Half", Color.Black, new PointF(0, 0));
             HalfAdder = new ComponentDraw(GL.GenLists(1), 60, 40, 4);
@@ -569,27 +598,33 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void GenDisable8Bit() {
+
+        private static void GenDisable8Bit()
+        {
             TextRenderer.DrawText("T\nr\ni", Color.Black, new PointF(0, 0));
             var drawCircuit = Circuit[9, 8];
-            Disable8Bit = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            Disable8Bit = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
+            {
                 Disable8Bit.Terminals[i] = drawCircuit.Terminals[i];
-                if (i < 8) {
-                    Disable8Bit.TerminalsString[i] = ("in" + (i % 8));
-                } else if (i > 8) {
-                    Disable8Bit.TerminalsString[i] = ("out"+((i-1) % 8));
-                } else {
+                if (i < 8)
+                    Disable8Bit.TerminalsString[i] = "in" + i % 8;
+                else if (i > 8)
+                    Disable8Bit.TerminalsString[i] = "out" + (i - 1) % 8;
+                else
                     Disable8Bit.TerminalsString[i] = "Enable";
-                }
             }
+
             GL.NewList(Disable8Bit.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("T\nr\ni", Color.Black, new PointF(0, 0));
             GL.CallList(drawCircuit.DisplayListHandle);
 
             GL.EndList();
         }
-        private static void GenDFlipFlop() {
+
+        private static void GenDFlipFlop()
+        {
             TextRenderer.DrawText("D", Color.Black, new PointF(0, 0));
             DFlipFlop = new ComponentDraw(GL.GenLists(1), 60, 40, 4);
             DFlipFlop.TerminalsString[0] = "D";
@@ -629,7 +664,9 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void GenTFlipFlop() {
+
+        private static void GenTFlipFlop()
+        {
             TextRenderer.DrawText("T", Color.Black, new PointF(0, 0));
             FlipFlop = new ComponentDraw(GL.GenLists(1), 60, 40, 4);
             FlipFlop.TerminalsString[0] = "T";
@@ -669,7 +706,9 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void GenRsFlipFlop() {
+
+        private static void GenRsFlipFlop()
+        {
             TextRenderer.DrawText("SR", Color.Black, new PointF(0, 0));
             RsFlipFlop = new ComponentDraw(GL.GenLists(1), 60, 60, 7);
             RsFlipFlop.TerminalsString[0] = "S";
@@ -724,7 +763,9 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void GenJkFlipFlop() {
+
+        private static void GenJkFlipFlop()
+        {
             TextRenderer.DrawText("JK", Color.Black, new PointF(0, 0));
             JkFlipFlop = new ComponentDraw(GL.GenLists(1), 60, 60, 7);
             JkFlipFlop.TerminalsString[0] = "J";
@@ -779,7 +820,9 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void GenOsciloscope() {
+
+        private static void GenOsciloscope()
+        {
             TextRenderer.DrawText("Osc", Color.Black, new PointF(0, 0));
             Osciloscope = new ComponentDraw(GL.GenLists(1), 30, 20);
             Osciloscope.Terminals[0] = new Point(-15, 0);
@@ -805,7 +848,9 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void Gen7SegDisplay() {
+
+        private static void Gen7SegDisplay()
+        {
             Display7SegPart = new int[8];
             Display7SegPart[0] = GL.GenLists(1);
             GL.NewList(Display7SegPart[0], ListMode.Compile); //a
@@ -916,22 +961,26 @@ namespace IDE
             GL.Vertex2(24, -33);
             GL.End();
             GL.EndList();
-            
+
             Display7SegBase = new ComponentDraw(GL.GenLists(1), 60, 80, 8);
-            for (var i = 0; i < 8; i++) {
+            for (var i = 0; i < 8; i++)
+            {
                 Display7SegBase.Terminals[i] = new Point(-30, -i * 10 + 35);
-                if(i < 7)
-                    Display7SegBase.TerminalsString[i] = ((char)('a' + i)).ToString();
+                if (i < 7)
+                    Display7SegBase.TerminalsString[i] = ((char) ('a' + i)).ToString();
                 else
                     Display7SegBase.TerminalsString[i] = "dot";
             }
+
             GL.NewList(Display7SegBase.DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOff);
             GL.Begin(PrimitiveType.Lines);
-            for (var i = 0; i < 8; i++) {
+            for (var i = 0; i < 8; i++)
+            {
                 GL.Vertex2(-30, -i * 10 + 35);
                 GL.Vertex2(-20, -i * 10 + 35);
             }
+
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-20, -40);
@@ -944,50 +993,58 @@ namespace IDE
 
             TextRenderer.DrawText("B\nC\nD", Color.Black, new PointF(0, 0));
             var drawCircuit = Circuit[5, 7];
-            BinTo7Seg = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            BinTo7Seg = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
+            {
                 BinTo7Seg.Terminals[i] = drawCircuit.Terminals[i];
-                if (i < 4) {
-                    BinTo7Seg.TerminalsString[i] = ("" + (char)('A' + i));
-                } else {
-                    if(i == 4)
-                        BinTo7Seg.TerminalsString[i] = ("Enable");
+                if (i < 4)
+                {
+                    BinTo7Seg.TerminalsString[i] = "" + (char) ('A' + i);
+                }
+                else
+                {
+                    if (i == 4)
+                        BinTo7Seg.TerminalsString[i] = "Enable";
                     else
-                        BinTo7Seg.TerminalsString[i] = ("" + (char)('a'+i-5));
+                        BinTo7Seg.TerminalsString[i] = "" + (char) ('a' + i - 5);
                 }
             }
+
             GL.NewList(BinTo7Seg.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("B\nC\nD", Color.Black, new PointF(0, 0));
             GL.CallList(drawCircuit.DisplayListHandle);
 
             GL.EndList();
-
-
-
         }
-        private static void GenMicrocontroller() {
+
+        private static void GenMicrocontroller()
+        {
             TextRenderer.DrawText("M+++", Color.Black, new PointF(0, 0));
             var drawCircuit = Circuit[32, 32];
-            Microcontroller = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height, drawCircuit.Terminals.Length);
-            for (var i = 0; i < drawCircuit.Terminals.Length; i++) {
+            Microcontroller = new ComponentDraw(GL.GenLists(1), drawCircuit.Width, drawCircuit.Height,
+                drawCircuit.Terminals.Length);
+            for (var i = 0; i < drawCircuit.Terminals.Length; i++)
+            {
                 Microcontroller.Terminals[i] = drawCircuit.Terminals[i];
-                if(i < 8 * 4) {
-                    Microcontroller.TerminalsString[i] = ("in" + (i / 8) + "[" + (i % 8) + "]");
-                } else {
-                    Microcontroller.TerminalsString[i] = ("out" + ((i / 8)-4) + "[" + (i % 8) + "]");
-                }
+                if (i < 8 * 4)
+                    Microcontroller.TerminalsString[i] = "in" + i / 8 + "[" + i % 8 + "]";
+                else
+                    Microcontroller.TerminalsString[i] = "out" + (i / 8 - 4) + "[" + i % 8 + "]";
             }
+
             GL.NewList(Microcontroller.DisplayListHandle, ListMode.Compile);
             TextRenderer.DrawText("M+++", Color.Black, new PointF(0, 0));
             GL.CallList(drawCircuit.DisplayListHandle);
 
             GL.EndList();
         }
-        private static void GenKeyboard() {
+
+        private static void GenKeyboard()
+        {
             Keyboard = new ComponentDraw(GL.GenLists(1), 90, 50, 8);
-            for (var i = 0; i < Keyboard.Terminals.Length; i++) {
-                Keyboard.Terminals[i] = new Point(-Keyboard.Width / 2+i*10+10, Keyboard.Height / 2);
-            }
+            for (var i = 0; i < Keyboard.Terminals.Length; i++)
+                Keyboard.Terminals[i] = new Point(-Keyboard.Width / 2 + i * 10 + 10, Keyboard.Height / 2);
 
             GL.NewList(Keyboard.DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOff);
@@ -999,59 +1056,79 @@ namespace IDE
             GL.End();
 
             GL.Begin(PrimitiveType.Lines);
-            for (var i = 0; i < Keyboard.Terminals.Length; i++) {
+            for (var i = 0; i < Keyboard.Terminals.Length; i++)
+            {
                 GL.Vertex2(-Keyboard.Width / 2 + i * 10 + 10, Keyboard.Height / 2);
-                GL.Vertex2(-Keyboard.Width / 2 + i * 10 + 10, Keyboard.Height / 2-10);
+                GL.Vertex2(-Keyboard.Width / 2 + i * 10 + 10, Keyboard.Height / 2 - 10);
             }
+
             GL.End();
 
             GL.Begin(PrimitiveType.Quads);
-            for (var y = 0; y < 3; y++) {
-                for (var x = 0; x < 8; x++) {
-                    if (y % 2 == 0) {
-                        GL.Vertex2(-40 + 10 * x, 10 - 10 * y); GL.Vertex2(-35 + 10 * x, 10 - 10 * y); GL.Vertex2(-35 + 10 * x, 5 - 10 * y); GL.Vertex2(-40 + 10 * x, 5 - 10 * y);
-                    } else {
-                        GL.Vertex2(-35 + 10 * x, 10 - 10 * y); GL.Vertex2(-30 + 10 * x, 10 - 10 * y); GL.Vertex2(-30 + 10 * x, 5 - 10 * y); GL.Vertex2(-35 + 10 * x, 5 - 10 * y);
+            for (var y = 0; y < 3; y++)
+            {
+                for (var x = 0; x < 8; x++)
+                    if (y % 2 == 0)
+                    {
+                        GL.Vertex2(-40 + 10 * x, 10 - 10 * y);
+                        GL.Vertex2(-35 + 10 * x, 10 - 10 * y);
+                        GL.Vertex2(-35 + 10 * x, 5 - 10 * y);
+                        GL.Vertex2(-40 + 10 * x, 5 - 10 * y);
                     }
-                }
-                if (y == 2) {
-                    GL.Vertex2(-40 + 10 * 5, 10 - 10 * y); GL.Vertex2(-35 + 10 * 2, 10 - 10 * y); GL.Vertex2(-35 + 10 * 2, 5 - 10 * y); GL.Vertex2(-40 + 10 * 5, 5 - 10 * y);
+                    else
+                    {
+                        GL.Vertex2(-35 + 10 * x, 10 - 10 * y);
+                        GL.Vertex2(-30 + 10 * x, 10 - 10 * y);
+                        GL.Vertex2(-30 + 10 * x, 5 - 10 * y);
+                        GL.Vertex2(-35 + 10 * x, 5 - 10 * y);
+                    }
+
+                if (y == 2)
+                {
+                    GL.Vertex2(-40 + 10 * 5, 10 - 10 * y);
+                    GL.Vertex2(-35 + 10 * 2, 10 - 10 * y);
+                    GL.Vertex2(-35 + 10 * 2, 5 - 10 * y);
+                    GL.Vertex2(-40 + 10 * 5, 5 - 10 * y);
                 }
             }
-            
+
             GL.End();
 
             GL.EndList();
         }
-        private static void GenXnor() {
+
+        private static void GenXnor()
+        {
             var total = 8;
             var halfCircle1 = new Vector2[total];
             var halfCircle2 = new Vector2[total];
             var halfCircle3 = new Vector2[total];
             var circle = new Vector2[total];
-            for (var i = 0; i < total; i++) {
-                var rotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i + 1)) / 180.0;
-                var rotDegree2 = Math.PI * ((360d / total) * i) / 180.0;
+            for (var i = 0; i < total; i++)
+            {
+                var rotDegree = Math.PI * (360d / ((total + 1) * 2d) * (i + 1)) / 180.0;
+                var rotDegree2 = Math.PI * (360d / total * i) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
-                halfCircle1[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) * 2;
-                halfCircle1[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle1[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) * 2;
+                halfCircle1[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 halfCircle1[i].X -= 10;
                 halfCircle2[i] = new Vector2();
-                halfCircle2[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) / 2;
-                halfCircle2[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle2[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) / 2;
+                halfCircle2[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 halfCircle2[i].X -= 15;
                 halfCircle3[i] = new Vector2();
-                halfCircle3[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) / 2;
-                halfCircle3[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle3[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) / 2;
+                halfCircle3[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 halfCircle3[i].X -= 17;
                 x = 3;
                 y = 0;
-                circle[i].X = (float)(x * Math.Cos(rotDegree2) - y * Math.Sin(rotDegree2));
-                circle[i].Y = (float)(x * Math.Sin(rotDegree2) + y * Math.Cos(rotDegree2));
+                circle[i].X = (float) (x * Math.Cos(rotDegree2) - y * Math.Sin(rotDegree2));
+                circle[i].Y = (float) (x * Math.Sin(rotDegree2) + y * Math.Cos(rotDegree2));
                 circle[i].X += 13;
             }
+
             Xnor = new ComponentDraw[2];
             Xnor[0] = new ComponentDraw(GL.GenLists(1), 40, 20, 3);
             Xnor[0].Terminals[0] = new Point(-20, 5);
@@ -1060,26 +1137,18 @@ namespace IDE
             GL.NewList(Xnor[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOff);
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle2[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle2[i]);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (var i = total - 1; i >= 0; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineStrip);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle3[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle3[i]);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(circle[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(circle[i]);
             GL.End();
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
@@ -1098,26 +1167,18 @@ namespace IDE
             GL.NewList(Xnor[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOn);
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle2[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle2[i]);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (var i = total - 1; i >= 0; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineStrip);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle3[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle3[i]);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(circle[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(circle[i]);
             GL.End();
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
@@ -1129,29 +1190,32 @@ namespace IDE
             GL.End();
             GL.EndList();
         }
-        private static void GenXor() {
 
+        private static void GenXor()
+        {
             var total = 8;
             var halfCircle1 = new Vector2[total];
             var halfCircle2 = new Vector2[total];
             var halfCircle3 = new Vector2[total];
-            for (var i = 0; i < total; i++) {
-                var rotDegree = Math.PI * ((360d / ((total+1) * 2d)) * (i+1)) / 180.0;
+            for (var i = 0; i < total; i++)
+            {
+                var rotDegree = Math.PI * (360d / ((total + 1) * 2d) * (i + 1)) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
-                halfCircle1[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) * 2;
-                halfCircle1[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle1[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) * 2;
+                halfCircle1[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 halfCircle1[i].X -= 10;
                 halfCircle2[i] = new Vector2();
-                halfCircle2[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) / 2;
-                halfCircle2[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle2[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) / 2;
+                halfCircle2[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 halfCircle2[i].X -= 15;
                 halfCircle3[i] = new Vector2();
-                halfCircle3[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) / 2;
-                halfCircle3[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle3[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) / 2;
+                halfCircle3[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 halfCircle3[i].X -= 17;
             }
+
             Xor = new ComponentDraw[2];
             Xor[0] = new ComponentDraw(GL.GenLists(1), 40, 20, 3);
             Xor[0].Terminals[0] = new Point(-20, 5);
@@ -1160,21 +1224,15 @@ namespace IDE
             GL.NewList(Xor[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOff);
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle2[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle2[i]);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (var i = total - 1; i >= 0; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineStrip);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle3[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle3[i]);
             GL.End();
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
@@ -1193,21 +1251,15 @@ namespace IDE
             GL.NewList(Xor[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOn);
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle2[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle2[i]);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (var i = total - 1; i >= 0; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineStrip);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle3[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle3[i]);
             GL.End();
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
@@ -1219,24 +1271,28 @@ namespace IDE
             GL.End();
             GL.EndList();
         }
-        private static void GenNand() {
+
+        private static void GenNand()
+        {
             var total = 8;
             var halfCircle1 = new Vector2[total];
             var circle = new Vector2[total];
-            for (var i = 0; i < total; i++) {
-                var rotDegree = Math.PI * ((360d / ((total+1) * 2d)) * (i + 1)) / 180.0;
-                var rotDegree2 = Math.PI * ((360d / total) * i) / 180.0;
+            for (var i = 0; i < total; i++)
+            {
+                var rotDegree = Math.PI * (360d / ((total + 1) * 2d) * (i + 1)) / 180.0;
+                var rotDegree2 = Math.PI * (360d / total * i) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
-                halfCircle1[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree));
-                halfCircle1[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle1[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree));
+                halfCircle1[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 x = 3;
                 y = 0;
-                circle[i].X = (float)(x * Math.Cos(rotDegree2) - y * Math.Sin(rotDegree2));
-                circle[i].Y = (float)(x * Math.Sin(rotDegree2) + y * Math.Cos(rotDegree2));
+                circle[i].X = (float) (x * Math.Cos(rotDegree2) - y * Math.Sin(rotDegree2));
+                circle[i].Y = (float) (x * Math.Sin(rotDegree2) + y * Math.Cos(rotDegree2));
                 circle[i].X += 13;
             }
+
             Nand = new ComponentDraw[2];
             Nand[0] = new ComponentDraw(GL.GenLists(1), 40, 20, 3);
             Nand[0].Terminals[0] = new Point(-20, 5);
@@ -1247,16 +1303,12 @@ namespace IDE
             GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(0, 10);
-            for (var i = total - 1; i >= 0; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(0, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(circle[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(circle[i]);
             GL.End();
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
@@ -1277,16 +1329,12 @@ namespace IDE
             GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (var i = total - 1; i >= 0; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(circle[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(circle[i]);
             GL.End();
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
@@ -1298,17 +1346,21 @@ namespace IDE
             GL.End();
             GL.EndList();
         }
-        private static void GenAnd() {
+
+        private static void GenAnd()
+        {
             var total = 8;
             var halfCircle1 = new Vector2[total];
-            for (var i = 0; i < total; i++) {
-                var rotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i + 1)) / 180.0;
+            for (var i = 0; i < total; i++)
+            {
+                var rotDegree = Math.PI * (360d / ((total + 1) * 2d) * (i + 1)) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
-                halfCircle1[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree));
-                halfCircle1[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle1[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree));
+                halfCircle1[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
             }
+
             And = new ComponentDraw[2];
             And[0] = new ComponentDraw(GL.GenLists(1), 40, 20, 3);
             And[0].Terminals[0] = new Point(-20, 5);
@@ -1319,9 +1371,7 @@ namespace IDE
             GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(0, 10);
-            for (var i = total - 1; i >= 0; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(0, -10);
             GL.Vertex2(-15, -10);
             GL.End();
@@ -1344,9 +1394,7 @@ namespace IDE
             GL.Begin(PrimitiveType.LineLoop);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (var i = total - 1; i >= 0; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
@@ -1360,30 +1408,34 @@ namespace IDE
             GL.End();
             GL.EndList();
         }
-        private static void GenNor() {
+
+        private static void GenNor()
+        {
             var total = 8;
             var halfCircle1 = new Vector2[total];
             var halfCircle2 = new Vector2[total];
             var circle = new Vector2[total];
-            for (var i = 0; i < total; i++) {
-                var rotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i + 1)) / 180.0;
-                var rotDegree2 = Math.PI * ((360d / total) * i) / 180.0;
+            for (var i = 0; i < total; i++)
+            {
+                var rotDegree = Math.PI * (360d / ((total + 1) * 2d) * (i + 1)) / 180.0;
+                var rotDegree2 = Math.PI * (360d / total * i) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
-                halfCircle1[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) * 2;
-                halfCircle1[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle1[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) * 2;
+                halfCircle1[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 halfCircle1[i].X -= 10;
                 halfCircle2[i] = new Vector2();
-                halfCircle2[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) / 2;
-                halfCircle2[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle2[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) / 2;
+                halfCircle2[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 halfCircle2[i].X -= 15;
                 x = 3;
                 y = 0;
-                circle[i].X = (float)(x * Math.Cos(rotDegree2) - y * Math.Sin(rotDegree2));
-                circle[i].Y = (float)(x * Math.Sin(rotDegree2) + y * Math.Cos(rotDegree2));
+                circle[i].X = (float) (x * Math.Cos(rotDegree2) - y * Math.Sin(rotDegree2));
+                circle[i].Y = (float) (x * Math.Sin(rotDegree2) + y * Math.Cos(rotDegree2));
                 circle[i].X += 13;
             }
+
             Nor = new ComponentDraw[2];
             Nor[0] = new ComponentDraw(GL.GenLists(1), 40, 20, 3);
             Nor[0].Terminals[0] = new Point(-20, 5);
@@ -1392,21 +1444,15 @@ namespace IDE
             GL.NewList(Nor[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOff);
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle2[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle2[i]);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (var i = total - 1; i >= 0; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(circle[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(circle[i]);
             GL.End();
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
@@ -1425,21 +1471,15 @@ namespace IDE
             GL.NewList(Nor[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOn);
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle2[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle2[i]);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (var i = total - 1; i >= 0; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(circle[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(circle[i]);
             GL.End();
             GL.Begin(PrimitiveType.Lines);
             GL.Vertex2(-20, 5);
@@ -1451,23 +1491,27 @@ namespace IDE
             GL.End();
             GL.EndList();
         }
-        private static void GenOr() {
+
+        private static void GenOr()
+        {
             var total = 8;
             var halfCircle1 = new Vector2[total];
             var halfCircle2 = new Vector2[total];
-            for (var i = 0; i < total; i++) {
-                var rotDegree = Math.PI * ((360d / ((total + 1) * 2d)) * (i+1)) / 180.0;
+            for (var i = 0; i < total; i++)
+            {
+                var rotDegree = Math.PI * (360d / ((total + 1) * 2d) * (i + 1)) / 180.0;
                 double x = 0;
                 double y = -10;
                 halfCircle1[i] = new Vector2();
-                halfCircle1[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree))*2;
-                halfCircle1[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle1[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) * 2;
+                halfCircle1[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 halfCircle1[i].X -= 10;
                 halfCircle2[i] = new Vector2();
-                halfCircle2[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree))/2;
-                halfCircle2[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                halfCircle2[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree)) / 2;
+                halfCircle2[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 halfCircle2[i].X -= 15;
             }
+
             Or = new ComponentDraw[2];
             Or[0] = new ComponentDraw(GL.GenLists(1), 40, 20, 3);
             Or[0].Terminals[0] = new Point(-20, 5);
@@ -1476,14 +1520,10 @@ namespace IDE
             GL.NewList(Or[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOff);
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle2[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle2[i]);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (var i = total-1; i >= 0 ; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
@@ -1504,14 +1544,10 @@ namespace IDE
             GL.NewList(Or[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOn);
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(halfCircle2[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(halfCircle2[i]);
             GL.Vertex2(-15, 10);
             GL.Vertex2(-10, 10);
-            for (var i = total - 1; i >= 0; i--) {
-                GL.Vertex2(halfCircle1[i]);
-            }
+            for (var i = total - 1; i >= 0; i--) GL.Vertex2(halfCircle1[i]);
             GL.Vertex2(-10, -10);
             GL.Vertex2(-15, -10);
             GL.End();
@@ -1525,18 +1561,22 @@ namespace IDE
             GL.End();
             GL.EndList();
         }
-        private static void GenNot() {
+
+        private static void GenNot()
+        {
             var total = 8;
             var circle = new Vector2[total];
-            for (var i = 0; i < total; i++) {
-                var rotDegree = Math.PI * ((360d / total) * i) / 180.0;
+            for (var i = 0; i < total; i++)
+            {
+                var rotDegree = Math.PI * (360d / total * i) / 180.0;
                 double x = 3;
                 double y = 0;
                 circle[i] = new Vector2();
-                circle[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree));
-                circle[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                circle[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree));
+                circle[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 circle[i].X += 13;
             }
+
             Not = new ComponentDraw[3];
             Not[0] = new ComponentDraw(GL.GenLists(1), 40, 20, 2);
             Not[0].Terminals[0] = new Point(-20, 0);
@@ -1557,9 +1597,7 @@ namespace IDE
             GL.Vertex2(20, 0);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(circle[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(circle[i]);
             GL.End();
 
             GL.EndList();
@@ -1583,15 +1621,14 @@ namespace IDE
             GL.Vertex2(20, 0);
             GL.End();
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(circle[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(circle[i]);
             GL.End();
 
             GL.EndList();
         }
 
-        private static void GenDisable() {
+        private static void GenDisable()
+        {
             Disable = new ComponentDraw[3];
             Disable[0] = new ComponentDraw(GL.GenLists(1), 40, 20, 3);
             Disable[0].Terminals[0] = new Point(-20, 0);
@@ -1665,7 +1702,9 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void GenTerminal() {
+
+        private static void GenTerminal()
+        {
             TerminalHandle = GL.GenLists(1);
             GL.NewList(TerminalHandle, ListMode.Compile);
 
@@ -1678,39 +1717,39 @@ namespace IDE
 
             GL.EndList();
         }
-        private static void GenOutput() {
+
+        private static void GenOutput()
+        {
             var total = 8;
             var outerVertexes = new Vector2[total];
             var innerVertexes = new Vector2[total];
-            for (var i = 0; i < total; i++) {
-                var rotDegree = Math.PI * ((360d / total) * i) / 180.0;
+            for (var i = 0; i < total; i++)
+            {
+                var rotDegree = Math.PI * (360d / total * i) / 180.0;
                 double x = 5;
                 double y = 0;
                 outerVertexes[i] = new Vector2();
-                outerVertexes[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree));
-                outerVertexes[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                outerVertexes[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree));
+                outerVertexes[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
                 innerVertexes[i] = new Vector2();
                 x = 3;
                 y = 0;
-                innerVertexes[i].X = (float)(x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree));
-                innerVertexes[i].Y = (float)(x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
+                innerVertexes[i].X = (float) (x * Math.Cos(rotDegree) - y * Math.Sin(rotDegree));
+                innerVertexes[i].Y = (float) (x * Math.Sin(rotDegree) + y * Math.Cos(rotDegree));
             }
+
             Output = new ComponentDraw[2];
             Output[0] = new ComponentDraw(GL.GenLists(1), 15, 10, 1);
             Output[0].Terminals[0] = new Point(-10, 0);
             GL.NewList(Output[0].DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOff);
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(outerVertexes[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(outerVertexes[i]);
             GL.End();
 
             GL.Begin(PrimitiveType.TriangleFan);
             GL.Color3(ColorOff);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(innerVertexes[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(innerVertexes[i]);
             GL.End();
 
             GL.Begin(PrimitiveType.Lines);
@@ -1724,15 +1763,11 @@ namespace IDE
             GL.NewList(Output[1].DisplayListHandle, ListMode.Compile);
             GL.Color3(ColorOff);
             GL.Begin(PrimitiveType.LineLoop);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(outerVertexes[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(outerVertexes[i]);
             GL.End();
             GL.Color3(ColorOn);
             GL.Begin(PrimitiveType.TriangleFan);
-            for (var i = 0; i < total; i++) {
-                GL.Vertex2(innerVertexes[i]);
-            }
+            for (var i = 0; i < total; i++) GL.Vertex2(innerVertexes[i]);
             GL.End();
 
             GL.Begin(PrimitiveType.Lines);
@@ -1740,9 +1775,10 @@ namespace IDE
             GL.Vertex2(new Vector2(-10, 0));
             GL.End();
             GL.EndList();
-
         }
-        private static void GenInput() {
+
+        private static void GenInput()
+        {
             Input = new ComponentDraw[2];
             Input[0] = new ComponentDraw(GL.GenLists(1), 15, 10, 1);
             Input[0].Terminals[0] = new Point(10, 0);
@@ -1755,7 +1791,7 @@ namespace IDE
             GL.Vertex2(5, 5);
             GL.Vertex2(5, -5);
             GL.End();
-            
+
             GL.Begin(PrimitiveType.Quads);
             GL.Color3(ColorOff);
             GL.Vertex2(-3, -3);
@@ -1769,7 +1805,7 @@ namespace IDE
             GL.Vertex2(5, 0);
             GL.Vertex2(10, 0);
             GL.End();
-            
+
             GL.EndList();
 
             Input[1] = new ComponentDraw(GL.GenLists(1), 15, 10, 1);
@@ -1800,6 +1836,5 @@ namespace IDE
 
             GL.EndList();
         }
-
     }
 }

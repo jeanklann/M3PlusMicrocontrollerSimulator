@@ -4,17 +4,7 @@ namespace M3PlusMicrocontroller
 {
     public class Register : Direction
     {
-        public byte WitchOne { get; set; }
-        private static readonly char[] registers = {new char() , 'B', 'C', 'D', 'E'};
-
-        public override byte Value
-        {
-            get => Simulador.Reg[WitchOne];
-            set => Simulador.Reg[WitchOne] = value;
-        }
-
-        public override string Description => $"o acumulador {registers[WitchOne]}";
-        public override string Instruction => registers[WitchOne].ToString();
+        private static readonly char[] registers = {new char(), 'B', 'C', 'D', 'E'};
 
         protected Register()
         {
@@ -33,5 +23,16 @@ namespace M3PlusMicrocontroller
                 throw new CompilerError($"{register} is not a valid register.");
             WitchOne = (byte) index;
         }
+
+        public byte WitchOne { get; set; }
+
+        public override byte Value
+        {
+            get => Simulador.Reg[WitchOne];
+            set => Simulador.Reg[WitchOne] = value;
+        }
+
+        public override string Description => $"o acumulador {registers[WitchOne]}";
+        public override string Instruction => registers[WitchOne].ToString();
     }
 }

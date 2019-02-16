@@ -2,7 +2,8 @@ using CircuitSimulator.Components.Digital.MMaisMaisMais;
 
 namespace IDE
 {
-    public struct InternalComponents {
+    public struct InternalComponents
+    {
         public ControlModule ControlModule;
         public RomMemory RomMemory;
         public Ula Ula;

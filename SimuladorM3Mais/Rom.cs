@@ -1,14 +1,14 @@
 ﻿namespace M3PlusMicrocontroller
 {
-        public class Rom : Direction
+    public class Rom : Direction
+    {
+        public Rom(byte value)
         {
-            public override string Description => $"o valor {Helpers.ToHex(Value)}";
-            public override string Instruction => $"{Helpers.ToHex(Value)}";
-            public sealed override byte Value { get; set; }
-
-            public Rom(byte value)
-            {
-                Value = value;
-            }
+            Value = value;
         }
+
+        public override string Description => $"o valor {Helpers.ToHex(Value)}";
+        public override string Instruction => $"{Helpers.ToHex(Value)}";
+        public sealed override byte Value { get; set; }
+    }
 }

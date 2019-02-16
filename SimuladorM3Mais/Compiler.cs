@@ -1,48 +1,56 @@
 ﻿using System.Collections.Generic;
 
-namespace M3PlusMicrocontroller {
-    public class Compiler {
+namespace M3PlusMicrocontroller
+{
+    public class Compiler
+    {
         public const int MemoryMaxSize = 65536;
+        private int _nextAddress;
+        private bool _nextTokenHasBreakpoint;
+
+        private TokenAnalyzer _tokenAnalyzer;
 
         public List<InstructionCompiler> Instructions;
         public List<Label> Labels;
 
-        private TokenAnalyzer _tokenAnalyzer;
-        private int _nextAddress;
-        private bool _nextTokenHasBreakpoint;
-        
 
-        private Token NeedSeparator(string program) {
+        private Token NeedSeparator(string program)
+        {
             var token = _tokenAnalyzer.NextToken();
             if (token.Type != TokenType.Separator)
-                throw new CompilerError("Erro na linha " + Helpers.CountLines(program, token.Index) + ". Falta o separador ','.");
+                throw new CompilerError("Erro na linha " + Helpers.CountLines(program, token.Index) +
+                                        ". Falta o separador ','.");
             token = _tokenAnalyzer.NextToken();
             return token;
         }
-        private static void ThrowInvalidLabel(Token token, string program) {
+
+        private static void ThrowInvalidLabel(Token token, string program)
+        {
             throw new CompilerError("Erro na linha " + Helpers.CountLines(program, token.Index) + ". Label inválido.");
         }
 
-        private void NewInstruction(Instruction instruction) {
+        private void NewInstruction(Instruction instruction)
+        {
             instruction.HasBreakpoint = _nextTokenHasBreakpoint;
             _nextTokenHasBreakpoint = false;
             Instructions.Add(new InstructionCompiler(instruction, _nextAddress));
             if (instruction.To is Address label)
-            {
-                foreach (var item in Labels) {
+                foreach (var item in Labels)
+                {
                     if (label.Label != item.Name) continue;
                     label.ValueAddress = item.Address;
                     label.Value = 1;
                 }
-            }
+
             _nextAddress += instruction.Size;
         }
-        private void NewLabel(string name, Token token, string program) {
-            foreach (var item in Labels) {
-                if(name == item.Name) {
-                    throw new CompilerError("Erro na linha " + Helpers.CountLines(program, token.Index) + ". O label já existe.");
-                }
-            }
+
+        private void NewLabel(string name, Token token, string program)
+        {
+            foreach (var item in Labels)
+                if (name == item.Name)
+                    throw new CompilerError("Erro na linha " + Helpers.CountLines(program, token.Index) +
+                                            ". O label já existe.");
             foreach (var item in Instructions)
             {
                 if (!(item.Instruction.To is Address labelInstruction)) continue;
@@ -50,45 +58,55 @@ namespace M3PlusMicrocontroller {
                 labelInstruction.ValueAddress = _nextAddress;
                 labelInstruction.Value = 1;
             }
+
             var label = new Label(name, _nextAddress);
             Labels.Add(label);
         }
 
-        public Instruction[] Compile(string program, bool[] breakpoints) {
+        public Instruction[] Compile(string program, bool[] breakpoints)
+        {
             Instructions = new List<InstructionCompiler>();
             Labels = new List<Label>();
             _tokenAnalyzer = new TokenAnalyzer();
 
             _tokenAnalyzer.Analyze(program);
             Token token;
-            do {
+            do
+            {
                 token = _tokenAnalyzer.NextToken();
-                var lineToken = Helpers.CountLines(program, token.Index)-1;
-                if (breakpoints[lineToken]) {
-                    _nextTokenHasBreakpoint = true;
-                }
+                var lineToken = Helpers.CountLines(program, token.Index) - 1;
+                if (breakpoints[lineToken]) _nextTokenHasBreakpoint = true;
                 if (token.Type == TokenType.CpuInstruction)
                 {
                     token = OperationInstructions(program, token);
                     token = JmpInstructions(program, token);
                     token = PushInstructions(token);
                     token = CallInstructions(token);
-                    
-                } else if(token.Type == TokenType.Identificator)
+                }
+                else if (token.Type == TokenType.Identificator)
                 {
                     token = Identificator(program, token);
-                } else if (token.Type == TokenType.EoF) {
+                }
+                else if (token.Type == TokenType.EoF)
+                {
                     break;
-                } else {
-                    throw new CompilerError("Erro na linha " + Helpers.CountLines(program, token.Index) + ". Deve-se iniciar com uma instrução ou com um label.");
+                }
+                else
+                {
+                    throw new CompilerError("Erro na linha " + Helpers.CountLines(program, token.Index) +
+                                            ". Deve-se iniciar com uma instrução ou com um label.");
                 }
             } while (token.Type != TokenType.EoF);
+
             var instructionCompiled = new Instruction[MemoryMaxSize];
-            foreach (var item in Instructions) {
-                if(item.Instruction.To is Address address && address.Value == 0)
-                    throw new CompilerError("Erro na instrução "+item.Instruction.Text+". Não foi encontrado o label "+ item.Instruction .Label+ ".");
+            foreach (var item in Instructions)
+            {
+                if (item.Instruction.To is Address address && address.Value == 0)
+                    throw new CompilerError("Erro na instrução " + item.Instruction.Text +
+                                            ". Não foi encontrado o label " + item.Instruction.Label + ".");
                 instructionCompiled[item.Address] = item.Instruction;
             }
+
             return instructionCompiled;
         }
 
@@ -100,7 +118,8 @@ namespace M3PlusMicrocontroller {
                 case "CALL":
                     token = _tokenAnalyzer.NextToken();
                     function = Functions.Call;
-                    NewInstruction(new Instruction("CALL", function, DirectionFactory.Create(token), $"Chama o procedimento no label {token.Value}."));
+                    NewInstruction(new Instruction("CALL", function, DirectionFactory.Create(token),
+                        $"Chama o procedimento no label {token.Value}."));
                     break;
                 case "RET":
                     token = _tokenAnalyzer.NextToken();
@@ -108,6 +127,7 @@ namespace M3PlusMicrocontroller {
                     NewInstruction(new Instruction("RET", function, "Retorno do procedimento."));
                     break;
             }
+
             return token;
         }
 
@@ -150,6 +170,7 @@ namespace M3PlusMicrocontroller {
                     NewInstruction(new Instruction(instruction, function, new Register(0), instructionDescription));
                     break;
             }
+
             return token;
         }
 
@@ -160,15 +181,10 @@ namespace M3PlusMicrocontroller {
             if (token.Type == TokenType.IdentificatorSeparator)
             {
                 if (_tokenAnalyzer.PeekNextToken().Type == TokenType.EoF)
-                {
                     throw new CompilerError("Erro na linha " + Helpers.CountLines(program, token.Index) +
                                             ". Um label não pode ser o último código do programa. Caso deseje encessar o programa aqui insira isso na última linha: \"JMP " +
                                             labelToken.Value + "\"");
-                }
-                else
-                {
-                    NewLabel(labelToken.Value, labelToken, program);
-                }
+                NewLabel(labelToken.Value, labelToken, program);
             }
             else
             {
