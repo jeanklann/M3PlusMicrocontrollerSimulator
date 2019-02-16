@@ -14,8 +14,8 @@ namespace IDE
         {
             InitializeComponent();
         }
-        private Thread thread;
-        private bool closing;
+        private Thread _thread;
+        private bool _closing;
         public List<string> GetColumns()
         {
             var list = new List<string>();
@@ -73,7 +73,7 @@ namespace IDE
             var style = new DataGridViewCellStyle();
             style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             var lastClear = UiStatics.Circuito.InstructionLog.ClearCount;
-            while (!UiStatics.WantExit && !closing)
+            while (!UiStatics.WantExit && !_closing)
             {
                 try
                 {
@@ -134,7 +134,7 @@ namespace IDE
 
         private void InstructionLogForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            closing = true;
+            _closing = true;
         }
 
         private void InstructionLogTableForm_Load(object sender, EventArgs e)
@@ -169,8 +169,8 @@ namespace IDE
             {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
-            thread = new Thread(UpdateThread);
-            thread.Start();
+            _thread = new Thread(UpdateThread);
+            _thread.Start();
         }
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)

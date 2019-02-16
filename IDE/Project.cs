@@ -18,8 +18,8 @@ namespace IDE {
         public string Code;
         public byte[] Instructions;
         
-        public Wire_Project[] Wires;
-        public Component_Project[] Components;
+        public WireProject[] Wires;
+        public ComponentProject[] Components;
         
         public static bool Save(string dir) {
             var project = new FileProject();
@@ -34,14 +34,14 @@ namespace IDE {
             project.Instructions[3] = 67;
             project.Instructions[4] = 154;
 
-            project.Components = new Component_Project[UiStatics.Circuito.Components.Count];
-            project.Wires = new Wire_Project[UiStatics.Circuito.Wires.Count];
+            project.Components = new ComponentProject[UiStatics.Circuito.Components.Count];
+            project.Wires = new WireProject[UiStatics.Circuito.Wires.Count];
 
             for (var i = 0; i < project.Components.Length; i++) {
-                project.Components[i] = new Component_Project(UiStatics.Circuito.Components[i]);
+                project.Components[i] = new ComponentProject(UiStatics.Circuito.Components[i]);
             }
             for (var i = 0; i < project.Wires.Length; i++) {
-                project.Wires[i] = new Wire_Project(UiStatics.Circuito.Wires[i], project);
+                project.Wires[i] = new WireProject(UiStatics.Circuito.Wires[i], project);
             }
             
             return SerializeObject(project, UiStatics.FilePath);
@@ -120,37 +120,37 @@ namespace IDE {
         }
     }
     [Serializable]
-    public class Point_Project {
+    public class PointProject {
         public float X, Y;
-        public Point_Project(PointF point) {
+        public PointProject(PointF point) {
             X = point.X;
             Y = point.Y;
         }
-        public Point_Project(float X, float Y) {
-            this.X = X;
-            this.Y = Y;
+        public PointProject(float x, float y) {
+            this.X = x;
+            this.Y = y;
         }
-        public static implicit operator PointF(Point_Project p) {
+        public static implicit operator PointF(PointProject p) {
             return new PointF(p.X, p.Y);
         }
-        public static implicit operator Point_Project(PointF p) {
-            return new Point_Project(p);
+        public static implicit operator PointProject(PointF p) {
+            return new PointProject(p);
         }
     }
     [Serializable]
-    public class Component_Project {
-        public Point_Project Center;
+    public class ComponentProject {
+        public PointProject Center;
         public float Rotation;
         public ComponentType Type;
         public int RootComponent;
 
-        public Component_Project(Component c) {
+        public ComponentProject(Component c) {
             Center = c.Center;
             Rotation = c.Rotation;
             Type = c.Type;
             RootComponent = UiStatics.Circuito.Components.IndexOf(c.RootComponent);
         }
-        public static implicit operator Component(Component_Project c) {
+        public static implicit operator Component(ComponentProject c) {
             ComponentDraw draw = null;
 
             switch (c.Type) {
@@ -202,17 +202,17 @@ namespace IDE {
                     break;
                 case ComponentType.BlackTerminal:
                     break;
-                case ComponentType.JKFlipFlop:
-                    draw = Draws.JKFlipFlop;
+                case ComponentType.JkFlipFlop:
+                    draw = Draws.JkFlipFlop;
                     break;
-                case ComponentType.RSFlipFlop:
-                    draw = Draws.RSFlipFlop;
+                case ComponentType.RsFlipFlop:
+                    draw = Draws.RsFlipFlop;
                     break;
                 case ComponentType.DFlipFlop:
                     draw = Draws.DFlipFlop;
                     break;
-                case ComponentType.TFlipFlop:
-                    draw = Draws.TFlipFlop;
+                case ComponentType.FlipFlop:
+                    draw = Draws.FlipFlop;
                     break;
                 case ComponentType.ControlModule:
                     draw = Draws.ControlModule;
@@ -231,14 +231,14 @@ namespace IDE {
                 case ComponentType.Tristate:
                     draw = Draws.Disable[0];
                     break;
-                case ComponentType.ULA:
-                    draw = Draws.ULA;
+                case ComponentType.Ula:
+                    draw = Draws.Ula;
                     break;
                 case ComponentType.Registrer8Bit:
                     draw = Draws.Registrer8Bit;
                     break;
-                case ComponentType.Registrer8BitSG:
-                    draw = Draws.Registrer8BitSG;
+                case ComponentType.Registrer8BitSg:
+                    draw = Draws.Registrer8BitSg;
                     break;
                 case ComponentType.Registrers:
                     draw = Draws.Registrers;
@@ -275,16 +275,16 @@ namespace IDE {
         }
     }
     [Serializable]
-    public class Wire_Project {
-        public Point_Project From;
+    public class WireProject {
+        public PointProject From;
         public int FromComponent;
         public int FromIndex;
-        public Point_Project To;
+        public PointProject To;
         public int ToComponent;
         public int ToIndex;
         public int RootComponent;
         
-        public Wire_Project(Wire wire, FileProject project) {
+        public WireProject(Wire wire, FileProject project) {
             From = wire.From;
             RootComponent = UiStatics.Circuito.Components.IndexOf(wire.RootComponent);
             if (wire.FromComponent != null) {

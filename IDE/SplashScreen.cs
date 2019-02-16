@@ -23,13 +23,13 @@ namespace IDE {
             splash.Close();
             return form;
         }
-        public static FormRamMemory OpenRAM(IWin32Window parent) {
+        public static FormRamMemory OpenRam(IWin32Window parent) {
             var splash = new SplashScreen();
             splash.Show();
             Application.DoEvents();
             Thread.Sleep(10);
             var form = new FormRamMemory();
-            form.Build(FormRamType.RAM);
+            form.Build(FormRamType.Ram);
             if(parent != null)
                 form.Show(parent);
             else
@@ -51,7 +51,7 @@ namespace IDE {
             splash.Close();
             return form;
         }
-        public static FormRomMemory OpenROM(IWin32Window parent) {
+        public static FormRomMemory OpenRom(IWin32Window parent) {
             var splash = new SplashScreen();
             splash.Show();
             Application.DoEvents();

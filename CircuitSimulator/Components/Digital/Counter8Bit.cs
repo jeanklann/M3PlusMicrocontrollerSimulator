@@ -2,7 +2,7 @@
     public class Counter8Bit : Chip {
 
         public byte InternalValue;
-        private float lastClock = Pin.LOW;
+        private float _lastClock = Pin.Low;
         public Counter8Bit(string name = "Counter8Bit") : base(name, 12) {
 
         }
@@ -16,9 +16,9 @@
             }
         }
         internal override bool CanExecute() {
-            if (SimulationIdInternal == circuit.SimulationId) return false;
+            if (SimulationIdInternal == Circuit.SimulationId) return false;
             for (var i = 0; i < 4; i++) {
-                if (Pins[i].SimulationIdInternal != circuit.SimulationId) {
+                if (Pins[i].SimulationIdInternal != Circuit.SimulationId) {
                     return false;
                 }
             }
@@ -26,52 +26,52 @@
         }
 
         protected internal override void Execute() {
-            SimulationIdInternal = circuit.SimulationId;
+            SimulationIdInternal = Circuit.SimulationId;
 
-            if(lastClock <= Pin.HALFCUT && Pins[3].Value >= Pin.HALFCUT) {
-                if (Pins[1].Value <= Pin.HALFCUT)
+            if(_lastClock <= Pin.Halfcut && Pins[3].Value >= Pin.Halfcut) {
+                if (Pins[1].Value <= Pin.Halfcut)
                     ++InternalValue;
                 else
                     --InternalValue;
             }
-            lastClock = Pins[3].Value;
-            if (Pins[2].Value >= Pin.HALFCUT) {
+            _lastClock = Pins[3].Value;
+            if (Pins[2].Value >= Pin.Halfcut) {
                 InternalValue = 0;
             }
-            if (Pins[0].Value >= Pin.HALFCUT) {
+            if (Pins[0].Value >= Pin.Halfcut) {
                 var val = InternalValue;
                 for (var i = 4; i < Pins.Length; i++)
-                    Pins[i].Value = Pin.LOW;
+                    Pins[i].Value = Pin.Low;
                 if (val >= 128) {
-                    Pins[11].Value = Pin.HIGH;
+                    Pins[11].Value = Pin.High;
                     val -= 128;
                 }
                 if (val >= 64) {
-                    Pins[10].Value = Pin.HIGH;
+                    Pins[10].Value = Pin.High;
                     val -= 64;
                 }
                 if (val >= 32) {
-                    Pins[9].Value = Pin.HIGH;
+                    Pins[9].Value = Pin.High;
                     val -= 32;
                 }
                 if (val >= 16) {
-                    Pins[8].Value = Pin.HIGH;
+                    Pins[8].Value = Pin.High;
                     val -= 16;
                 }
                 if (val >= 8) {
-                    Pins[7].Value = Pin.HIGH;
+                    Pins[7].Value = Pin.High;
                     val -= 8;
                 }
                 if (val >= 4) {
-                    Pins[6].Value = Pin.HIGH;
+                    Pins[6].Value = Pin.High;
                     val -= 4;
                 }
                 if (val >= 2) {
-                    Pins[5].Value = Pin.HIGH;
+                    Pins[5].Value = Pin.High;
                     val -= 2;
                 }
                 if (val >= 1) {
-                    Pins[4].Value = Pin.HIGH;
+                    Pins[4].Value = Pin.High;
                     val -= 1;
                 }
                 for (var i = 4; i < Pins.Length; i++) {

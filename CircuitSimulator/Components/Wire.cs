@@ -7,7 +7,7 @@ namespace CircuitSimulator.Components {
         }
 
         internal override bool CanExecute() {
-            if (SimulationIdInternal == circuit.SimulationId) return false;
+            if (SimulationIdInternal == Circuit.SimulationId) return false;
             /*
             for (int i = 0; i < Pins.Length; i++) {
                 if (Pins[i].simulationId == circuit.SimulationId) {
@@ -20,7 +20,7 @@ namespace CircuitSimulator.Components {
         protected internal override void Execute() {
             var index = -1;
             for (var i = 0; i < Pins.Length; i++) {
-                if (Pins[i].SimulationIdInternal == circuit.SimulationId) {
+                if (Pins[i].SimulationIdInternal == Circuit.SimulationId) {
                     index = i;
                     break;
                 }

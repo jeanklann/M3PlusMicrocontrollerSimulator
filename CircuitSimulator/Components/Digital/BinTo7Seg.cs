@@ -28,23 +28,23 @@
         public bool IsHexadecimalValid = true;
 
         private static readonly float[,] table = new float[,] {
-            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW}, //0
-            {Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW}, //1
-            {Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH}, //2
-            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.LOW, Pin.HIGH}, //3
-            {Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.LOW, Pin.HIGH, Pin.HIGH}, //4
-            {Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH}, //5
-            {Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //6
-            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW}, //7
-            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //8
-            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH}, //9
-            {Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //A
-            {Pin.LOW, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //B
-            {Pin.HIGH, Pin.LOW, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW}, //C
-            {Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.LOW, Pin.HIGH}, //D
-            {Pin.HIGH, Pin.LOW, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //E
-            {Pin.HIGH, Pin.LOW, Pin.LOW, Pin.LOW, Pin.HIGH, Pin.HIGH, Pin.HIGH}, //F
-            {Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW, Pin.LOW}, //clean
+            {Pin.High, Pin.High, Pin.High, Pin.High, Pin.High, Pin.High, Pin.Low}, //0
+            {Pin.Low, Pin.High, Pin.High, Pin.Low, Pin.Low, Pin.Low, Pin.Low}, //1
+            {Pin.High, Pin.High, Pin.Low, Pin.High, Pin.High, Pin.Low, Pin.High}, //2
+            {Pin.High, Pin.High, Pin.High, Pin.High, Pin.Low, Pin.Low, Pin.High}, //3
+            {Pin.Low, Pin.High, Pin.High, Pin.Low, Pin.Low, Pin.High, Pin.High}, //4
+            {Pin.High, Pin.Low, Pin.High, Pin.High, Pin.Low, Pin.High, Pin.High}, //5
+            {Pin.High, Pin.Low, Pin.High, Pin.High, Pin.High, Pin.High, Pin.High}, //6
+            {Pin.High, Pin.High, Pin.High, Pin.Low, Pin.Low, Pin.Low, Pin.Low}, //7
+            {Pin.High, Pin.High, Pin.High, Pin.High, Pin.High, Pin.High, Pin.High}, //8
+            {Pin.High, Pin.High, Pin.High, Pin.High, Pin.Low, Pin.High, Pin.High}, //9
+            {Pin.High, Pin.High, Pin.High, Pin.Low, Pin.High, Pin.High, Pin.High}, //A
+            {Pin.Low, Pin.Low, Pin.High, Pin.High, Pin.High, Pin.High, Pin.High}, //B
+            {Pin.High, Pin.Low, Pin.Low, Pin.High, Pin.High, Pin.High, Pin.Low}, //C
+            {Pin.Low, Pin.High, Pin.High, Pin.High, Pin.High, Pin.Low, Pin.High}, //D
+            {Pin.High, Pin.Low, Pin.Low, Pin.High, Pin.High, Pin.High, Pin.High}, //E
+            {Pin.High, Pin.Low, Pin.Low, Pin.Low, Pin.High, Pin.High, Pin.High}, //F
+            {Pin.Low, Pin.Low, Pin.Low, Pin.Low, Pin.Low, Pin.Low, Pin.Low}, //clean
         };
 
 
@@ -57,15 +57,15 @@
                 if(i<4)
                     Pins[i] = new Pin(this, false, false); //inputs
                 else if(i == 4)
-                    Pins[i] = new Pin(this, false, false, Pin.HIGH); //enable pin
+                    Pins[i] = new Pin(this, false, false, Pin.High); //enable pin
                 else
                     Pins[i] = new Pin(this, true, false); //outputs
             }
         }
         internal override bool CanExecute() {
-            if(SimulationIdInternal == circuit.SimulationId) return false;
+            if(SimulationIdInternal == Circuit.SimulationId) return false;
             for(var i = 0; i < 4; i++) { //not needed to verify if Enable is connected
-                if(Pins[i].SimulationIdInternal != circuit.SimulationId) {
+                if(Pins[i].SimulationIdInternal != Circuit.SimulationId) {
                     return false;
                 }
             }
@@ -73,17 +73,17 @@
         }
         protected internal override void Execute() {
             base.Execute();
-            if(Enable.GetDigital() == Pin.LOW) {
+            if(Enable.GetDigital() == Pin.Low) {
                 ToOutput(16);
             } else {
                 var value = 0;
-                if(D.GetDigital() == Pin.HIGH)
+                if(D.GetDigital() == Pin.High)
                     value += 8;
-                if(C.GetDigital() == Pin.HIGH)
+                if(C.GetDigital() == Pin.High)
                     value += 4;
-                if(B.GetDigital() == Pin.HIGH)
+                if(B.GetDigital() == Pin.High)
                     value += 2;
-                if(A.GetDigital() == Pin.HIGH)
+                if(A.GetDigital() == Pin.High)
                     value += 1;
                 if(!IsHexadecimalValid) {
                     if(value >= 9)

@@ -180,7 +180,7 @@
             this.bField.ByteQuantity = ((byte)(1));
             this.bField.Location = new System.Drawing.Point(27, 52);
             this.bField.Name = "bField";
-            this.bField.Selected = IDE.Components.DataFieldType.DEC;
+            this.bField.Selected = IDE.Components.DataFieldType.Dec;
             this.bField.Size = new System.Drawing.Size(119, 28);
             this.bField.TabIndex = 6;
             this.toolTip1.SetToolTip(this.bField, "Valor do registrador B");
@@ -192,7 +192,7 @@
             this.aField.ByteQuantity = ((byte)(1));
             this.aField.Location = new System.Drawing.Point(27, 19);
             this.aField.Name = "aField";
-            this.aField.Selected = IDE.Components.DataFieldType.DEC;
+            this.aField.Selected = IDE.Components.DataFieldType.Dec;
             this.aField.Size = new System.Drawing.Size(119, 28);
             this.aField.TabIndex = 3;
             this.toolTip1.SetToolTip(this.aField, "Valor do registrador acumulador");
@@ -204,7 +204,7 @@
             this.eField.ByteQuantity = ((byte)(1));
             this.eField.Location = new System.Drawing.Point(27, 154);
             this.eField.Name = "eField";
-            this.eField.Selected = IDE.Components.DataFieldType.DEC;
+            this.eField.Selected = IDE.Components.DataFieldType.Dec;
             this.eField.Size = new System.Drawing.Size(119, 28);
             this.eField.TabIndex = 9;
             this.toolTip1.SetToolTip(this.eField, "Valor do registrador E");
@@ -216,7 +216,7 @@
             this.cField.ByteQuantity = ((byte)(1));
             this.cField.Location = new System.Drawing.Point(27, 86);
             this.cField.Name = "cField";
-            this.cField.Selected = IDE.Components.DataFieldType.DEC;
+            this.cField.Selected = IDE.Components.DataFieldType.Dec;
             this.cField.Size = new System.Drawing.Size(119, 28);
             this.cField.TabIndex = 7;
             this.toolTip1.SetToolTip(this.cField, "Valor do registrador C");
@@ -228,7 +228,7 @@
             this.dField.ByteQuantity = ((byte)(1));
             this.dField.Location = new System.Drawing.Point(27, 120);
             this.dField.Name = "dField";
-            this.dField.Selected = IDE.Components.DataFieldType.DEC;
+            this.dField.Selected = IDE.Components.DataFieldType.Dec;
             this.dField.Size = new System.Drawing.Size(119, 28);
             this.dField.TabIndex = 8;
             this.toolTip1.SetToolTip(this.dField, "Valor do registrador D");
@@ -273,7 +273,7 @@
             this.in1Field.ByteQuantity = ((byte)(1));
             this.in1Field.Location = new System.Drawing.Point(36, 76);
             this.in1Field.Name = "in1Field";
-            this.in1Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.in1Field.Selected = IDE.Components.DataFieldType.Dec;
             this.in1Field.Size = new System.Drawing.Size(128, 28);
             this.in1Field.TabIndex = 6;
             this.toolTip1.SetToolTip(this.in1Field, "Valor da entrada IN2");
@@ -287,7 +287,7 @@
             this.in0Field.ByteQuantity = ((byte)(1));
             this.in0Field.Location = new System.Drawing.Point(36, 43);
             this.in0Field.Name = "in0Field";
-            this.in0Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.in0Field.Selected = IDE.Components.DataFieldType.Dec;
             this.in0Field.Size = new System.Drawing.Size(128, 28);
             this.in0Field.TabIndex = 3;
             this.toolTip1.SetToolTip(this.in0Field, "Valor da entrada IN1");
@@ -340,7 +340,7 @@
             this.in2Field.ByteQuantity = ((byte)(1));
             this.in2Field.Location = new System.Drawing.Point(36, 110);
             this.in2Field.Name = "in2Field";
-            this.in2Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.in2Field.Selected = IDE.Components.DataFieldType.Dec;
             this.in2Field.Size = new System.Drawing.Size(128, 28);
             this.in2Field.TabIndex = 7;
             this.toolTip1.SetToolTip(this.in2Field, "Valor da entrada IN3");
@@ -354,7 +354,7 @@
             this.in3Field.ByteQuantity = ((byte)(1));
             this.in3Field.Location = new System.Drawing.Point(36, 144);
             this.in3Field.Name = "in3Field";
-            this.in3Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.in3Field.Selected = IDE.Components.DataFieldType.Dec;
             this.in3Field.Size = new System.Drawing.Size(128, 28);
             this.in3Field.TabIndex = 8;
             this.toolTip1.SetToolTip(this.in3Field, "Valor da entrada IN4");
@@ -385,7 +385,7 @@
             this.out1Field.ByteQuantity = ((byte)(1));
             this.out1Field.Location = new System.Drawing.Point(49, 52);
             this.out1Field.Name = "out1Field";
-            this.out1Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.out1Field.Selected = IDE.Components.DataFieldType.Dec;
             this.out1Field.Size = new System.Drawing.Size(119, 28);
             this.out1Field.TabIndex = 6;
             this.toolTip1.SetToolTip(this.out1Field, "Valor da saída OUT2");
@@ -398,7 +398,7 @@
             this.out0Field.ByteQuantity = ((byte)(1));
             this.out0Field.Location = new System.Drawing.Point(49, 19);
             this.out0Field.Name = "out0Field";
-            this.out0Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.out0Field.Selected = IDE.Components.DataFieldType.Dec;
             this.out0Field.Size = new System.Drawing.Size(119, 28);
             this.out0Field.TabIndex = 3;
             this.toolTip1.SetToolTip(this.out0Field, "Valor da saída OUT1");
@@ -450,7 +450,7 @@
             this.out2Field.ByteQuantity = ((byte)(1));
             this.out2Field.Location = new System.Drawing.Point(49, 86);
             this.out2Field.Name = "out2Field";
-            this.out2Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.out2Field.Selected = IDE.Components.DataFieldType.Dec;
             this.out2Field.Size = new System.Drawing.Size(119, 28);
             this.out2Field.TabIndex = 7;
             this.toolTip1.SetToolTip(this.out2Field, "Valor da saída OUT3");
@@ -463,7 +463,7 @@
             this.out3Field.ByteQuantity = ((byte)(1));
             this.out3Field.Location = new System.Drawing.Point(49, 120);
             this.out3Field.Name = "out3Field";
-            this.out3Field.Selected = IDE.Components.DataFieldType.DEC;
+            this.out3Field.Selected = IDE.Components.DataFieldType.Dec;
             this.out3Field.Size = new System.Drawing.Size(119, 28);
             this.out3Field.TabIndex = 8;
             this.toolTip1.SetToolTip(this.out3Field, "Valor da saída OUT4");
@@ -622,7 +622,7 @@
             this.programCounter.ByteQuantity = ((byte)(1));
             this.programCounter.Location = new System.Drawing.Point(36, 3);
             this.programCounter.Name = "programCounter";
-            this.programCounter.Selected = IDE.Components.DataFieldType.DEC;
+            this.programCounter.Selected = IDE.Components.DataFieldType.Dec;
             this.programCounter.Size = new System.Drawing.Size(125, 28);
             this.programCounter.TabIndex = 25;
             this.toolTip1.SetToolTip(this.programCounter, "Program Counter (Contador de Programa)");
@@ -680,7 +680,7 @@
             this.stackPointer.ByteQuantity = ((byte)(1));
             this.stackPointer.Location = new System.Drawing.Point(36, 37);
             this.stackPointer.Name = "stackPointer";
-            this.stackPointer.Selected = IDE.Components.DataFieldType.DEC;
+            this.stackPointer.Selected = IDE.Components.DataFieldType.Dec;
             this.stackPointer.Size = new System.Drawing.Size(125, 28);
             this.stackPointer.TabIndex = 28;
             this.toolTip1.SetToolTip(this.stackPointer, "Program Counter (Contador de Programa)");

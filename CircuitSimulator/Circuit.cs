@@ -3,30 +3,30 @@ using System.Collections.Generic;
 
 namespace CircuitSimulator {
     public class Circuit {
-        private bool builtCircuit;
-        private int simulationId;
-        private List<Component> starterComponents;
-        private Queue<Component> executionQueue;
-        private float timePerTick;
-        private float time;
-        private int lastId = -1;
+        private bool _builtCircuit;
+        private int _simulationId;
+        private List<Component> _starterComponents;
+        private Queue<Component> _executionQueue;
+        private float _timePerTick;
+        private float _time;
+        private int _lastId = -1;
 
-        public int SimulationId => simulationId;
+        public int SimulationId => _simulationId;
 
         public List<Component> Components;
-        public float TimePerTick => timePerTick;
-        public float Time => time;
+        public float TimePerTick => _timePerTick;
+        public float Time => _time;
 
 
         public Circuit(float timePerTick = 0.01666666666666666666f) {
             Components = new List<Component>();
-            starterComponents = new List<Component>();
-            executionQueue = new Queue<Component>();
-            this.timePerTick = timePerTick;
+            _starterComponents = new List<Component>();
+            _executionQueue = new Queue<Component>();
+            this._timePerTick = timePerTick;
         }
 
         protected internal void AddToExecution(Component component) {
-            executionQueue.Enqueue(component);
+            _executionQueue.Enqueue(component);
         }
         /// <summary>
         /// Adds a component to the circuit
@@ -35,9 +35,9 @@ namespace CircuitSimulator {
         /// <returns>The same component</returns>
         public T AddComponent<T> (T component) where T : Component {
             if(component == null) throw new Exception("Component is null");
-            if(component.circuit != null && component.circuit != this) throw new Exception("The component is attached to another circuit");
-            component.circuit = this;
-            component.Id = ++lastId;
+            if(component.Circuit != null && component.Circuit != this) throw new Exception("The component is attached to another circuit");
+            component.Circuit = this;
+            component.Id = ++_lastId;
             if(!Components.Contains(component)) {
                 Components.Add(component);
             }
@@ -71,21 +71,21 @@ namespace CircuitSimulator {
         /// </summary>
         private void Build() {
             foreach(var item in Components) {
-                if(item.CanStart) starterComponents.Add(item);
+                if(item.CanStart) _starterComponents.Add(item);
             }
-            builtCircuit = true;
+            _builtCircuit = true;
         }
         /// <summary>
         /// Prepare the Tick() method
         /// </summary>
         private void PrepareTick() {
-            executionQueue.Clear();
-            foreach(var item in starterComponents) {
-                executionQueue.Enqueue(item);
+            _executionQueue.Clear();
+            foreach(var item in _starterComponents) {
+                _executionQueue.Enqueue(item);
             }
-            if(executionQueue.Count == 0)
+            if(_executionQueue.Count == 0)
                 throw new Exception("There is no sources in the circuit.");
-            ++simulationId;
+            ++_simulationId;
         }
         /// <summary>
         /// Ticks a quantity
@@ -100,17 +100,17 @@ namespace CircuitSimulator {
         /// This need to be called every frame. Every circuit pass it's a Tick()
         /// </summary>
         public void Tick() {
-            if(!builtCircuit)
+            if(!_builtCircuit)
                 Build();
             PrepareTick();
-            while(executionQueue.Count > 0) {
-                var component = executionQueue.Dequeue();
+            while(_executionQueue.Count > 0) {
+                var component = _executionQueue.Dequeue();
                 if (component != null) { //Failsafe
-                    component.SimulationIdInternal = simulationId;
+                    component.SimulationIdInternal = _simulationId;
                     component.Execute();
                 }
             }
-            time += timePerTick;
+            _time += _timePerTick;
         }
     }
     

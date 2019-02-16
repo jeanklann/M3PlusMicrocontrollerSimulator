@@ -2,44 +2,44 @@
 using System.Windows.Forms;
 
 namespace IDE.Components {
-    public class CheckboxField:CheckBox, Component {
-        private bool needRefresh = true;
-        private bool userInput;
-        private bool refreshing;
+    public class CheckboxField:CheckBox, IComponent {
+        private bool _needRefresh = true;
+        private bool _userInput;
+        private bool _refreshing;
 
-        public bool UserInput { get => userInput;
-            set => userInput = value;
+        public bool UserInput { get => _userInput;
+            set => _userInput = value;
         }
-        private bool value;
+        private bool _value;
         public bool Value
         {
-            get => value;
+            get => _value;
             set
             {
-                if (value != this.value) {
-                    this.value = value;
-                    needRefresh = true;
+                if (value != this._value) {
+                    this._value = value;
+                    _needRefresh = true;
                 }
 
             }
         }
         public override void Refresh() {
-            if (needRefresh) {
-                refreshing = true;
+            if (_needRefresh) {
+                _refreshing = true;
 
-                Checked = value;
+                Checked = _value;
                 base.Refresh();
-                needRefresh = false;
+                _needRefresh = false;
 
-                refreshing = false;
+                _refreshing = false;
             }
         }
         protected override void OnCheckedChanged(EventArgs e) {
             base.OnCheckedChanged(e);
-            if (!refreshing) {
-                value = Checked;
-                needRefresh = true;
-                userInput = true;
+            if (!_refreshing) {
+                _value = Checked;
+                _needRefresh = true;
+                _userInput = true;
             }
         }
         /*

@@ -2,9 +2,9 @@
 
 namespace CircuitSimulator{
     public class ShiftRegister:Component {
-        private ulong storedValue;
-        private byte bits = 8;
-        private float lastClock = Pin.LOW;
+        private ulong _storedValue;
+        private byte _bits = 8;
+        private float _lastClock = Pin.Low;
         /// <summary>
         /// Input value
         /// </summary>
@@ -17,7 +17,7 @@ namespace CircuitSimulator{
 
         public ShiftRegister(string name = "Shift Register", byte bits = 8):base(name, bits+2) {
             if(bits >= 1 && bits <= 64)
-                this.bits = bits;
+                this._bits = bits;
             else throw new Exception("Incorrect number of bits: " + bits);
         }
         public Pin Output(int index) {
@@ -28,15 +28,15 @@ namespace CircuitSimulator{
             for(var i = 0; i < 2; i++) {
                 Pins[i] = new Pin(this, false, false);
             }
-            for(var i = 2; i < bits+2; i++) {
+            for(var i = 2; i < _bits+2; i++) {
                 Pins[i] = new Pin(this, true, false);
             }
         }
 
         internal override bool CanExecute() {
-            if(SimulationIdInternal == circuit.SimulationId) return false;
+            if(SimulationIdInternal == Circuit.SimulationId) return false;
             for(var i = 0; i < 2; i++) {
-                if(Pins[i].SimulationIdInternal != circuit.SimulationId) {
+                if(Pins[i].SimulationIdInternal != Circuit.SimulationId) {
                     return false;
                 }
             }
@@ -45,22 +45,22 @@ namespace CircuitSimulator{
         
         protected internal override void Execute() {
             base.Execute();
-            if(Clock.Value == Pin.LOW && lastClock == Pin.HIGH) {
-                storedValue *= 2;
-                storedValue += Input.GetDigital() == Pin.HIGH ? 1u : 0u;
+            if(Clock.Value == Pin.Low && _lastClock == Pin.High) {
+                _storedValue *= 2;
+                _storedValue += Input.GetDigital() == Pin.High ? 1u : 0u;
                 ulong temp = 1;
-                for(var i = 0; i < bits; i++) {
-                    var val = storedValue & temp;
+                for(var i = 0; i < _bits; i++) {
+                    var val = _storedValue & temp;
                     if(val > 0) {
-                        Pins[i + 2].Value = Pin.HIGH;
+                        Pins[i + 2].Value = Pin.High;
                     } else {
-                        Pins[i + 2].Value = Pin.LOW;
+                        Pins[i + 2].Value = Pin.Low;
                     }
                     temp *= 2;
                 }
             }
-            lastClock = Clock.Value;
-            for(var i = 2; i < bits + 2; i++) {
+            _lastClock = Clock.Value;
+            for(var i = 2; i < _bits + 2; i++) {
                 Pins[i].Propagate();
             }
         }

@@ -28,9 +28,9 @@
             }
         }
         internal override bool CanExecute() {
-            if(SimulationIdInternal == circuit.SimulationId) return false;
+            if(SimulationIdInternal == Circuit.SimulationId) return false;
             for(var i = 0; i < 3; i++) {
-                if(Pins[i].SimulationIdInternal != circuit.SimulationId) {
+                if(Pins[i].SimulationIdInternal != Circuit.SimulationId) {
                     return false;
                 }
             }
@@ -39,40 +39,40 @@
 
         protected internal override void Execute() {
             base.Execute();
-            if(A.GetDigital() == Pin.HIGH) {
-                if(B.GetDigital() == Pin.HIGH) {
-                    if(Cin.GetDigital() == Pin.HIGH) { //111
-                        S.Value = Pin.HIGH;
-                        Cout.Value = Pin.HIGH;
+            if(A.GetDigital() == Pin.High) {
+                if(B.GetDigital() == Pin.High) {
+                    if(Cin.GetDigital() == Pin.High) { //111
+                        S.Value = Pin.High;
+                        Cout.Value = Pin.High;
                     } else { //110
-                        S.Value = Pin.LOW;
-                        Cout.Value = Pin.HIGH;
+                        S.Value = Pin.Low;
+                        Cout.Value = Pin.High;
                     }
                 } else {
-                    if(Cin.GetDigital() == Pin.HIGH) { //101
-                        S.Value = Pin.LOW;
-                        Cout.Value = Pin.HIGH;
+                    if(Cin.GetDigital() == Pin.High) { //101
+                        S.Value = Pin.Low;
+                        Cout.Value = Pin.High;
                     } else { //100
-                        S.Value = Pin.HIGH;
-                        Cout.Value = Pin.LOW;
+                        S.Value = Pin.High;
+                        Cout.Value = Pin.Low;
                     }
                 }
             } else {
-                if(B.GetDigital() == Pin.HIGH) {
-                    if(Cin.GetDigital() == Pin.HIGH) { // 011
-                        S.Value = Pin.LOW;
-                        Cout.Value = Pin.HIGH;
+                if(B.GetDigital() == Pin.High) {
+                    if(Cin.GetDigital() == Pin.High) { // 011
+                        S.Value = Pin.Low;
+                        Cout.Value = Pin.High;
                     } else { //010
-                        S.Value = Pin.HIGH;
-                        Cout.Value = Pin.LOW;
+                        S.Value = Pin.High;
+                        Cout.Value = Pin.Low;
                     }
                 } else {
-                    if(Cin.GetDigital() == Pin.HIGH) { //001
-                        S.Value = Pin.HIGH;
-                        Cout.Value = Pin.LOW;
+                    if(Cin.GetDigital() == Pin.High) { //001
+                        S.Value = Pin.High;
+                        Cout.Value = Pin.Low;
                     } else { //000
-                        S.Value = Pin.LOW;
-                        Cout.Value = Pin.LOW;
+                        S.Value = Pin.Low;
+                        Cout.Value = Pin.Low;
                     }
                 }
             }

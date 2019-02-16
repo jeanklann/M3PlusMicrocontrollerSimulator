@@ -13,35 +13,35 @@ namespace IDE {
         public bool InternalSimulation;
         public bool ChangedToCompile = false;
 
-        private double freq = 1;
-        private int power;
-        private FormRomMemory formRomMemory;
-        private FormRamMemory formRamMemory;
-        private FormRamMemory formStackMemory;
+        private double _freq = 1;
+        private int _power;
+        private FormRomMemory _formRomMemory;
+        private FormRamMemory _formRamMemory;
+        private FormRamMemory _formStackMemory;
 
 
 
-        private List<Components.Component> Components;
+        private List<Components.IComponent> _components;
 
         public Depurador() {
             InitializeComponent();
             UiStatics.ScintillaSetStyle(scintilla, true);
             scintilla.CallTipSetPosition(true);
             programCounter.comboBox1.SelectedIndex = 2;
-            programCounter.Selected = IDE.Components.DataFieldType.HEX;
+            programCounter.Selected = IDE.Components.DataFieldType.Hex;
             stackPointer.comboBox1.SelectedIndex = 2;
-            stackPointer.Selected = IDE.Components.DataFieldType.HEX;
+            stackPointer.Selected = IDE.Components.DataFieldType.Hex;
             
             aField.comboBox1.SelectedIndex = 2;
-            aField.Selected = IDE.Components.DataFieldType.HEX;
+            aField.Selected = IDE.Components.DataFieldType.Hex;
             bField.comboBox1.SelectedIndex = 2;
-            bField.Selected = IDE.Components.DataFieldType.HEX;
+            bField.Selected = IDE.Components.DataFieldType.Hex;
             cField.comboBox1.SelectedIndex = 2;
-            cField.Selected = IDE.Components.DataFieldType.HEX;
+            cField.Selected = IDE.Components.DataFieldType.Hex;
             dField.comboBox1.SelectedIndex = 2;
-            dField.Selected = IDE.Components.DataFieldType.HEX;
+            dField.Selected = IDE.Components.DataFieldType.Hex;
             eField.comboBox1.SelectedIndex = 2;
-            eField.Selected = IDE.Components.DataFieldType.HEX;
+            eField.Selected = IDE.Components.DataFieldType.Hex;
         }
 
         public void SetText(string text) {
@@ -146,7 +146,7 @@ namespace IDE {
             }
         }
         private void scintilla_TextChanged(object sender, EventArgs e) {
-            updateLineNumber();
+            UpdateLineNumber();
         }
 
         public void GotoNextBreakpoint() {
@@ -161,7 +161,7 @@ namespace IDE {
             if(prevLine != -1)
                 scintilla.Lines[prevLine].Goto();
         }
-        private void updateLineNumber(int padding = 2) {
+        private void UpdateLineNumber(int padding = 2) {
             scintilla.Margins[0].Type = MarginType.RightText;
             int i;
             var max = 0;
@@ -184,15 +184,15 @@ namespace IDE {
         }
         public void ZoomMore() {
             scintilla.ZoomIn();
-            updateLineNumber();
+            UpdateLineNumber();
         }
         public void ZoomLess() {
             scintilla.ZoomOut();
-            updateLineNumber();
+            UpdateLineNumber();
         }
         public void ZoomReset() {
             scintilla.Zoom = 0;
-            updateLineNumber();
+            UpdateLineNumber();
         }
 
         private void Depurador_Load(object sender, EventArgs e) {
@@ -200,24 +200,24 @@ namespace IDE {
         }
 
         public void UpdateAll() {
-            Components = new List<Components.Component>();
-            Components.Add(aField);
-            Components.Add(bField);
-            Components.Add(cField);
-            Components.Add(dField);
-            Components.Add(eField);
-            Components.Add(in0Field);
-            Components.Add(in1Field);
-            Components.Add(in2Field);
-            Components.Add(in3Field);
-            Components.Add(out0Field);
-            Components.Add(out1Field);
-            Components.Add(out2Field);
-            Components.Add(out3Field);
-            Components.Add(stackPointer);
-            Components.Add(cCheck);
-            Components.Add(zCheck);
-            Components.Add(programCounter);
+            _components = new List<Components.IComponent>();
+            _components.Add(aField);
+            _components.Add(bField);
+            _components.Add(cField);
+            _components.Add(dField);
+            _components.Add(eField);
+            _components.Add(in0Field);
+            _components.Add(in1Field);
+            _components.Add(in2Field);
+            _components.Add(in3Field);
+            _components.Add(out0Field);
+            _components.Add(out1Field);
+            _components.Add(out2Field);
+            _components.Add(out3Field);
+            _components.Add(stackPointer);
+            _components.Add(cCheck);
+            _components.Add(zCheck);
+            _components.Add(programCounter);
 
             CheckForIllegalCrossThreadCalls = false;
             while (!UiStatics.WantExit) {
@@ -252,7 +252,7 @@ namespace IDE {
                         cCheck.Value = UiStatics.Simulador.FlagC;
                         zCheck.Value = UiStatics.Simulador.FlagZ;
 
-                        foreach (var item in Components) {
+                        foreach (var item in _components) {
                             item.Refresh();
                         }
 
@@ -309,7 +309,7 @@ namespace IDE {
                         if (zCheck.UserInput) UiStatics.Simulador.FlagZ = zCheck.Value;
 
 
-                        foreach (var item in Components) {
+                        foreach (var item in _components) {
                             item.UserInput = false;
                         }
 
@@ -346,12 +346,12 @@ namespace IDE {
         }
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e) {
-            freq = (double) frequencyNumeric.Value;
+            _freq = (double) frequencyNumeric.Value;
             UpdateFrequency();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
-            power = frequencyCombo.SelectedIndex;
+            _power = frequencyCombo.SelectedIndex;
             UpdateFrequency();
         }
         private void frequencyActive_CheckedChanged(object sender, EventArgs e) {
@@ -359,7 +359,7 @@ namespace IDE {
             UpdateFrequency();
         }
         private void UpdateFrequency() {
-            Frequency = (int) (freq * Math.Pow(10, power*3));
+            Frequency = (int) (_freq * Math.Pow(10, _power*3));
             if(UiStatics.Simulador != null) {
                 UiStatics.Simulador.FrequencyLimit = FrequencyLimiter;
                 UiStatics.Simulador.Frequency = Frequency;
@@ -368,14 +368,14 @@ namespace IDE {
         }
 
         private void abrirMemoriaRam_Click(object sender, EventArgs e) {
-            if (formRamMemory == null || !formRamMemory.Visible) {
-                formRamMemory = SplashScreen.OpenRAM(this);
+            if (_formRamMemory == null || !_formRamMemory.Visible) {
+                _formRamMemory = SplashScreen.OpenRam(this);
             }
         }
 
         private void abrirMemoriaPilha_Click(object sender, EventArgs e) {
-            if (formStackMemory == null || !formStackMemory.Visible) {
-                formStackMemory = SplashScreen.OpenStack(this);
+            if (_formStackMemory == null || !_formStackMemory.Visible) {
+                _formStackMemory = SplashScreen.OpenStack(this);
             }
         }
 
@@ -391,8 +391,8 @@ namespace IDE {
                 if (frequencyNumeric.Value > 20.00M)
                     frequencyNumeric.Value = 20.00M;
                 frequencyNumeric.Maximum = 20.00M;
-                freq = (double)frequencyNumeric.Value;
-                power = frequencyCombo.SelectedIndex;
+                _freq = (double)frequencyNumeric.Value;
+                _power = frequencyCombo.SelectedIndex;
                 UpdateFrequency();
 
             } else {
@@ -404,8 +404,8 @@ namespace IDE {
                 frequencyCombo.Text = "IPS";
                 frequencyCombo.SelectedIndex = 0;
                 frequencyNumeric.Maximum = 999.99M;
-                freq = (double)frequencyNumeric.Value;
-                power = frequencyCombo.SelectedIndex;
+                _freq = (double)frequencyNumeric.Value;
+                _power = frequencyCombo.SelectedIndex;
                 UpdateFrequency();
             }
         }
@@ -425,8 +425,8 @@ namespace IDE {
         }
 
         private void abrirMemoriaROM_Click(object sender, EventArgs e) {
-            if (formRomMemory == null || !formRomMemory.Visible) {
-                formRomMemory = SplashScreen.OpenROM(this);
+            if (_formRomMemory == null || !_formRomMemory.Visible) {
+                _formRomMemory = SplashScreen.OpenRom(this);
             }
         }
     }

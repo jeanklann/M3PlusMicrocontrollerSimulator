@@ -53,7 +53,7 @@ namespace IDE {
             }
         }
         private void scintilla_TextChanged(object sender, EventArgs e) {
-            updateLineNumber();
+            UpdateLineNumber();
             Changed = true;
             UiStatics.Depurador.ChangedToCompile = true;
         }
@@ -78,21 +78,21 @@ namespace IDE {
             }
         }
 
-        private void updateLineNumber(int padding = 2) {
+        private void UpdateLineNumber(int padding = 2) {
             var maxLineNumberCharLength = scintilla.Lines.Count.ToString().Length;
             scintilla.Margins[0].Width = scintilla.TextWidth(Style.LineNumber, new string('9', maxLineNumberCharLength + 1)) + padding;
         }
         public void ZoomMore() {
             scintilla.ZoomIn();
-            updateLineNumber();
+            UpdateLineNumber();
         }
         public void ZoomLess() {
             scintilla.ZoomOut();
-            updateLineNumber();
+            UpdateLineNumber();
         }
         public void ZoomReset() {
             scintilla.Zoom = 0;
-            updateLineNumber();
+            UpdateLineNumber();
         }
     }
 }

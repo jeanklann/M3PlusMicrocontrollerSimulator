@@ -14,7 +14,8 @@ namespace CircuitSimulator {
         public int OutputQuantity => OutputInternal.Length;
 
         public bool Enabled = true;
-        public Circuit Circuit;
+
+        public Circuit InternalCircuit;
 
         protected internal LogicInput[] InputInternal;
         protected internal LogicOutput[] OutputInternal;
@@ -22,20 +23,20 @@ namespace CircuitSimulator {
 
         public Macro(int inputQuantity, int outputQuantity, string name = "Macro", Circuit circuit = null):base(name, inputQuantity+outputQuantity) {
             if(circuit == null) {
-                Circuit = new Circuit();
+                InternalCircuit = new Circuit();
             } else {
-                Circuit = circuit;
+                InternalCircuit = circuit;
             }
             InputInternal = new LogicInput[inputQuantity];
             OutputInternal = new LogicOutput[outputQuantity];
 
             for(var i = 0; i < inputQuantity; i++) {
                 InputInternal[i] = new LogicInput("Input " + i);
-                Circuit.AddComponent(InputInternal[i]);
+                InternalCircuit.AddComponent(InputInternal[i]);
             }
             for(var i = 0; i < outputQuantity; i++) {
                 OutputInternal[i] = new LogicOutput("Output " + i);
-                Circuit.AddComponent(OutputInternal[i]);
+                InternalCircuit.AddComponent(OutputInternal[i]);
             }
         }
 
@@ -45,7 +46,7 @@ namespace CircuitSimulator {
                 for(var i1 = 0; i1 < InputInternal.Length; i1++) {
                     InputInternal[i1].Value = Pins[i1].Value;
                 }
-                Circuit.Tick();
+                InternalCircuit.Tick();
                 for(var i2 = 0; i2 < OutputInternal.Length; i2++) {
                     Pins[i2 + InputInternal.Length].SetDigital(OutputInternal[i2].Value);
                 }
@@ -55,9 +56,9 @@ namespace CircuitSimulator {
             }
         }
         internal override bool CanExecute() {
-            if(SimulationIdInternal == circuit.SimulationId) return false;
+            if(SimulationIdInternal == Circuit.SimulationId) return false;
             for(var i = 0; i < InputInternal.Length; i++) {
-                if(Pins[i].SimulationIdInternal != circuit.SimulationId) {
+                if(Pins[i].SimulationIdInternal != Circuit.SimulationId) {
                     return false;
                 }
             }

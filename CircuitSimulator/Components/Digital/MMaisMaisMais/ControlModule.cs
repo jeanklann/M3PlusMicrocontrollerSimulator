@@ -45,7 +45,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         public Pin RgpBsel1 => Pins[40];
 
         public bool NeedSet = true;
-        private float _lastEoi = Pin.LOW;
+        private float _lastEoi = Pin.Low;
         private int _hdCounter;
         private byte _regAddress;
         private byte RegAddress  { get => _regAddress;
@@ -75,14 +75,14 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             }
         }
         internal override bool CanExecute() {
-            if (SimulationIdInternal == circuit.SimulationId) return false;
+            if (SimulationIdInternal == Circuit.SimulationId) return false;
             return true;
         }
         protected internal override void Execute() {
             base.Execute();
 
-            if (Reset.Value >= Pin.HALFCUT) RegAddress = 0;
-            _currentClock = Clock.Value >= Pin.HALFCUT;
+            if (Reset.Value >= Pin.Halfcut) RegAddress = 0;
+            _currentClock = Clock.Value >= Pin.Halfcut;
             if (_currentClock == true && _lastClock == false) {
                 if (_internalMicroInstructions.ContainsKey("SelRI")) {
                     if (_internalMicroInstructions["SelRI"]) {
@@ -97,8 +97,8 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
             ResetBools();
             ProcessBools();
             _lastClock = _currentClock;
-            Eoi.SetDigital(RegAddress == 0 ? Pin.HIGH : Pin.LOW);
-            if(Eoi.Value >= Pin.HALFCUT && _lastEoi <= Pin.HALFCUT) {
+            Eoi.SetDigital(RegAddress == 0 ? Pin.High : Pin.Low);
+            if(Eoi.Value >= Pin.Halfcut && _lastEoi <= Pin.Halfcut) {
                 NeedSet = true;
             }
             _lastEoi = Eoi.Value;
@@ -142,96 +142,96 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 case 0:
                     key = "SPIncDec";
                     if (doAction) {
-                        SpIncDec.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        SpIncDec.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 1:
                     key = "SP clock";
                     if (doAction) {
-                        SPclock.SetDigital(value ? Pin.HIGH : Pin.LOW);
-                        SPen.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        SPclock.SetDigital(value ? Pin.High : Pin.Low);
+                        SPen.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 2:
                     key = "DIRClock";
                     if (doAction) {
-                        DiRclock.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        DiRclock.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 3:
                     key = "SelDataPC";
                     if (doAction) {
-                        DataPCsel.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        DataPCsel.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 4:
                     key = "Clock PCL";
                     if (doAction) {
                         if (!value) {
-                            PcLclock.SetDigital(Pin.LOW);
+                            PcLclock.SetDigital(Pin.Low);
                             break;
                         }
                         if (!_internalMicroInstructions["CresC"] && !_internalMicroInstructions["CresZ"]) {
-                            PcLclock.SetDigital(Pin.HIGH);
+                            PcLclock.SetDigital(Pin.High);
                             break;
                         }
 
-                        if (FlagInCarry.Value >= Pin.HALFCUT && _internalMicroInstructions["CresC"]) {
-                            PcLclock.SetDigital(Pin.HIGH);
+                        if (FlagInCarry.Value >= Pin.Halfcut && _internalMicroInstructions["CresC"]) {
+                            PcLclock.SetDigital(Pin.High);
                             break;
                         }
-                        if (FlagInZero.Value >= Pin.HALFCUT && _internalMicroInstructions["CresZ"]) {
-                            PcLclock.SetDigital(Pin.HIGH);
+                        if (FlagInZero.Value >= Pin.Halfcut && _internalMicroInstructions["CresZ"]) {
+                            PcLclock.SetDigital(Pin.High);
                             break;
                         }
-                        PcLclock.SetDigital(Pin.LOW);
+                        PcLclock.SetDigital(Pin.Low);
                     }
                     break;
                 case 5:
                     key = "Clock PCH";
                     if (doAction) {
                         if (!value) {
-                            PcHclock.SetDigital(Pin.LOW);
+                            PcHclock.SetDigital(Pin.Low);
                             break;
                         }
                         if (!_internalMicroInstructions["CresC"] && !_internalMicroInstructions["CresZ"]) {
-                            PcHclock.SetDigital(Pin.HIGH);
+                            PcHclock.SetDigital(Pin.High);
                             break;
                         }
 
-                        if (FlagInCarry.Value >= Pin.HALFCUT && _internalMicroInstructions["CresC"]) {
-                            PcHclock.SetDigital(Pin.HIGH);
+                        if (FlagInCarry.Value >= Pin.Halfcut && _internalMicroInstructions["CresC"]) {
+                            PcHclock.SetDigital(Pin.High);
                             break;
                         }
-                        if (FlagInZero.Value >= Pin.HALFCUT && _internalMicroInstructions["CresZ"]) {
-                            PcHclock.SetDigital(Pin.HIGH);
+                        if (FlagInZero.Value >= Pin.Halfcut && _internalMicroInstructions["CresZ"]) {
+                            PcHclock.SetDigital(Pin.High);
                             break;
                         }
-                        PcHclock.SetDigital(Pin.LOW);
+                        PcHclock.SetDigital(Pin.Low);
                     }
                     break;
                 case 6:
                     key = "PCL Bus";
                     if (doAction) {
-                        PcLbus.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        PcLbus.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 7:
                     key = "PCH Bus";
                     if (doAction) {
-                        PcHbus.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        PcHbus.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 8:
                     key = "ROM cs";
                     if (doAction) {
-                        RoMcs.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        RoMcs.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 9:
                     key = "ROM rd";
                     if (doAction) {
-                        RoMrd.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        RoMrd.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 10:
@@ -290,73 +290,73 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
                 case 20:
                     key = "Out clock";
                     if (doAction) {
-                        OuTclock.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        OuTclock.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 21:
                     key = "IN Bus";
                     if (doAction) {
-                        Nbus.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        Nbus.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 22:
                     key = "RAM cs";
                     if (doAction) {
-                        RaMcs.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        RaMcs.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 23:
                     key = "Ram wr";
                     if (doAction) {
-                        RaMwr.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        RaMwr.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 24:
                     key = "RAM rd";
                     if (doAction) {
-                        RaMrd.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        RaMrd.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 25:
                     key = "Reg Clock";
                     if (doAction) {
-                        RgpCclock.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        RgpCclock.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 26:
                     key = "Reg Bus";
                     if (doAction) {
-                        RGbus.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        RGbus.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 27:
                     key = "AC Clock";
                     if (doAction) {
-                        ACclock.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        ACclock.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 28:
                     key = "AC Bus";
                     if (doAction) {
-                        ACbus.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        ACbus.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 29:
                     key = "BUF Clock";
                     if (doAction) {
-                        BuFclock.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        BuFclock.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 30:
                     key = "ULA Bus";
                     if (doAction) {
-                        UlAbus.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        UlAbus.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 case 31:
                     key = "Sel SP";
                     if (doAction) {
-                        SPsel.SetDigital(value ? Pin.HIGH : Pin.LOW);
+                        SPsel.SetDigital(value ? Pin.High : Pin.Low);
                     }
                     break;
                 default:
@@ -377,20 +377,20 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais {
         }
         private void ClockRi() {
             _ri = 0;
-            _ri += (byte)(Pins[0].Value >= Pin.HALFCUT ? 1 : 0);
-            _ri += (byte)(Pins[1].Value >= Pin.HALFCUT ? 2 : 0);
-            _ri += (byte)(Pins[2].Value >= Pin.HALFCUT ? 4 : 0);
-            _ri += (byte)(Pins[3].Value >= Pin.HALFCUT ? 8 : 0);
-            _ri += (byte)(Pins[4].Value >= Pin.HALFCUT ? 16 : 0);
-            _ri += (byte)(Pins[5].Value >= Pin.HALFCUT ? 32 : 0);
-            _ri += (byte)(Pins[6].Value >= Pin.HALFCUT ? 64 : 0);
-            _ri += (byte)(Pins[7].Value >= Pin.HALFCUT ? 128 : 0);
+            _ri += (byte)(Pins[0].Value >= Pin.Halfcut ? 1 : 0);
+            _ri += (byte)(Pins[1].Value >= Pin.Halfcut ? 2 : 0);
+            _ri += (byte)(Pins[2].Value >= Pin.Halfcut ? 4 : 0);
+            _ri += (byte)(Pins[3].Value >= Pin.Halfcut ? 8 : 0);
+            _ri += (byte)(Pins[4].Value >= Pin.Halfcut ? 16 : 0);
+            _ri += (byte)(Pins[5].Value >= Pin.Halfcut ? 32 : 0);
+            _ri += (byte)(Pins[6].Value >= Pin.Halfcut ? 64 : 0);
+            _ri += (byte)(Pins[7].Value >= Pin.Halfcut ? 128 : 0);
 
-            UlaoPsel2.SetDigital((_ri & 128) == 128 ? Pin.HIGH : Pin.LOW);
-            UlaoPsel1.SetDigital((_ri & 64) == 64 ? Pin.HIGH : Pin.LOW);
-            UlaoPsel0.SetDigital((_ri & 32) == 32 ? Pin.HIGH : Pin.LOW);
-            RgpBsel1.SetDigital((_ri & 16) == 16 ? Pin.HIGH : Pin.LOW);
-            RgpBsel0.SetDigital((_ri & 8) == 8 ? Pin.HIGH : Pin.LOW);
+            UlaoPsel2.SetDigital((_ri & 128) == 128 ? Pin.High : Pin.Low);
+            UlaoPsel1.SetDigital((_ri & 64) == 64 ? Pin.High : Pin.Low);
+            UlaoPsel0.SetDigital((_ri & 32) == 32 ? Pin.High : Pin.Low);
+            RgpBsel1.SetDigital((_ri & 16) == 16 ? Pin.High : Pin.Low);
+            RgpBsel0.SetDigital((_ri & 8) == 8 ? Pin.High : Pin.Low);
         }
 
         private Dictionary<string, bool> _internalMicroInstructions;

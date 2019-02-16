@@ -26,7 +26,7 @@ namespace CircuitSimulator {
             }
             var greatnessIndex = 0;
             if(value > 0f) {
-                var index = getIndex(value);
+                var index = GetIndex(value);
                 var finalValue = value * multiplyValues[index];
                 res.Append(finalValue);
                 if(type == ConvertionType.Extended) {
@@ -51,7 +51,7 @@ namespace CircuitSimulator {
             }
             return res.ToString();
         }
-        private static int getIndex(float value) {
+        private static int GetIndex(float value) {
             if(value < values[0]) return 0;
             for(var i = 1; i < values.Length; i++) {
                 if(value < values[i]) {

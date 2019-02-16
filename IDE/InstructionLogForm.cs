@@ -7,22 +7,22 @@ namespace IDE {
         public InstructionLogForm() {
             InitializeComponent();
         }
-        private Thread thread;
-        private bool closing;
+        private Thread _thread;
+        private bool _closing;
         private void InstructionLogForm_Load(object sender, EventArgs e) {
-            thread = new Thread(UpdateThread);
-            thread.Start();
+            _thread = new Thread(UpdateThread);
+            _thread.Start();
         }
 
         private void UpdateThread() {
-            while(!UiStatics.WantExit && !closing) {
+            while(!UiStatics.WantExit && !_closing) {
                 textBox1.Text = UiStatics.Circuito.InstructionLog.ToString();
                 Thread.Sleep(20);
             }
         }
 
         private void InstructionLogForm_FormClosing(object sender, FormClosingEventArgs e) {
-            closing = true;
+            _closing = true;
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

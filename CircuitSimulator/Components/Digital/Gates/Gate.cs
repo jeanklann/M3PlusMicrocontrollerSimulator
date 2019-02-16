@@ -14,9 +14,9 @@
             Pins[Pins.Length - 1] = new Pin(this, true, false);
         }
         internal override bool CanExecute() {
-            if(SimulationIdInternal == circuit.SimulationId) return false;
+            if(SimulationIdInternal == Circuit.SimulationId) return false;
             for(var i = 0; i < Pins.Length-1; i++) {
-                if(Pins[i].SimulationIdInternal != circuit.SimulationId) {
+                if(Pins[i].SimulationIdInternal != Circuit.SimulationId) {
                     return false;
                 }
             }

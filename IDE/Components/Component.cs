@@ -1,5 +1,5 @@
 ﻿namespace IDE.Components {
-    public interface Component {
+    public interface IComponent {
         bool UserInput { get; set; }
         void Refresh();
     }

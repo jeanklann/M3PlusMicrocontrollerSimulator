@@ -7,7 +7,7 @@ namespace CircuitSimulator {
         protected internal int SimulationIdInternal;
 
         protected internal bool CanStart = false;
-        protected internal Circuit circuit;
+        protected internal Circuit Circuit;
 
         public long Id = -1;
         public string Name;
@@ -41,9 +41,9 @@ namespace CircuitSimulator {
         /// </summary>
         /// <returns>true if is ready</returns>
         internal virtual bool CanExecute() {
-            if(SimulationIdInternal == circuit.SimulationId) return false;
+            if(SimulationIdInternal == Circuit.SimulationId) return false;
             for(var i = 0; i < Pins.Length; i++) {
-                if(Pins[i].SimulationIdInternal != circuit.SimulationId) {
+                if(Pins[i].SimulationIdInternal != Circuit.SimulationId) {
                     return false;
                 }
             }
@@ -53,7 +53,7 @@ namespace CircuitSimulator {
         /// Simulate this component
         /// </summary>
         protected internal virtual void Execute() {
-            SimulationIdInternal = circuit.SimulationId;
+            SimulationIdInternal = Circuit.SimulationId;
             for(var i = 0; i < Pins.Length; i++) {
                 Pins[i].SimulationIdInternal = SimulationIdInternal;
             }
@@ -76,22 +76,22 @@ namespace CircuitSimulator {
 
 
     public class Pin {
-        public const float HIGH = 5;
-        public const float LOW = 0;
-        public const float HALFCUT = (HIGH + LOW) / 2f;
+        public const float High = 5;
+        public const float Low = 0;
+        public const float Halfcut = (High + Low) / 2f;
         public float Value;
         public int SimulationId => SimulationIdInternal;
         internal int SimulationIdInternal;
         internal bool IsOpenInternal;
         internal bool IsOutputInternal;
-        internal Component component;
-        internal Circuit Circuit => component.circuit;
+        internal Component Component;
+        internal Circuit Circuit => Component.Circuit;
 
         //public float Value { get { return value; } }
         public bool IsOpen => IsOpenInternal;
         public bool IsOutput => IsOutputInternal;
 
-        public List<Pin> connectedPins;
+        public List<Pin> ConnectedPins;
         
         /// <summary>
         /// Pin to every component
@@ -102,18 +102,18 @@ namespace CircuitSimulator {
         /// <param name="value">The default value of the pin</param>
         internal Pin(Component component, bool isOutput = false, bool isOpen = false, float value = 0f) {
             if(component == null) throw new Exception("Component cannot be null");
-            this.component = component;
+            this.Component = component;
             this.IsOutputInternal = isOutput;
             this.IsOpenInternal = isOpen;
             this.Value = value;
-            connectedPins = new List<Pin>();
+            ConnectedPins = new List<Pin>();
         }
 
         public bool CanExecute(bool cannotBeOpen = true) {
             if (cannotBeOpen) {
                 if (IsOpenInternal) return false;
             }
-            if (component.SimulationIdInternal == SimulationIdInternal) return false;
+            if (Component.SimulationIdInternal == SimulationIdInternal) return false;
             return true;
         }
 
@@ -123,11 +123,11 @@ namespace CircuitSimulator {
         /// </summary>
         /// <param name="value">The voltage value</param>
         public void SetDigital(float value) {
-            var med = (HIGH + LOW) / 2f;
+            var med = (High + Low) / 2f;
             if(value > med)
-                this.Value = HIGH;
+                this.Value = High;
             else
-                this.Value = LOW;
+                this.Value = Low;
         }
 
         /// <summary>
@@ -135,10 +135,10 @@ namespace CircuitSimulator {
         /// </summary>
         /// <returns>HIGH value or LOW value</returns>
         public float GetDigital() {
-            var med = (HIGH + LOW) / 2f;
+            var med = (High + Low) / 2f;
             if(Value > med)
-                return HIGH;
-            return LOW;
+                return High;
+            return Low;
         }
 
         /// <summary>
@@ -147,13 +147,13 @@ namespace CircuitSimulator {
         /// And recursively the valid connected pins propagate to others.
         /// </summary>
         internal void Propagate() {
-            foreach(var pin in connectedPins) {
+            foreach(var pin in ConnectedPins) {
                 if(pin.SimulationIdInternal != Circuit.SimulationId || pin.Value != Value || pin.IsOpenInternal != IsOpenInternal) {
                     pin.SimulationIdInternal = SimulationIdInternal;
                     pin.Value = Value;
                     pin.IsOpenInternal = IsOpenInternal;
-                    if (pin.component.CanExecute()) {
-                        Circuit.AddToExecution(pin.component);
+                    if (pin.Component.CanExecute()) {
+                        Circuit.AddToExecution(pin.Component);
                     }
                     pin.Propagate();
                 }
@@ -168,10 +168,10 @@ namespace CircuitSimulator {
         /// </summary>
         /// <param name="pin">The pin to be connected</param>
         public void Connect(Pin pin) {
-            if(!connectedPins.Contains(pin))
-                connectedPins.Add(pin);
-            if (!pin.connectedPins.Contains(pin))
-                pin.connectedPins.Add(this);
+            if(!ConnectedPins.Contains(pin))
+                ConnectedPins.Add(pin);
+            if (!pin.ConnectedPins.Contains(pin))
+                pin.ConnectedPins.Add(this);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace CircuitSimulator {
         /// <param name="pin">The pin to be disconnected</param>
         /// <param name="recursive">If need to be recursive. Nomally need to be true, to be disconnected in the other pin too</param>
         public void Disconnect(Pin pin, bool recursive = true) {
-            connectedPins.Remove(pin);
+            ConnectedPins.Remove(pin);
             if(recursive)
                 pin.Disconnect(pin, false);
         }
@@ -241,88 +241,88 @@ namespace CircuitSimulator {
         /// </summary>
         /// <returns>if the pin is digital</returns>
         public bool IsDigital() {
-            if(Value == HIGH || Value == LOW) return true;
+            if(Value == High || Value == Low) return true;
             return false;
         }
         #region operators
         public static float operator !(Pin l) {
-            return (l.GetDigital() == HIGH) ? LOW : HIGH;
+            return (l.GetDigital() == High) ? Low : High;
         }
         public static float operator ==(Pin l, Pin r) {
-            return l.IsDigitalEqual(r) ? HIGH : LOW;
+            return l.IsDigitalEqual(r) ? High : Low;
         }
         public static float operator !=(Pin l, Pin r) {
-            return (!l.IsDigitalEqual(r)) ? HIGH : LOW;
+            return (!l.IsDigitalEqual(r)) ? High : Low;
         }
         public static float operator +(Pin l, Pin r) {
-            if(!l.IsEqualOthers(r)) return LOW;
-            if(l.GetDigital() == HIGH || r.GetDigital() == HIGH) return HIGH;
-            return LOW;
+            if(!l.IsEqualOthers(r)) return Low;
+            if(l.GetDigital() == High || r.GetDigital() == High) return High;
+            return Low;
         }
         public static float operator -(Pin l, Pin r) {
-            if(!l.IsEqualOthers(r)) return LOW;
-            if(l.GetDigital() == HIGH && r.GetDigital() == LOW) return HIGH;
-            return LOW;
+            if(!l.IsEqualOthers(r)) return Low;
+            if(l.GetDigital() == High && r.GetDigital() == Low) return High;
+            return Low;
         }
         public static float operator *(Pin l, Pin r) {
-            if(!l.IsEqualOthers(r)) return LOW;
-            if(l.GetDigital() == HIGH && r.GetDigital() == HIGH) return HIGH;
-            return LOW;
+            if(!l.IsEqualOthers(r)) return Low;
+            if(l.GetDigital() == High && r.GetDigital() == High) return High;
+            return Low;
         }
         public static float operator /(Pin l, Pin r) {
-            if(!l.IsEqualOthers(r)) return LOW;
-            if(l.GetDigital() == HIGH) {
-                if(r.GetDigital() == HIGH) return HIGH;
-                else if(r.GetDigital() == LOW) throw new Exception("Cannot divide 1 to 0");
+            if(!l.IsEqualOthers(r)) return Low;
+            if(l.GetDigital() == High) {
+                if(r.GetDigital() == High) return High;
+                else if(r.GetDigital() == Low) throw new Exception("Cannot divide 1 to 0");
             }
-            return LOW;
+            return Low;
         }
         public static float operator ^(Pin l, Pin r) {
-            return (!l.IsDigitalEqual(r)) ? HIGH : LOW;
+            return (!l.IsDigitalEqual(r)) ? High : Low;
         }
         public static float operator |(Pin l, Pin r) {
-            if(!l.IsEqualOthers(r)) return LOW;
-            if(l.GetDigital() == HIGH || r.GetDigital() == HIGH) return HIGH;
-            return LOW;
+            if(!l.IsEqualOthers(r)) return Low;
+            if(l.GetDigital() == High || r.GetDigital() == High) return High;
+            return Low;
         }
         public static float operator &(Pin l, Pin r) {
-            if(!l.IsEqualOthers(r)) return LOW;
-            if(l.GetDigital() == HIGH && r.GetDigital() == HIGH) return HIGH;
-            return LOW;
+            if(!l.IsEqualOthers(r)) return Low;
+            if(l.GetDigital() == High && r.GetDigital() == High) return High;
+            return Low;
         }
         public static float operator <(Pin l, Pin r) {
-            if(!l.IsEqualOthers(r)) return LOW;
-            return l.Value < r.Value ? HIGH : LOW;
+            if(!l.IsEqualOthers(r)) return Low;
+            return l.Value < r.Value ? High : Low;
         }
         public static float operator >(Pin l, Pin r) {
-            if(!l.IsEqualOthers(r)) return LOW;
-            return l.Value > r.Value ? HIGH : LOW;
+            if(!l.IsEqualOthers(r)) return Low;
+            return l.Value > r.Value ? High : Low;
         }
         public static float operator <=(Pin l, Pin r) {
-            if(!l.IsEqualOthers(r)) return LOW;
-            return l.Value <= r.Value ? HIGH : LOW;
+            if(!l.IsEqualOthers(r)) return Low;
+            return l.Value <= r.Value ? High : Low;
         }
         public static float operator >=(Pin l, Pin r) {
-            if(!l.IsEqualOthers(r)) return LOW;
-            return l.Value >= r.Value ? HIGH : LOW;
+            if(!l.IsEqualOthers(r)) return Low;
+            return l.Value >= r.Value ? High : Low;
         }
         public float And(Pin other) {
             return this & other;
         }
         public float Nand(Pin other) {
-            return (this & other) == HIGH ? LOW : HIGH;
+            return (this & other) == High ? Low : High;
         }
         public float Or(Pin other) {
             return this | other;
         }
         public float Nor(Pin other) {
-            return (this | other) == HIGH ? LOW : HIGH;
+            return (this | other) == High ? Low : High;
         }
         public float Xor(Pin other) {
             return this ^ other;
         }
         public float Xnor(Pin other) {
-            return (this ^ other) == HIGH ? LOW : HIGH;
+            return (this ^ other) == High ? Low : High;
         }
         public float Neg() {
             return !this;

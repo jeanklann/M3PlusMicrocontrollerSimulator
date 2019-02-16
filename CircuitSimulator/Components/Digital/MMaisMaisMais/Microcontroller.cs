@@ -15,7 +15,7 @@
         }
 
         internal override bool CanExecute() {
-            if (SimulationIdInternal == circuit.SimulationId) return false;
+            if (SimulationIdInternal == Circuit.SimulationId) return false;
             /*
             for (int i = 0; i < 32; i++) {
                 if (Pins[i].simulationId != circuit.SimulationId) {
@@ -40,7 +40,7 @@
                 pins[i] = Pins[8 * index+i].Value;
             }
             byte value = 0;
-            var valSup = (Pin.HIGH + Pin.LOW) / 2;
+            var valSup = (Pin.High + Pin.Low) / 2;
             if (pins[0] >= valSup) value += 1;
             if (pins[1] >= valSup) value += 2;
             if (pins[2] >= valSup) value += 4;
@@ -57,64 +57,64 @@
             index += 7;
             if(value >= 128) {
                 value -= 128;
-                Pins[index].SetDigital(Pin.HIGH);
+                Pins[index].SetDigital(Pin.High);
                 index--;
             } else {
-                Pins[index].SetDigital(Pin.LOW);
+                Pins[index].SetDigital(Pin.Low);
                 index--;
             }
             if (value >= 64) {
                 value -= 64;
-                Pins[index].SetDigital(Pin.HIGH);
+                Pins[index].SetDigital(Pin.High);
                 index--;
             } else {
-                Pins[index].SetDigital(Pin.LOW);
+                Pins[index].SetDigital(Pin.Low);
                 index--;
             }
             if (value >= 32) {
                 value -= 32;
-                Pins[index].SetDigital(Pin.HIGH);
+                Pins[index].SetDigital(Pin.High);
                 index--;
             } else {
-                Pins[index].SetDigital(Pin.LOW);
+                Pins[index].SetDigital(Pin.Low);
                 index--;
             }
             if (value >= 16) {
                 value -= 16;
-                Pins[index].SetDigital(Pin.HIGH);
+                Pins[index].SetDigital(Pin.High);
                 index--;
             } else {
-                Pins[index].SetDigital(Pin.LOW);
+                Pins[index].SetDigital(Pin.Low);
                 index--;
             }
             if (value >= 8) {
                 value -= 8;
-                Pins[index].SetDigital(Pin.HIGH);
+                Pins[index].SetDigital(Pin.High);
                 index--;
             } else {
-                Pins[index].SetDigital(Pin.LOW);
+                Pins[index].SetDigital(Pin.Low);
                 index--;
             }
             if (value >= 4) {
                 value -= 4;
-                Pins[index].SetDigital(Pin.HIGH);
+                Pins[index].SetDigital(Pin.High);
                 index--;
             } else {
-                Pins[index].SetDigital(Pin.LOW);
+                Pins[index].SetDigital(Pin.Low);
                 index--;
             }
             if (value >= 2) {
                 value -= 2;
-                Pins[index].SetDigital(Pin.HIGH);
+                Pins[index].SetDigital(Pin.High);
                 index--;
             } else {
-                Pins[index].SetDigital(Pin.LOW);
+                Pins[index].SetDigital(Pin.Low);
                 index--;
             }
             if (value >= 1) {
-                Pins[index].SetDigital(Pin.HIGH);
+                Pins[index].SetDigital(Pin.High);
             } else {
-                Pins[index].SetDigital(Pin.LOW);
+                Pins[index].SetDigital(Pin.Low);
             }
         }
 

@@ -1,8 +1,8 @@
 ﻿namespace CircuitSimulator {
     public class ClockLogicInput : Component {
         public bool IsOn = true;
-        private float timeElapsed;
-        private float time => 1f / Frequency;
+        private float _timeElapsed;
+        private float Time => 1f / Frequency;
         public float Frequency = 1f;
         public float Value {
             get => Pins[0].Value;
@@ -15,17 +15,17 @@
         }
 
         private float Switch() {
-            if(Pins[0].Value == Pin.HIGH) Pins[0].Value = Pin.LOW;
-            else Pins[0].Value = Pin.HIGH;
+            if(Pins[0].Value == Pin.High) Pins[0].Value = Pin.Low;
+            else Pins[0].Value = Pin.High;
             return Pins[0].Value;
         }
 
         protected internal override void Execute() {
             base.Execute();
             if(IsOn) {
-                timeElapsed += circuit.TimePerTick;
-                if(timeElapsed >= time) {
-                    timeElapsed = 0f;
+                _timeElapsed += Circuit.TimePerTick;
+                if(_timeElapsed >= Time) {
+                    _timeElapsed = 0f;
                     Switch();
                 }
             }
