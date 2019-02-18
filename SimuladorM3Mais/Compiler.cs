@@ -75,7 +75,11 @@ namespace M3PlusMicrocontroller
             {
                 token = _tokenAnalyzer.NextToken();
                 var lineToken = Helpers.CountLines(program, token.Index) - 1;
-                if (breakpoints[lineToken]) _nextTokenHasBreakpoint = true;
+                if ((breakpoints?.Length ?? -1) >= lineToken)
+                {
+                    if (breakpoints[lineToken]) _nextTokenHasBreakpoint = true;
+                }
+
                 if (token.Type == TokenType.CpuInstruction)
                 {
                     token = OperationInstructions(program, token);
@@ -167,7 +171,7 @@ namespace M3PlusMicrocontroller
                     break;
                 case "PUSHA":
                 case "POPA":
-                    NewInstruction(new Instruction(instruction, function, new Register(0), instructionDescription));
+                    NewInstruction(new Instruction(instruction, function, new Acumulator(), instructionDescription));
                     break;
             }
 

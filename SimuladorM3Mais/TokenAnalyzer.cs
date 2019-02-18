@@ -190,9 +190,11 @@ namespace M3PlusMicrocontroller
                 }
 
                 if (value.Length == 2)
+                {
                     for (var i = 1; i < Token.Registrers.Length; i++)
                         if (value[1] == Token.Registrers[i][0])
                             return new Token(TokenType.Dram, Token.Registrers[i], beginIndex);
+                }
                 else
                     throw new CompilerError("Erro na linha " + Helpers.CountLines(_program, beginIndex) +
                                             ". Valor de endereçamento inválido.");

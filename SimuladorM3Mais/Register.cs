@@ -32,7 +32,7 @@ namespace M3PlusMicrocontroller
             set => Simulador.Reg[WitchOne] = value;
         }
 
-        public override string Description => $"o acumulador {registers[WitchOne]}";
+        public override string Description => $"o regitrador {registers[WitchOne]}";
         public override string Instruction => registers[WitchOne].ToString();
     }
 }

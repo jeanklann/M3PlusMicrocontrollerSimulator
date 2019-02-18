@@ -335,15 +335,19 @@ namespace M3PlusMicrocontroller
 
         private byte GetRegister()
         {
-            //0b000_00_0XX << 2 = 0b000_XX_000
+            //0b000_00_0XX << 3 = 0b000_XX_000
+            if (To is AddressRam dramTo)
+                return (byte) ((dramTo.Register.WitchOne - 1) << 3);
+            if (To is Output toOut)
+                return (byte) (toOut.WitchOne << 3);
             if (To is Register toReg)
                 return (byte) ((toReg.WitchOne - 1) << 3);
-            if (To is Output toOut)
-                return (byte) ((toOut.WitchOne - 1) << 3);
+            if (_from is Input fromIn)
+                return (byte) (fromIn.WitchOne << 3);
             if (_from is Register fromReg)
                 return (byte) ((fromReg.WitchOne - 1) << 3);
-            if (_from is Input fromIn)
-                return (byte) ((fromIn.WitchOne - 1) << 3);
+            if (_from is AddressRam dramFrom)
+                return (byte) ((dramFrom.Register.WitchOne - 1) << 3);
             return 0;
         }
 
@@ -355,7 +359,11 @@ namespace M3PlusMicrocontroller
             if (ValidaFluxo<Acumulator, Register>())
                 return 0b000_00_001;
             if (ValidaFluxo<Acumulator, Ram>())
+            {
+                extraBytes = new[] {(To as Ram)?.Address ?? 0};
                 return 0b000_00_010;
+            }
+
             if (ValidaFluxo<Acumulator, Output>())
                 return 0b000_00_011;
             if (ValidaFluxo<Register, Acumulator>())
