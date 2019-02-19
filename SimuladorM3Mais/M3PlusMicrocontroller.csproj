@@ -46,6 +46,7 @@
     <Compile Include="AddressRam.cs" />
     <Compile Include="Compiler.cs" />
     <Compile Include="CompilerError.cs" />
+    <Compile Include="Decompiler.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="DirectionFactory.cs" />
     <Compile Include="Function.cs" />

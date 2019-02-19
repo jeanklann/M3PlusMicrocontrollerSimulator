@@ -6,6 +6,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using IDE.Exporter;
+using IDE.Importer;
 using M3PlusMicrocontroller;
 using ScintillaNET;
 
@@ -52,229 +54,55 @@ namespace IDE
 
         public static Thread ThreadDepurador { get; set; }
 
-        public static bool ExportLogiSim(string path)
+        public static void ExportLogiSim(string path)
         {
-            try
-            {
-                Compile();
-                if (Simulador == null) return false;
-                var sw = new StreamWriter(path);
-                var baseStream = sw.BaseStream;
-                var bw = new BinaryWriter(baseStream);
-                bw.Write(Encoding.ASCII.GetBytes("v2.0 raw\n"));
-                for (var i = 0; i < Simulador.Program.Length; i++)
-                {
-                    if (Simulador.Program[i] == null) continue;
-                    var bytes = Simulador.Program[i].Convert();
-                    for (var j = 0; j < bytes.Length; j++)
-                    {
-                        if (j > 0)
-                            bw.Write(' ');
-                        bw.Write(Encoding.ASCII.GetBytes(bytes[j].ToString("x")));
-                    }
-
-                    if ((i + 1) % 16 == 0)
-                        bw.Write(Encoding.ASCII.GetBytes("\n"));
-                    else
-                        bw.Write(' ');
-                }
-
-                bw.Close();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            BeforeExport();
+            var exporter = new Exporter.Exporter(new LogisimExporterStrategy());
+            exporter.Export(path, Simulador.Program);
         }
 
-        public static bool ImportLogiSim(string path)
+        public static void ImportLogiSim(string path)
         {
-            try
-            {
-                var sr = new StreamReader(path);
-
-                var all = sr.ReadToEnd();
-                all = all.Replace("v2.0 raw", "");
-                all = all.Replace("\r", " ");
-                all = all.Replace("\n", " ");
-                all = all.Replace("  ", " ");
-                while (all.Contains("*"))
-                {
-                    var i = all.IndexOf("*", StringComparison.Ordinal);
-                    var bi = i;
-                    var ei = i;
-                    var chr = all[bi];
-                    while (chr != ' ')
-                    {
-                        --bi;
-                        chr = all[bi];
-                    }
-
-                    chr = all[ei];
-                    while (chr != ' ')
-                    {
-                        ++ei;
-                        chr = all[ei];
-                    }
-
-                    var quant = int.Parse(all.Substring(bi, i - bi));
-                    var str = all.Substring(i + 1, ei - (i + 1));
-                    var tmp = "";
-                    for (var j = 0; j < quant; j++)
-                    {
-                        tmp += ' ';
-                        tmp += str;
-                    }
-
-                    all = all.Replace(all.Substring(bi, ei - bi), tmp);
-                }
-
-                var hexes = all.Split(' ');
-                var bytes = new byte[hexes.Length];
-                for (var i = 0; i < hexes.Length; i++)
-                {
-                    if (hexes[i] == "") continue;
-                    bytes[i] = byte.Parse(hexes[i], NumberStyles.HexNumber);
-                }
-
-                ImportFromBytes(bytes);
-                sr.Close();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            var importer = new Importer.Importer(new LogisimImporterStrategy());
+            Codigo.scintilla.Text = importer.Import(path);
         }
 
-        public static bool ExportHex(string path)
+        public static void ExportHex(string path)
         {
-            try
-            {
-                Compile();
-                if (Simulador == null) return false;
-                var sw = new StreamWriter(path);
-                var baseStream = sw.BaseStream;
-                var bw = new BinaryWriter(baseStream);
-                foreach (var instruction in Simulador.Program)
-                {
-                    if (instruction == null) continue;
-                    var bytes = instruction.Convert();
-                    foreach (var value in bytes)
-                        bw.Write(Encoding.ASCII.GetBytes(value.ToString("X2")));
-                }
-
-                bw.Close();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            
+            BeforeExport();
+            var exporter = new Exporter.Exporter(new HexadecimalExporterStrategy());
+            exporter.Export(path, Simulador.Program);
         }
 
-        public static bool ImportHex(string path)
+        public static void ImportHex(string path)
         {
-            try
-            {
-                var sr = new StreamReader(path);
-                var baseStream = sr.BaseStream;
-                var br = new BinaryReader(baseStream);
-
-                var bytes = new byte[baseStream.Length / 2];
-                while (baseStream.Position < baseStream.Length)
-                    bytes[baseStream.Position / 2] = byte.Parse((char) br.ReadByte() + "" + (char) br.ReadByte(),
-                        NumberStyles.HexNumber);
-                ImportFromBytes(bytes);
-                br.Close();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            var importer = new Importer.Importer(new HexadecimalImporterStrategy());
+            Codigo.scintilla.Text = importer.Import(path);
         }
 
-        public static bool ExportBinary(string path)
+        public static void ExportBinary(string path)
         {
-            try
-            {
-                Compile();
-                if (Simulador == null) return false;
-                var sw = new StreamWriter(path);
-                var baseStream = sw.BaseStream;
-                var bw = new BinaryWriter(baseStream);
-                foreach (var instruction in Simulador.Program)
-                {
-                    if (instruction == null) continue;
-                    var bytes = instruction.Convert();
-                    bw.Write(bytes);
-                }
-
-                bw.Close();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            BeforeExport();
+            var exporter = new Exporter.Exporter(new BinaryExporterStrategy());
+            exporter.Export(path, Simulador.Program);
         }
 
-        public static bool ImportBinary(string path)
+        private static void BeforeExport()
         {
-            try
-            {
-                var sr = new StreamReader(path);
-                var baseStream = sr.BaseStream;
-                var br = new BinaryReader(baseStream);
-
-                var bytes = new byte[baseStream.Length];
-                while (baseStream.Position < baseStream.Length) bytes[baseStream.Position] = br.ReadByte();
-                ImportFromBytes(bytes);
-                br.Close();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            Compile();
+            if (Simulador == null)
+                throw new CompilerError("Não foi possível exportar o arquivo pois não foi instanciado a simulação.");
+            if (Simulador.Program == null)
+                throw new CompilerError("Não foi possível exportar o arquivo pois não há programa a ser exportado.");
         }
 
-        private static void ImportFromBytes(byte[] bytes)
+        public static void ImportBinary(string path)
         {
-            var index = 0;
-            var instructionList = new List<Instructions>();
-            while (index < bytes.Length)
-            {
-                var text = Instruction.FromBytes(bytes, index, out var totalBytes, out var address);
-                var ni = new Instructions
-                {
-                    Text = text,
-                    PointAddressBytes = address,
-                    TotalBytes = totalBytes
-                };
-                instructionList.Add(ni);
-
-                index += totalBytes;
-            }
-
-            Codigo.scintilla.Text = "";
-            var pos = 0;
-            foreach (var item in instructionList)
-            {
-                foreach (var itemLabel in instructionList)
-                {
-                    if (itemLabel.PointAddress != pos) continue;
-                    if (item.Labels.Contains(itemLabel.PointAddressLabel)) continue;
-                    Codigo.scintilla.AppendText($"{itemLabel.PointAddressLabel}:\r\n");
-                    item.Labels.Add(itemLabel.PointAddressLabel);
-                }
-
-                Codigo.scintilla.AppendText(item.Text + "\r\n");
-                pos += item.TotalBytes;
-            }
+            var importer = new Importer.Importer(new BinaryImporterStrategy());
+            Codigo.scintilla.Text = importer.Import(path);
         }
+
 
 
         public static void Compile()
@@ -539,24 +367,6 @@ namespace IDE
             var endPos = e.Position;
 
             mMaisMaisLexer.Style(scintilla, startPos, endPos);
-        }
-
-        private class Instructions
-        {
-            public readonly List<string> Labels = new List<string>();
-            public string Text { get; set; }
-
-            public int PointAddress => PointAddressBytes != null && PointAddressBytes.Length == 2
-                ? PointAddressBytes[0] * 256 + PointAddressBytes[1]
-                : -1;
-
-            public byte[] PointAddressBytes { private get; set; }
-
-            public string PointAddressLabel => PointAddressBytes != null && PointAddressBytes.Length == 2
-                ? $"E_{PointAddressBytes[0]:X2}{PointAddressBytes[1]:X2}"
-                : string.Empty;
-
-            public int TotalBytes { get; set; }
         }
     }
 }

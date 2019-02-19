@@ -216,9 +216,9 @@ namespace M3PlusMicrocontroller
                 if (CompareByte(Control, instruction, 0b000_00_000))
                     return string.Empty;
                 if (CompareByte(Control, instruction, 0b000_00_001))
-                    return $"DRAM{ExtractRegister(instruction)}, A";
+                    return $"#{ExtractRegister(instruction)}, A";
                 if (CompareByte(Control, instruction, 0b000_00_010))
-                    return $"A, DRAM{ExtractRegister(instruction)}";
+                    return $"A, #{ExtractRegister(instruction)}";
                 if (CompareByte(Control, instruction, 0b000_00_011))
                     return $"{ExtractRegister(instruction)}";
                 if (CompareByte(Control, instruction, 0b000_00_100))

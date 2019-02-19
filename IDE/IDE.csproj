@@ -155,6 +155,11 @@
     <Compile Include="ExceptionLog.Designer.cs">
       <DependentUpon>ExceptionLog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Exporter\BinaryExporterStrategy.cs" />
+    <Compile Include="Exporter\Exporter.cs" />
+    <Compile Include="Exporter\HexadecimalExporterStrategy.cs" />
+    <Compile Include="Exporter\IExporterStrategy.cs" />
+    <Compile Include="Exporter\LogisimExporterStrategy.cs" />
     <Compile Include="ExtraTerminal.cs" />
     <Compile Include="FileProject.cs" />
     <Compile Include="FormRamMemory.cs">
@@ -176,6 +181,11 @@
     <Compile Include="FormularioPrincipal.Designer.cs">
       <DependentUpon>FormularioPrincipal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Importer\BinaryImporterStrategy.cs" />
+    <Compile Include="Importer\HexadecimalImporterStrategy.cs" />
+    <Compile Include="Importer\Importer.cs" />
+    <Compile Include="Importer\IImporterStrategy.cs" />
+    <Compile Include="Importer\LogisimImporterStrategy.cs" />
     <Compile Include="Instrucao.cs" />
     <Compile Include="InstructionLog.cs" />
     <Compile Include="InstructionLogForm.cs">

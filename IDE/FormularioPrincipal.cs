@@ -137,7 +137,16 @@ namespace IDE
         private void piscaLedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UiStatics.Codigo.scintilla.Text =
-                "apagado:\nmov IN3,a\nand 20,a\njmpz apagado\npisca:\nmov 01,a\nmov a,out0\nmov 00,a\nmov a,out0\njmp pisca";
+@"apagado:
+mov IN3,a
+and 20,a
+jmpz apagado
+pisca:
+mov 01,a
+mov a,out0
+mov 00,a
+mov a,out0
+jmp pisca";
         }
 
         private void FormularioPrincipal_FormClosed(object sender, FormClosedEventArgs e)
@@ -397,7 +406,34 @@ namespace IDE
         private void somaRegistradoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UiStatics.Codigo.scintilla.Text =
-                "MOV 00, A\nSOMA_A:\nADD 01, A\nJMPC SOMA_B\nJMP SOMA_A\nSOMA_B:\nMOV B, A\nADD 01, B\nJMPC SOMA_C\nMOV 00, A\nJMP SOMA_A\nSOMA_C:\nMOV C, A\nADD 01, C\nJMPC SOMA_D\nMOV 00, A\nJMP SOMA_A\nSOMA_D:\nMOV D, A\nADD 01, D\nJMPC SOMA_E\nMOV 00, A\nJMP SOMA_A\nSOMA_E:\nMOV E, A\nADD 01, E\nMOV 00, A\nJMP SOMA_A";
+@"MOV 00, A
+SOMA_A:
+ADD 01, A
+JMPC SOMA_B
+JMP SOMA_A
+SOMA_B:
+MOV B, A
+ADD 01, B
+JMPC SOMA_C
+MOV 00, A
+JMP SOMA_A
+SOMA_C:
+MOV C, A
+ADD 01, C
+JMPC SOMA_D
+MOV 00, A
+JMP SOMA_A
+SOMA_D:
+MOV D, A
+ADD 01, D
+JMPC SOMA_E
+MOV 00, A
+JMP SOMA_A
+SOMA_E:
+MOV E, A
+ADD 01, E
+MOV 00, A
+JMP SOMA_A";
         }
 
         private void exportarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -413,23 +449,19 @@ namespace IDE
             }
             else
             {
-                if (fileDialog.FileName.EndsWith(".bin"))
+                try
                 {
-                    if (UiStatics.ExportBinary(fileDialog.FileName) == false)
-                        MessageBox.Show(this, "Ocorreu um erro ao exportar.", "Erro ao exportar", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                    if (fileDialog.FileName.EndsWith(".bin"))
+                        UiStatics.ExportBinary(fileDialog.FileName);
+                    else if (fileDialog.FileName.EndsWith(".hex"))
+                        UiStatics.ExportHex(fileDialog.FileName);
+                    else if (fileDialog.FileName.EndsWith(".mmmp"))
+                        UiStatics.ExportLogiSim(fileDialog.FileName);
                 }
-                else if (fileDialog.FileName.EndsWith(".hex"))
+                catch (Exception e2)
                 {
-                    if (UiStatics.ExportHex(fileDialog.FileName) == false)
-                        MessageBox.Show(this, "Ocorreu um erro ao exportar.", "Erro ao exportar", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
-                }
-                else if (fileDialog.FileName.EndsWith(".mmmp"))
-                {
-                    if (UiStatics.ExportLogiSim(fileDialog.FileName) == false)
-                        MessageBox.Show(this, "Ocorreu um erro ao exportar.", "Erro ao exportar", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                    MessageBox.Show(this, $"Ocorreu um erro ao exportar. Erro: {e2.Message}", "Erro ao exportar", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
         }
@@ -440,31 +472,22 @@ namespace IDE
             dialog.Filter =
                 "Arquivo binário (*.bin)|*.bin|Arquivo hexadecimal (*.hex)|*.hex|Arquivo do logisim (*.mmmp)|*.mmmp|Todos os arquivos (*.*)|*.*";
             var fileDialogResult = dialog.ShowDialog(this);
-            if (fileDialogResult == DialogResult.Cancel ||
-                fileDialogResult == DialogResult.Abort ||
-                fileDialogResult == DialogResult.None)
-            {
-            }
-            else
+            if (fileDialogResult == DialogResult.Cancel || fileDialogResult == DialogResult.Abort ||
+                fileDialogResult == DialogResult.None) return;
+            try
             {
                 if (dialog.FileName.EndsWith(".bin"))
-                {
-                    if (UiStatics.ImportBinary(dialog.FileName) == false)
-                        MessageBox.Show(this, "Ocorreu um erro ao importar.", "Erro ao importar", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
-                }
+                    UiStatics.ImportBinary(dialog.FileName);
                 else if (dialog.FileName.EndsWith(".hex"))
-                {
-                    if (UiStatics.ImportHex(dialog.FileName) == false)
-                        MessageBox.Show(this, "Ocorreu um erro ao importar.", "Erro ao importar", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
-                }
+                    UiStatics.ImportHex(dialog.FileName);
                 else if (dialog.FileName.EndsWith(".mmmp"))
-                {
-                    if (UiStatics.ImportLogiSim(dialog.FileName) == false)
-                        MessageBox.Show(this, "Ocorreu um erro ao importar.", "Erro ao importar", MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
-                }
+                    UiStatics.ImportLogiSim(dialog.FileName);
+            }
+            catch (Exception e2)
+            {
+                MessageBox.Show(this, $"Ocorreu um erro ao importar o arquivo. Erro: {e2.Message}", "Erro ao importar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
