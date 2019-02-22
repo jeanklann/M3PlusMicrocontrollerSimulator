@@ -43,8 +43,11 @@ namespace CircuitSimulator
         public bool CanExecute(bool cannotBeOpen = true)
         {
             if (cannotBeOpen)
+            {
                 if (IsOpenInternal)
                     return false;
+            }
+
             if (Component.SimulationIdInternal == SimulationIdInternal) return false;
             return true;
         }

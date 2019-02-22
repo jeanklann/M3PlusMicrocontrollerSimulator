@@ -1068,6 +1068,7 @@ namespace IDE
             for (var y = 0; y < 3; y++)
             {
                 for (var x = 0; x < 8; x++)
+                {
                     if (y % 2 == 0)
                     {
                         GL.Vertex2(-40 + 10 * x, 10 - 10 * y);
@@ -1082,6 +1083,7 @@ namespace IDE
                         GL.Vertex2(-30 + 10 * x, 5 - 10 * y);
                         GL.Vertex2(-35 + 10 * x, 5 - 10 * y);
                     }
+                }
 
                 if (y == 2)
                 {

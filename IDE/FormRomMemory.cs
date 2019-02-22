@@ -45,9 +45,14 @@ namespace IDE
                     if (UiStatics.Simulador == null)
                     {
                         if (_lastHashSimulator != 0)
+                        {
                             for (var linha = 0; linha < 4096; linha++)
-                            for (var coluna = 1; coluna < 17; coluna++)
-                                dataGridView1.Rows[linha].Cells[coluna].Value = "00";
+                            {
+                                for (var coluna = 1; coluna < 17; coluna++)
+                                    dataGridView1.Rows[linha].Cells[coluna].Value = "00";
+                            }
+                        }
+
                         _lastHashSimulator = 0;
                     }
 

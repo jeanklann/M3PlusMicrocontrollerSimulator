@@ -59,20 +59,25 @@
         protected override void AllocatePins()
         {
             for (var i = 0; i < Pins.Length; i++)
+            {
                 if (i < 4)
                     Pins[i] = new Pin(this, false, false); //inputs
                 else if (i == 4)
                     Pins[i] = new Pin(this, false, false, Pin.High); //enable pin
                 else
                     Pins[i] = new Pin(this, true, false); //outputs
+            }
         }
 
         internal override bool CanExecute()
         {
             if (SimulationIdInternal == Circuit.SimulationId) return false;
             for (var i = 0; i < 4; i++) //not needed to verify if Enable is connected
+            {
                 if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
                     return false;
+            }
+
             return true;
         }
 

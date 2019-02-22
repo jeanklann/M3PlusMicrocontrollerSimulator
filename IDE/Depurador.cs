@@ -59,10 +59,17 @@ namespace IDE
                 if (line == null) line = scintilla.Lines[scintilla.CurrentLine];
                 if (UiStatics.Simulador != null)
                     if (UiStatics.Simulador.Program != null)
+                    {
                         for (var i = 0; i < AddressToLine.Length; i++)
+                        {
                             if (AddressToLine[i] == line.Index)
+                            {
                                 if (UiStatics.Simulador.Program[i] != null)
                                     UiStatics.Simulador.Program[i].HasBreakpoint = true;
+                            }
+                        }
+                    }
+
                 line.MarkerAdd(UiStatics.BreakpointMarker);
             }
             catch (Exception e)
@@ -78,10 +85,17 @@ namespace IDE
                 if (line == null) line = scintilla.Lines[scintilla.CurrentLine];
                 if (UiStatics.Simulador != null)
                     if (UiStatics.Simulador.Program != null)
+                    {
                         for (var i = 0; i < AddressToLine.Length; i++)
+                        {
                             if (AddressToLine[i] == line.Index)
+                            {
                                 if (UiStatics.Simulador.Program[i] != null)
                                     UiStatics.Simulador.Program[i].HasBreakpoint = false;
+                            }
+                        }
+                    }
+
                 line.MarkerDelete(UiStatics.BreakpointMarker);
             }
             catch (Exception e)
@@ -128,6 +142,7 @@ namespace IDE
                 {
                     var linePos = scintilla.LineFromPosition(e.Position);
                     for (var i = 0; i < AddressToLine.Length; i++)
+                    {
                         if (AddressToLine[i] == linePos)
                         {
                             string text = null;
@@ -142,6 +157,7 @@ namespace IDE
                             scintilla.CallTipShow(e.Position, text);
                             break;
                         }
+                    }
                 }
             }
         }

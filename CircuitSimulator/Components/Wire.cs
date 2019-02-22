@@ -24,11 +24,11 @@ namespace CircuitSimulator.Components
         {
             var index = -1;
             for (var i = 0; i < Pins.Length; i++)
-                if (Pins[i].SimulationIdInternal == Circuit.SimulationId)
-                {
-                    index = i;
-                    break;
-                }
+            {
+                if (Pins[i].SimulationIdInternal != Circuit.SimulationId) continue;
+                index = i;
+                break;
+            }
 
             if (index == -1) throw new Exception("Erro interno");
 

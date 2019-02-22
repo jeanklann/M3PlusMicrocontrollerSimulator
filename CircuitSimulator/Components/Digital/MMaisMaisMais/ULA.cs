@@ -18,8 +18,11 @@
         {
             if (SimulationIdInternal == Circuit.SimulationId) return false;
             for (var i = 8; i < 20; i++)
+            {
                 if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
                     return false;
+            }
+
             return true;
         }
 

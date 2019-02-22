@@ -35,12 +35,14 @@ namespace M3PlusMicrocontroller
             _nextTokenHasBreakpoint = false;
             Instructions.Add(new InstructionCompiler(instruction, _nextAddress));
             if (instruction.To is Address label)
+            {
                 foreach (var item in Labels)
                 {
                     if (label.Label != item.Name) continue;
                     label.ValueAddress = item.Address;
                     label.Value = 1;
                 }
+            }
 
             _nextAddress += instruction.Size;
         }

@@ -160,6 +160,7 @@
         {
             base.Execute();
             if (PortBank != null)
+            {
                 for (var i = 0; i < 4; i++)
                 {
                     SetOutput(PortBank.GetOutput(i), i);
@@ -169,6 +170,7 @@
                         for (var j = 0; j < 8; j++)
                             PortBank.SetInput(i, j, Pins[i * 8 + j].Value);
                 }
+            }
 
             for (var i = 32; i < 64; i++) Pins[i].Propagate();
         }

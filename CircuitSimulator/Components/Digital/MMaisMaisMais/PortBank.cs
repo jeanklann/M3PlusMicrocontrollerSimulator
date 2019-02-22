@@ -81,12 +81,20 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais
         {
             if (SimulationIdInternal == Circuit.SimulationId) return false;
             for (var i = 0; i < 5; i++)
+            {
                 if (Pins[8 * 5 + i].SimulationIdInternal != Circuit.SimulationId)
                     return false;
+            }
+
             if (Pins[8 * 5 + 3].Value >= Pin.Halfcut)
+            {
                 for (var i = 0; i < 8; i++)
+                {
                     if (Pins[8 * 4 + i].SimulationIdInternal != Circuit.SimulationId)
                         return false;
+                }
+            }
+
             return true;
         }
 
@@ -94,8 +102,11 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais
         {
             SimulationIdInternal = Circuit.SimulationId;
             if (Pins[8 * 5 + 4].Value >= Pin.Halfcut)
+            {
                 for (var i = 0; i < 4; i++) //reseta
                     RegOut[i] = 0;
+            }
+
             if (Pins[8 * 5 + 3].Value >= Pin.Halfcut && _lastClock < Pin.Halfcut)
             {
                 //clock para output
@@ -135,6 +146,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais
                 Pins[8 * 5 + 5 + 7].Value = (val & 0x80) == 0x00 ? Pin.Low : Pin.High;
 
                 for (var i = 0; i < 8; i++)
+                {
                     if (Pins[8 * 5 + 1].Value < Pin.Halfcut && Pins[8 * 5 + 0].Value < Pin.Halfcut)
                         Pins[8 * 5 + 5 + i].Value = Pins[8 * 0 + i].Value;
                     else if (Pins[8 * 5 + 1].Value >= Pin.Halfcut && Pins[8 * 5 + 0].Value < Pin.Halfcut)
@@ -143,6 +155,7 @@ namespace CircuitSimulator.Components.Digital.MMaisMaisMais
                         Pins[8 * 5 + 5 + i].Value = Pins[8 * 2 + i].Value;
                     else if (Pins[8 * 5 + 1].Value >= Pin.Halfcut && Pins[8 * 5 + 0].Value >= Pin.Halfcut)
                         Pins[8 * 5 + 5 + i].Value = Pins[8 * 3 + i].Value;
+                }
 
 
                 for (var i = 0; i < 8; i++)

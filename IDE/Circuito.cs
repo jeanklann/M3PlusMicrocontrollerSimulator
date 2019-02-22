@@ -1124,9 +1124,14 @@ namespace IDE
                 GL.Rotate(item.Rotation, 0, 0, 1);
                 GL.CallList(item.Draw.DisplayListHandle);
                 if (item.ActiveExtraHandlers != null)
+                {
                     for (var i = 0; i < item.ActiveExtraHandlers.Length; i++)
+                    {
                         if (item.ActiveExtraHandlers[i])
                             GL.CallList(item.ExtraHandlers[i]);
+                    }
+                }
+
                 for (var i = 0; i < item.Draw.Terminals.Length; i++)
                 {
                     GL.Translate(item.Draw.Terminals[i].X, item.Draw.Terminals[i].Y, 0);
@@ -1634,11 +1639,13 @@ namespace IDE
                 {
                     var isCorrect = true;
                     for (var i = 0; i < arr.Length; i++)
+                    {
                         if (arr[i] != _konamiCodeCorrect[i])
                         {
                             isCorrect = false;
                             break;
                         }
+                    }
 
                     if (isCorrect)
                     {
@@ -1685,12 +1692,14 @@ namespace IDE
                         HoverWire = null;
                         var length = Wires.Count;
                         for (var i = 0; i < length; i++)
+                        {
                             if (Wires[i].FromComponent == Selected || Wires[i].ToComponent == Selected)
                             {
                                 Wires.Remove(Wires[i]);
                                 --i;
                                 --length;
                             }
+                        }
 
                         Components.Remove(Selected);
                         Selected = null;

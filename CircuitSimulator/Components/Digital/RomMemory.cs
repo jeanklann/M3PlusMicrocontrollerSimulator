@@ -20,9 +20,14 @@
             if (Pins[16].SimulationIdInternal != Circuit.SimulationId) return false;
 
             if (Pins[16].Value >= Pin.Halfcut)
+            {
                 for (var i = 0; i < 16; i++)
+                {
                     if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
                         return false;
+                }
+            }
+
             return true;
         }
 

@@ -83,8 +83,11 @@ namespace CircuitSimulator
         {
             if (value < values[0]) return 0;
             for (var i = 1; i < values.Length; i++)
+            {
                 if (value < values[i])
                     return value < 0f ? i - 2 : i - 1;
+            }
+
             return values.Length - 1;
         }
     }

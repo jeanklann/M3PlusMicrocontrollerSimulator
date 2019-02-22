@@ -124,8 +124,10 @@ namespace IDE
                 var breakpoints = new bool[Compiler.MemoryMaxSize];
                 const uint maskBreakpoint = 1 << BreakpointMarker;
                 for (var i = 0; i < Codigo.scintilla.Lines.Count; i++)
+                {
                     if ((Codigo.scintilla.Lines[i].MarkerGet() & maskBreakpoint) > 0)
                         breakpoints[i] = true;
+                }
 
                 if (string.IsNullOrEmpty(Codigo.scintilla.Text)) Codigo.scintilla.Text = ProgramaVazio;
                 var instructions = Compilador.Compile(Codigo.scintilla.Text, breakpoints);
@@ -152,8 +154,11 @@ namespace IDE
 
                 Depurador.SetText(text.ToString());
                 for (var i = 0; i < Compilador.Instructions.Count; i++)
+                {
                     if (Compilador.Instructions[i].Instruction.HasBreakpoint)
                         Depurador.AddBreakpoint(Depurador.scintilla.Lines[i]);
+                }
+
                 foreach (var item in Compilador.Labels) Depurador.AddLabel(Depurador.AddressToLine[item.Address]);
                 MainForm.ToolStripStatusLabel.Text = Sucesso;
             }

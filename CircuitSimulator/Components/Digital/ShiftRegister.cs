@@ -40,8 +40,11 @@ namespace CircuitSimulator
         {
             if (SimulationIdInternal == Circuit.SimulationId) return false;
             for (var i = 0; i < 2; i++)
+            {
                 if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
                     return false;
+            }
+
             return true;
         }
 

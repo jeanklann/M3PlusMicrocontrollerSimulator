@@ -89,15 +89,21 @@ namespace IDE
                 try
                 {
                     if (_simuladorLastStopped && UiStatics.Simulador != null)
+                    {
                         for (var i = 0; i < 256; i++)
+                        {
                             if (_type == FormRamType.Ram)
                                 UiStatics.Simulador.Ram[i] = _ramTemp[i];
                             else
                                 UiStatics.Simulador.Stack[i] = _stackTemp[i];
+                        }
+                    }
+
                     _simuladorLastStopped = UiStatics.Simulador == null || UiStatics.Simulador.Stopped;
                     if (UiStatics.Simulador != null)
                     {
                         if (UiStatics.Simulador.Running)
+                        {
                             for (var i = 0; i < Fields.Count; i++)
                             {
                                 Fields[i].Value = _type == FormRamType.Ram
@@ -105,6 +111,7 @@ namespace IDE
                                     : UiStatics.Simulador.Stack[i];
                                 Fields[i].Refresh();
                             }
+                        }
 
                         Thread.Sleep(Sleep);
 
@@ -127,10 +134,13 @@ namespace IDE
                     else
                     {
                         for (var i = 0; i < Fields.Count; i++)
+                        {
                             if (_type == FormRamType.Ram)
                                 _ramTemp[i] = (byte) Fields[i].Value;
                             else
                                 _stackTemp[i] = (byte) Fields[i].Value;
+                        }
+
                         Thread.Sleep(100);
                     }
                 }

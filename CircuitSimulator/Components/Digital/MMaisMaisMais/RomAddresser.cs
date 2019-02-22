@@ -21,12 +21,20 @@
         {
             if (SimulationIdInternal == Circuit.SimulationId) return false;
             for (var i = 8; i < 14; i++)
+            {
                 if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
                     return false;
+            }
+
             if (Pins[8].Value >= Pin.Halfcut)
+            {
                 for (var i = 0; i < 8; i++)
+                {
                     if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
                         return false;
+                }
+            }
+
             return true;
         }
 
@@ -77,8 +85,11 @@
             for (var i = 14; i < 22; i++)
                 Pins[i].Value = Pin.Low;
             if (Pins[12].Value >= Pin.Halfcut || Pins[11].Value >= Pin.Halfcut)
+            {
                 for (var i = 30; i < 38; i++)
                     Pins[i].Value = Pin.Low;
+            }
+
             if (val >= 128)
             {
                 Pins[21].Value = Pin.High;

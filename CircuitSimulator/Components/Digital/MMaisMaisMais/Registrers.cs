@@ -19,12 +19,20 @@
         {
             if (SimulationIdInternal == Circuit.SimulationId) return false;
             for (var i = 8; i < 13; i++)
+            {
                 if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
                     return false;
+            }
+
             if (Pins[9].Value >= Pin.Halfcut && _lastClock <= Pin.Halfcut)
+            {
                 for (var i = 0; i < 8; i++)
+                {
                     if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
                         return false;
+                }
+            }
+
             return true;
         }
 
@@ -52,8 +60,11 @@
             _lastClock = Pins[9].Value;
 
             if (Pins[10].Value >= Pin.Halfcut)
+            {
                 for (var i = 0; i < 4; i++)
                     Reg[i] = 0;
+            }
+
             if (Pins[8].Value >= Pin.Halfcut)
             {
                 byte val = 0;
