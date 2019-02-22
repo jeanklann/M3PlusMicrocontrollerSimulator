@@ -152,7 +152,8 @@ namespace IDE
                     Resizable = DataGridViewTriState.False,
                     FillWeight = item == "Bus" ? 20 : 10,
                     DefaultCellStyle = style,
-                    ToolTipText = item
+                    ToolTipText = item,
+                    MinimumWidth = item == "Bus" ? 100 : 50
                 });
             for (var i = 0; i < 150; i++)
             {
@@ -172,9 +173,14 @@ namespace IDE
 
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            var value = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-            if (value != null && value.ToString().Length > 3)
-                MessageBox.Show("Conteúdo da célula: " + value);
+            if (e.RowIndex < 0)
+                MessageBox.Show("Conteúdo da célula: " + GetColumns()[e.ColumnIndex]);
+            else
+            {
+                var value = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                if (value != null && value.ToString().Length > 3)
+                    MessageBox.Show("Conteúdo da célula: " + value);
+            }
         }
     }
 }
