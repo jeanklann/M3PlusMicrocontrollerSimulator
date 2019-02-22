@@ -22,12 +22,18 @@
         {
             if (SimulationIdInternal == Circuit.SimulationId) return false;
             for (var i = 8; i <= 9; i++)
+            {
                 if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
                     return false;
-            if (Pins[8].Value >= Pin.Halfcut && _lastClock <= Pin.Halfcut)
-                for (var i = 0; i < 8; i++)
-                    if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
-                        return false;
+            }
+
+            if (!(Pins[8].Value >= Pin.Halfcut) || !(_lastClock <= Pin.Halfcut)) return true;
+            for (var i = 0; i < 8; i++)
+            {
+                if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
+                    return false;
+            }
+
             return true;
         }
 
@@ -36,9 +42,7 @@
             base.Execute();
             var halfCut = (Pin.High + Pin.Low) / 2f;
             if (Reset.Value >= halfCut)
-            {
                 _internalValue = 0;
-            }
             else
             {
                 if (Clock.Value >= halfCut && _lastClock < halfCut)

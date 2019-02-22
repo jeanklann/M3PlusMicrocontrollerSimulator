@@ -16,22 +16,24 @@
         {
             if (SimulationIdInternal == Circuit.SimulationId) return false;
             if (Pins[8].SimulationIdInternal != Circuit.SimulationId) return false;
-            if (Pins[8].Value >= Pin.Halfcut)
-                for (var i = 0; i < 8; i++)
-                    if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
-                        return false;
+            if (!(Pins[8].Value >= Pin.Halfcut)) return true;
+            for (var i = 0; i < 8; i++)
+            {
+                if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
+                    return false;
+            }
             return true;
         }
 
         protected internal override void Execute()
         {
             base.Execute();
-            if (Pins[8].Value >= Pin.Halfcut)
-                for (var i = 0; i < 8; i++)
-                {
-                    Pins[i + 9].Value = Pins[i].Value;
-                    Pins[i + 9].Propagate();
-                }
+            if (!(Pins[8].Value >= Pin.Halfcut)) return;
+            for (var i = 0; i < 8; i++)
+            {
+                Pins[i + 9].Value = Pins[i].Value;
+                Pins[i + 9].Propagate();
+            }
         }
     }
 }

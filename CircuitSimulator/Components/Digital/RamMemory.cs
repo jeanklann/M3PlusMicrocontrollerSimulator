@@ -18,18 +18,29 @@
         {
             if (SimulationIdInternal == Circuit.SimulationId) return false;
             for (var i = 8; i <= 10; i++)
-                if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
-                    return false;
-            if (Pins[8].Value >= Pin.Halfcut)
             {
-                if (Pins[9].Value >= Pin.Halfcut)
-                    for (var j = 0; j < 8; j++)
-                        if (Pins[j].SimulationIdInternal != Circuit.SimulationId)
-                            return false;
-                else
-                    for (var k = 11; k < 19; k++)
-                        if (Pins[k].SimulationIdInternal != Circuit.SimulationId)
-                            return false;
+                if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
+                {
+                    return false;
+                }
+            }
+
+            if (!(Pins[8].Value >= Pin.Halfcut)) return true;
+            if (Pins[9].Value >= Pin.Halfcut)
+            {
+                for (var i = 0; i < 8; i++)
+                {
+                    if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
+                        return false;
+                }
+            }
+            else
+            {
+                for (var i = 11; i < 19; i++)
+                {
+                    if (Pins[i].SimulationIdInternal != Circuit.SimulationId)
+                        return false;
+                }
             }
 
             return true;
@@ -39,8 +50,10 @@
         {
             SimulationIdInternal = Circuit.SimulationId;
             if (Pins[10].Value >= Pin.Halfcut)
-                for (var i = 0; i < 256; i++)
-                    InternalValue[i] = 0;
+            {
+                for (var i = 0; i < 256; i++) InternalValue[i] = 0;
+            }
+
             if (Pins[8].Value >= Pin.Halfcut)
             {
                 var address = 0;
