@@ -72,6 +72,14 @@ namespace IDE
             var lastClear = UiStatics.Circuito.InstructionLog.ClearCount;
             while (!UiStatics.WantExit && !_closing)
             {
+                if (!(UiStatics.Simulador?.Running ?? false) || UiStatics.WantExit || _closing)
+                {
+                    Thread.Sleep(100);
+                    Application.DoEvents();
+                    continue;
+                }
+                Thread.Sleep(1000);
+                Application.DoEvents();
                 try
                 {
                     lock (dataGridView1)
@@ -82,6 +90,7 @@ namespace IDE
                         var linha = 0;
                         foreach (var instrucao in instrucoes)
                         {
+                            Application.DoEvents();
                             if (dataGridView1.Rows.Count <= linha)
                                 dataGridView1.Rows.Add();
                             var valor = string.Empty;
@@ -130,8 +139,6 @@ namespace IDE
                 catch (Exception)
                 {
                 }
-
-                Thread.Sleep(1000);
             }
         }
 
