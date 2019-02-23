@@ -136,7 +136,7 @@ namespace IDE
                 foreach (var instruction in Simulador.Program)
                 {
                     if (instruction == null) continue;
-                    var bytes = instruction.Bytes;
+                    var bytes = instruction.Convert();
                     compiledProgram.AddRange(bytes);
                 }
 

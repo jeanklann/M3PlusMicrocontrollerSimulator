@@ -97,6 +97,7 @@ namespace IDE
             try
             {
                 foreach (var item in Items)
+                {
                     if (item.Instruction != null)
                     {
                         if (clock == 0)
@@ -123,6 +124,7 @@ namespace IDE
                         res.Add(instrucaoAtual);
                         //instrucaoAtual.Sinais.Add(item.ToList());
                     }
+                }
             }
             catch (Exception)
             {
@@ -138,6 +140,7 @@ namespace IDE
             try
             {
                 foreach (var item in Items)
+                {
                     if (item.Instruction != null)
                     {
                         if (clock == 0)
@@ -162,6 +165,7 @@ namespace IDE
                     {
                         res += item.ToString();
                     }
+                }
             }
             catch (Exception)
             {

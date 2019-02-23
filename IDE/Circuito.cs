@@ -236,6 +236,7 @@ namespace IDE
         {
             foreach (var item in Wires) item.Color = Draws.ColorOff;
             foreach (var item in Components)
+            {
                 if (item.Draw.DisplayListHandle == Draws.And[1].DisplayListHandle)
                     item.Draw = Draws.And[0];
                 else if (item.Draw.DisplayListHandle == Draws.Nand[1].DisplayListHandle)
@@ -255,6 +256,7 @@ namespace IDE
                 else if (item.Draw.DisplayListHandle == Draws.Disable[1].DisplayListHandle ||
                          item.Draw.DisplayListHandle == Draws.Disable[2].DisplayListHandle)
                     item.Draw = Draws.Disable[0];
+            }
         }
 
         private void ThreadRun()
@@ -267,6 +269,7 @@ namespace IDE
                     copy = _circuit.Components;
                     var halfCut = Pin.High + Pin.Low / 2f;
                     foreach (var item in copy)
+                    {
                         if (item is CircuitSimulator.Components.Wire)
                         {
                             var drawComponent = DrawWireToCircuitWire[(CircuitSimulator.Components.Wire) item];
@@ -374,6 +377,7 @@ namespace IDE
                                 ProcessControlModule(module);
                             }
                         }
+                    }
                 }
                 catch (InvalidOperationException)
                 {
@@ -491,6 +495,7 @@ namespace IDE
                 DrawComponentsToCircuitComponent.Clear();
                 DrawWireToCircuitWire.Clear();
                 foreach (var item in Components)
+                {
                     if (item.Draw.DisplayListHandle == Draws.And[0].DisplayListHandle ||
                         item.Draw.DisplayListHandle == Draws.And[1].DisplayListHandle)
                     {
@@ -682,8 +687,10 @@ namespace IDE
                         DrawComponentsToCircuitComponent.Add(component, item);
                         Console.WriteLine("Componente " + item.Type + " não programado. Adicionado chip genérico.");
                     }
+                }
 
                 foreach (var component in _circuit.Components)
+                {
                     if (component is ControlModule)
                     {
                         InternalComponents.ControlModule = (ControlModule) component;
@@ -726,6 +733,7 @@ namespace IDE
                             InternalComponents.StackMemory = (RamMemory) component;
                         else if (component.Id == 40) InternalComponents.RamMemory = (RamMemory) component;
                     }
+                }
 
                 foreach (var item in Wires)
                 {
@@ -736,6 +744,7 @@ namespace IDE
 
 
                 foreach (var item in Wires)
+                {
                     if (item.FromComponent != null && item.ToComponent != null)
                     {
                         //from and to is component
@@ -752,6 +761,7 @@ namespace IDE
                         var from = CircuitComponentToDrawComponents[item.FromComponent];
                         var tempPins = new List<Pin>();
                         foreach (var item2 in Wires)
+                        {
                             if (item.To == item2.From)
                             {
                                 if (item != item2)
@@ -762,6 +772,7 @@ namespace IDE
                                 if (item != item2)
                                     tempPins.Add(CircuitWireToDrawWire[item2].Pins[1]);
                             }
+                        }
 
                         wire.Pins[0].Connect(from.Pins[item.FromIndex]);
                         foreach (var pin in tempPins) wire.Pins[1].Connect(pin);
@@ -773,6 +784,7 @@ namespace IDE
                         var to = CircuitComponentToDrawComponents[item.ToComponent];
                         var tempPins = new List<Pin>();
                         foreach (var item2 in Wires)
+                        {
                             if (item.From == item2.From)
                             {
                                 if (item != item2)
@@ -783,6 +795,7 @@ namespace IDE
                                 if (item != item2)
                                     tempPins.Add(CircuitWireToDrawWire[item2].Pins[1]);
                             }
+                        }
 
                         wire.Pins[1].Connect(to.Pins[item.ToIndex]);
                         foreach (var pin in tempPins) wire.Pins[0].Connect(pin);
@@ -794,6 +807,7 @@ namespace IDE
                         var tempPinsFrom = new List<Pin>();
                         var tempPinsTo = new List<Pin>();
                         foreach (var item2 in Wires)
+                        {
                             if (item.From == item2.From)
                             {
                                 if (item != item2)
@@ -814,10 +828,12 @@ namespace IDE
                                 if (item != item2)
                                     tempPinsTo.Add(CircuitWireToDrawWire[item2].Pins[1]);
                             }
+                        }
 
                         foreach (var pin in tempPinsFrom) wire.Pins[0].Connect(pin);
                         foreach (var pin in tempPinsTo) wire.Pins[1].Connect(pin);
                     }
+                }
             }
             catch (Exception e)
             {

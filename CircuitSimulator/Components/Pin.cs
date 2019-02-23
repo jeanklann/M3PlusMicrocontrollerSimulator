@@ -86,6 +86,7 @@ namespace CircuitSimulator
         internal void Propagate()
         {
             foreach (var pin in ConnectedPins)
+            {
                 if (pin.SimulationIdInternal != Circuit.SimulationId || pin.Value != Value ||
                     pin.IsOpenInternal != IsOpenInternal)
                 {
@@ -95,6 +96,7 @@ namespace CircuitSimulator
                     if (pin.Component.CanExecute()) Circuit.AddToExecution(pin.Component);
                     pin.Propagate();
                 }
+            }
         }
 
         /// <summary>

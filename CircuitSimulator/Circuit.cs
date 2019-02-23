@@ -69,8 +69,10 @@ namespace CircuitSimulator
         public Component Find(string name)
         {
             foreach (var item in Components)
+            {
                 if (item.Name.Equals(name))
                     return item;
+            }
             return null;
         }
 
@@ -80,8 +82,10 @@ namespace CircuitSimulator
         private void Build()
         {
             foreach (var item in Components)
+            {
                 if (item.CanStart)
                     _starterComponents.Add(item);
+            }
             _builtCircuit = true;
         }
 

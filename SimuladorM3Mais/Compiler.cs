@@ -50,9 +50,11 @@ namespace M3PlusMicrocontroller
         private void NewLabel(string name, Token token, string program)
         {
             foreach (var item in Labels)
+            {
                 if (name == item.Name)
                     throw new CompilerError("Erro na linha " + Helpers.CountLines(program, token.Index) +
                                             ". O label já existe.");
+            }
             foreach (var item in Instructions)
             {
                 if (!(item.Instruction.To is Address labelInstruction)) continue;

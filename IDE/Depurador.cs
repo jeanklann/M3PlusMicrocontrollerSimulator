@@ -147,12 +147,14 @@ namespace IDE
                         {
                             string text = null;
                             foreach (var item in UiStatics.Compilador.Labels)
+                            {
                                 if (item.Address == i)
                                 {
                                     if (text != null)
                                         text = text += "\n";
                                     text += item.Name + ":";
                                 }
+                            }
 
                             scintilla.CallTipShow(e.Position, text);
                             break;

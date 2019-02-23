@@ -59,8 +59,10 @@ namespace IDE
         {
             foreach (DataGridViewRow rows in dataGridView1.Rows)
             foreach (DataGridViewCell cell in rows.Cells)
+            {
                 if (cell.Value != null && cell.Value.ToString() != string.Empty)
                     cell.Value = string.Empty;
+            }
         }
 
         private void UpdateThread()
